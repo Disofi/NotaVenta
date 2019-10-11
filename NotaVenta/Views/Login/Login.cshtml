@@ -60,7 +60,7 @@
                 <div class="login-content">
                     <form action="@Url.Action("Login" , "Login" )" method="post" class="margin-bottom-0">
                         <div class="form-group m-b-15">
-                            <input type="text" class="form-control form-control-lg" id="Nombre" name="Nombre" placeholder="Rut XXXXXXXX-X" required>
+                            <input type="text" class="form-control form-control-lg" id="Nombre" name="Nombre" placeholder="Nombre Usuario" required>
                         </div>
                         <div class="form-group m-b-15">
                             <input type="password" class="form-control form-control-lg" id="Contrasena" name="Contrasena" placeholder="Contraseña" required>
@@ -79,75 +79,6 @@
             <!-- end right-container -->
         </div>
         <!-- end login -->
-        <!-- begin theme-panel -->
-        <div class="theme-panel theme-panel-lg">
-            <a href="javascript:;" data-click="theme-panel-expand" class="theme-collapse-btn"><i class="fa fa-cog"></i></a>
-            <div class="theme-panel-content">
-                <h5>App Settings</h5>
-                <ul class="theme-list clearfix">
-                    <li><a href="javascript:;" class="bg-red" data-theme="red" data-theme-file="~/Content/assets/css/default/theme/red.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Red" data-original-title="" title="">&nbsp;</a></li>
-                    <li><a href="javascript:;" class="bg-pink" data-theme="pink" data-theme-file="~/Content/assets/css/default/theme/pink.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Pink" data-original-title="" title="">&nbsp;</a></li>
-                    <li><a href="javascript:;" class="bg-orange" data-theme="orange" data-theme-file="~/Content/assets/css/default/theme/orange.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Orange" data-original-title="" title="">&nbsp;</a></li>
-                    <li><a href="javascript:;" class="bg-yellow" data-theme="yellow" data-theme-file="~/Content/assets/css/default/theme/yellow.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Yellow" data-original-title="" title="">&nbsp;</a></li>
-                    <li><a href="javascript:;" class="bg-lime" data-theme="lime" data-theme-file="~/Content/assets/css/default/theme/lime.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Lime" data-original-title="" title="">&nbsp;</a></li>
-                    <li><a href="javascript:;" class="bg-green" data-theme="green" data-theme-file="~/Content/assets/css/default/theme/green.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Green" data-original-title="" title="">&nbsp;</a></li>
-                    <li class="active"><a href="javascript:;" class="bg-teal" data-theme="default" data-theme-file="" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Default" data-original-title="" title="">&nbsp;</a></li>
-                    <li><a href="javascript:;" class="bg-aqua" data-theme="aqua" data-theme-file="~/Content/assets/css/default/theme/aqua.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Aqua" data-original-title="" title="">&nbsp;</a></li>
-                    <li><a href="javascript:;" class="bg-blue" data-theme="blue" data-theme-file="~/Content/assets/css/default/theme/blue.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Blue" data-original-title="" title="">&nbsp;</a></li>
-                    <li><a href="javascript:;" class="bg-purple" data-theme="purple" data-theme-file="~/Content/assets/css/default/theme/purple.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Purple" data-original-title="" title="">&nbsp;</a></li>
-                    <li><a href="javascript:;" class="bg-indigo" data-theme="indigo" data-theme-file="~/Content/assets/css/default/theme/indigo.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Indigo" data-original-title="" title="">&nbsp;</a></li>
-                    <li><a href="javascript:;" class="bg-black" data-theme="black" data-theme-file="~/Content/assets/css/default/theme/black.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Black" data-original-title="" title="">&nbsp;</a></li>
-                </ul>
-                <div class="divider"></div>
-                <div class="row m-t-10">
-                    <div class="col-6 control-label text-inverse f-w-600">Header Fixed</div>
-                    <div class="col-6 d-flex">
-                        <div class="custom-control custom-switch ml-auto">
-                            <input type="checkbox" class="custom-control-input" name="header-fixed" id="headerFixed" value="1" checked="">
-                            <label class="custom-control-label" for="headerFixed">&nbsp;</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row m-t-10">
-                    <div class="col-6 control-label text-inverse f-w-600">Header Inverse</div>
-                    <div class="col-6 d-flex">
-                        <div class="custom-control custom-switch ml-auto">
-                            <input type="checkbox" class="custom-control-input" name="header-inverse" id="headerInverse" value="1">
-                            <label class="custom-control-label" for="headerInverse">&nbsp;</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row m-t-10">
-                    <div class="col-6 control-label text-inverse f-w-600">Sidebar Fixed</div>
-                    <div class="col-6 d-flex">
-                        <div class="custom-control custom-switch ml-auto">
-                            <input type="checkbox" class="custom-control-input" name="sidebar-fixed" id="sidebarFixed" value="1" checked="">
-                            <label class="custom-control-label" for="sidebarFixed">&nbsp;</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row m-t-10">
-                    <div class="col-6 control-label text-inverse f-w-600">Sidebar Grid</div>
-                    <div class="col-6 d-flex">
-                        <div class="custom-control custom-switch ml-auto">
-                            <input type="checkbox" class="custom-control-input" name="sidebar-grid" id="sidebarGrid" value="1">
-                            <label class="custom-control-label" for="sidebarGrid">&nbsp;</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row m-t-10">
-                    <div class="col-md-6 control-label text-inverse f-w-600">Sidebar Gradient</div>
-                    <div class="col-md-6 d-flex">
-                        <div class="custom-control custom-switch ml-auto">
-                            <input type="checkbox" class="custom-control-input" name="sidebar-gradient" id="sidebarGradient" value="1">
-                            <label class="custom-control-label" for="sidebarGradient">&nbsp;</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="divider"></div>
-            </div>
-        </div>
-        <!-- end theme-panel -->
     </div>
     <!-- end page container -->
     <!-- ================== BEGIN BASE JS ================== -->

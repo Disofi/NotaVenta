@@ -242,10 +242,10 @@
                                 <th>Stock</th>
                                 <th>U. deM</th>
                                 <th>Neto</th>
-                                <th></th>
+                                <th>Sub Total</th>
                                 <th>Descuen.(%)</th>
                                 <th>Total</th>
-                                <th></th>
+                                <th>Accion</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -253,14 +253,15 @@
                                 <td><a href="javascript:;" id="txtIngresoCodigoRapido" data-type="text" data-pk="1" data-title="Cod Rap"></a></td>
                                 <!--<td><a href="javascript:;" id="txtIngresoDescripcionCodigo" data-type="text" data-pk="2" data-title="Descripcion / Codigo"></a></td>-->
                                 <td data-select2-id="277"><a href="javascript:;" id="txtIngresoDescripcionCodigo" data-type="select2" data-pk="2" data-value="BS" data-title="Seleccione Producto" class="editable editable-click" style=""></a></td>
-                                <td><a href="javascript:;" id="txtIngresoCantidad" data-type="text" data-pk="3" data-title="Cantidad">1</a></td>
-                                <td><a disabled href="javascript:;" id="txtIngresoStock" data-type="text" data-pk="4" data-title="Stock"></a></td>
-                                <td><a disabled href="javascript:;" id="txtIngresoUnidadDeMedida" data-type="text" data-pk="4" data-title="Unidad Medida"></a></td>
-                                <td><a href="javascript:;" id="txtIngresoNeto" data-type="text" data-pk="4" data-title="Unidad Medida"></a></td>
-                                <td><a href="javascript:;" id="txtIngresoSubTotal" data-type="text" data-pk="4" data-title="Sub Total"></a></td>
-                                <td><a href="javascript:;" id="txtIngresoDescuento" data-type="text" data-pk="4" data-title="Descuento">0</a></td>
-                                <td><a href="javascript:;" id="txtIngresoTotal" data-type="text" data-pk="4" data-title="Total"></a></td>
-                                <td>
+                                <td style="text-align: right"><a href="javascript:;" id="txtIngresoCantidad" data-type="text" data-pk="3" data-title="Cantidad">1</a></td>
+                                <td style="text-align: right"><a href="javascript:;" id="txtIngresoStock" data-type="text" data-pk="4" data-title="Stock">0</a></td>
+                                <td><a href="javascript:;" id="txtIngresoUnidadDeMedida" data-type="text" data-pk="4" data-title="Unidad Medida"></a></td>
+                                <td style="text-align: right"><a href="javascript:;" id="txtIngresoNeto" data-type="text" data-pk="4" data-title="Neto">0</a></td>
+                                <td style="text-align: right"><a href="javascript:;" id="txtIngresoSubTotal" data-type="text" data-pk="4" data-title="Sub Total">0</a></td>
+                                <td style="text-align: right">
+                                    <a href="javascript:;" id="txtIngresoDescuento" data-pk="4" data-title="Descuento"></a>
+                                </td>
+                                <td style="text-align: right"><a href="javascript:;" id="txtIngresoTotal" data-type="text" data-pk="4" data-title="Total">0</a></td>
                                 <td>
                                     <input class="btn btn-primary" type="button" name="Agregar" value="(+)" onclick="addRow();">
                                 </td>
@@ -327,24 +328,28 @@
                                     <tr>
                                         <td class="tg-0lax">
                                             <input type="hidden" id="contador_registros" name="contador_registros" value=@numero1>
-                                            <h4> Sub-Total Neto:&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+                                            <h4> Sub-Total Neto:</h4>
                                         </td>
-                                        <td class="tg-0lax">
-                                            <h4><label id="lbtotal">@double.Parse(total1.ToString()).ToString("N0")&nbsp;&nbsp;&nbsp;&nbsp;</label></h4>
+                                        <td style="text-align: right" class="tg-0lax">
+                                            <h4><label id="lbtotal">0</label></h4>
                                             <input type="hidden" id="txttotal" name="txttotal" value=@total1>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="tg-0lax"><h3>Impuesto:&nbsp;&nbsp;&nbsp;&nbsp;</h3></td>
                                         <td class="tg-0lax">
-                                            <h4><label id="lbimpuesto">@double.Parse(impuesto.ToString()).ToString("N0")&nbsp;&nbsp;&nbsp;&nbsp;</label></h4>
+                                            <h4>Impuesto:</h4>
+                                        </td>
+                                        <td style="text-align: right" class="tg-0lax">
+                                            <h4><label id="lbimpuesto">0</label></h4>
                                             <input type="hidden" id="txtimpuesto" name="txtimpuesto" value=@impuesto>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="tg-0lax"><h3>Total Final:&nbsp;&nbsp;&nbsp;&nbsp;</h3></td>
                                         <td class="tg-0lax">
-                                            <h4><label id="lbtotalfinal">@double.Parse(totalfinal.ToString()).ToString("N0")&nbsp;&nbsp;&nbsp;&nbsp;</label></h4>
+                                            <h4>Total Final:</h4>
+                                        </td>
+                                        <td style="text-align: right" class="tg-0lax">
+                                            <h4><label id="lbtotalfinal">0</label></h4>
                                             <input type="hidden" id="txttotalfinal" name="txttotalfinal" value=@totalfinal>
                                         </td>
                                     </tr>
@@ -356,6 +361,41 @@
                         <input class="btn btn-primary" id="btnCot" type="submit" value="Genera Cotización" onclick="agregarnotadeventa();">
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<a id="aModalDescuentos" style="display: none" href="#modalDescuentos" class="btn btn-sm btn-success" data-toggle="modal">Descuentos</a>
+<div class="modal fade" id="modalDescuentos">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Ingrese descuentos</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="modalDescuentosControles"></div>
+            </div>
+            <div class="modal-footer">
+                <a id="modalDescuentosAgregarDescuentos" href="javascript:;" class="btn btn-success">Agregar Descuentos</a>
+                <a id="modalDescuentosCerrar" href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+            </div>
+        </div>
+    </div>
+</div>
+<a id="aModalDescuentosRealizados" style="display: none" href="#modalDescuentosRealizados" class="btn btn-sm btn-success" data-toggle="modal">Descuentos</a>
+<div class="modal fade" id="modalDescuentosRealizados">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Ingrese descuentos</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="modalDescuentosRealizadosControles"></div>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
             </div>
         </div>
     </div>

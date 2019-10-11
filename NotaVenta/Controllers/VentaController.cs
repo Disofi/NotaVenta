@@ -834,18 +834,18 @@ namespace TexasHub.Controllers
             foreach (ProductoAgregadoModel item in productos)
             {
                 ProductoAgregadoModel producto = CalcularFilaFunction(item.PrecioUnitario, item.Cantidad, item.Descuentos);
-                subTotal = subTotal + producto.SubTotal;
+                subTotal = subTotal + producto.Total;
             }
-
-            impuesto = ((subTotal * 19) / 100);
+            subTotal = Convert.ToInt32(subTotal);
+            impuesto = Convert.ToInt32(((subTotal * 19) / 100));
             total = subTotal - impuesto;
 
             return Json(new
             {
                 Productos = productos,
-                SubTotal = subTotal,
-                Impuesto = impuesto,
-                Total = total
+                SubTotal = Convert.ToInt32(subTotal),
+                Impuesto = Convert.ToInt32(impuesto),
+                Total = Convert.ToInt32(total)
             });
         }
 
