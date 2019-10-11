@@ -23,11 +23,17 @@ var handleEditableFormAjaxCall = function () {
             }
             if (settings.data.name === "txtIngresoCantidad") {
                 if (/^([0-9])*$/.test(settings.data.value)) {
-                    CalcularFila(
-                        $('#txtIngresoNeto').editable('getValue').txtIngresoNeto,
-                        settings.data.value,
-                        [$('#txtIngresoDescuento').editable('getValue').txtIngresoDescuento]
-                    );
+                    if (parseFloat(settings.data.value) > 0) {
+                        CalcularFila(
+                            $('#txtIngresoNeto').editable('getValue').txtIngresoNeto,
+                            settings.data.value,
+                            [$('#txtIngresoDescuento').editable('getValue').txtIngresoDescuento]
+                        );
+                    }
+                    else {
+                        this.status = 500;
+                        this.statusText = "Debe ser mayor a 0";
+                    }
                 }
                 else {
                     this.status = 500;
@@ -289,7 +295,11 @@ function eliminarFilas(filaDelete) {
 
     fila = $('#generaTabla tr[id=id_' + filaDelete + ']');
 
-    resta(subtotal);
+    productosAgregados = jQuery.grep(productosAgregados, function (value) {
+        return value.contador !== filaDelete;
+    });
+
+    CalcularProductosAgregados();
 
     fila.remove();
 }
@@ -315,9 +325,8 @@ function CalcularFila(precioUnitario, cantidad, descuentos) {
         type: "POST",
         data: dataPost,
         success: function (result) {
-            var subTotal = result.subTotal;
-            var subTotalDescuento = result.subTotalDescuento;
-            var total = result.total;
+            var subTotal = result.SubTotal;
+            var total = result.Total;
 
             $('#txtIngresoSubTotal').editable('setValue', parseInt(subTotal));
             $('#txtIngresoTotal').editable('setValue', parseInt(total));
@@ -329,34 +338,37 @@ function CalcularFila(precioUnitario, cantidad, descuentos) {
     });
 }
 
-function suma(valor) {
-    valor = valor.replace('.', '');
-    var valortotal = $('#txttotal').val();
-    var totalfinal = parseFloat(valortotal) + parseFloat(valor);
-    var neto = totalfinal;
-    var iva = (parseFloat(neto) * parseFloat("0.19"));
-    var valorfinal = parseFloat(neto) + parseFloat(iva);
-    $('#txtimpuesto').val(Math.round(iva));
-    $('#lbimpuesto').html(Math.round(iva));
-    $('#txttotalfinal').val(Math.round(valorfinal));
-    $('#lbtotalfinal').html(Math.round(valorfinal));
-    $('#txttotal').val(Math.round(totalfinal));
-    $('#lbtotal').html(Math.round(totalfinal));
-}
+var productosAgregados = [];
 
-function resta(valor) {
-    valor = valor.replace('.', '');
-    var valortotal = $('#txttotal').val();
-    var totalfinal = parseFloat(valortotal) - parseFloat(valor);
-    var neto = totalfinal;
-    var iva = (parseFloat(neto) * parseFloat("0.19"));
-    var valorfinal = parseFloat(neto) + parseFloat(iva);
-    $('#txtimpuesto').val(Math.round(iva));
-    $('#lbimpuesto').html(Math.round(iva));
-    $('#txttotalfinal').val(Math.round(valorfinal));
-    $('#lbtotalfinal').html(Math.round(valorfinal));
-    $('#txttotal').val(Math.round(totalfinal));
-    $('#lbtotal').html(Math.round(totalfinal));
+function CalcularProductosAgregados() {
+    if (productosAgregados.length > 0) {
+        var url = $("#urlCalcularProductosAgregados").val();
+        var dataPost = productosAgregados;
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: { productos: dataPost },
+            success: function (result) {
+                var subTotal = result.SubTotal;
+                var impuesto = result.Impuesto;
+                var total = result.Total;
+
+                $('#lbtotal').text(subTotal);
+                $('#lbimpuesto').text(impuesto);
+                $('#lbtotalfinal').text(total);
+            },
+            error: function (a, b, c) {
+                console.log(a, b, c);
+            },
+            async: false
+        });
+    }
+    else {
+        $('#lbtotal').text(0);
+        $('#lbimpuesto').text(0);
+        $('#lbtotalfinal').text(0);
+    }
 }
 
 function PrecioMod() {
@@ -423,13 +435,26 @@ function addRow() {
 
     $('#txtIngresoCodigoRapido').editable('setValue', '');
     $('#txtIngresoDescripcionCodigo').editable('setValue', '');
-    $('#txtIngresoCantidad').editable('setValue', '');
+    $('#txtIngresoCantidad').editable('setValue', '1');
     $('#txtIngresoStock').editable('setValue', '');
     $('#txtIngresoUnidadDeMedida').editable('setValue', '');
     $('#txtIngresoNeto').editable('setValue', '');
     $('#txtIngresoSubTotal').editable('setValue', '');
-    $('#txtIngresoDescuento').editable('setValue', '');
+    $('#txtIngresoDescuento').editable('setValue', '0');
     $('#txtIngresoTotal').editable('setValue', '');
+
+    var productoAgregado = {
+        contador: contador,
+        PrecioUnitario: preciounitario,
+        Cantidad: cantidad,
+        Descuentos: [descuento],
+        SubTotal: subtotal,
+        Total: valordescuento
+    };
+
+    productosAgregados.push(productoAgregado);
+
+    CalcularProductosAgregados();
 }
 
 function agregarnotadeventa() {

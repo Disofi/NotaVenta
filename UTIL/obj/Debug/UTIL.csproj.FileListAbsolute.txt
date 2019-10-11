@@ -27,3 +27,9 @@ D:\ProyectosYVEGA\disofi-notaventa\UTIL\obj\Debug\UTIL.csprojAssemblyReference.c
 D:\ProyectosYVEGA\disofi-notaventa\UTIL\obj\Debug\UTIL.csproj.CoreCompileInputs.cache
 D:\ProyectosYVEGA\disofi-notaventa\UTIL\obj\Debug\UTIL.dll
 D:\ProyectosYVEGA\disofi-notaventa\UTIL\obj\Debug\UTIL.pdb
+D:\ProyectosYVEGA\NotaVenta\UTIL\bin\Debug\UTIL.dll
+D:\ProyectosYVEGA\NotaVenta\UTIL\bin\Debug\UTIL.pdb
+D:\ProyectosYVEGA\NotaVenta\UTIL\obj\Debug\UTIL.csprojAssemblyReference.cache
+D:\ProyectosYVEGA\NotaVenta\UTIL\obj\Debug\UTIL.csproj.CoreCompileInputs.cache
+D:\ProyectosYVEGA\NotaVenta\UTIL\obj\Debug\UTIL.dll
+D:\ProyectosYVEGA\NotaVenta\UTIL\obj\Debug\UTIL.pdb

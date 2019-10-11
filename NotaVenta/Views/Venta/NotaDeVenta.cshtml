@@ -5,6 +5,8 @@
 
     /**/
 
+    /**/
+
 
     if (SessionVariables.SESSION_DATOS_USUARIO.VenCod == null)
     {
@@ -67,156 +69,127 @@
     <input type="hidden" id="urlAgregarContacto" value="@Url.Action("AgregarContacto", "Venta")" />
     <input type="hidden" id="urlAgregarNotaVenta" value="@Url.Action("AgregarNV", "Venta" )" />
     <input type="hidden" id="urlCalcularFila" value="@Url.Action("CalcularFila", "Venta")" />
-    <div class="wrap-body">
-        <section id="container">
-            <div class="wrap-container">
-                <div class="zerogrid">
-
-
-
-
-                    @if (listap == null)
-                    {
-                        <p>El cliente @codigo no tiene listas de precio </p>
-                    }
-                    else
-                    {
-                        <div class="row">
-                            <form name="form_notapedido" method="post" class="col-md-12" id="ff">
-                                <input type="hidden" id="filtrarBusqueda" name="filtrarBusqueda" value="40">
-                                <h3 class="contactosForm col-md-10 borde_gris2">Datos del cliente</h3>
-                                <br>
-                                <div class="row col-md-10">
-                                    <div class="col-1-3">
-                                        <table class="registros registrosLight registros_1 col-md-5" id="tabla2">
-                                            <tr>
-                                                <th nowrap="nowrap">N&ordm; Cotización</th>
-                                                <td><input type="text" name="txtnventa" value="@nnotaventa[0].NVNumero" readonly="readonly" id="txtnventa" /></td>
-                                            </tr>
-                                            <tr>
-                                                <th nowrap="nowrap">Vendedor</th>
-                                                <td>
-                                                    <input type="text" value="@VenDes" name="txtnomvendedor" id="txtnomvendedor" readonly="readonly" tabindex="-1" />
-                                                    <input type="hidden" name="txtvendedor" id="txtvendedor" value="@VenCodigo" readonly="readonly" />
-                                                    <input type="hidden" name="txtid" id="txtid" value="@id" readonly="readonly" />
-                                                    <input type="hidden" name="txtCorreoCliente" id="txtCorreoCliente" value="@ViewBag.CorreoCliente" readonly="readonly" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th nowrap="nowrap">Cond. Venta</th>
-                                                <td>
-                                                    <select name="cbxconven" id="cbxconven" tabindex="4">
-                                                        <option selected value="00"> -- Seleccione Cond. Vta -- </option>
+    <input type="hidden" id="urlCalcularProductosAgregados" value="@Url.Action("CalcularProductosAgregados", "Venta")" />
+    <div class="row col-lg-12">
+        <div class="col-lg-12">
+            <div class="panel panel-inverse" data-sortable-id="ui-widget-1">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Datos del Cliente</h4>
+                    <div class="panel-heading-btn">
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>-->
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>-->
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>-->
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <input type="hidden" id="filtrarBusqueda" name="filtrarBusqueda" value="40">
+                    <div class="table-responsive form-inline">
+                        <table class="table table-profile">
+                            <tbody>
+                                <tr class="highlight">
+                                    <td>N&ordm; Cotización</td>
+                                    <td><input type="text" name="txtnventa" value="@nnotaventa[0].NVNumero" class="form-control" readonly="readonly" id="txtnventa" /></td>
+                                    <td>Cod. Cliente</td>
+                                    <td>
+                                        <input type="text" name="nombreCliente" id="nombreCliente" class="form-control" value="@codigo - @nombre" readonly="readonly" tabindex="-1" />
+                                        <input type="hidden" name="txtcliente" id="txtcliente" value="@codigo" readonly="readonly" />
+                                    </td>
+                                    <td nowrap="nowrap">Vendedor</td>
+                                    <td>
+                                        <input type="text" value="@VenDes" name="txtnomvendedor" class="form-control" id="txtnomvendedor" readonly="readonly" tabindex="-1" />
+                                        <input type="hidden" name="txtvendedor" id="txtvendedor" value="@VenCodigo" readonly="readonly" />
+                                        <input type="hidden" name="txtid" id="txtid" value="@id" readonly="readonly" />
+                                        <input type="hidden" name="txtCorreoCliente" id="txtCorreoCliente" value="@ViewBag.CorreoCliente" readonly="readonly" />
+                                    </td>
+                                </tr>
+                                <tr class="highlight">
+                                    <td nowrap="nowrap">Contacto</td>
+                                    <td>
+                                        @{
+                                            try
+                                            {
+                                                if (vcontacto == 1)
+                                                {
+                                                    <select name="txtcontacto1" id="txtcontacto1" class="form-control">
+                                                        <option selected value="00"> -- Seleccione Contacto -- </option>
                                                         @{
-                                                            for (int i = 0; i < condicion.Count; i++)
+                                                            for (int i = 0; i < listcontacto.Count; i++)
                                                             {
-                                                                <option selected value="@condicion[i].ConVta"> @condicion[i].CveDes </option>
+                                                                <option value="@listcontacto[i].NomCon" selected> @listcontacto[i].NomCon </option>
                                                             }
                                                         }
                                                     </select>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th nowrap="nowrap">Fecha Pedido</th>
-                                                <td><input type="date" name="txtfechapedido" value="@fechaactual" id="txtfechapedido" readonly="readonly" /></td>
-                                            </tr>
-                                            <tr>
-                                                <th nowrap="nowrap">Fecha Entrega</th>
-                                                <td><input type="date" name="txtfechaentrega" min=@fechamin value=@fechamin id="txtfechaentrega" /></td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div></div>
-                                    <div class="col-2-3">
-                                        <table class="registros registrosLight registros_1 col-md-5">
-                                            <tr>
-                                                <th nowrap="nowrap">Cod. Cliente</th>
-                                                <td>
-                                                    <input type="text" name="nombreCliente" id="nombreCliente" value="@codigo - @nombre" readonly="readonly" tabindex="-1" />
-                                                    <input type="hidden" name="txtcliente" id="txtcliente" value="@codigo" readonly="readonly" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th nowrap="nowrap">Contacto</th>
-                                                <td>
-                                                    @{
-                                                        try
-                                                        {
-                                                            if (vcontacto == 1)
-                                                            {
-                                                                <select name="txtcontacto1" id="txtcontacto1">
-                                                                    <option selected value="00"> -- Seleccione Contacto -- </option>
-                                                                    @{
-                                                                        for (int i = 0; i < listcontacto.Count; i++)
-                                                                        {
-                                                                            <option value="@listcontacto[i].NomCon" selected> @listcontacto[i].NomCon </option>
-                                                                        }
-                                                                    }
-                                                                </select>
-                                                            }
-                                                            else
-                                                            {
-                                                                <input type="text" name="txtcontacto0" id="txtcontacto0" value="" tabindex="-1" />
-                                                            }
-                                                        }
-                                                        catch (Exception)
-                                                        {
-                                                            <input type="text" name="txtcontacto00" id="txtcontacto00" value="" tabindex="-1" />
-                                                        }
-                                                    }
-                                                    <input type="hidden" id="txtVcontacto" name="txtVcontacto" value=@vcontacto>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th nowrap="nowrap">Lista de Precio</th>
-                                                <td>
-                                                    <select name="cbxlista" id="cbxlista" tabindex="7">
-                                                        <option selected value="00"> -- Seleccione Lista De Precio -- </option>
-                                                        @{
-                                                            for (int i = 0; i < listap.Count; i++)
-                                                            {
-                                                                <option value="@listap[i].Codlista" selected> @listap[i].DesLista </option>
-                                                            }
-                                                        }
-                                                    </select>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th nowrap="nowrap">Centro de Costo</th>
-                                                <td>
-                                                    <select name="cbxccosto" id="cbxccosto" tabindex="9">
-                                                        <option selected value="00"> -- Seleccione Centro de Costo -- </option>
-                                                        @{
-                                                            for (int i = 0; i < cc.Count; i++)
-                                                            {
-                                                                <option selected value="@cc[i].CodiCC"> @cc[i].DescCC </option>
-                                                            }
-                                                        }
-                                                    </select>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th nowrap="nowrap">Observaci&oacute;n</th>
-                                                <td><textarea name="txtobservacion" id="txtobservacion" cols="100" rows="2"> </textarea></td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
-                            </form>
-                            <br>
-                            <hr>
-                            <br>
-                            <div class="col-full" style="overflow: auto;">
-                                <div id="ff">
-                                    <h3 class="contactosForm col-md-10 borde_gris2">Dirección de Despacho</h3>
-                                    <br />
-                                    <div class="container">
+                                                }
+                                                else
+                                                {
+                                                    <input type="text" name="txtcontacto0" id="txtcontacto0" class="form-control" value="" tabindex="-1" />
+                                                }
+                                            }
+                                            catch (Exception)
+                                            {
+                                                <input type="text" name="txtcontacto00" id="txtcontacto00" value="" class="form-control" tabindex="-1" />
+                                            }
+                                        }
+                                        <input type="hidden" id="txtVcontacto" name="txtVcontacto" class="form-control" value=@vcontacto>
+                                    </td>
+                                    <td nowrap="nowrap">Cond. Venta</td>
+                                    <td>
+                                        <select name="cbxconven" id="cbxconven" class="form-control" tabindex="4">
+                                            <option selected value="00"> -- Seleccione Cond. Vta -- </option>
+                                            @{
+                                                for (int i = 0; i < condicion.Count; i++)
+                                                {
+                                                    <option selected value="@condicion[i].ConVta"> @condicion[i].CveDes </option>
+                                                }
+                                            }
+                                        </select>
+                                    </td>
+                                    <td nowrap="nowrap">Lista de Precio</td>
+                                    <td>
+                                        <select name="cbxlista" class="form-control" id="cbxlista" tabindex="7">
+                                            <option selected value="00"> -- Seleccione Lista De Precio -- </option>
+                                            @{
+                                                for (int i = 0; i < listap.Count; i++)
+                                                {
+                                                    <option value="@listap[i].Codlista" selected> @listap[i].DesLista </option>
+                                                }
+                                            }
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr class="highlight">
+                                    <td nowrap="nowrap">Fecha Pedido</td>
+                                    <td><input type="date" class="form-control" name="txtfechapedido" value="@fechaactual" id="txtfechapedido" readonly="readonly" /></td>
+                                    <td nowrap="nowrap">Centro de Costo</td>
+                                    <td>
+                                        <select class="form-control" name="cbxccosto" id="cbxccosto" tabindex="9">
+                                            <option selected value="00"> -- Seleccione Centro de Costo -- </option>
+                                            @{
+                                                for (int i = 0; i < cc.Count; i++)
+                                                {
+                                                    <option selected value="@cc[i].CodiCC"> @cc[i].DescCC </option>
+                                                }
+                                            }
+                                        </select>
+                                    </td>
+                                    <td nowrap="nowrap">Fecha Entrega</td>
+                                    <td><input type="date" class="form-control" name="txtfechaentrega" min=@fechamin value=@fechamin id="txtfechaentrega" /></td>
+                                </tr>
+                                <tr class="highlight">
+                                    <td nowrap="nowrap">Observaci&oacute;n</td>
+                                    <td colspan="5"><textarea class="form-control" name="txtobservacion" id="txtobservacion" rows="2"> </textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>Dirección de Despacho</td>
+                                    <td colspan="5">
+
                                         @{
                                             try
                                             {
                                                 if (vdirec == 1)
                                                 {
-                                                    <select name="cbxDireccion" id="cbxDireccion" tabindex="9">
+                                                    <select class="form-control" name="cbxDireccion" id="cbxDireccion" tabindex="9">
                                                         <option selected value="00"> -- Seleccione Dirección de Despacho -- </option>
                                                         @{
                                                             for (int i = 0; i < direc.Count; i++)
@@ -229,7 +202,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <input type="text" name="cbxDireccion" id="cbxDireccion" value="No Tiene Dirección Asociado" tabindex="-1" readonly="readonly" />
+                                                    <input class="form-control" type="text" name="cbxDireccion" id="cbxDireccion" value="No Tiene Dirección Asociado" tabindex="-1" readonly="readonly" />
                                                 }
 
                                             }
@@ -238,256 +211,153 @@
 
                                             }
                                         }
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <hr>
-                            <br>
-                            @Html.Raw(TempData["Mensaje"])
-                            <div class="col-full" style="overflow: auto;">
-                                <div id="gg">
-                                    <h3 class="contactosForm col-md-10 borde_gris2">Agregar producto</h3>
-                                    <br />
-                                    <div class="container">
-
-                                        <table id="user" class="table table-condensed table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>Cod. Rap.</th>
-                                                    <th style=" width: 450px !important">Descripcion/Codigo</th>
-                                                    <th>Cant.</th>
-                                                    <th>Stock</th>
-                                                    <th>U. deM</th>
-                                                    <th>Neto</th>
-                                                    <th></th>
-                                                    <th>Descuen.(%)</th>
-                                                    <th>Total</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td><a href="javascript:;" id="txtIngresoCodigoRapido" data-type="text" data-pk="1" data-title="Cod Rap"></a></td>
-                                                    <!--<td><a href="javascript:;" id="txtIngresoDescripcionCodigo" data-type="text" data-pk="2" data-title="Descripcion / Codigo"></a></td>-->
-                                                    <td data-select2-id="277"><a href="javascript:;" id="txtIngresoDescripcionCodigo" data-type="select2" data-pk="2" data-value="BS" data-title="Seleccione Producto" class="editable editable-click" style=""></a></td>
-                                                    <td><a href="javascript:;" id="txtIngresoCantidad" data-type="text" data-pk="3" data-title="Cantidad"></a></td>
-                                                    <td><a disabled href="javascript:;" id="txtIngresoStock" data-type="text" data-pk="4" data-title="Stock"></a></td>
-                                                    <td><a disabled href="javascript:;" id="txtIngresoUnidadDeMedida" data-type="text" data-pk="4" data-title="Unidad Medida"></a></td>
-                                                    <td><a href="javascript:;" id="txtIngresoNeto" data-type="text" data-pk="4" data-title="Unidad Medida"></a></td>
-                                                    <td><a href="javascript:;" id="txtIngresoSubTotal" data-type="text" data-pk="4" data-title="Sub Total"></a></td>
-                                                    <td><a href="javascript:;" id="txtIngresoDescuento" data-type="text" data-pk="4" data-title="Descuento">0</a></td>
-                                                    <td><a href="javascript:;" id="txtIngresoTotal" data-type="text" data-pk="4" data-title="Total"></a></td>
-                                                    <td>
-                                                    <td>
-                                                        <input class="sendButton" style="cursor: pointer; background-color: #0AAC8E; width: auto; padding: 8px 8px; color: #ffffff;" type="submit" name="Agregar" value="(+)" onclick="addRow();">
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-
-
-
-
-                                        <table id="DynamicRowsTable2">
-                                            <thead>
-                                                <tr id="">
-                                                    <th>Cod. Rap.</th>
-                                                    <th style=" width: 450px !important">Descripcion/Codigo</th>
-                                                    <th>Cant.</th>
-                                                    <th>Stock</th>
-                                                    <th>U. deM</th>
-                                                    <th>Neto</th>
-                                                    <th></th>
-                                                    <th>Descuen.(%)</th>
-                                                    <th>Total</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td><center><input type="text" class="texto" style=" width: 100% !important; padding: 8px 8px; margin: 2px 0;box-sizing: border-box;" name="txtcodrapido" id="txtcodrapido" onblur="QuickProductSearch();" /></center></td>
-                                                    <td>
-                                                        <center>
-                                                            <input type="text" class="texto" style=" width: 100% !important; padding: 8px 8px; margin: 2px 0;box-sizing: border-box;" name="txtdescripcion" id="txtdescripcion" />
-                                                            <input name="txtcodigoProducto" type="hidden" id="txtcodigoProducto" tabindex="1" />
-                                                            <input name="txtdescripcionProducto" type="hidden" id="txtdescripcionProducto" tabindex="1" />
-                                                        </center>
-                                                    </td>
-                                                    <td><center><input type="text" class="texto" style=" width: 100% !important; padding: 8px 8px; margin: 2px 0;box-sizing: border-box;" name="txtcantidad" id="txtcantidad" onkeyup="Multiplicar();" onkeypress="return valida(event)" /></center></td>
-                                                    <td><center><input type="text" class="texto" style=" width: 90% !important; padding: 8px 8px; margin: 2px 0;box-sizing: border-box;" name="txtstock" id="txtstock" readonly="readonly" /></center></td>
-                                                    <td><center><input type="text" class="texto" style=" width: 60% !important; padding: 8px 8px; margin: 2px 0;box-sizing: border-box;" name="txtumedida" id="txtumedida" readonly="readonly" /></center></td>
-                                                    <td><center><input type="text" class="texto" style=" width: 100% !important; padding: 8px 8px; margin: 2px 0;box-sizing: border-box;" name="txtprecioneto" id="txtprecioneto" onchange="PrecioMod();" onkeypress="return validaNumericos(event)" /></center></td><!--readonly="readonly"-->
-                                                    <td><center><input type="text" class="texto" style=" width: 85% !important; padding: 8px 8px; margin: 2px 0;box-sizing: border-box;" name="txtsubtotal" id="txtsubtotal" readonly="readonly" /></center></td>
-                                                    <td><center><input type="text" class="texto" style=" width: 50% !important; padding: 8px 8px; margin: 2px 0;box-sizing: border-box;" name="txtDescuento" id="txtDescuento" onkeyup="Descuento();" value="0" onkeypress="return NumCheck(event, this)" /> <!----><!--"return valida(event)"--> </center></td>
-                                                    <td><center><input type="text" class="texto" style=" width: 94% !important; padding: 8px 8px; margin: 2px 0;box-sizing: border-box;" name="txtTotalConDes" id="txtTotalConDes" readonly="readonly" /></center></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <div id="divCodigo" class="col-full">
-                                <div class="panel panel-inverse" data-sortable-id="table-basic-4">
-                                    <!-- begin panel-heading -->
-                                    <div class="panel-heading ui-sortable-handle">
-                                        <h4 class="panel-title">Productos ingresados</h4>
-                                    </div>
-                                    <!-- end panel-heading -->
-                                    <!-- begin panel-body -->
-                                    <div class="panel-body">
-                                        <!-- begin table-responsive -->
-                                        <div class="table-responsive">
-                                            <table id="table" class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th nowrap="" class="codigoTh">C&oacute;digo</th>
-                                                        <th nowrap="" class="descripcionTh">Descripci&oacute;n</th>
-                                                        <th nowrap="" class="cantidadTh">Cantidad</th>
-                                                        <th nowrap="" class="unimedTh">Unidad Medida </th>
-                                                        <th nowrap="" classnowrap="" class="precioTh">Precio Unit Neto</th>
-                                                        <th nowrap="" class="subTotalTh">Subtotal Neto</th>
-                                                        <th nowrap="" class="subTotalTh">Descu. (%)</th>
-                                                        <th nowrap="" class="subTotalTh">Total</th>
-                                                        <th nowrap="" class="accionesTh">&nbsp;</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="generaTabla"></tbody>
-                                            </table>
-                                        </div>
-                                        <!-- end table-responsive -->
-                                    </div>
-                                    <!-- end panel-body -->
-                                </div>
-                            </div>
-
-                            <style type="text/css">
-                                /*
-                                .tg {
-                                    border-collapse: collapse;
-                                    border-spacing: 0;
-                                }
-
-                                    .tg td {
-                                        font-family: Arial, sans-serif;
-                                        font-size: 14px;
-                                        padding: 10px 5px;
-                                        border-style: solid;
-                                        border-width: 1px;
-                                        overflow: hidden;
-                                        word-break: normal;
-                                        border-color: black;
-                                    }
-
-                                    .tg th {
-                                        font-family: Arial, sans-serif;
-                                        font-size: 14px;
-                                        font-weight: normal;
-                                        padding: 10px 5px;
-                                        border-style: solid;
-                                        border-width: 1px;
-                                        overflow: hidden;
-                                        word-break: normal;
-                                        border-color: black;
-                                    }
-
-                                    .tg .tg-0lax {
-                                        text-align: left;
-                                        vertical-align: top
-                                    }
-                                    */
-                            </style>
-
-
-                            <div id="divCodigo" class="col-full" style="overflow: auto;">
-                                <div class="container" style="float:right;">
-
-                                    <table class="tg">
-                                        <tr>
-                                            <th class="tg-0lax">
-                                                <input type="hidden" id="contador_registros" name="contador_registros" value=@numero1>
-                                                <h3> Sub-Total Neto:&nbsp;&nbsp;&nbsp;&nbsp;</h3>
-                                            </th>
-
-                                            <th class="tg-0lax">
-                                                <h3><label id="lbtotal">@double.Parse(total1.ToString()).ToString("N0")&nbsp;&nbsp;&nbsp;&nbsp;</label></h3>
-                                                <input type="hidden" id="txttotal" name="txttotal" value=@total1>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td class="tg-0lax"><h3>Impuesto:&nbsp;&nbsp;&nbsp;&nbsp;</h3></td>
-                                            <td class="tg-0lax">
-                                                <h3><label id="lbimpuesto">@double.Parse(impuesto.ToString()).ToString("N0")&nbsp;&nbsp;&nbsp;&nbsp;</label></h3>
-                                                <input type="hidden" id="txtimpuesto" name="txtimpuesto" value=@impuesto>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="tg-0lax"><h3>Total Final:&nbsp;&nbsp;&nbsp;&nbsp;</h3></td>
-                                            <td class="tg-0lax">
-                                                <h3><label id="lbtotalfinal">@double.Parse(totalfinal.ToString()).ToString("N0")&nbsp;&nbsp;&nbsp;&nbsp;</label></h3>
-                                                <input type="hidden" id="txttotalfinal" name="txttotalfinal" value=@totalfinal>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <br>
-
-
-                            <!--
-                            <div class="col-full">
-                                <div style="float:right;">
-                                    <h3><label id="lbtotal">@double.Parse(total1.ToString()).ToString("N0")&nbsp;&nbsp;&nbsp;&nbsp;</label></h3>
-                                    <input type="hidden" id="txttotal" name="txttotal" value=@total1>
-                                </div>
-                                <div style="float:right;">
-                                    <input type="hidden" id="contador_registros" name="contador_registros" value=@numero1>
-                                    <h3>Sub-Total Neto:&nbsp;&nbsp;&nbsp;&nbsp;</h3>
-                                </div>
-                                <br />
-
-                            </div>
-                            <div class="col-full">
-                                <div style="float:right;">
-                                    <h3><label id="lbimpuesto">@double.Parse(impuesto.ToString()).ToString("N0")&nbsp;&nbsp;&nbsp;&nbsp;</label></h3>
-                                    <input type="hidden" id="txtimpuesto" name="txtimpuesto" value=@impuesto>
-                                </div>
-                                <div style="float:right;">
-                                    <h3>Impuesto:&nbsp;&nbsp;&nbsp;&nbsp;</h3>
-                                </div>
-                                <br />
-
-                            </div>
-                            <div class="col-full">
-                                <div style="float:right;">
-                                    <h3><label id="lbtotalfinal">@double.Parse(totalfinal.ToString()).ToString("N0")&nbsp;&nbsp;&nbsp;&nbsp;</label></h3>
-                                    <input type="hidden" id="txttotalfinal" name="txttotalfinal" value=@totalfinal>
-                                </div>
-                                <div style="float:right;">
-                                    <h3>Total Final:&nbsp;&nbsp;&nbsp;&nbsp;</h3>
-                                </div>
-                                <br />
-                                <br />
-                            </div>
-                            -->
-
-
-                            <div class="col-full">
-                                <div style="float:right">
-                                    <input class="sendButton" id="btnCot" style="cursor: pointer; background-color: #0AAC8E; width: auto; padding: 8px 8px; color: #ffffff;" type="submit" value="Genera Cotización" onclick="agregarnotadeventa();">
-                                    @Html.Hidden("RedirectTo", Url.Action("Misclientes", "Venta", new { ID = @id, cod = VenCodigo }))
-                                    @Html.Hidden("NV", Url.Action("NotaDeVenta", "Venta", new { CodAux = @CodAux, NomAux = @NomAux, anterior = @anterior }))
-                                </div>
-                            </div>
-
-                        </div>
-                    }
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </section>
-        <br />
+        </div>
+    </div>
+    <div class="row col-lg-12">
+        <div class="col-lg-12">
+            <div class="panel panel-inverse" data-sortable-id="ui-widget-2">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Agregar Producto</h4>
+                    <div class="panel-heading-btn">
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>-->
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>-->
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>-->
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>-->
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table id="user" class="table table-condensed table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Cod. Rap.</th>
+                                <th style=" width: 450px !important">Descripcion/Codigo</th>
+                                <th>Cant.</th>
+                                <th>Stock</th>
+                                <th>U. deM</th>
+                                <th>Neto</th>
+                                <th></th>
+                                <th>Descuen.(%)</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="javascript:;" id="txtIngresoCodigoRapido" data-type="text" data-pk="1" data-title="Cod Rap"></a></td>
+                                <!--<td><a href="javascript:;" id="txtIngresoDescripcionCodigo" data-type="text" data-pk="2" data-title="Descripcion / Codigo"></a></td>-->
+                                <td data-select2-id="277"><a href="javascript:;" id="txtIngresoDescripcionCodigo" data-type="select2" data-pk="2" data-value="BS" data-title="Seleccione Producto" class="editable editable-click" style=""></a></td>
+                                <td><a href="javascript:;" id="txtIngresoCantidad" data-type="text" data-pk="3" data-title="Cantidad">1</a></td>
+                                <td><a disabled href="javascript:;" id="txtIngresoStock" data-type="text" data-pk="4" data-title="Stock"></a></td>
+                                <td><a disabled href="javascript:;" id="txtIngresoUnidadDeMedida" data-type="text" data-pk="4" data-title="Unidad Medida"></a></td>
+                                <td><a href="javascript:;" id="txtIngresoNeto" data-type="text" data-pk="4" data-title="Unidad Medida"></a></td>
+                                <td><a href="javascript:;" id="txtIngresoSubTotal" data-type="text" data-pk="4" data-title="Sub Total"></a></td>
+                                <td><a href="javascript:;" id="txtIngresoDescuento" data-type="text" data-pk="4" data-title="Descuento">0</a></td>
+                                <td><a href="javascript:;" id="txtIngresoTotal" data-type="text" data-pk="4" data-title="Total"></a></td>
+                                <td>
+                                <td>
+                                    <input class="btn btn-primary" type="button" name="Agregar" value="(+)" onclick="addRow();">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row col-lg-12">
+        <div class="col-lg-9">
+            <div class="panel panel-inverse" data-sortable-id="ui-widget-3">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Productos ingresados</h4>
+                    <div class="panel-heading-btn">
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>-->
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>-->
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>-->
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>-->
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <!-- begin table-responsive -->
+                    <div class="table-responsive">
+                        <table id="table" class="table">
+                            <thead>
+                                <tr>
+                                    <th nowrap="" class="codigoTh">C&oacute;digo</th>
+                                    <th nowrap="" class="descripcionTh">Descripci&oacute;n</th>
+                                    <th nowrap="" class="cantidadTh">Cantidad</th>
+                                    <th nowrap="" class="unimedTh">Unidad Medida </th>
+                                    <th nowrap="" classnowrap="" class="precioTh">Precio Unit Neto</th>
+                                    <th nowrap="" class="subTotalTh">Subtotal Neto</th>
+                                    <th nowrap="" class="subTotalTh">Descu. (%)</th>
+                                    <th nowrap="" class="subTotalTh">Total</th>
+                                    <th nowrap="" class="accionesTh">&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody id="generaTabla"></tbody>
+                        </table>
+                    </div>
+                    <!-- end table-responsive -->
+                </div>
+                <!-- end panel-body -->
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="panel panel-inverse" data-sortable-id="ui-widget-4">
+                <div class="panel-heading">
+                    <h4 class="panel-title">TOTALES</h4>
+                    <div class="panel-heading-btn">
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>-->
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>-->
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>-->
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>-->
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="table-responsive form-inline">
+                            <table id="user" class="table table-condensed table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td class="tg-0lax">
+                                            <input type="hidden" id="contador_registros" name="contador_registros" value=@numero1>
+                                            <h4> Sub-Total Neto:&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+                                        </td>
+                                        <td class="tg-0lax">
+                                            <h4><label id="lbtotal">@double.Parse(total1.ToString()).ToString("N0")&nbsp;&nbsp;&nbsp;&nbsp;</label></h4>
+                                            <input type="hidden" id="txttotal" name="txttotal" value=@total1>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tg-0lax"><h3>Impuesto:&nbsp;&nbsp;&nbsp;&nbsp;</h3></td>
+                                        <td class="tg-0lax">
+                                            <h4><label id="lbimpuesto">@double.Parse(impuesto.ToString()).ToString("N0")&nbsp;&nbsp;&nbsp;&nbsp;</label></h4>
+                                            <input type="hidden" id="txtimpuesto" name="txtimpuesto" value=@impuesto>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tg-0lax"><h3>Total Final:&nbsp;&nbsp;&nbsp;&nbsp;</h3></td>
+                                        <td class="tg-0lax">
+                                            <h4><label id="lbtotalfinal">@double.Parse(totalfinal.ToString()).ToString("N0")&nbsp;&nbsp;&nbsp;&nbsp;</label></h4>
+                                            <input type="hidden" id="txttotalfinal" name="txttotalfinal" value=@totalfinal>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <input class="btn btn-primary" id="btnCot" type="submit" value="Genera Cotización" onclick="agregarnotadeventa();">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <!-- end row -->
