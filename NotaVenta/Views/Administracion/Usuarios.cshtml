@@ -1,0 +1,62 @@
+﻿@using UTIL.Models;
+@{
+    ViewBag.Title = "Usuarios";
+    List<UsuariosModels> listarusuarios = ViewBag.usuarios;
+    string[] idUsuarios = new string[listarusuarios.Count];
+}
+
+<link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
+<script src="~/WebJs/Administracion/Usuarios.js"></script>
+<input type="hidden" id="urlEliminar" value="@Url.Action("EliminarUsuario", "Mantenedores")" />
+<div id="ModalMap" class="wrap-body">
+    <section id="container">
+        <div class="wrap-container">
+            <div class="zerogrid">
+                <div class="row">
+                    <h1 class="t-center" style="margin: 40px 0;color: #212121;letter-spacing: 2px;font-weight: 500;">Usuarios</h1>
+
+                    <div class="col-full">
+                        <div align=right>
+                            <a id="iframe" class="button" href='@Url.Action("AddUsuario", "Mantenedores")'> Nuevo Usuario </a>
+                        </div>
+
+                        <div class="table-responsive2">
+                            <div class="wrap-col">
+                                <table id="dataTable" class="table2" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Codigo</th>
+                                            <th>Usuario</th>
+                                            <th>Email</th>
+                                            <th>Tipo Usuario</th>
+                                            <th>Editar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            for (int i = 0; i < listarusuarios.Count; i++)
+                                            {
+                                                <tr>
+                                                    <td>@listarusuarios[i].id</td>
+                                                    <td>@listarusuarios[i].Usuario</td>
+                                                    <td>@listarusuarios[i].email</td>
+                                                    <td>@listarusuarios[i].tipoUsuario</td>
+                                                    <td>
+                                                        <a id="iframe" href='@Url.Action("EditUsuarios", "Administracion", new {idUsuario = @listarusuarios[i].id})'><img src="~/Content/Image/edit.png"></a>
+                                                        @{idUsuarios[i] = listarusuarios[i].id.ToString();}
+                                                        <a id="EliminarUser" onclick="EliminarUsuario(@listarusuarios[i].id)" style="cursor:pointer;"><img src="~/Content/Image/delete.png"></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+            </div>
+        </div>
+    </section>
+</div>

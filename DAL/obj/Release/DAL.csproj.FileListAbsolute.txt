@@ -1,0 +1,36 @@
+C:\Users\Disofi\Source\Repos\Afubach\DAL\bin\Release\DAL.dll
+C:\Users\Disofi\Source\Repos\Afubach\DAL\bin\Release\DAL.pdb
+C:\Users\Disofi\Source\Repos\Afubach\DAL\obj\Release\DAL.csproj.CoreCompileInputs.cache
+C:\Users\Disofi\Source\Repos\Afubach\DAL\obj\Release\DAL.dll
+C:\Users\Disofi\Source\Repos\Afubach\DAL\obj\Release\DAL.pdb
+C:\Users\Disofi\Desktop\Afubach\DAL\bin\Release\DAL.dll
+C:\Users\Disofi\Desktop\Afubach\DAL\bin\Release\DAL.pdb
+C:\Users\Disofi\Desktop\Afubach\DAL\bin\Release\log4net.dll
+C:\Users\Disofi\Desktop\Afubach\DAL\obj\Release\DAL.csprojAssemblyReference.cache
+C:\Users\Disofi\Desktop\Afubach\DAL\obj\Release\DAL.csproj.CoreCompileInputs.cache
+C:\Users\Disofi\Desktop\Afubach\DAL\obj\Release\DAL.csproj.CopyComplete
+C:\Users\Disofi\Desktop\Afubach\DAL\obj\Release\DAL.dll
+C:\Users\Disofi\Desktop\Afubach\DAL\obj\Release\DAL.pdb
+C:\Users\Disofi\Desktop\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\bin\Release\DAL.dll
+C:\Users\Disofi\Desktop\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\bin\Release\DAL.pdb
+C:\Users\Disofi\Desktop\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\bin\Release\log4net.dll
+C:\Users\Disofi\Desktop\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\obj\Release\DAL.csprojAssemblyReference.cache
+C:\Users\Disofi\Desktop\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\obj\Release\DAL.csproj.CoreCompileInputs.cache
+C:\Users\Disofi\Desktop\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\obj\Release\DAL.csproj.CopyComplete
+C:\Users\Disofi\Desktop\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\obj\Release\DAL.dll
+C:\Users\Disofi\Desktop\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\obj\Release\DAL.pdb
+D:\respfco\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\bin\Release\DAL.dll
+D:\respfco\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\bin\Release\DAL.pdb
+D:\respfco\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\bin\Release\log4net.dll
+D:\respfco\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\obj\Release\DAL.csprojAssemblyReference.cache
+D:\respfco\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\obj\Release\DAL.csproj.CoreCompileInputs.cache
+D:\respfco\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\obj\Release\DAL.csproj.CopyComplete
+D:\respfco\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\obj\Release\DAL.dll
+D:\respfco\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\obj\Release\DAL.pdb
+D:\ProyectosYVEGA\disofi-texas-hub\DAL\bin\Release\DAL.dll
+D:\ProyectosYVEGA\disofi-texas-hub\DAL\bin\Release\DAL.pdb
+D:\ProyectosYVEGA\disofi-texas-hub\DAL\obj\Release\DAL.csprojAssemblyReference.cache
+D:\ProyectosYVEGA\disofi-texas-hub\DAL\obj\Release\DAL.csproj.CoreCompileInputs.cache
+D:\ProyectosYVEGA\disofi-texas-hub\DAL\obj\Release\DAL.csproj.CopyComplete
+D:\ProyectosYVEGA\disofi-texas-hub\DAL\obj\Release\DAL.dll
+D:\ProyectosYVEGA\disofi-texas-hub\DAL\obj\Release\DAL.pdb
