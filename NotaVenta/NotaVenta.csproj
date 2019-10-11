@@ -641,6 +641,8 @@
     <Content Include="Content\assets\img\transparent\white-0.8.png" />
     <Content Include="Content\assets\img\transparent\white-0.9.png" />
     <Content Include="Content\assets\img\transparent\white-0.98.png" />
+    <Content Include="Content\assets\img\user\login-left-content.jpg" />
+    <Content Include="Content\assets\img\user\NotaVenta.png" />
     <Content Include="Content\assets\img\user\user-1.jpg" />
     <Content Include="Content\assets\img\user\user-10.jpg" />
     <Content Include="Content\assets\img\user\user-11.jpg" />
@@ -6020,7 +6022,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1611</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:1611/</IISUrl>
+          <IISUrl>http://localhost:1612/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

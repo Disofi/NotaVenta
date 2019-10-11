@@ -760,12 +760,9 @@ namespace TexasHub.Controllers
         }
 
 
-
-
-        [HttpPost]
-        public JsonResult CalcularFila(int precioUnitario, int cantidad, List<int> descuentos)
+        public ProductoAgregadoModel CalcularFilaFunction(decimal precioUnitario, decimal cantidad, List<decimal> descuentos)
         {
-            if (descuentos == null) { descuentos = new List<int>(); }
+            if (descuentos == null) { descuentos = new List<decimal>(); }
             decimal _precioUnitario = 0;
             decimal _cantidad = 0;
 
@@ -807,11 +804,48 @@ namespace TexasHub.Controllers
                 }
             }
 
+            return new ProductoAgregadoModel()
+            {
+                PrecioUnitario = _precioUnitario,
+                Cantidad = _cantidad,
+                Descuentos = _descuentos,
+                SubTotal = subTotal,
+                Total = total
+            };
+        }
+
+        [HttpPost]
+        public JsonResult CalcularFila(decimal precioUnitario, decimal cantidad, List<decimal> descuentos)
+        {
+
+            return Json(CalcularFilaFunction(precioUnitario, cantidad, descuentos));
+        }
+
+
+
+
+        [HttpPost]
+        public JsonResult CalcularProductosAgregados(List<ProductoAgregadoModel> productos)
+        {
+            decimal subTotal = 0;
+            decimal impuesto = 0;
+            decimal total = 0;
+
+            foreach (ProductoAgregadoModel item in productos)
+            {
+                ProductoAgregadoModel producto = CalcularFilaFunction(item.PrecioUnitario, item.Cantidad, item.Descuentos);
+                subTotal = subTotal + producto.Total;
+            }
+            subTotal = Convert.ToInt32(subTotal);
+            impuesto = Convert.ToInt32(((subTotal * 19) / 100));
+            total = subTotal - impuesto;
+
             return Json(new
             {
-                subTotal = subTotal,
-                subTotalDescuento = subTotalDescuento,
-                total = total
+                Productos = productos,
+                SubTotal = Convert.ToInt32(subTotal),
+                Impuesto = Convert.ToInt32(impuesto),
+                Total = Convert.ToInt32(total)
             });
         }
 

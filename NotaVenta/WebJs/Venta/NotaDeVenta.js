@@ -1,4 +1,10 @@
-﻿$(document).ready(function () {
+﻿var precioProducto = 0;
+var productos = [];
+var productosAgregados = [];
+var descuentosAgregadosProducto = [];
+var cantidadDescuentos = 5;
+
+$(document).ready(function () {
     FormEditable.init();
     cbxlistaChange();
 });
@@ -10,24 +16,55 @@ var handleEditableFormAjaxCall = function () {
             if (settings.data.name === "txtIngresoDescripcionCodigo") {
                 var producto = productos.find(m => m.busqueda === settings.data.value);
 
-                $('#txtIngresoCodigoRapido').editable('setValue', producto.CodProd);
-                $('#txtIngresoNeto').editable('setValue', producto.PrecioVta);
-                $('#txtIngresoUnidadDeMedida').editable('setValue', producto.codumed);
-                $('#txtIngresoStock').editable('setValue', producto.Stock);
+                if (jQuery.grep(productosAgregados, function (value) { return value.Codigo === producto.CodProd; }).length > 0) {
+                    this.status = 500;
+                    this.statusText = "Producto ya fue ingresado";
+                }
+                else {
+                    $('#txtIngresoCodigoRapido').editable('setValue', producto.CodProd);
+                    $('#txtIngresoNeto').editable('setValue', producto.PrecioVta);
+                    $('#txtIngresoUnidadDeMedida').editable('setValue', producto.codumed);
+                    $('#txtIngresoStock').editable('setValue', producto.Stock);
 
-                CalcularFila(
-                    producto.PrecioVta,
-                    $('#txtIngresoCantidad').editable('getValue').txtIngresoCantidad,
-                    [$('#txtIngresoDescuento').editable('getValue').txtIngresoDescuento]
-                );
+                    CalcularFila(
+                        producto.PrecioVta,
+                        $('#txtIngresoCantidad').editable('getValue').txtIngresoCantidad,
+                        descuentosAgregadosProducto
+                    );
+                }
             }
             if (settings.data.name === "txtIngresoCantidad") {
                 if (/^([0-9])*$/.test(settings.data.value)) {
-                    CalcularFila(
-                        $('#txtIngresoNeto').editable('getValue').txtIngresoNeto,
-                        settings.data.value,
-                        [$('#txtIngresoDescuento').editable('getValue').txtIngresoDescuento]
-                    );
+                    if (parseFloat(settings.data.value) > 0) {
+                        CalcularFila(
+                            $('#txtIngresoNeto').editable('getValue').txtIngresoNeto,
+                            settings.data.value,
+                            descuentosAgregadosProducto
+                        );
+                    }
+                    else {
+                        this.status = 500;
+                        this.statusText = "Debe ser mayor a 0";
+                    }
+                }
+                else {
+                    this.status = 500;
+                    this.statusText = "Solo se admiten numeros";
+                }
+            }
+            if (settings.data.name === "txtIngresoNeto") {
+                if (/^([0-9])*$/.test(settings.data.value)) {
+                    if (parseFloat(settings.data.value) > 0) {
+                        CalcularFila(
+                            settings.data.value,
+                            $('#txtIngresoCantidad').editable('getValue').txtIngresoCantidad,
+                            descuentosAgregadosProducto
+                        );
+                    }
+                    else {
+                        this.status = 500;
+                        this.statusText = "Debe ser mayor a 0";
+                    }
                 }
                 else {
                     this.status = 500;
@@ -37,11 +74,12 @@ var handleEditableFormAjaxCall = function () {
             if (settings.data.name === "txtIngresoDescuento") {
                 if (/^([0-9])*$/.test(settings.data.value)) {
                     if (parseFloat(settings.data.value) <= 100 && parseFloat(settings.data.value) >= 0) {
-
+                        descuentosAgregadosProducto = [];
+                        descuentosAgregadosProducto.push(parseFloat(settings.data.value));
                         CalcularFila(
                             $('#txtIngresoNeto').editable('getValue').txtIngresoNeto,
                             $('#txtIngresoCantidad').editable('getValue').txtIngresoCantidad,
-                            [settings.data.value]
+                            descuentosAgregadosProducto
                         );
                     }
                     else {
@@ -63,17 +101,118 @@ var handleEditableFieldConstruct = function () {
     $.fn.editable.defaults.inputclass = 'form-control input-sm';
     $.fn.editable.defaults.url = '/post';
 
-    $('#txtIngresoCodigoRapido').editable();
-    $('#txtIngresoCantidad').editable();
-    $('#txtIngresoStock').editable();
+    $('#txtIngresoCodigoRapido').editable({
+        emptytext: '',
+    });
+
+    $('#txtIngresoCantidad').editable({
+        emptytext: 'Seleccione cantidad',
+    });
+
+    $('#txtIngresoStock').editable({
+        emptytext: '',
+    });
     $('#txtIngresoStock').editable('toggleDisabled');
-    $('#txtIngresoUnidadDeMedida').editable();
+
+    $('#txtIngresoUnidadDeMedida').editable({
+        emptytext: ''
+    });
     $('#txtIngresoUnidadDeMedida').editable('toggleDisabled');
-    $('#txtIngresoNeto').editable();
+
+    $('#txtIngresoNeto').editable({
+        emptytext: 'Seleccione neto',
+    });
+
     $('#txtIngresoSubTotal').editable();
-    $('#txtIngresoDescuento').editable();
+    $('#txtIngresoSubTotal').editable('toggleDisabled');
+
+    crearControlDescuentos();
+
     $('#txtIngresoTotal').editable();
+    $('#txtIngresoTotal').editable('toggleDisabled');
 };
+
+function crearControlDescuentos() {
+    descuentosAgregadosProducto = [];
+    if (cantidadDescuentos === 0) {
+        $('#txtIngresoDescuento').editable({
+            emptytext: 'Seleccione descuento',
+        });
+        $('#txtIngresoDescuento').editable('toggleDisabled');
+    }
+    else if (cantidadDescuentos === 1) {
+        $('#txtIngresoDescuento').editable({
+            emptytext: 'Seleccione descuento',
+        });
+    }
+    else {
+        $('#txtIngresoDescuento').html("Seleccione descuento");
+        $('#txtIngresoDescuento').addClass("editable editable-click editable-empty");
+
+        var descuentosAppend = "";
+        descuentosAppend = descuentosAppend
+            + '<div class="table-responsive">'
+            + '<table id="table" class="table">'
+            + '<thead></thead>'
+            + '<tbody>';
+
+        for (i = 1; i <= cantidadDescuentos; i++) {
+            descuentosAgregadosProducto.push(0);
+            descuentosAppend = descuentosAppend
+                + '<tr>'
+                + '<td>'
+                + 'Descuento N°' + i
+                + '</td>'
+                + '<td style="text-align: right">'
+                + '<input id="descuento_' + i + '" type="text" value="0" class="form-control" />'
+                + '</td>'
+                + '</tr>';
+        }
+        descuentosAppend = descuentosAppend
+            + '</tbody>'
+            + '</table>';
+
+        $("#modalDescuentosControles").html(descuentosAppend);
+
+        $('#txtIngresoDescuento').click(function () {
+            $("#aModalDescuentos").click();
+        });
+        $('#modalDescuentosAgregarDescuentos').click(function () {
+            var descuentosTemp = [];
+            var hayErrorMaximo = false;
+            var hayErrorMinimo = false;
+
+            for (i = 1; i <= cantidadDescuentos; i++) {
+                var descuento = $("#descuento_" + i).val();
+                descuento = parseFloat(descuento);
+
+                if (descuento > 100) { hayErrorMaximo = true; $("#descuento_" + i).val(descuentosAgregadosProducto[i - 1]); }
+                if (descuento < 0) { hayErrorMinimo = true; $("#descuento_" + i).val(descuentosAgregadosProducto[i - 1]); }
+
+                descuentosTemp.push(descuento);
+            }
+            if (!hayErrorMaximo) {
+                if (!hayErrorMinimo) {
+                    descuentosAgregadosProducto = [];
+                    descuentosAgregadosProducto = descuentosTemp;
+
+                    CalcularFila(
+                        $('#txtIngresoNeto').editable('getValue').txtIngresoNeto,
+                        $('#txtIngresoCantidad').editable('getValue').txtIngresoCantidad,
+                        descuentosAgregadosProducto
+                    );
+                    $("#modalDescuentosCerrar").click();
+                }
+                else {
+                    abrirError("Error de descuentos", "Los descuentos no pueden ser inferior a 0%");
+                }
+            }
+            else {
+                abrirError("Error de descuentos", "Los descuentos no pueden superar el 100%");
+            }
+        });
+    }
+}
 
 var FormEditable = function () {
     "use strict";
@@ -85,123 +224,6 @@ var FormEditable = function () {
         }
     };
 }();
-
-
-
-function Multiplicar(tipo, valor) {
-    var punitario = $('#txtIngresoNeto').editable('getValue').txtIngresoNeto;
-
-    var cantidad = 0;
-    if (tipo === "cantidad") { var cantidad = valor; }
-    else { cantidad = $('#txtIngresoCantidad').editable('getValue').txtIngresoCantidad; }
-
-    var porcentaje = $('#txtIngresoDescuento').editable('getValue').txtIngresoDescuento;
-
-    if (cantidad == "") {
-        $('#txtIngresoSubTotal').editable('setValue', '');
-        $('#txtIngresoCantidad').editable('setValue', '');
-        $('#txtIngresoTotal').editable('setValue', '');
-    }
-    else {
-        var url = $("#urlMultiplicar").val();
-        var _data = { punitario: punitario, cantidad: cantidad };
-
-
-
-        $.ajax({
-            url: url,
-            data: _data,
-            type: "POST",
-            dataType: "json",
-            async: false,
-            success: function (data) {
-                $('#txtIngresoSubTotal').editable('setValue', data);
-
-                $('#txtIngresoSubTotal').val(data);
-                if (porcentaje == 0) {
-                    $('#txtIngresoTotal').editable('setValue', data);
-                }
-                else {
-                    Descuento();
-                }
-            },
-            error: function (response) {
-            },
-            failure: function (response) {
-                alert(response.responseText);
-            }
-        });
-    }
-}
-
-function NumCheck(e, field) {
-    key = e.keyCode ? e.keyCode : e.which
-    // backspace
-    if (key == 8) return true
-    // 0-9
-    if (key > 47 && key < 58) {
-        if (field.value == "") return true
-        regexp = /.[0-9]{2}$/
-        return !(regexp.test(field.value))
-    }
-    // .
-    if (key == 46) {
-        if (field.value == "") return false
-        regexp = /^[0-9]+$/
-        return regexp.test(field.value)
-    }
-    // other key
-    return false
-
-}
-
-
-function validaNumericos(event) {
-    if (event.charCode >= 48 && event.charCode <= 57) {
-        return true;
-    }
-    return false;
-}
-
-
-function Descuento() {
-    var valor = $('#txtsubtotal').val();
-    var porcenta = $('#txtDescuento').val();
-
-    if (porcenta == '') {
-        $('#txtDescuento').val('');
-        $('#txtTotalConDes').val(valor);
-    }
-    else {
-        if (valor != '' && parseInt(porcenta) != 0) {
-            document.getElementById("txtprecioneto").disabled = true;
-            if (porcenta <= 15) {
-                var url = $("#urlPorcentaje").val();
-                var data = { valor: valor, porcenta: porcenta };
-
-                $.post(url, data).done(function (data) {
-
-                    $('#txtTotalConDes').val(data);
-                    if (porcenta == '') {
-                        porcenta = 0;
-                        $('#txtDescuento').val(porcenta);
-                    }
-                })
-
-            }
-            else {
-                document.getElementById("txtprecioneto").disabled = true;
-                $('#txtDescuento').val('15');
-                Descuento();
-            }
-        }
-
-    }
-}
-
-var precioProducto = 0;
-
-var productos = [];
 
 function cbxlistaChange() {
     var _url = $("#urlObtieneProductosPorListaPrecio").val();
@@ -221,44 +243,13 @@ function cbxlistaChange() {
             });
 
             $('#txtIngresoDescripcionCodigo').editable({
+                emptytext: 'Busqueda de Producto',
                 source: productos.map(m => { return { id: m.busqueda, text: m.busqueda } }),
                 select2: {
                     width: 200,
                     placeholder: 'Seleccione Productos',
                     allowClear: true
                 }
-            });
-
-            $("input#txtdescripcion").autocomplete({
-                source: function (request, response) {
-                    var valorString = $("input#txtdescripcion").val();
-                    var productosFilter = productos.filter(x => x.CodProd.includes(valorString) || x.DesProd.includes(valorString));
-                    response($.map(productosFilter, function (item) {
-                        return {
-                            value: item.CodProd,
-                            label: item.CodProd + '-' + item.DesProd,
-                            precio: item.PrecioVta,
-                            umedida: item.codumed,
-                            nompro: item.DesProd,
-                            Stock: item.Stock
-                        };
-                    }));
-                },
-                minLength: 1,
-                select: function (event, ui) {
-
-                    $('#txtcodigoProducto').val(ui.item.value);
-                    $('#txtdescripcionProducto').val(ui.item.nompro);
-                    $('#txtprecioneto').val(ui.item.precio);
-                    precioProducto = ui.item.precio;
-                    $('#txtumedida').val(ui.item.umedida);
-                    $('#txtstock').val(ui.item.Stock);
-                    $(this).val(ui.item.label);
-
-                    $('#txtcantidad').focus();
-                    return false;
-                }
-
             });
         },
         error: function (response) {
@@ -289,7 +280,11 @@ function eliminarFilas(filaDelete) {
 
     fila = $('#generaTabla tr[id=id_' + filaDelete + ']');
 
-    resta(subtotal);
+    productosAgregados = jQuery.grep(productosAgregados, function (value) {
+        return value.contador !== filaDelete;
+    });
+
+    CalcularProductosAgregados();
 
     fila.remove();
 }
@@ -302,9 +297,6 @@ function CalcularFila(precioUnitario, cantidad, descuentos) {
 
     precioUnitario = parseInt(precioUnitario);
     cantidad = parseInt(cantidad);
-    for (i = 0; i < descuentos.length; i++) {
-        descuentos[i] = parseInt(descuentos[i]);
-    }
 
     var url = $("#urlCalcularFila").val();
 
@@ -315,9 +307,8 @@ function CalcularFila(precioUnitario, cantidad, descuentos) {
         type: "POST",
         data: dataPost,
         success: function (result) {
-            var subTotal = result.subTotal;
-            var subTotalDescuento = result.subTotalDescuento;
-            var total = result.total;
+            var subTotal = result.SubTotal;
+            var total = result.Total;
 
             $('#txtIngresoSubTotal').editable('setValue', parseInt(subTotal));
             $('#txtIngresoTotal').editable('setValue', parseInt(total));
@@ -329,57 +320,35 @@ function CalcularFila(precioUnitario, cantidad, descuentos) {
     });
 }
 
-function suma(valor) {
-    valor = valor.replace('.', '');
-    var valortotal = $('#txttotal').val();
-    var totalfinal = parseFloat(valortotal) + parseFloat(valor);
-    var neto = totalfinal;
-    var iva = (parseFloat(neto) * parseFloat("0.19"));
-    var valorfinal = parseFloat(neto) + parseFloat(iva);
-    $('#txtimpuesto').val(Math.round(iva));
-    $('#lbimpuesto').html(Math.round(iva));
-    $('#txttotalfinal').val(Math.round(valorfinal));
-    $('#lbtotalfinal').html(Math.round(valorfinal));
-    $('#txttotal').val(Math.round(totalfinal));
-    $('#lbtotal').html(Math.round(totalfinal));
-}
 
-function resta(valor) {
-    valor = valor.replace('.', '');
-    var valortotal = $('#txttotal').val();
-    var totalfinal = parseFloat(valortotal) - parseFloat(valor);
-    var neto = totalfinal;
-    var iva = (parseFloat(neto) * parseFloat("0.19"));
-    var valorfinal = parseFloat(neto) + parseFloat(iva);
-    $('#txtimpuesto').val(Math.round(iva));
-    $('#lbimpuesto').html(Math.round(iva));
-    $('#txttotalfinal').val(Math.round(valorfinal));
-    $('#lbtotalfinal').html(Math.round(valorfinal));
-    $('#txttotal').val(Math.round(totalfinal));
-    $('#lbtotal').html(Math.round(totalfinal));
-}
+function CalcularProductosAgregados() {
+    if (productosAgregados.length > 0) {
+        var url = $("#urlCalcularProductosAgregados").val();
+        var dataPost = productosAgregados;
 
-function PrecioMod() {
-    //var valorNeto = $('#txtprecioneto').val();
-    var cantidadTotal = $('#txtcantidad').val();
-    var preciounitario = parseInt($('#txtprecioneto').val());
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: { productos: dataPost },
+            success: function (result) {
+                var subTotal = result.SubTotal;
+                var impuesto = result.Impuesto;
+                var total = result.Total;
 
-    var descuento = Math.round(precioProducto * 0.15);
-    var precioMax = (precioProducto - descuento);
-
-    if (preciounitario < precioMax) {
-        $('#txtprecioneto').val(precioMax);
-        $('#txtsubtotal').val(precioMax * cantidadTotal);
-        $('#txtTotalConDes').val(precioMax * cantidadTotal);
-        alert("Neto Ingresado Debe ser Hasta el 15% de Descuento");
-        document.getElementById("txtDescuento").disabled = true;
-    } else {
-        $('#txtsubtotal').val($('#txtprecioneto').val() * $('#txtcantidad').val());
-        $('#txtTotalConDes').val($('#txtprecioneto').val() * $('#txtcantidad').val());
-        //document.getElementById("txtDescuento").disabled = true;
+                $('#lbtotal').text(subTotal);
+                $('#lbimpuesto').text(impuesto);
+                $('#lbtotalfinal').text(total);
+            },
+            error: function (a, b, c) {
+                console.log(a, b, c);
+            },
+            async: false
+        });
     }
-    if (preciounitario > precioMax) {
-        document.getElementById("txtDescuento").disabled = true;
+    else {
+        $('#lbtotal').text(0);
+        $('#lbimpuesto').text(0);
+        $('#lbtotalfinal').text(0);
     }
 }
 
@@ -393,43 +362,100 @@ function addRow() {
     var medida = $('#txtIngresoUnidadDeMedida').editable('getValue').txtIngresoUnidadDeMedida;
     var preciounitario = $('#txtIngresoNeto').editable('getValue').txtIngresoNeto;
     var subtotal = $('#txtIngresoSubTotal').editable('getValue').txtIngresoSubTotal;
-    var descuento = $('#txtIngresoDescuento').editable('getValue').txtIngresoDescuento;
+    var descuento = descuentosAgregadosProducto;
     var valordescuento = $('#txtIngresoTotal').editable('getValue').txtIngresoTotal;
 
     var porcentaje = Math.round(precioProducto * 0.15);
     var precioMax = (precioProducto - porcentaje);
 
-    var contador = 0;
-    for (i = 0; i < $("#generaTabla tr").length; i++) {
-        item = $("#generaTabla tr")[i];
-        contador = parseInt(item.id.substring(3, 90)) >= contador ? parseInt(item.id.substring(3, 90)) + 1 : contador;
+    if (codigo === null || codigo === undefined || codigo === "" ||
+        cantidad === null || cantidad === undefined || cantidad === "" || cantidad === "0" ||
+        preciounitario === null || preciounitario === undefined || preciounitario === "" || preciounitario === "0" ||
+        descuento === null || descuento === undefined || descuento === "" || descuento === "0") {
+
+        abrirError("Error datos producto", "Favor, complete todos los campos necesarios para agregar producto");
     }
+    else {
+        var contador = 0;
+        for (i = 0; i < $("#generaTabla tr").length; i++) {
+            item = $("#generaTabla tr")[i];
+            contador = parseInt(item.id.substring(3, 90)) >= contador ? parseInt(item.id.substring(3, 90)) + 1 : contador;
+        }
 
-    var texto_insertar =
-        '<tr id="id_' + contador + '" class="thproductolist' + contador + '">' +
-        '<td><span id="lblCodigo_' + contador + '">' + codigo + '</td>'
-        + '<td><span id="lblDescripcion_' + contador + '">' + descripcion + '</td>'
-        + '<td><span id="lblCantidad_' + contador + '">' + cantidad + '</td>'
-        + '<td><span id="lblMedida_' + contador + '">' + medida + '</td>'
-        + '<td><span id="lblPrecioUnitario_' + contador + '">' + preciounitario + '</td>'
-        + '<td><span id="lblSubTotal_' + contador + '">' + subtotal + '</td>'
-        + '<td><span id="lblDescuento_' + contador + '">' + descuento + '</td>'
-        + '<td><span id="lblTotal_' + contador + '">' + valordescuento + '</td>'
-        + '<td><a id="thproductolist' + contador + '" href="#divCodigo" onclick="eliminarFilas(' + contador + ');"><img src="../Content/Image/delete.png" /></a></td>'
-        + '</tr>';
+        var texto_insertar =
+            '<tr id="id_' + contador + '" class="thproductolist' + contador + '">' +
+            '<td><span id="lblCodigo_' + contador + '">' + codigo + '</td>'
+            + '<td><span id="lblDescripcion_' + contador + '">' + descripcion + '</td>'
+            + '<td style="text-align: right"><span id="lblCantidad_' + contador + '">' + cantidad + '</td>'
+            + '<td><span id="lblMedida_' + contador + '">' + medida + '</td>'
+            + '<td style="text-align: right"><span id="lblPrecioUnitario_' + contador + '">' + preciounitario + '</td>'
+            + '<td style="text-align: right"><span id="lblSubTotal_' + contador + '">' + subtotal + '</td>'
+            + (cantidadDescuentos <= 1 ?
+                '<td style="text-align: right"><span id="lblDescuento_' + contador + '">' + descuento[0] + '</td>' :
+                '<td><a class="editable editable-click editable-empty" id="verDescuentos_' + contador + '" onclick="verDescuentos(' + contador + ')">Ver Descuentos</a></td>')
+            + '<td style="text-align: right"><span id="lblTotal_' + contador + '">' + valordescuento + '</td>'
+            + '<td><a id="thproductolist' + contador + '" href="#divCodigo" onclick="eliminarFilas(' + contador + ');"><img src="../Content/Image/delete.png" /></a></td>'
+            + '</tr>';
 
-    var nuevo_campo = $(texto_insertar);
-    $("#generaTabla").append(nuevo_campo);
+        var nuevo_campo = $(texto_insertar);
+        $("#generaTabla").append(nuevo_campo);
 
-    $('#txtIngresoCodigoRapido').editable('setValue', '');
-    $('#txtIngresoDescripcionCodigo').editable('setValue', '');
-    $('#txtIngresoCantidad').editable('setValue', '');
-    $('#txtIngresoStock').editable('setValue', '');
-    $('#txtIngresoUnidadDeMedida').editable('setValue', '');
-    $('#txtIngresoNeto').editable('setValue', '');
-    $('#txtIngresoSubTotal').editable('setValue', '');
-    $('#txtIngresoDescuento').editable('setValue', '');
-    $('#txtIngresoTotal').editable('setValue', '');
+        $('#txtIngresoCodigoRapido').editable('setValue', '');
+        $('#txtIngresoDescripcionCodigo').editable('setValue', '');
+        $('#txtIngresoCantidad').editable('setValue', '1');
+        $('#txtIngresoStock').editable('setValue', '0');
+        $('#txtIngresoUnidadDeMedida').editable('setValue', '');
+        $('#txtIngresoNeto').editable('setValue', '0');
+        $('#txtIngresoSubTotal').editable('setValue', '0');
+        crearControlDescuentos();
+        $('#txtIngresoTotal').editable('setValue', '0');
+
+        var productoAgregado = {
+            Codigo: codigo,
+            contador: contador,
+            PrecioUnitario: preciounitario,
+            Cantidad: cantidad,
+            Descuentos: descuento,
+            SubTotal: subtotal,
+            Total: valordescuento
+        };
+
+        productosAgregados.push(productoAgregado);
+
+        CalcularProductosAgregados();
+    }
+}
+
+function verDescuentos(contador) {
+    var descuentosAppend = "";
+    descuentosAppend = descuentosAppend
+        + '<div class="table-responsive" >'
+        + '<table id="table" class="table">'
+        + '<thead></thead>'
+        + '<tbody>';
+
+    var producto = jQuery.grep(productosAgregados, function (value) {
+        return value.contador === contador;
+    })[0];
+
+    for (i = 0; i < producto.Descuentos.length; i++) {
+        descuentosAppend = descuentosAppend
+            + '<tr>'
+            + '<td>'
+            + 'Descuento N°' + (i + 1)
+            + '</td>'
+            + '<td style="text-align: right">'
+            + producto.Descuentos[i]
+            + '</td>'
+            + '</tr>';
+    }
+    descuentosAppend = descuentosAppend
+        + '</tbody>'
+        + '</table>';
+
+    $("#modalDescuentosRealizadosControles").html(descuentosAppend);
+
+    $("#aModalDescuentosRealizados").click();
 }
 
 function agregarnotadeventa() {

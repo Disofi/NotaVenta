@@ -50,6 +50,7 @@
     <Compile Include="Models\NotadeVentaCabeceraModels.cs" />
     <Compile Include="Models\NotaDeVentaDetalleModels.cs" />
     <Compile Include="Models\ParametrosModels.cs" />
+    <Compile Include="Models\ProductoAgregadoModel.cs" />
     <Compile Include="Models\ProductosModels.cs" />
     <Compile Include="Models\UsuariosModels.cs" />
     <Compile Include="Models\UsuariosTiposModels.cs" />
