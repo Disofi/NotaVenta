@@ -7,6 +7,8 @@
 
     /**/
 
+    /**/
+
 
     if (SessionVariables.SESSION_DATOS_USUARIO.VenCod == null)
     {
@@ -70,6 +72,7 @@
     <input type="hidden" id="urlAgregarNotaVenta" value="@Url.Action("AgregarNV", "Venta" )" />
     <input type="hidden" id="urlCalcularFila" value="@Url.Action("CalcularFila", "Venta")" />
     <input type="hidden" id="urlCalcularProductosAgregados" value="@Url.Action("CalcularProductosAgregados", "Venta")" />
+    <input type="hidden" id="urlObtieneTallaColorProducto" value="@Url.Action("ObtieneTallaColorProducto", "Venta")" />
     <div class="row col-lg-12">
         <div class="col-lg-12">
             <div class="panel panel-inverse" data-sortable-id="ui-widget-1">
@@ -365,6 +368,34 @@
         </div>
     </div>
 </div>
+<a id="aModalTallaColor" style="display: none" href="#modalTallaColor" class="btn btn-sm btn-success" data-toggle="modal">Talla Color</a>
+<div class="modal fade" id="modalTallaColor">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Ingrese Talla y Color</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-3">Bodegas</div>
+                    <div class="col-lg-9">
+                        <select id="modalTallaColorBodegas" class="form-control"></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="modalTallaColorControles"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a id="modalTallaColorAgregarTallaColor" href="javascript:;" class="btn btn-success">Agregar Talla y Color</a>
+                <a id="modalTallaColorCerrar" href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+            </div>
+        </div>
+    </div>
+</div>
 <a id="aModalDescuentos" style="display: none" href="#modalDescuentos" class="btn btn-sm btn-success" data-toggle="modal">Descuentos</a>
 <div class="modal fade" id="modalDescuentos">
     <div class="modal-dialog">
@@ -400,7 +431,6 @@
         </div>
     </div>
 </div>
-<!---->
 <!-- end row -->
 <!-- end page container -->
 <!-- ================== BEGIN BASE JS ================== -->

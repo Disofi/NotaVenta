@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using NotaVenta.UTIL;
 using NotaVenta.UTIL.Error;
 using UTIL.Models;
@@ -38,9 +39,27 @@ namespace NotaVenta.Controllers
             var resultado = controlDisofi().Login(datosUsuarios);
             if (resultado != null)
             {
-                resultado.VenDes = resultado.Nombre;
-                SessionVariables.SESSION_DATOS_USUARIO = resultado;
-                return RedirectToAction("Index", "Home");
+                List<UsuarioEmpresaModel> empresas = controlDisofi().ListaUsuarioEmpresas(resultado.IdUsuario);
+                if (empresas.Count > 0)
+                {
+                    if (empresas.Count == 1)
+                    {
+                        resultado.VenDes = resultado.Nombre;
+                        SessionVariables.SESSION_DATOS_USUARIO = resultado;
+                        SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel = empresas[0];
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        resultado.VenDes = resultado.Nombre;
+                        SessionVariables.SESSION_DATOS_USUARIO = resultado;
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                else
+                {
+                    return AbrirError(Errores.ERRORES.ERROR_LOGIN_1, TipoAccionError.TIPO_ACCION_BTN.IR_LOGIN);
+                }
             }
             else
             {

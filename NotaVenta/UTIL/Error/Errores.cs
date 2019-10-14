@@ -25,6 +25,10 @@ namespace NotaVenta.UTIL.Error
                     {
                         return errorModel = new ErrorModel(401, "No Autorizado", "Usuario no esta autorizado a ver pagina solicitada");
                     }
+                case ERRORES.ERROR_SIN_EMPRESAS:
+                    {
+                        return errorModel = new ErrorModel(500, "Empresas de Usuario", "Usuario no tiene empresas asociadas");
+                    }
             };
 
             return errorModel;
@@ -35,6 +39,7 @@ namespace NotaVenta.UTIL.Error
             ERROR_LOGIN_1 = 1,
             ERROR_SESSION_TERMINADA = 2,
             ERROR_NO_AUTORIZADO = 3,
+            ERROR_SIN_EMPRESAS = 4,
         }
     }
     public class ErrorModel

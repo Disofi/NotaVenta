@@ -160,9 +160,13 @@ namespace BLL
         {
             return _Control.BuscarProducto(producto);
         }
-        public List<ProductosModels> ListarProducto(string ListaPrecio)
+        public List<ProductosModels> ListarProducto(string ListaPrecio, string baseDatos)
         {
-            return _Control.ListarProducto(ListaPrecio);
+            return _Control.ListarProducto(ListaPrecio, baseDatos);
+        }
+        public List<TallaColorProductoModels> ListarTallaColorProducto(string CodProd, string baseDatos)
+        {
+            return _Control.ListarTallaColorProducto(CodProd, baseDatos);
         }
 
         public List<ProductosModels> BuscarProductoRapido(ProductosModels producto)
@@ -258,6 +262,11 @@ namespace BLL
         public List<UsuariosModels> GetDatosUsuario(string Id)
         {
             return _Control.GetDatosUsuario(Id);
+        }
+
+        public List<UsuarioEmpresaModel> ListaUsuarioEmpresas(int idUsuario)
+        {
+            return _Control.ListaUsuarioEmpresas(idUsuario);
         }
     }
 }

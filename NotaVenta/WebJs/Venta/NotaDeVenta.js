@@ -2,13 +2,31 @@
 var productos = [];
 var productosAgregados = [];
 var descuentosAgregadosProducto = [];
-var cantidadDescuentos = 5;
+var cantidadDescuentos = 0;
+var BodegaPorDefecto = "";
+var validaCantidadVSStock = true;
+var talla = "";
 
 $(document).ready(function () {
+    precioProducto = 0;
+    productos = [];
+    productosAgregados = [];
+    descuentosAgregadosProducto = [];
+    cantidadDescuentos = 5;
+    BodegaPorDefecto = "C01";
+
     FormEditable.init();
+
     cbxlistaChange();
 });
-
+jQuery.moverColumna = function (table, from, to) {
+    var rows = jQuery('tr', table);
+    var cols;
+    rows.each(function () {
+        cols = jQuery(this).children('th, td');
+        cols.eq(from).detach().insertBefore(cols.eq(to));
+    });
+}
 var handleEditableFormAjaxCall = function () {
     $.mockjax({
         url: '/post',
@@ -21,21 +39,58 @@ var handleEditableFormAjaxCall = function () {
                     this.statusText = "Producto ya fue ingresado";
                 }
                 else {
-                    $('#txtIngresoCodigoRapido').editable('setValue', producto.CodProd);
-                    $('#txtIngresoNeto').editable('setValue', producto.PrecioVta);
-                    $('#txtIngresoUnidadDeMedida').editable('setValue', producto.codumed);
-                    $('#txtIngresoStock').editable('setValue', producto.Stock);
+                    var urlTC = $("#urlObtieneTallaColorProducto").val();
 
-                    CalcularFila(
-                        producto.PrecioVta,
-                        $('#txtIngresoCantidad').editable('getValue').txtIngresoCantidad,
-                        descuentosAgregadosProducto
-                    );
+                    $.ajax({
+                        url: urlTC,
+                        data: { CodProd: producto.CodProd },
+                        type: "POST",
+                        dataType: "json",
+                        async: false,
+                        success: function (response) {
+                            console.log(response);
+                            if (response.length === 0) {
+                                $('#txtIngresoCodigoRapido').editable('setValue', producto.CodProd);
+                                $('#txtIngresoNeto').editable('setValue', producto.PrecioVta);
+                                $('#txtIngresoUnidadDeMedida').editable('setValue', producto.codumed);
+                                $('#txtIngresoStock').editable('setValue', producto.Stock);
+
+                                CalcularFila(
+                                    producto.PrecioVta,
+                                    $('#txtIngresoCantidad').editable('getValue').txtIngresoCantidad,
+                                    descuentosAgregadosProducto
+                                );
+                            }
+                            else {
+                                verTallaColorDescripcion = settings.data.value;
+                                verTallaColorMedida = producto.codumed;
+                                verTallaColorPrecioUnitario = producto.PrecioVta;
+                                verTallaColorDescuento = 0;
+                                verTallaColor(response);
+                            }
+                        },
+                        error: function (response) {
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
                 }
             }
             if (settings.data.name === "txtIngresoCantidad") {
                 if (/^([0-9])*$/.test(settings.data.value)) {
                     if (parseFloat(settings.data.value) > 0) {
+                        if (validaCantidadVSStock) {
+                            var stock = parseFloat($('#txtIngresoStock').editable('getValue').txtIngresoStock);
+                            var cantidad = parseFloat(settings.data.value);
+
+                            if (stock < cantidad) {
+                                this.status = 500;
+                                this.statusText = "cantidad no puede superar al stock del producto";
+                                return;
+                            }
+                        }
+
                         CalcularFila(
                             $('#txtIngresoNeto').editable('getValue').txtIngresoNeto,
                             settings.data.value,
@@ -364,6 +419,15 @@ function addRow() {
     var subtotal = $('#txtIngresoSubTotal').editable('getValue').txtIngresoSubTotal;
     var descuento = descuentosAgregadosProducto;
     var valordescuento = $('#txtIngresoTotal').editable('getValue').txtIngresoTotal;
+    var talla = verTallaColorTalla;
+    var color = verTallaColorColor;
+
+    if (talla === null || talla === undefined || talla === "") {
+        talla = "";
+    }
+    if (color === null || color === undefined || color === "") {
+        color = "";
+    }
 
     var porcentaje = Math.round(precioProducto * 0.15);
     var precioMax = (precioProducto - porcentaje);
@@ -412,6 +476,8 @@ function addRow() {
 
         var productoAgregado = {
             Codigo: codigo,
+            Talla: talla,
+            Color: color,
             contador: contador,
             PrecioUnitario: preciounitario,
             Cantidad: cantidad,
@@ -456,6 +522,167 @@ function verDescuentos(contador) {
     $("#modalDescuentosRealizadosControles").html(descuentosAppend);
 
     $("#aModalDescuentosRealizados").click();
+}
+
+var verTallaColorDescripcion = "";
+var verTallaColorMedida = "";
+var verTallaColorTalla = "";
+var verTallaColorColor = "";
+var verTallaColorPrecioUnitario = 0;
+var verTallaColorDescuento = 0;
+
+function verTallaColor(datos) {
+    var bodegas = [];
+    bodegas.push(BodegaPorDefecto);
+    for (i = 0; i < datos.length; i++) {
+        if (bodegas.find(m => m === datos[i].CodigoBodega) === undefined) {
+            bodegas.push(datos[i].CodigoBodega);
+        }
+    }
+    $("#modalTallaColorBodegas").find('option').remove().end();
+
+    for (i = 0; i < bodegas.length; i++) {
+        $("#modalTallaColorBodegas").append('<option value="' + bodegas[i] + '">' + bodegas[i] + '</option>');
+    }
+    $("#modalTallaColorBodegas").change(function () {
+        var bodegaNombre = $("#modalTallaColorBodegas").val();
+        var indexBodega = 0;
+        $("#modalTallaColorControlesTable thead > tr > th").each(function (index) {
+            if ($(this).text() === bodegaNombre) {
+                indexBodega = index - 2;
+            }
+        });
+
+        jQuery.moverColumna("#modalTallaColorControlesTable", indexBodega, 4);
+    });
+
+    var tallaColorAppend = "";
+    tallaColorAppend = tallaColorAppend
+        + '<div class="table-responsive" >'
+        + '<table id="modalTallaColorControlesTable" class="table">'
+        + '<thead>'
+        + '<tr>'
+        + '<th colspan="4">Informacion Producto</th>'
+        + '<th colspan="' + bodegas.length + '">Bodegas</th>'
+        + '</tr>'
+        + '<tr>'
+        + '<th>Codigo Producto</th>'
+        + '<th>Talla</th>'
+        + '<th>Color</th>'
+        + '<th>Cantidad</th>';
+
+    for (y = 0; y < bodegas.length; y++) {
+        tallaColorAppend = tallaColorAppend
+            + '<th>' + bodegas[y] + '</th>';
+    }
+
+    tallaColorAppend = tallaColorAppend
+        + '</tr>'
+        + '</thead>'
+        + '<tbody>';
+
+    var productoTallaColor = [];
+    for (i = 0; i < datos.length; i++) {
+        if (productoTallaColor.find(m =>
+            m.CodigoProducto === datos[i].CodigoProducto &&
+            m.Talla === datos[i].Talla &&
+            m.Color === datos[i].Color) === undefined) {
+            productoTallaColor.push(datos[i]);
+        }
+    }
+
+    for (i = 0; i < productoTallaColor.length; i++) {
+        tallaColorAppend = tallaColorAppend
+            + '<tr>'
+            + '<td>' + productoTallaColor[i].CodigoProducto + '</td>'
+            + '<td>' + productoTallaColor[i].Talla + '</td>'
+            + '<td>' + productoTallaColor[i].Color + '</td>'
+            + '<td><input type="number" value="0" class="form-control" /></td>';
+
+        for (y = 0; y < bodegas.length; y++) {
+            var valorBodega = datos.find(m =>
+                m.CodigoProducto === productoTallaColor[i].CodigoProducto &&
+                m.Talla === productoTallaColor[i].Talla &&
+                m.Color === productoTallaColor[i].Color &&
+                m.CodigoBodega === bodegas[y]);
+            try {
+                tallaColorAppend = tallaColorAppend
+                    + '<td>' + valorBodega.CantidadBodega + '</td>';
+            } catch (e) {
+                tallaColorAppend = tallaColorAppend
+                    + '<td>0</td>';
+            }
+        }
+
+        tallaColorAppend = tallaColorAppend
+            + '<td></td>'
+            + '</tr>';
+    }
+    tallaColorAppend = tallaColorAppend
+        + '</tbody>'
+        + '</table>';
+
+    $("#modalTallaColorControles").html(tallaColorAppend);
+    $("#modalTallaColorAgregarTallaColor").click(function () {
+        var valores = [];
+
+        var filas = $('#modalTallaColorControlesTable tbody tr');
+        for (i = 0; i < filas.length; i++) {
+            var valorCodigoProducto = $($(filas[i]).children("td")[0]).html();
+            var valorTalla = $($(filas[i]).children("td")[1]).html();
+            var valorColor = $($(filas[i]).children("td")[2]).html();
+            var valorCantidad = $($(filas[i]).children("td")[3]).children("input").val();
+            var valorStock = $($(filas[i]).children("td")[4]).html();
+
+            if (parseFloat(valorCantidad) > 0) {
+                valores.push({
+                    codigoProducto: valorCodigoProducto,
+                    talla: valorTalla,
+                    color: valorColor,
+                    stock: parseFloat(valorStock),
+                    cantidad: parseFloat(valorCantidad)
+                });
+            }
+        }
+
+        if (validaCantidadVSStock) {
+            for (i = 0; i < valores.length; i++) {
+                if (valores[i].stock < valores[i].cantidad) {
+                    abrirError("Error Cantidad VS Stock", "cantidad no puede superar al stock del producto (Producto: " +
+                        valores[i].codigoProducto +
+                        ", Talla: " +
+                        valores[i].talla +
+                        ", Color: " +
+                        valores[i].color +
+                        ")");
+                    return;
+                }
+            }
+        }
+
+        for (z = 0; z < valores.length; z++) {
+            $('#txtIngresoCodigoRapido').editable('setValue', valores[z].codigoProducto);
+            $('#txtIngresoDescripcionCodigo').editable('setValue', verTallaColorDescripcion);
+            $('#txtIngresoCantidad').editable('setValue', valores[z].cantidad);
+            $('#txtIngresoUnidadDeMedida').editable('setValue', verTallaColorMedida);
+            $('#txtIngresoNeto').editable('setValue', verTallaColorPrecioUnitario);
+            verTallaColorTalla = valores[z].talla;
+            verTallaColorColor = valores[z].color;
+            descuentosAgregadosProducto = [verTallaColorDescuento];
+
+            CalcularFila(
+                $('#txtIngresoNeto').editable('getValue').txtIngresoNeto,
+                $('#txtIngresoCantidad').editable('getValue').txtIngresoCantidad,
+                descuentosAgregadosProducto
+            );
+
+            addRow();
+        }
+
+        $("#modalTallaColorCerrar").click();
+    });
+
+    $("#aModalTallaColor").click();
 }
 
 function agregarnotadeventa() {

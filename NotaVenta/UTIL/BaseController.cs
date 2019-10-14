@@ -12,6 +12,11 @@ namespace NotaVenta.UTIL
     {
         private ControlDisofi _control = new ControlDisofi();
 
+        public string baseDatosUsuario()
+        {
+            return SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.BaseDatos;
+        }
+
         public ControlDisofi controlDisofi()
         {
             return _control;
