@@ -46,10 +46,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Otros\Inserts.sql" />
-    <Content Include="SP\FR_ListaProductos.sql" />
-    <Content Include="SP\FR_EliminarUsuario.sql" />
-    <Content Include="SP\FR_ActualizarUsuario.sql" />
+    <Content Include="SP\DS_GET_ObtenerDatosUsuario.sql" />
+    <Content Include="SP\DS_ListarPefiles.sql" />
+    <Content Include="SP\DS_ListaUsuarioEmpresa.sql" />
     <Content Include="SP\FR_ActualizarCliente.sql" />
+    <Content Include="SP\FR_ActualizarUsuario.sql" />
+    <Content Include="SP\FR_AgregarUsuario.sql" />
+    <Content Include="SP\FR_EliminarUsuario.sql" />
+    <Content Include="SP\FR_ListaProductos.sql" />
+    <Content Include="SP\FR_ListaTallaColorProducto.sql" />
+    <Content Include="SP\SP_GetCodVendedor.sql" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="FNC\" />
