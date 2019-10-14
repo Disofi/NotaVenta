@@ -7,51 +7,36 @@
 
 <link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
 <script src="~/WebJs/Administracion/Clientes.js"></script>
-<div id="ModalMap" class="wrap-body">
-    <section id="container">
-        <div class="wrap-container">
-            <div class="zerogrid">
-                <div class="row">
-                    <h1 class="t-center" style="margin: 40px 0;color: #212121;letter-spacing: 2px;font-weight: 500;">Cliente</h1>
 
-                    <div class="col-full">
-                        <div class="table-responsive2">
-                            <div class="wrap-col">
-
-                                <table id="dataTable" class=" table2" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Nombre</th>
-                                            <th>Direccion</th>
-                                            <th>Contacto</th>
-                                            <th>Telefono</th>
-                                            <th>Editar</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @{
-                                            for (int i = 0; i < listarclientes.Count; i++)
-                                            {
-                                                <tr>
-                                                    <td>@listarclientes[i].NomAux</td>
-                                                    <td>@listarclientes[i].DirAux</td>
-                                                    <td>@listarclientes[i].NomCon</td>
-                                                    <td>@listarclientes[i].FonCon</td>
-                                                    <td>
-                                                        <a id="iframe" href='@Url.Action("EditCliente", "Mantenedores", new { rutAux = @listarclientes[i].RutAux, codAux = @listarclientes[i].CodAux })'><img src="~/Image/edit.png"></a>
-                                                        @{idcliente[i] = listarclientes[i].CodAux;}
-                                                    </td>
-                                                </tr>
-                                            }
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br />
+<div id="content" class="content">
+    <h1 class="page-header">@ViewBag.Message <small></small></h1>
+    <div class="panel panel-inverse width-full">
+        <div class="panel-heading">
+            <h4 class="panel-title">Listado Clientes</h4>
+            <div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
             </div>
         </div>
-    </section>
+        <div class="table-responsive">
+            @{
+                var grid = new WebGrid(ViewBag.clientes, canPage: false);
+            }
+            @grid.GetHtml(
+            htmlAttributes: new { id = "tblCliente" },
+            tableStyle: "table",
+            columns:
+            grid.Columns(
+grid.Column(columnName: "Nombre", header: "Codigo", format: @<text>@item.CodAux</text>),
+grid.Column(columnName: "Nombre", header: "Nombre", format: @<text>@item.NomAux</text>),
+grid.Column(columnName: "Direccion", header: "Direccion", format: @<text>@item.DirAux</text>),
+grid.Column(columnName: "Direccion", header: "Contacto", format: @<text>@item.NomCon</text>),
+grid.Column(columnName: "Telefono", header: "Telefono", format: @<text>@item.FonCon</text>),
+grid.Column(columnName: "Editar", header: "Editar", format: @<button class="btn btn-warning btn-m" data-toggle="modal" data-target="#modalEditarUsuario" onclick="ObtenerDatosUsuario(@item.id)">
+<span class="fas fa-pencil-alt fa-fw"></span></button>)
+))
+    </div>
+    </div>
 </div>
+
+@*modal editar Cliente*@
+@*Function ObtenerDatosCliente*@

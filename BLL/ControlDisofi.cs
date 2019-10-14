@@ -219,7 +219,7 @@ namespace BLL
             return _Control.ActualizarUsuario(usuario);
         }
 
-        public List<UsuariosModels> AgregarUsuario(UsuariosModels usuario)
+        public RespuestaModel AgregarUsuario(UsuariosModels usuario)
         {
             return _Control.AgregarUsuario(usuario);
         }
@@ -244,9 +244,24 @@ namespace BLL
             return _Control.listarVendedoresSoftland();
         }
 
+        public List<ObjetoPerfil> ListarPerfiles()
+        {
+            return _Control.ListarPerfiles();
+        }
+
+        public List<UsuariosModels> ListarCodVendedorSoft()
+        {
+            return _Control.ListarCodVendedorSoft();
+        }
+
         public List<ClientesModels> GetVendedores(ClientesModels cliente = null)
         {
             return _Control.GetVendedores(cliente);
+        }
+
+        public List<UsuariosModels> GetDatosUsuario(string Id)
+        {
+            return _Control.GetDatosUsuario(Id);
         }
 
         public List<UsuarioEmpresaModel> ListaUsuarioEmpresas(int idUsuario)

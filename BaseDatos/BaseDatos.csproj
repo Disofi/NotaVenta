@@ -46,9 +46,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Otros\Inserts.sql" />
+<<<<<<< HEAD
     <Content Include="scriptNotaVenta.sql" />
     <Content Include="SP\DS_ListaUsuarioEmpresa.sql" />
     <Content Include="SP\FR_ListaTallaColorProducto.sql" />
+=======
+    <Content Include="SP\DS_GET_ObtenerDatosUsuario.sql" />
+    <Content Include="SP\SP_GetCodVendedor.sql" />
+    <Content Include="SP\FR_AgregarUsuario.sql" />
+    <Content Include="SP\DS_ListarPefiles.sql" />
+>>>>>>> fduran
     <Content Include="SP\FR_ListaProductos.sql" />
     <Content Include="SP\FR_EliminarUsuario.sql" />
     <Content Include="SP\FR_ActualizarUsuario.sql" />
