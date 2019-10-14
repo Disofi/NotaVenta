@@ -1017,6 +1017,23 @@ namespace BLL
             }
         }
 
+        public List<UsuarioEmpresaModel> ListaUsuarioEmpresas(int idUsuario)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_ListaUsuarioEmpresa", new System.Collections.Hashtable()
+                {
+                    { "pi_IdUsuario", idUsuario},
+                });
+                return UTIL.Mapper.BindDataList<UsuarioEmpresaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
 
     }
 }

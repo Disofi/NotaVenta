@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UTIL.Models;
 
 namespace UTIL.Objetos
 {
@@ -18,6 +19,7 @@ namespace UTIL.Objetos
         private string _VenCod;
         private string _VenDes;
         private string _NombrePerfil;
+        private UsuarioEmpresaModel _UsuarioEmpresaModel;
 
         public int IdUsuario { get => _IdUsuario; set => _IdUsuario = value; }
         public string Rut { get => _Rut; set => _Rut = value; }
@@ -29,5 +31,6 @@ namespace UTIL.Objetos
         public string VenCod { get => _VenCod; set => _VenCod = value; }
         public string VenDes { get => _VenDes; set => _VenDes = value; }
         public string NombrePerfil { get => _NombrePerfil; set => _NombrePerfil = value; }
+        public UsuarioEmpresaModel UsuarioEmpresaModel { get => _UsuarioEmpresaModel; set => _UsuarioEmpresaModel = value; }
     }
 }

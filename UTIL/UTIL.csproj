@@ -52,6 +52,7 @@
     <Compile Include="Models\ParametrosModels.cs" />
     <Compile Include="Models\ProductoAgregadoModel.cs" />
     <Compile Include="Models\ProductosModels.cs" />
+    <Compile Include="Models\UsuarioEmpresaModel.cs" />
     <Compile Include="Models\UsuariosModels.cs" />
     <Compile Include="Models\UsuariosTiposModels.cs" />
     <Compile Include="Models\VendedoresSoftlandModels.cs" />

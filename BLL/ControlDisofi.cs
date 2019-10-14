@@ -244,5 +244,10 @@ namespace BLL
         {
             return _Control.GetVendedores(cliente);
         }
+
+        public List<UsuarioEmpresaModel> ListaUsuarioEmpresas(int idUsuario)
+        {
+            return _Control.ListaUsuarioEmpresas(idUsuario);
+        }
     }
 }

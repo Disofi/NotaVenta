@@ -7,7 +7,7 @@ GO
 /*------------------------------------------------------------------------------*/
 /*-- Empresa			: DISOFI												*/
 /*-- Tipo				: Procedimiento											*/
-/*-- Nombre				: [dbo].[FR_ListaProductos]							*/
+/*-- Nombre				: [dbo].[FR_ListaProductos]								*/
 /*-- Detalle			:														*/
 /*-- Autor				: FDURAN												*/
 /*-- Modificaciones		:														*/
@@ -29,7 +29,7 @@ BEGIN
 		,			codumed = pd.CodUmed
 		,			desumed = ISNULL(detumed.desumed,'')
 		,			CodLista = lp.CodLista
-		,			Stock = [DSTexsa_NV].[dbo].[stock2018](tp.CodProd)  
+		,			Stock = [dbo].[stock2018]('AB0001')  
 		FROM		[KUPPEL].[softland].[iw_tprod] AS tp   
 			LEFT JOIN [KUPPEL].[softland].[iw_gmovi] AS gm ON tp.CodProd = gm.CodProd   
 			LEFT JOIN [KUPPEL].[softland].[iw_tlprprod] AS pd ON tp.CodProd = pd.CodProd  
