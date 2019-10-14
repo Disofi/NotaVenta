@@ -18,5 +18,7 @@ namespace UTIL.Objetos
         public int tipoId { get; set; }
         public string VenCod { get; set; }
         public string VenDes { get; set; }
+
+        public int Estado { get; set; }
     }
 }

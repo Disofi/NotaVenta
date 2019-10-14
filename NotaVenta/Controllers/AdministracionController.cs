@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using UTIL.Models;
 using UTIL.Objetos;
+using UTIL.Validaciones;
 
 namespace TexasHub.Controllers
 {
@@ -24,6 +25,27 @@ namespace TexasHub.Controllers
         {
             List<UsuariosModels> lUsuarios = controlDisofi().listarUsuarios();
             ViewBag.usuarios = lUsuarios;
+
+            List<UsuariosTiposModels> ltipo = controlDisofi().listarTipo();
+            ViewBag.tipo = ltipo;
+
+            List<VendedoresSoftlandModels> lvendedor = controlDisofi().listarVendedoresSoftland();
+            ViewBag.vendedor = lvendedor;
+
+            IEnumerable<SelectListItem> lPerfil = controlDisofi().ListarPerfiles().Select(c => new SelectListItem()
+            {
+                Text = c.TipoUsuario,
+                Value = c.ID.ToString()
+            }).ToList();
+            ViewBag.Perfil = lPerfil;
+
+            IEnumerable<SelectListItem> lCodVenl = controlDisofi().ListarCodVendedorSoft().Select(c => new SelectListItem()
+            {
+                Text = c.VenDes + " " + c.VenCod.ToString(),
+                Value = c.VenCod.ToString()
+            }).ToList();
+            ViewBag.VenCodSoft = lCodVenl;
+
             return View();
         }
 
@@ -107,40 +129,31 @@ namespace TexasHub.Controllers
             return View();
         }
 
-        public ActionResult AddUsuario()
+        [HttpPost]
+        public JsonResult Addusuario(string _Usuario, string _Nombre, string _Contrasena, string _Email, string _Perfil, string _VenCod)
         {
-            List<UsuariosTiposModels> ltipo = controlDisofi().listarTipo();
-            ViewBag.tipo = ltipo;
-
-            List<VendedoresSoftlandModels> lvendedor = controlDisofi().listarVendedoresSoftland();
-            ViewBag.vendedor = lvendedor;
-
-            return View();
-        }
-        [HttpPost, ValidateInput(false)]
-
-        public ActionResult AddUsuario(FormCollection frm)
-        {
-            UsuariosModels Usuarios = new UsuariosModels();
-            Usuarios.Usuario = Request.Form["txtUsuario"];
-            Usuarios.email = Request.Form["txtEmail"];
-            Usuarios.tipoUsuario = Request.Form["cbxTipo"];
-            Usuarios.VenCod = Request.Form["cbxUsuarioSoftland"];
-            Usuarios.VenCod = Request.Form["cbxUsuarioSoftland"];
-            Usuarios.Password = Request.Form["txtContrasena"];
-
-            List<UsuariosModels> busuario = controlDisofi().AgregarUsuario(Usuarios);
-            if (busuario == null || busuario.Count == 0)
+            if (!string.IsNullOrEmpty(_Usuario) && !string.IsNullOrEmpty(_Nombre) && !string.IsNullOrEmpty(_Contrasena) && !string.IsNullOrEmpty(_Perfil) && !string.IsNullOrEmpty(_VenCod))
             {
-                TempData["Mensaje"] = "ERROR - Usuario Creado Correctamente. <br>";
-                return RedirectToAction("AddUsuario", "Mantenedores");
+                UsuariosModels usuario = new UsuariosModels()
+                {
+                    Usuario = _Usuario,
+                    Nombre = _Nombre,
+                    Password = HashMd5.GetMD5(_Contrasena),
+                    email = _Email,
+                    tipoUsuario = _Perfil,
+                    VenCod = _VenCod
+                };
+                RespuestaModel result = controlDisofi().AgregarUsuario(usuario);
+                return Json(result);
             }
             else
             {
-                TempData["Mensaje"] = "ERROR - Codigo de vendedor Repetido. <br>";
-                return RedirectToAction("AddUsuario", "Mantenedores");
+                var result = -666;
+                return Json(result);
             }
         }
+
+
 
         public JsonResult EliminarUsuario(int _Id)
         {
@@ -149,6 +162,12 @@ namespace TexasHub.Controllers
             RespuestaModel result = controlDisofi().EliminarUsuario(usuarios);
 
             return (Json(result));
+        }
+
+        public JsonResult ObtenerDatosUsuario(string _IdUsuario)
+        {
+            List<UsuariosModels> usuarios = controlDisofi().GetDatosUsuario(_IdUsuario);
+            return Json(new { list = usuarios }, JsonRequestBehavior.AllowGet);
         }
 
         #region"--- Web Methods ---"

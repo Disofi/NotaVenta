@@ -915,7 +915,7 @@ namespace BLL
                 throw ex;
             }
         }
-        public List<UsuariosModels> AgregarUsuario(UsuariosModels usuario)
+        public RespuestaModel AgregarUsuario(UsuariosModels usuario)
         {
             try
             {
@@ -926,9 +926,10 @@ namespace BLL
                     { "tipoUsuario", usuario.tipoUsuario},
                     { "VenCod", usuario.VenCod },
                     { "Contrasena", usuario.Password },
+                    { "Nombre", usuario.Nombre }
                 });
 
-                return UTIL.Mapper.BindDataList<UsuariosModels>(data);
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
             }
             catch (Exception ex)
             {
@@ -1000,6 +1001,39 @@ namespace BLL
             }
         }
 
+        public List<ObjetoPerfil> ListarPerfiles()
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_ListarPefiles", new System.Collections.Hashtable()
+                {
+                });
+                return UTIL.Mapper.BindDataList<ObjetoPerfil>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public List<UsuariosModels> ListarCodVendedorSoft()
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GetCodVendedor", new System.Collections.Hashtable()
+                {
+                });
+                return UTIL.Mapper.BindDataList<UsuariosModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+
         public List<ClientesModels> GetVendedores(ClientesModels cliente = null)
         {
             try
@@ -1009,6 +1043,23 @@ namespace BLL
                     { "VenCod", cliente.VenCod},
                 });
                 return UTIL.Mapper.BindDataList<ClientesModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public List<UsuariosModels> GetDatosUsuario(string Id)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_GET_ObtenerDatosUsuario", new System.Collections.Hashtable()
+                                                                                                 {
+                                                                                                 {"IdUsuario", int.Parse(Id) }
+                                                                                                 });
+                return UTIL.Mapper.BindDataList<UsuariosModels>(data);
             }
             catch (Exception ex)
             {
