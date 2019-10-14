@@ -48,6 +48,7 @@
     <Content Include="Otros\Inserts.sql" />
     <Content Include="scriptNotaVenta.sql" />
     <Content Include="SP\DS_ListaUsuarioEmpresa.sql" />
+    <Content Include="SP\FR_ListaTallaColorProducto.sql" />
     <Content Include="SP\FR_ListaProductos.sql" />
     <Content Include="SP\FR_EliminarUsuario.sql" />
     <Content Include="SP\FR_ActualizarUsuario.sql" />

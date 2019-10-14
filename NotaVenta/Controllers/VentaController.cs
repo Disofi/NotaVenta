@@ -718,10 +718,20 @@ namespace TexasHub.Controllers
         [HttpPost]
         public JsonResult ObtieneProductosPorListaPrecio(string ListaPrecio)
         {
-            List<ProductosModels> pro = controlDisofi().ListarProducto(ListaPrecio);
+            List<ProductosModels> pro = controlDisofi().ListarProducto(ListaPrecio, baseDatosUsuario());
 
             return Json(pro);
         }
+
+        [HttpPost]
+        public JsonResult ObtieneTallaColorProducto(string CodProd)
+        {
+            List<TallaColorProductoModels> pro = controlDisofi().ListarTallaColorProducto(CodProd, baseDatosUsuario());
+
+            return Json(pro);
+        }
+
+
 
         [HttpPost]
         public JsonResult ProductSearch(string CodProd, string CodLista)

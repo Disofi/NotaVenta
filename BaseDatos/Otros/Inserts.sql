@@ -23,3 +23,17 @@ SELECT	2, N'fa fa-home', N'Realizar Venta', N'Ventas', N'MisClientes', N'Venta',
 
 SELECT	3, N'fa fa-home', N'Reporte', N'Notas de Venta Pendientes', N'FacturasPendientes', N'Reporte', 1, 1 UNION ALL
 SELECT	3, N'fa fa-home', N'Reporte', N'Notas de Venta Aprobadas', N'FacturasAprobadas', N'Reporte', 1, 2
+
+GO
+
+TRUNCATE TABLE [dbo].[DS_Empresa]
+
+insert into [dbo].[DS_Empresa](Nombre, BaseDatos)
+SELECT	'TRANSPORTE', 'TRANSPORTE'
+
+GO
+
+TRUNCATE TABLE [dbo].[DS_UsuarioEmpresa]
+
+insert into [dbo].[DS_UsuarioEmpresa](IdUsuario, IdEmpresa)
+SELECT	2, 1

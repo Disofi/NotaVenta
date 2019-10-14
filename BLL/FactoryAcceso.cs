@@ -726,15 +726,33 @@ namespace BLL
                 return null;
             }
         }
-        public List<ProductosModels> ListarProducto(string ListaPrecio)
+        public List<ProductosModels> ListarProducto(string ListaPrecio, string baseDatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListaProductos", new System.Collections.Hashtable()
                 {
                     { "pv_ListaProductos", ListaPrecio},
+                    { "pv_BaseDatos", baseDatos},
                 });
                 return UTIL.Mapper.BindDataList<ProductosModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+        public List<TallaColorProductoModels> ListarTallaColorProducto(string CodProd, string baseDatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListaTallaColorProducto", new System.Collections.Hashtable()
+                {
+                    { "@pv_CodProd", CodProd},
+                    { "@pv_BaseDatos", baseDatos},
+                });
+                return UTIL.Mapper.BindDataList<TallaColorProductoModels>(data);
             }
             catch (Exception ex)
             {
