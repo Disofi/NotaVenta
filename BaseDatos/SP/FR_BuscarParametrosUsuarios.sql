@@ -14,10 +14,14 @@ GO
 /*------------------------------------------------------------------------------*/
   
 CREATE procedure [dbo].[FR_BuscarParametrosUsuarios]
+(
+	@pi_idEmpresa INT
+)
 AS
 BEGIN  
 	SELECT	* 
-	FROM	[dbo].[DS_Parametros]  
+	FROM	[dbo].[DS_Parametros]
+	where	IdEmpresa = @pi_idEmpresa  
 END  
 GO
 

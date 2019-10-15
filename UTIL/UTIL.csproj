@@ -53,6 +53,7 @@
     <Compile Include="Models\ProductoAgregadoModel.cs" />
     <Compile Include="Models\TallaColorProductoModels.cs" />
     <Compile Include="Models\ProductosModels.cs" />
+    <Compile Include="Models\EmpresaModel.cs" />
     <Compile Include="Models\UsuarioEmpresaModel.cs" />
     <Compile Include="Models\UsuariosModels.cs" />
     <Compile Include="Models\UsuariosTiposModels.cs" />

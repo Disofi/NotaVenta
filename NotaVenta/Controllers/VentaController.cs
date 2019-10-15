@@ -640,7 +640,7 @@ namespace TexasHub.Controllers
         {
             try
             {
-                ParametrosModels para = controlDisofi().BuscarParametros();
+                ParametrosModels para = ObtieneParametros();
 
                 if (para.EnvioObligatorioAprobador == true)
                 {

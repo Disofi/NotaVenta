@@ -1,4 +1,5 @@
 ﻿using NotaVenta.UTIL;
+using NotaVenta.UTIL.Error;
 using NotaVenta.UTIL.FilterAttributes;
 using System;
 using System.Collections.Generic;
@@ -68,14 +69,40 @@ namespace TexasHub.Controllers
         [Autorizacion(PERFILES.SUPER_ADMINISTRADOR)]
         public ActionResult Parametros()
         {
-            ParametrosModels para = ObtieneParametros();
+            List<EmpresaModel> empresas = controlDisofi().ListarEmpresas();
 
-            ViewBag.Parametros = para;
+            if (empresas != null && empresas.Count > 0)
+            {
+                ParametrosModels para = ObtieneParametros(empresas[0].IdEmpresa);
+
+                ViewBag.Empresas = empresas;
+                ViewBag.Parametros = para;
+            }
+            else
+            {
+                return AbrirError(Errores.ERRORES.ERROR_LOGIN_1, TipoAccionError.TIPO_ACCION_BTN.IR_LOGIN);
+            }
 
             return View();
         }
 
         #endregion
+
+
+        [HttpPost]
+        public JsonResult ObtieneParametro(int idEmpresa)
+        {
+            try
+            {
+                ParametrosModels parametro = controlDisofi().BuscarParametros(idEmpresa);
+
+                return Json(parametro);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public ActionResult EditCliente(string rutAux, string codAux)
         {
@@ -112,6 +139,8 @@ namespace TexasHub.Controllers
                 return View(ex.Message);
             }
         }
+
+
 
         public ActionResult EditUsuarios(int idUsuario)
         {
@@ -260,28 +289,12 @@ namespace TexasHub.Controllers
             return View();
         }
 
-        [HttpPost, ValidateInput(false)]
-        public ActionResult Parametros(FormCollection frm)
+        [HttpPost]
+        public JsonResult GuardarParametro(ParametrosModels parametro)
         {
-            bool numero;
-            if (Request.Form["valorRadio"].ToString() == "P")
-            {
-                numero = false;
-            }
-            else
-            {
-                numero = true;
-            }
-            ParametrosModels apo = new ParametrosModels();
-            apo.EnvioObligatorioAprobador = numero;
+            RespuestaModel lis = controlDisofi().ModificarParametros(parametro);
 
-            List<ParametrosModels> lis = controlDisofi().ModificarParametros(apo);
-
-            ParametrosModels para = controlDisofi().BuscarParametros();
-
-            ViewBag.Parametros = para;
-
-            return View();
+            return Json(lis);
         }
 
         [HttpPost, ValidateInput(false)]

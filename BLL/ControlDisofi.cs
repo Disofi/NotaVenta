@@ -62,6 +62,11 @@ namespace BLL
             return _Control.BuscarClientes(clientes);
         }
 
+        public List<EmpresaModel> ListarEmpresas()
+        {
+            return _Control.ListarEmpresas();
+        }
+
         public List<ClientesModels> ListarClientesTodos()
         {
             return _Control.ListarClientesTodos();
@@ -146,13 +151,15 @@ namespace BLL
         {
             return _Control.InsertarNvSoftland(NVC);
         }
-        public ParametrosModels BuscarParametros()
+        public ParametrosModels BuscarParametros(int idEmpresa)
         {
-            return _Control.BuscarParametros();
+            return _Control.BuscarParametros(idEmpresa);
         }
 
-        public List<ParametrosModels> ModificarParametros(ParametrosModels Aprobador)
+        public RespuestaModel ModificarParametros(ParametrosModels Aprobador)
         {
+            Aprobador.AtributoSoftlandDescuentoCliente = Aprobador.AtributoSoftlandDescuentoCliente == null ? "" : Aprobador.AtributoSoftlandDescuentoCliente;
+            Aprobador.StockProductoCodigoBodega = Aprobador.StockProductoCodigoBodega == null ? "" : Aprobador.StockProductoCodigoBodega;
             return _Control.ModificarParametros(Aprobador);
         }
 
