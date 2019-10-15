@@ -68,7 +68,7 @@ namespace TexasHub.Controllers
         [Autorizacion(PERFILES.SUPER_ADMINISTRADOR)]
         public ActionResult Parametros()
         {
-            List<ParametrosModels> para = controlDisofi().BuscarParametros();
+            ParametrosModels para = ObtieneParametros();
 
             ViewBag.Parametros = para;
 
@@ -215,7 +215,7 @@ namespace TexasHub.Controllers
 
             List<ParametrosModels> lis = controlDisofi().ModificarParametros(apo);
 
-            List<ParametrosModels> para = controlDisofi().BuscarParametros();
+            ParametrosModels para = controlDisofi().BuscarParametros();
 
             ViewBag.Parametros = para;
 
