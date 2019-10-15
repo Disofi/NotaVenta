@@ -626,9 +626,9 @@ namespace TexasHub.Controllers
         {
             try
             {
-                List<ParametrosModels> para = controlDisofi().BuscarParametros();
+                ParametrosModels para = controlDisofi().BuscarParametros();
 
-                if (para[0].EnvioObligatorioAprobador == true)
+                if (para.EnvioObligatorioAprobador == true)
                 {
                     notadeVentaCabeceraModels.EstadoNP = "P";
                 }
@@ -637,7 +637,7 @@ namespace TexasHub.Controllers
                     notadeVentaCabeceraModels.EstadoNP = "P";
                 }
 
-                if (para[0].EnvioObligatorioAprobador == true)
+                if (para.EnvioObligatorioAprobador == true)
                 {
                     List<NotadeVentaCabeceraModels> NV = controlDisofi().EditarNV(notadeVentaCabeceraModels);
                 }

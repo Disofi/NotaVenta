@@ -677,14 +677,14 @@ namespace BLL
             }
 
         }
-        public List<ParametrosModels> BuscarParametros()
+        public ParametrosModels BuscarParametros()
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_BuscarParametrosUsuarios", new System.Collections.Hashtable()
                 {
                 });
-                return UTIL.Mapper.BindDataList<ParametrosModels>(data);
+                return UTIL.Mapper.BindData<ParametrosModels>(data);
             }
             catch (Exception ex)
             {

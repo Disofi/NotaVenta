@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using NotaVenta.UTIL.Error;
+using UTIL.Models;
 
 namespace NotaVenta.UTIL
 {
@@ -15,6 +16,10 @@ namespace NotaVenta.UTIL
         public string baseDatosUsuario()
         {
             return SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.BaseDatos;
+        }
+        public ParametrosModels ObtieneParametros()
+        {
+            return controlDisofi().BuscarParametros();
         }
 
         public ControlDisofi controlDisofi()
