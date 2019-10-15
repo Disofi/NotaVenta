@@ -217,10 +217,36 @@ namespace TexasHub.Controllers
             }
         }
 
-        public JsonResult EditarCliente()
+        public JsonResult EditarCliente(string _CodAux,string _Nombre,string _Rut,string _Contacto,string _Email,string _Telefono,string _Direccion)
         {
-            var validador = 1;
-            return Json(validador);
+            if (!string.IsNullOrEmpty(_Nombre) && !string.IsNullOrEmpty(_Rut) && !string.IsNullOrEmpty(_Contacto) && !string.IsNullOrEmpty(_Email) && !string.IsNullOrEmpty(_Direccion))
+            {
+                ClientesModels cliente = new ClientesModels()
+                {
+                    CodAux = _CodAux,
+                    NomAux = _Nombre,
+                    RutAux = _Rut,
+                    NomCon = _Contacto,
+                    EMail = _Email,
+                    FonCon = _Telefono,
+                    DirAux = _Direccion
+                };
+                if (ValidaRut.DigitoVerificador(cliente.RutAux))
+                {
+                    RespuestaModel result = controlDisofi().ActualizarCliente(cliente);
+                    return Json(result);
+                }
+                else
+                {
+                    var result = -999;
+                    return Json(result);
+                }
+            }
+            else
+            {
+                var result = -666;
+                return Json(result);
+            }
         }
 
         public JsonResult ObtenerDatosUsuario(string _IdUsuario)

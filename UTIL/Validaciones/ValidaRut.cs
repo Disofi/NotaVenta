@@ -14,6 +14,7 @@ namespace UTIL.Validaciones
             if (string.IsNullOrEmpty(rutEnviado))
                 return false;
             rutEnviado = rutEnviado.Replace("-", "");
+            rutEnviado = rutEnviado.Replace(".", "");
             if (rutEnviado.Length < 2)
                 return false;
             string sdv = rutEnviado.Substring(rutEnviado.Length - 1, 1).ToUpper();

@@ -17,4 +17,3 @@ C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVent
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\BaseDatos\bin\Debug\BaseDatos.pdb
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\BaseDatos\obj\Debug\BaseDatos.dll
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\BaseDatos\obj\Debug\BaseDatos.pdb
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\BaseDatos\obj\Debug\BaseDatos.csprojAssemblyReference.cache

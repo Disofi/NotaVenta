@@ -285,5 +285,15 @@ namespace BLL
         {
             return _Control.ListaUsuarioEmpresas(idUsuario);
         }
+
+        public List<ClientesModels> ObtenerGiro()
+        {
+            return _Control.ObtenerGiro();
+        }
+
+        public List<ClientesModels> ObtenerCiudad()
+        {
+            return _Control.ObtenerCiudad();
+        }
     }
 }

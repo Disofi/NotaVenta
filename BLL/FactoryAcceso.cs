@@ -401,7 +401,7 @@ namespace BLL
                     { "NomCon", cliente.NomCon},
                     { "FonCon", cliente.FonCon},
                     { "Email", cliente.EMail},
-                });
+            });
                 return UTIL.Mapper.BindData<RespuestaModel>(data);
             }
             catch (Exception ex)
@@ -1192,6 +1192,36 @@ namespace BLL
                 string error = ex.ToString();
                 return null;
             }
+        }
+
+        public List<ClientesModels> ObtenerGiro()
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GET_Giro", new System.Collections.Hashtable());
+                return UTIL.Mapper.BindDataList<ClientesModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+
+        }
+
+        public List<ClientesModels> ObtenerCiudad()
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GET_Ciudad", new System.Collections.Hashtable());
+                return UTIL.Mapper.BindDataList<ClientesModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+
         }
 
 
