@@ -38,3 +38,9 @@ C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaV
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\DAL\obj\Debug\DAL.csproj.CopyComplete
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\DAL\obj\Debug\DAL.dll
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\DAL\obj\Debug\DAL.pdb
+C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\DAL\bin\Debug\DAL.dll
+C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\DAL\bin\Debug\DAL.pdb
+C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\DAL\obj\Debug\DAL.csproj.CopyComplete
+C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\DAL\obj\Debug\DAL.dll
+C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\DAL\obj\Debug\DAL.pdb
+C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\DAL\obj\Debug\DAL.csprojAssemblyReference.cache

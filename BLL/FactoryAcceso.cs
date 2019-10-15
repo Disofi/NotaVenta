@@ -971,6 +971,29 @@ namespace BLL
                 throw ex;
             }
         }
+
+        public RespuestaModel EditarUsuario(UsuariosModels usuarios)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_SET_EditarUsuario", new System.Collections.Hashtable()
+                {
+                    {"@IdUsuario",usuarios.id },
+                    {"@Usuario",usuarios.Usuario },
+                    {"@Nombre",usuarios.Nombre },
+                    {"@Password",usuarios.Password },
+                    {"@Email",usuarios.email },
+                    {"@TipoUsuario",int.Parse(usuarios.tipoUsuario) },
+                    {"@VendCod",usuarios.VenCod }
+                });
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<UsuariosTiposModels> listarTipo()
         {
             try
@@ -1085,6 +1108,24 @@ namespace BLL
                 return null;
             }
         }
+
+        public List<ClientesModels> GetDatosClientes(string CodAux)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_GET_ObtenerDatosCliente", new System.Collections.Hashtable()
+                {
+                    {"CodAux",CodAux }
+                });
+                return UTIL.Mapper.BindDataList<ClientesModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
         public List<UsuarioEmpresaModel> ListaUsuarioEmpresas(int idUsuario)
         {
             try

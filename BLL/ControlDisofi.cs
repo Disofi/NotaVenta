@@ -229,6 +229,11 @@ namespace BLL
             return _Control.EliminarUsuario(usuarios);
         }
 
+        public RespuestaModel EditarUsuario(UsuariosModels usuarios)
+        {
+            return _Control.EditarUsuario(usuarios);
+        }
+
         public List<UsuariosTiposModels> listarTipo()
         {
             return _Control.listarTipo();
@@ -262,6 +267,11 @@ namespace BLL
         public List<UsuariosModels> GetDatosUsuario(string Id)
         {
             return _Control.GetDatosUsuario(Id);
+        }
+
+        public List<ClientesModels> GetDatosClientes(string CodAux)
+        {
+            return _Control.GetDatosClientes(CodAux);
         }
 
         public List<UsuarioEmpresaModel> ListaUsuarioEmpresas(int idUsuario)

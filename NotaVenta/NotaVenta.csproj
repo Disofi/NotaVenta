@@ -6397,8 +6397,6 @@
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Administracion\Index.cshtml" />
     <Content Include="Views\Administracion\Clientes.cshtml" />
-    <Content Include="Views\Administracion\editCliente.cshtml" />
-    <Content Include="Views\Administracion\editUsuarios.cshtml" />
     <Content Include="Views\Administracion\Parametros.cshtml" />
     <Content Include="Views\Administracion\Usuarios.cshtml" />
     <Content Include="Views\Reporte\Index.cshtml" />
