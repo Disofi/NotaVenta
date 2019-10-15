@@ -42,6 +42,20 @@ namespace TexasHub.Controllers
 
             ViewBag.clientes = lclientes;
 
+            IEnumerable<SelectListItem> clientesGiro = controlDisofi().ObtenerGiro().Select(c => new SelectListItem()
+            {
+                Text = c.GirDes,
+                Value = c.GirCod
+            }).ToList();
+            ViewBag.Giro = clientesGiro;
+
+            IEnumerable<SelectListItem> clientesCiudad = controlDisofi().ObtenerCiudad().Select(c => new SelectListItem()
+            {
+                Text = c.CiuDes,
+                Value = c.CiuCod
+            }).ToList();
+            ViewBag.Ciudad = clientesCiudad;
+
             return View();
         }
 
