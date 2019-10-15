@@ -96,17 +96,12 @@ function estaHabilitadoSwitcher(id) {
     }
 }
 function cambiarValorSwitcher(id, valor) {
+    $("#" + id).removeAttr("checked");
     if (valor) {
-        if (!estaHabilitadoSwitcher(id)) {
-            logicaCambioSwitch(id);
-            $("#" + id).click();
-        }
+        $("#" + id).attr("checked", "");
     }
     else {
-        if (estaHabilitadoSwitcher(id)) {
-            logicaCambioSwitch(id);
-            $("#" + id).click();
-        }
+        $("#" + id).removeAttr("checked");
     }
 }
 
