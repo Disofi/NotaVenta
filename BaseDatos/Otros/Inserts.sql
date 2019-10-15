@@ -29,7 +29,8 @@ GO
 TRUNCATE TABLE [dbo].[DS_Empresa]
 
 insert into [dbo].[DS_Empresa](Nombre, BaseDatos)
-SELECT	'TRANSPORTE', 'TRANSPORTE'
+SELECT	'TRANSPORTE', 'TRANSPORTE' UNION ALL
+SELECT	'KUPPEL', 'KUPPEL'
 
 GO
 

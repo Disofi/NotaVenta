@@ -247,6 +247,22 @@ namespace BLL
             }
         }
 
+        public List<EmpresaModel> ListarEmpresas()
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_ListaEmpresa", new System.Collections.Hashtable()
+                {
+                });
+                return UTIL.Mapper.BindDataList<EmpresaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
         public List<ClientesModels> BuscarClientes(ClientesModels clientes)
         {
             try
@@ -677,12 +693,13 @@ namespace BLL
             }
 
         }
-        public ParametrosModels BuscarParametros()
+        public ParametrosModels BuscarParametros(int idEmpresa)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_BuscarParametrosUsuarios", new System.Collections.Hashtable()
                 {
+                    { "pi_idEmpresa", idEmpresa},
                 });
                 return UTIL.Mapper.BindData<ParametrosModels>(data);
             }
@@ -693,15 +710,49 @@ namespace BLL
             }
         }
 
-        public List<ParametrosModels> ModificarParametros(ParametrosModels Aprobador)
+        public RespuestaModel ModificarParametros(ParametrosModels parametro)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ModificarParametrosUsuarios", new System.Collections.Hashtable()
                 {
-                    { "Aprobador", Aprobador.EnvioObligatorioAprobador},
+                    { "pi_IdEmpresa", parametro.IdEmpresa},
+                    { "pb_MultiEmpresa", parametro.MultiEmpresa},
+                    { "pb_ManejaAdministrador", parametro.ManejaAdministrador},
+                    { "pb_ManejaAprobador", parametro.ManejaAprobador},
+                    { "pb_ListaClientesVendedor", parametro.ListaClientesVendedor},
+                    { "pb_ListaClientesTodos", parametro.ListaClientesTodos},
+                    { "pb_ValidaReglasNegocio", parametro.ValidaReglasNegocio},
+                    { "pb_ManejaListaPrecios", parametro.ManejaListaPrecios},
+                    { "pb_EditaPrecioProducto", parametro.EditaPrecioProducto},
+                    { "pb_MuestraCondicionVentaCliente", parametro.MuestraCondicionVentaCliente},
+                    { "pb_MuestraCondicionVentaTodos", parametro.MuestraCondicionVentaTodos},
+                    { "pb_EditaDescuentoProducto", parametro.EditaDescuentoProducto},
+                    { "pd_MaximoDescuentoProducto", parametro.MaximoDescuentoProducto},
+                    { "pb_CantidadDescuentosProducto", parametro.CantidadDescuentosProducto},
+                    { "pb_MuestraStockProducto", parametro.MuestraStockProducto},
+                    { "pb_StockProductoEsMasivo", parametro.StockProductoEsMasivo},
+                    { "pb_StockProductoEsBodega", parametro.StockProductoEsBodega},
+                    { "pv_StockProductoCodigoBodega", parametro.StockProductoCodigoBodega},
+                    { "pb_ControlaStockProducto", parametro.ControlaStockProducto},
+                    { "pb_EnvioMailCliente", parametro.EnvioMailCliente},
+                    { "pb_EnvioMailVendedor", parametro.EnvioMailVendedor},
+                    { "pb_EnvioMailContacto", parametro.EnvioMailContacto},
+                    { "pb_EnvioObligatorioAprobador", parametro.EnvioObligatorioAprobador},
+                    { "pb_ManejaTallaColor", parametro.ManejaTallaColor},
+                    { "pb_ManejaDescuentoTotalDocumento", parametro.ManejaDescuentoTotalDocumento},
+                    { "pi_CantidadDescuentosTotalDocumento", parametro.CantidadDescuentosTotalDocumento},
+                    { "pi_CantidadLineas", parametro.CantidadLineas},
+                    { "pb_ManejaLineaCredito", parametro.ManejaLineaCredito},
+                    { "pb_ManejaCanalVenta", parametro.ManejaCanalVenta},
+                    { "pb_CreacionNotaVentaUsuariosBloqueados", parametro.CreacionNotaVentaUsuariosBloqueados},
+                    { "pb_CreacionNotaVentaUsuariosInactivos", parametro.CreacionNotaVentaUsuariosInactivos},
+                    { "pb_PermiteModificacionCondicionVenta", parametro.PermiteModificacionCondicionVenta},
+                    { "pv_AtributoSoftlandDescuentoCliente", parametro.AtributoSoftlandDescuentoCliente},
+                    { "pb_PermiteCrearDireccion", parametro.PermiteCrearDireccion},
+                    { "pb_CrearClienteConDV", parametro.CrearClienteConDV},
                 });
-                return UTIL.Mapper.BindDataList<ParametrosModels>(data);
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
             }
             catch (Exception ex)
             {

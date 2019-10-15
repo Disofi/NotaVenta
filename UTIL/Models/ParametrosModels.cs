@@ -8,6 +8,7 @@ namespace UTIL.Models
     public class ParametrosModels
     {
         public int Id { get; set; }
+        public int IdEmpresa { get; set; }
         //MULTIEMPRESA
         public bool MultiEmpresa { get; set; }
         //CORREOS OBTENIDOS DESDE LOS CONTACTOS O EL AUXI- SI NO TIENE MAIL GRABA, NO ENVIA MAIL Y AVISA

@@ -1,9 +1,10 @@
 ﻿@using UTIL.Models;
 @{
-                /**/
+    /**/
 
-                ViewBag.Title = "Parametros";
-                ParametrosModels parametros = ViewBag.Parametros;
+    ViewBag.Title = "Parametros";
+    ParametrosModels parametros = ViewBag.Parametros;
+    List<EmpresaModel> empresas = ViewBag.Empresas;
 }
 
 
@@ -43,13 +44,463 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-lg-4">Envio Obligatorio Aprobador</div>
-                        <div class="col-lg-8">
-                            <div class="switcher">
-                                <input type="checkbox" switcher name="EnvioObligatorioAprobador" id="EnvioObligatorioAprobador" @Html.Raw(parametros.EnvioObligatorioAprobador ? "checked" : "")>
-                                <label for="EnvioObligatorioAprobador"></label>
-                            </div>
+                        <div class="col-lg-4">
+                            Empresa
                         </div>
+                        <div class="col-lg-8">
+                            <select name="ddlEmpresas" id="ddlEmpresas" class="form-control" tabindex="4">
+                                <option selected value="-1"> -- Seleccione Empresa -- </option>
+                                @{
+                                    for (int i = 0; i < empresas.Count; i++)
+                                    {
+                                        <option value="@empresas[i].IdEmpresa"> @empresas[i].NombreEmpresa </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div id="divDatos" class="row" style="display: none">
+                        <form id="formDatos">
+                            <div class="table-responsive form-inline">
+                                <table class="table table-profile">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">Multi Empresa</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="MultiEmpresa" id="MultiEmpresa" @Html.Raw(parametros.MultiEmpresa ? "checked" : "")>
+                                                            <label for="MultiEmpresa"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">Maneja Administrador</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="ManejaAdministrador" id="ManejaAdministrador" @Html.Raw(parametros.ManejaAdministrador ? "checked" : "")>
+                                                            <label for="ManejaAdministrador"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">Maneja Aprobador</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="ManejaAprobador" id="ManejaAprobador" @Html.Raw(parametros.ManejaAprobador ? "checked" : "")>
+                                                            <label for="ManejaAprobador"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">Lista Clientes Vendedor</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="ListaClientesVendedor" id="ListaClientesVendedor" @Html.Raw(parametros.ListaClientesVendedor ? "checked" : "")>
+                                                            <label for="ListaClientesVendedor"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">ListaClientesTodos</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="ListaClientesTodos" id="ListaClientesTodos" @Html.Raw(parametros.ListaClientesTodos ? "checked" : "")>
+                                                            <label for="ListaClientesTodos"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">ValidaReglasNegocio</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="ValidaReglasNegocio" id="ValidaReglasNegocio" @Html.Raw(parametros.ValidaReglasNegocio ? "checked" : "")>
+                                                            <label for="ValidaReglasNegocio"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">ManejaListaPrecios</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="ManejaListaPrecios" id="ManejaListaPrecios" @Html.Raw(parametros.ManejaListaPrecios ? "checked" : "")>
+                                                            <label for="ManejaListaPrecios"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">EditaPrecioProducto</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="EditaPrecioProducto" id="EditaPrecioProducto" @Html.Raw(parametros.EditaPrecioProducto ? "checked" : "")>
+                                                            <label for="EditaPrecioProducto"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">MuestraCondicionVentaCliente</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="MuestraCondicionVentaCliente" id="MuestraCondicionVentaCliente" @Html.Raw(parametros.MuestraCondicionVentaCliente ? "checked" : "")>
+                                                            <label for="MuestraCondicionVentaCliente"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">MuestraCondicionVentaTodos</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="MuestraCondicionVentaTodos" id="MuestraCondicionVentaTodos" @Html.Raw(parametros.MuestraCondicionVentaTodos ? "checked" : "")>
+                                                            <label for="MuestraCondicionVentaTodos"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">EditaDescuentoProducto</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="EditaDescuentoProducto" id="EditaDescuentoProducto" @Html.Raw(parametros.EditaDescuentoProducto ? "checked" : "")>
+                                                            <label for="EditaDescuentoProducto"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">MaximoDescuentoProducto</div>
+                                                    <div class="col-lg-8">
+                                                        <input type="text" class="form-control" id="MaximoDescuentoProducto" name="MaximoDescuentoProducto" value="@parametros.MaximoDescuentoProducto" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">CantidadDescuentosProducto</div>
+                                                    <div class="col-lg-8">
+                                                        <input type="text" class="form-control" id="CantidadDescuentosProducto" name="CantidadDescuentosProducto" value="@parametros.CantidadDescuentosProducto" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">MuestraStockProducto</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="MuestraStockProducto" id="MuestraStockProducto" @Html.Raw(parametros.MuestraStockProducto ? "checked" : "")>
+                                                            <label for="MuestraStockProducto"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">StockProductoEsMasivo</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="StockProductoEsMasivo" id="StockProductoEsMasivo" @Html.Raw(parametros.StockProductoEsMasivo ? "checked" : "")>
+                                                            <label for="StockProductoEsMasivo"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">StockProductoEsBodega</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="StockProductoEsBodega" id="StockProductoEsBodega" @Html.Raw(parametros.StockProductoEsBodega ? "checked" : "")>
+                                                            <label for="StockProductoEsBodega"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">StockProductoCodigoBodega</div>
+                                                    <div class="col-lg-8">
+                                                        <input type="text" class="form-control" id="StockProductoCodigoBodega" name="StockProductoCodigoBodega" value="@parametros.StockProductoCodigoBodega" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">ControlaStockProducto</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="ControlaStockProducto" id="ControlaStockProducto" @Html.Raw(parametros.ControlaStockProducto ? "checked" : "")>
+                                                            <label for="ControlaStockProducto"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">EnvioMailCliente</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="EnvioMailCliente" id="EnvioMailCliente" @Html.Raw(parametros.EnvioMailCliente ? "checked" : "")>
+                                                            <label for="EnvioMailCliente"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">EnvioMailVendedor</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="EnvioMailVendedor" id="EnvioMailVendedor" @Html.Raw(parametros.EnvioMailVendedor ? "checked" : "")>
+                                                            <label for="EnvioMailVendedor"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">EnvioMailContacto</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="EnvioMailContacto" id="EnvioMailContacto" @Html.Raw(parametros.EnvioMailContacto ? "checked" : "")>
+                                                            <label for="EnvioMailContacto"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">EnvioObligatorioAprobador</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="EnvioObligatorioAprobador" id="EnvioObligatorioAprobador" @Html.Raw(parametros.EnvioObligatorioAprobador ? "checked" : "")>
+                                                            <label for="EnvioObligatorioAprobador"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">ManejaTallaColor</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="ManejaTallaColor" id="ManejaTallaColor" @Html.Raw(parametros.ManejaTallaColor ? "checked" : "")>
+                                                            <label for="ManejaTallaColor"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">ManejaDescuentoTotalDocumento</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="ManejaDescuentoTotalDocumento" id="ManejaDescuentoTotalDocumento" @Html.Raw(parametros.ManejaDescuentoTotalDocumento ? "checked" : "")>
+                                                            <label for="ManejaDescuentoTotalDocumento"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">CantidadDescuentosTotalDocumento</div>
+                                                    <div class="col-lg-8">
+                                                        <input type="text" class="form-control" id="CantidadDescuentosTotalDocumento" name="CantidadDescuentosTotalDocumento" value="@parametros.CantidadDescuentosTotalDocumento" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">CantidadLineas</div>
+                                                    <div class="col-lg-8">
+                                                        <input type="text" class="form-control" id="CantidadLineas" name="CantidadLineas" value="@parametros.CantidadLineas" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">ManejaLineaCredito</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="ManejaLineaCredito" id="ManejaLineaCredito" @Html.Raw(parametros.ManejaLineaCredito ? "checked" : "")>
+                                                            <label for="ManejaLineaCredito"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">ManejaCanalVenta</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="ManejaCanalVenta" id="ManejaCanalVenta" @Html.Raw(parametros.ManejaCanalVenta ? "checked" : "")>
+                                                            <label for="ManejaCanalVenta"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">CreacionNotaVentaUsuariosBloqueados</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="CreacionNotaVentaUsuariosBloqueados" id="CreacionNotaVentaUsuariosBloqueados" @Html.Raw(parametros.CreacionNotaVentaUsuariosBloqueados ? "checked" : "")>
+                                                            <label for="CreacionNotaVentaUsuariosBloqueados"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">CreacionNotaVentaUsuariosInactivos</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="CreacionNotaVentaUsuariosInactivos" id="CreacionNotaVentaUsuariosInactivos" @Html.Raw(parametros.CreacionNotaVentaUsuariosInactivos ? "checked" : "")>
+                                                            <label for="CreacionNotaVentaUsuariosInactivos"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">PermiteModificacionCondicionVenta</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="PermiteModificacionCondicionVenta" id="PermiteModificacionCondicionVenta" @Html.Raw(parametros.PermiteModificacionCondicionVenta ? "checked" : "")>
+                                                            <label for="PermiteModificacionCondicionVenta"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">AtributoSoftlandDescuentoCliente</div>
+                                                    <div class="col-lg-8">
+                                                        <input type="text" class="form-control" id="AtributoSoftlandDescuentoCliente" name="AtributoSoftlandDescuentoCliente" value="@parametros.AtributoSoftlandDescuentoCliente" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">PermiteCrearDireccion</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="PermiteCrearDireccion" id="PermiteCrearDireccion" @Html.Raw(parametros.PermiteCrearDireccion ? "checked" : "")>
+                                                            <label for="PermiteCrearDireccion"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">CrearClienteConDV</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="CrearClienteConDV" id="CrearClienteConDV" @Html.Raw(parametros.CrearClienteConDV ? "checked" : "")>
+                                                            <label for="CrearClienteConDV"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <input type="button" id="btnGuardarParametro" class="btn btn-primary" value="Guardar" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
