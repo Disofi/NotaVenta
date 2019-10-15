@@ -201,17 +201,17 @@ namespace TexasHub.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult Parametros(FormCollection frm)
         {
-            int numero;
+            bool numero;
             if (Request.Form["valorRadio"].ToString() == "P")
             {
-                numero = 0;
+                numero = false;
             }
             else
             {
-                numero = 1;
+                numero = true;
             }
             ParametrosModels apo = new ParametrosModels();
-            apo.Aprobador = numero;
+            apo.EnvioObligatorioAprobador = numero;
 
             List<ParametrosModels> lis = controlDisofi().ModificarParametros(apo);
 

@@ -295,6 +295,8 @@
                                 <tr>
                                     <th nowrap="" class="codigoTh">C&oacute;digo</th>
                                     <th nowrap="" class="descripcionTh">Descripci&oacute;n</th>
+                                    <th nowrap="" class="tallaTh">Talla</th>
+                                    <th nowrap="" class="ColorTh">Color</th>
                                     <th nowrap="" class="cantidadTh">Cantidad</th>
                                     <th nowrap="" class="unimedTh">Unidad Medida </th>
                                     <th nowrap="" classnowrap="" class="precioTh">Precio Unit Neto</th>
@@ -325,13 +327,13 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="table-responsive form-inline">
+                        <div class="table-responsive">
                             <table id="user" class="table table-condensed table-bordered">
                                 <tbody>
                                     <tr>
                                         <td class="tg-0lax">
                                             <input type="hidden" id="contador_registros" name="contador_registros" value=@numero1>
-                                            <h4> Sub-Total Neto:</h4>
+                                            <b><span> Sub-Total Neto</span></b>
                                         </td>
                                         <td style="text-align: right" class="tg-0lax">
                                             <h4><label id="lbtotal">0</label></h4>
@@ -340,16 +342,60 @@
                                     </tr>
                                     <tr>
                                         <td class="tg-0lax">
-                                            <h4>Impuesto:</h4>
+                                            <b><span> Impuesto</span></b>
                                         </td>
                                         <td style="text-align: right" class="tg-0lax">
                                             <h4><label id="lbimpuesto">0</label></h4>
                                             <input type="hidden" id="txtimpuesto" name="txtimpuesto" value=@impuesto>
                                         </td>
                                     </tr>
+                                    <tr style="display: none" id="trDescuento1">
+                                        <td class="tg-0lax">
+                                            <b><span> Descuento N°1</span></b>
+                                        </td>
+                                        <td style="text-align: right" class="tg-0lax">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <input class="form-control input-sm" type="text" id="txtDescuentoTotal1" value="0" />
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr style="display: none" id="trDescuento2">
+                                        <td class="tg-0lax">
+                                            <b><span> Descuento N°2</span></b>
+                                        </td>
+                                        <td style="text-align: right" class="tg-0lax">
+                                            <input class="form-control" type="text" id="txtDescuentoTotal2" value="0" />
+                                        </td>
+                                    </tr>
+                                    <tr style="display: none" id="trDescuento3">
+                                        <td class="tg-0lax">
+                                            <b><span> Descuento N°3</span></b>
+                                        </td>
+                                        <td style="text-align: right" class="tg-0lax">
+                                            <input class="form-control" type="text" id="txtDescuentoTotal3" value="0" />
+                                        </td>
+                                    </tr>
+                                    <tr style="display: none" id="trDescuento4">
+                                        <td class="tg-0lax">
+                                            <b><span> Descuento N°4</span></b>
+                                        </td>
+                                        <td style="text-align: right" class="tg-0lax">
+                                            <input class="form-control" type="text" id="txtDescuentoTotal4" value="0" />
+                                        </td>
+                                    </tr>
+                                    <tr style="display: none" id="trDescuento5">
+                                        <td class="tg-0lax">
+                                            <b><span> Descuento N°5</span></b>
+                                        </td>
+                                        <td style="text-align: right" class="tg-0lax">
+                                            <input class="form-control" type="text" id="txtDescuentoTotal5" value="0" />
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td class="tg-0lax">
-                                            <h4>Total Final:</h4>
+                                            <b><span> Total Final</span></b>
                                         </td>
                                         <td style="text-align: right" class="tg-0lax">
                                             <h4><label id="lbtotalfinal">0</label></h4>

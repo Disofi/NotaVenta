@@ -7,8 +7,24 @@ namespace UTIL.Models
 {
     public class NotadeVentaCabeceraModels
     {
+        #region Campos DISOFI
+
+        public int Id { get; set; }
+        public string EstadoNP { get; set; }
+        public double Saldo { get; set; }
+        public string NomAux { get; set; }
+        public string RutAux { get; set; }
+        public string CveDes { get; set; }
+        public string DesLista { get; set; }
+        public string DescCC { get; set; }
+        public int stocklista { get; set; }
+
+        #endregion
+
+        #region Campos SOFTLAND
+
         public int NVNumero { get; set; }
-        public DateTime nvFem { get; set; }
+        public DateTime? nvFem { get; set; }
         public string nvEstado { get; set; }
         public int nvEstFact { get; set; }
         public int nvEstDesp { get; set; }
@@ -16,7 +32,7 @@ namespace UTIL.Models
         public int nvEstConc { get; set; }
         public int CotNum { get; set; }
         public string NumOC { get; set; }
-        public DateTime nvFeEnt { get; set; }
+        public DateTime? nvFeEnt { get; set; }
         public string CodAux { get; set; }
         public string VenCod { get; set; }
         public string CodMon { get; set; }
@@ -39,7 +55,7 @@ namespace UTIL.Models
         public double nvPorcDesc05 { get; set; }
         public double nvDescto05 { get; set; }
         public double nvMonto { get; set; }
-        public DateTime nvFeAprob { get; set; }
+        public DateTime? nvFeAprob { get; set; }
         public int NumGuiaRes { get; set; }
         public double nvPorcFlete { get; set; }
         public double nvValflete { get; set; }
@@ -59,7 +75,7 @@ namespace UTIL.Models
         public int EnMantencion { get; set; }
         public string Usuario { get; set; }
         public string UsuarioGeneraDocto { get; set; }
-        public DateTime FechaHoraCreacion { get; set; }
+        public DateTime? FechaHoraCreacion { get; set; }
         public string Sistema { get; set; }
         public string ConcManual { get; set; }
         public string RutSolicitante { get; set; }
@@ -67,17 +83,13 @@ namespace UTIL.Models
         public double TotalBoleta { get; set; }
         public int NumReq { get; set; }
         public string CodVenWeb { get; set; }
-        public string EstadoNP { get; set; }
+        public string CodBodeWms { get; set; }
+        public string CodLugarDocto { get; set; }
+        public string RutTransportista { get; set; }
+        public string Cod_Distrib { get; set; }
+        public string Nom_Distrib { get; set; }
+        public int MarcaWG { get; set; }
 
-
-        public double Saldo { get; set; }
-        public string NomAux { get; set; }
-        public string RutAux { get; set; }
-        public string CveDes { get; set; }
-        public string DesLista { get; set; }
-        public string DescCC { get; set; }
-
-        public int stocklista { get; set; }
-
+        #endregion
     }
 }

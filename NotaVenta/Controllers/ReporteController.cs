@@ -180,10 +180,10 @@ namespace TexasHub.Controllers
             "<H1> APROBACION COTIZACIÓN </H1>" +
             @"<H4> Nº de Cotización: " + NVentaCabeceras[0].NVNumero + @" </H4>" +
             //@"<H4> Nº Nota de Venta Softland: " + NVSoft[0].NVNumero + @" </H4>" +
-            @"<H4> Fecha Pedido: " + NVentaCabeceras[0].nvFem.ToShortDateString() + @" </H4>" +
+            @"<H4> Fecha Pedido: " + NVentaCabeceras[0].nvFem == null ? "" : ((DateTime)NVentaCabeceras[0].nvFem).ToShortDateString() + @" </H4>" +
             @"<H4> Cliente: " + NVentaCabeceras[0].NomAux + @" </H4>" +
             @"<H4> Dirección: " + Clientes[0].DirAux + @" </H4>" +
-            @"<H4> Fecha Entrega: " + NVentaCabeceras[0].nvFeEnt.ToShortDateString() + @" </H4>" +
+            @"<H4> Fecha Entrega: " + NVentaCabeceras[0].nvFeEnt == null ? "" : ((DateTime)NVentaCabeceras[0].nvFeEnt).ToShortDateString() + @" </H4>" +
             @"<H4> Observaciones: " + NVentaCabeceras[0].nvObser + @" </H4>" +
             @"<H4> Vendedor: " + SessionVariables.SESSION_DATOS_USUARIO.VenDes + @" </H4>" +
             @"<table border = ""1"" >" +
