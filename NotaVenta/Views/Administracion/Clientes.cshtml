@@ -38,9 +38,6 @@ grid.Column(columnName: "Editar", header: "Editar", format: @<button class="btn 
 ))
         </div>
     </div>
-    <div>
-        <center><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AgregarCliente">Agregar Cliente</button></center>
-    </div>
 </div>
 
 <div id="modalEditarCliente" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
@@ -69,7 +66,7 @@ grid.Column(columnName: "Editar", header: "Editar", format: @<button class="btn 
                             <input type="text" required="required" class="form-control has-feedback-left" id="RutMod" name="txtNombre" placeholder="Rut" oninput="checkRut(this)" onchange="Valida_Rut(this)">
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                            <label class="control-label"><b>Contraseña: </b></label>
+                            <label class="control-label"><b>Contacto: </b></label>
                             <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
                             <input type="text" required="required" class="form-control" id="ContactoMod" name="txtContrasena" placeholder="Contacto">
                         </div>

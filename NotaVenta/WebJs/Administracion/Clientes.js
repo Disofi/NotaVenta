@@ -46,10 +46,13 @@ function EditarCliente() {
         success: function (data) {
             if (data.Verificador) {
                 alert(data.Mensaje);
-                location.reload;
+                location.reload();
             }
             if (data == -666) {
                 alert("Debe Completar Datos Obligatorios");
+            }
+            if (data == -999) {
+                alert("Rut Ingresado NO Valido");
             }
         }
     });
