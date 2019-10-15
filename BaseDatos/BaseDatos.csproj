@@ -45,10 +45,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Otros\ScriptParametros.sql" />
+    <Content Include="Otros\scriptNotaVenta.sql" />
     <Content Include="Otros\Inserts.sql" />
     <Content Include="SP\DS_GET_ObtenerDatosUsuario.sql" />
     <Content Include="SP\DS_ListarPefiles.sql" />
     <Content Include="SP\DS_ListaUsuarioEmpresa.sql" />
+    <Content Include="SP\FR_BuscarParametrosUsuarios.sql" />
     <Content Include="SP\FR_ActualizarCliente.sql" />
     <Content Include="SP\FR_ActualizarUsuario.sql" />
     <Content Include="SP\FR_AgregarUsuario.sql" />

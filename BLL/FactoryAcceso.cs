@@ -699,7 +699,7 @@ namespace BLL
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ModificarParametrosUsuarios", new System.Collections.Hashtable()
                 {
-                    { "Aprobador", Aprobador.Aprobador},
+                    { "Aprobador", Aprobador.EnvioObligatorioAprobador},
                 });
                 return UTIL.Mapper.BindDataList<ParametrosModels>(data);
             }
