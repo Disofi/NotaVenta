@@ -1,8 +1,9 @@
 ﻿@using UTIL.Models;
 @{
-    ViewBag.Title = "Parametros";
-    List<ParametrosModels> parametros = ViewBag.Parametros;
+                /**/
 
+                ViewBag.Title = "Parametros";
+                ParametrosModels parametros = ViewBag.Parametros;
 }
 
 
@@ -25,80 +26,37 @@
     }
 </style>
 
-<body class="contact-page">
-    <div class="wrap-body">
-        <section id="container">
-            <div class="wrap-container">
-                <div class="zerogrid">
+<div class="row">
+    <div class="row col-lg-2">
+    </div>
+    <div class="row col-lg-8">
+        <div class="col-lg-12">
+            <div class="panel panel-inverse" data-sortable-id="ui-widget-1">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Parametros</h4>
+                    <div class="panel-heading-btn">
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>-->
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>-->
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>-->
+                    </div>
+                </div>
+                <div class="panel-body">
                     <div class="row">
-                        <h1 class="t-center" style="margin: 40px 0;color: #212121;letter-spacing: 2px;font-weight: 500;">Parametros</h1>
-
-
-                        <div class="col-full">
-                            <center>
-                                <div class="wrap-col" style="border:5px solid #ddd">
-                                    <br />
-                                    <h4>Reglas de Negocio</h4>
-                                    <br />
-                                    <form name="form1" id="ff" method="post" action="@Url.Action("Parametros", "Mantenedores")">
-                                        <div style="border:5px solid #ddd; margin:4px">
-                                            <table>
-                                                <thead>
-                                                    <tr>
-                                                        @*<th>Reglas de Negocio</th>*@
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @if (parametros[0].Aprobador == 0)
-                                                    {
-                                                        <tr>
-                                                            <td>Con Aprobador <input type="radio" id='rbCona' name="gender" value="A"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Sin Aprobador <input type="radio" id='rbSina' name="gender" value="P" checked="checked"></td>
-                                                        </tr>
-                                                    }
-                                                    else
-                                                    {
-                                                        <tr>
-                                                            <td>Con Aprobador <input type="radio" id='rbCona' name="gender" value="A" checked="checked"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Sin Aprobador <input type="radio" id='rbSina' name="gender" value="P"></td>
-                                                        </tr>
-                                                    }
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <input class="sendButton" type="button" name="enviar" value="Guardar" onclick="envioDatos();">
-                                        <input type="hidden" id="valorRadio" name="valorRadio" value="" />
-                                    </form>
-                                </div>
-                            </center>
+                        <div class="col-lg-4">Envio Obligatorio Aprobador</div>
+                        <div class="col-lg-8">
+                            <div class="switcher">
+                                <input type="checkbox" switcher name="EnvioObligatorioAprobador" id="EnvioObligatorioAprobador" @Html.Raw(parametros.EnvioObligatorioAprobador ? "checked" : "")>
+                                <label for="EnvioObligatorioAprobador"></label>
+                            </div>
                         </div>
                     </div>
-                    <br />
                 </div>
             </div>
-        </section>
+        </div>
     </div>
-</body>
-<br>
-<br>
-<br>
-<br>
+    <div class="row col-lg-2">
+    </div>
+</div>
 
-<script>
-
-    function envioDatos() {
-        var valor = $('input[name=gender]:checked', '#ff').val();
-        $("#valorRadio").val(valor);
-
-        document.getElementById("ff").submit();
-
-
-
-
-        //alert($('input[name=gender]:checked', '#ff').val());
-    }
-</script>
+<script src="~/WebJs/Administracion/Parametros.js"></script>

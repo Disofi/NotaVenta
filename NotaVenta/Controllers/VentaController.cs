@@ -452,10 +452,10 @@ namespace TexasHub.Controllers
             "<img src='~/Image/logo.png' />" +
             "<H1> COTIZACIÓN </H1>" +
             @"<H4> Nº de Cotización: " + NVentaCabeceras[0].NVNumero + @" </H4>" +
-            @"<H4> Fecha Pedido: " + NVentaCabeceras[0].nvFem.ToShortDateString() + @" </H4>" +
+            @"<H4> Fecha Pedido: " + NVentaCabeceras[0].nvFem == null ? "" : ((DateTime)NVentaCabeceras[0].nvFem).ToShortDateString() + @" </H4>" +
             @"<H4> Cliente: " + NVentaCabeceras[0].NomAux + @" </H4>" +
             @"<H4> Dirección: " + Clientes[0].DirAux + @" </H4>" +
-            @"<H4> Fecha Entrega: " + NVentaCabeceras[0].nvFeEnt.ToShortDateString() + @" </H4>" +
+            @"<H4> Fecha Entrega: " + NVentaCabeceras[0].nvFeEnt == null ? "" : ((DateTime)NVentaCabeceras[0].nvFeEnt).ToShortDateString() + @" </H4>" +
             @"<H4> Observaciones: " + NVentaCabeceras[0].nvObser + @" </H4>" +
             @"<H4> Vendedor: " + SessionVariables.SESSION_DATOS_USUARIO.VenDes.ToString() + @" </H4>" +
             @"<table border = ""1"" >" +
@@ -622,90 +622,32 @@ namespace TexasHub.Controllers
         //}
 
         [HttpPost, ValidateInput(false)]
-        public JsonResult AgregarNV(FormCollection frm, int NVNumero, DateTime nvFem, DateTime nvFeEnt, string CodAux, string VenCod,
-        string CodLista, string nvObser, string CveCod, string NomCon, string CodiCC, double nvSubTotal, double nvMonto,
-        double nvNetoAfecto, string Usuario, string UsuarioGeneraDocto, DateTime FechaHoraCreacion, double TotalBoleta,
-        string id, string CodLugarDesp)
+        public JsonResult AgregarNV(NotadeVentaCabeceraModels notadeVentaCabeceraModels)
         {
-            #region"NVC"
             try
             {
-                NotadeVentaCabeceraModels NVC = new NotadeVentaCabeceraModels
-                {
-                    NVNumero = NVNumero,
-                    nvFem = nvFem,
-                    nvEstado = "P",
-                    nvEstFact = 0,
-                    nvEstDesp = 0,
-                    nvEstRese = 0,
-                    nvEstConc = 0,
-                    nvFeEnt = nvFeEnt,
-                    CodAux = CodAux,
-                    VenCod = VenCod,
-                    CodMon = "01",
-                    CodLista = CodLista,
-                    nvObser = nvObser,
-                    CveCod = CveCod,
-                    NomCon = NomCon,
-                    CodiCC = CodiCC,
-                    nvSubTotal = nvSubTotal,
-                    nvPorcDesc01 = 0,
-                    nvDescto01 = 0,
-                    nvPorcDesc02 = 0,
-                    nvDescto02 = 0,
-                    nvPorcDesc03 = 0,
-                    nvDescto03 = 0,
-                    nvPorcDesc04 = 0,
-                    nvDescto04 = 0,
-                    nvPorcDesc05 = 0,
-                    nvDescto05 = 0,
-                    nvMonto = nvMonto,
-                    NumGuiaRes = 0,
-                    nvPorcFlete = 0,
-                    nvValflete = 0,
-                    nvPorcEmb = 0,
-                    nvEquiv = 1,
-                    nvNetoExento = 0,
-                    nvNetoAfecto = nvNetoAfecto,
-                    nvTotalDesc = 0,
-                    ConcAuto = "N",
-                    CheckeoPorAlarmaVtas = "N",
-                    EnMantencion = 0,
-                    Usuario = Usuario,
-                    UsuarioGeneraDocto = UsuarioGeneraDocto,
-                    FechaHoraCreacion = FechaHoraCreacion,
-                    Sistema = "NW",
-                    ConcManual = "N",
-                    proceso = "Notas de Venta",
-                    TotalBoleta = TotalBoleta,
-                    NumReq = 0,
-                    CodVenWeb = "5",
-                    CodLugarDesp = CodLugarDesp
-                };
-                #endregion
+                ParametrosModels para = controlDisofi().BuscarParametros();
 
-                List<ParametrosModels> para = controlDisofi().BuscarParametros();
-
-                if (para[0].Aprobador == 1)
+                if (para.EnvioObligatorioAprobador == true)
                 {
-                    NVC.EstadoNP = "P";
+                    notadeVentaCabeceraModels.EstadoNP = "P";
                 }
                 else
                 {
-                    NVC.EstadoNP = "P";
+                    notadeVentaCabeceraModels.EstadoNP = "P";
                 }
 
-                if (para[0].Aprobador == 1)
+                if (para.EnvioObligatorioAprobador == true)
                 {
-                    List<NotadeVentaCabeceraModels> NV = controlDisofi().EditarNV(NVC);
+                    List<NotadeVentaCabeceraModels> NV = controlDisofi().EditarNV(notadeVentaCabeceraModels);
                 }
                 else
                 {
 
                 }
                 //EMail
-                VerificationEmail(NVNumero, NomCon);
-                return Json(new { ID = id });
+                VerificationEmail(notadeVentaCabeceraModels.NVNumero, notadeVentaCabeceraModels.NomCon);
+                return Json(new { ID = notadeVentaCabeceraModels.Id });
             }
             catch (Exception ex)
             {
@@ -714,6 +656,101 @@ namespace TexasHub.Controllers
             //return RedirectToAction("Misclientes", "Ventas", new { ID = id });
 
         }
+        /*
+    [HttpPost, ValidateInput(false)]
+    public JsonResult AgregarNV(FormCollection frm, int NVNumero, DateTime nvFem, DateTime nvFeEnt, string CodAux, string VenCod,
+    string CodLista, string nvObser, string CveCod, string NomCon, string CodiCC, double nvSubTotal, double nvMonto,
+    double nvNetoAfecto, string Usuario, string UsuarioGeneraDocto, DateTime FechaHoraCreacion, double TotalBoleta,
+    string id, string CodLugarDesp)
+    {
+        #region"NVC"
+        try
+        {
+            NotadeVentaCabeceraModels NVC = new NotadeVentaCabeceraModels
+            {
+                NVNumero = NVNumero,
+                nvFem = nvFem,
+                nvEstado = "P",
+                nvEstFact = 0,
+                nvEstDesp = 0,
+                nvEstRese = 0,
+                nvEstConc = 0,
+                nvFeEnt = nvFeEnt,
+                CodAux = CodAux,
+                VenCod = VenCod,
+                CodMon = "01",
+                CodLista = CodLista,
+                nvObser = nvObser,
+                CveCod = CveCod,
+                NomCon = NomCon,
+                CodiCC = CodiCC,
+                nvSubTotal = nvSubTotal,
+                nvPorcDesc01 = 0,
+                nvDescto01 = 0,
+                nvPorcDesc02 = 0,
+                nvDescto02 = 0,
+                nvPorcDesc03 = 0,
+                nvDescto03 = 0,
+                nvPorcDesc04 = 0,
+                nvDescto04 = 0,
+                nvPorcDesc05 = 0,
+                nvDescto05 = 0,
+                nvMonto = nvMonto,
+                NumGuiaRes = 0,
+                nvPorcFlete = 0,
+                nvValflete = 0,
+                nvPorcEmb = 0,
+                nvEquiv = 1,
+                nvNetoExento = 0,
+                nvNetoAfecto = nvNetoAfecto,
+                nvTotalDesc = 0,
+                ConcAuto = "N",
+                CheckeoPorAlarmaVtas = "N",
+                EnMantencion = 0,
+                Usuario = Usuario,
+                UsuarioGeneraDocto = UsuarioGeneraDocto,
+                FechaHoraCreacion = FechaHoraCreacion,
+                Sistema = "NW",
+                ConcManual = "N",
+                proceso = "Notas de Venta",
+                TotalBoleta = TotalBoleta,
+                NumReq = 0,
+                CodVenWeb = "5",
+                CodLugarDesp = CodLugarDesp
+            };
+            #endregion
+
+            List<ParametrosModels> para = controlDisofi().BuscarParametros();
+
+            if (para[0].Aprobador == 1)
+            {
+                NVC.EstadoNP = "P";
+            }
+            else
+            {
+                NVC.EstadoNP = "P";
+            }
+
+            if (para[0].Aprobador == 1)
+            {
+                List<NotadeVentaCabeceraModels> NV = controlDisofi().EditarNV(NVC);
+            }
+            else
+            {
+
+            }
+            //EMail
+            VerificationEmail(NVNumero, NomCon);
+            return Json(new { ID = id });
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        //return RedirectToAction("Misclientes", "Ventas", new { ID = id });
+
+    }
+    */
 
         [HttpPost]
         public JsonResult ObtieneProductosPorListaPrecio(string ListaPrecio)
@@ -835,7 +872,7 @@ namespace TexasHub.Controllers
 
 
         [HttpPost]
-        public JsonResult CalcularProductosAgregados(List<ProductoAgregadoModel> productos)
+        public JsonResult CalcularProductosAgregados(List<ProductoAgregadoModel> productos, List<decimal> descuentos)
         {
             decimal subTotal = 0;
             decimal impuesto = 0;
@@ -850,9 +887,15 @@ namespace TexasHub.Controllers
             impuesto = Convert.ToInt32(((subTotal * 19) / 100));
             total = subTotal - impuesto;
 
+            foreach (decimal item in descuentos)
+            {
+                total = total - Convert.ToInt32(((total * item) / 100));
+            }
+
             return Json(new
             {
                 Productos = productos,
+                descuentos = descuentos,
                 SubTotal = Convert.ToInt32(subTotal),
                 Impuesto = Convert.ToInt32(impuesto),
                 Total = Convert.ToInt32(total)

@@ -146,7 +146,7 @@ namespace BLL
         {
             return _Control.InsertarNvSoftland(NVC);
         }
-        public List<ParametrosModels> BuscarParametros()
+        public ParametrosModels BuscarParametros()
         {
             return _Control.BuscarParametros();
         }

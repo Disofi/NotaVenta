@@ -68,7 +68,7 @@ namespace TexasHub.Controllers
         [Autorizacion(PERFILES.SUPER_ADMINISTRADOR)]
         public ActionResult Parametros()
         {
-            List<ParametrosModels> para = controlDisofi().BuscarParametros();
+            ParametrosModels para = ObtieneParametros();
 
             ViewBag.Parametros = para;
 
@@ -237,21 +237,21 @@ namespace TexasHub.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult Parametros(FormCollection frm)
         {
-            int numero;
+            bool numero;
             if (Request.Form["valorRadio"].ToString() == "P")
             {
-                numero = 0;
+                numero = false;
             }
             else
             {
-                numero = 1;
+                numero = true;
             }
             ParametrosModels apo = new ParametrosModels();
-            apo.Aprobador = numero;
+            apo.EnvioObligatorioAprobador = numero;
 
             List<ParametrosModels> lis = controlDisofi().ModificarParametros(apo);
 
-            List<ParametrosModels> para = controlDisofi().BuscarParametros();
+            ParametrosModels para = controlDisofi().BuscarParametros();
 
             ViewBag.Parametros = para;
 

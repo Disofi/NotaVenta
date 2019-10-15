@@ -2,18 +2,29 @@
 var productos = [];
 var productosAgregados = [];
 var descuentosAgregadosProducto = [];
-var cantidadDescuentos = 0;
+var cantidadDescuentosProducto = 0;
+var cantidadDescuentosTotal = 0;
 var BodegaPorDefecto = "";
 var validaCantidadVSStock = true;
-var talla = "";
+var cantidadMaximaLineas = 0;
 
 $(document).ready(function () {
     precioProducto = 0;
     productos = [];
     productosAgregados = [];
     descuentosAgregadosProducto = [];
-    cantidadDescuentos = 5;
+    cantidadDescuentosProducto = 5;
+    cantidadDescuentosTotal = 2;
     BodegaPorDefecto = "C01";
+    validaCantidadVSStock = false;
+    cantidadMaximaLineas = 20;
+
+    for (i = 1; i <= cantidadDescuentosTotal; i++) {
+        $("#trDescuento" + i).fadeIn();
+        $("#txtDescuentoTotal" + i).change(function () {
+            CalcularProductosAgregados();
+        });
+    }
 
     FormEditable.init();
 
@@ -189,13 +200,13 @@ var handleEditableFieldConstruct = function () {
 
 function crearControlDescuentos() {
     descuentosAgregadosProducto = [];
-    if (cantidadDescuentos === 0) {
+    if (cantidadDescuentosProducto === 0) {
         $('#txtIngresoDescuento').editable({
             emptytext: 'Seleccione descuento',
         });
         $('#txtIngresoDescuento').editable('toggleDisabled');
     }
-    else if (cantidadDescuentos === 1) {
+    else if (cantidadDescuentosProducto === 1) {
         $('#txtIngresoDescuento').editable({
             emptytext: 'Seleccione descuento',
         });
@@ -211,7 +222,7 @@ function crearControlDescuentos() {
             + '<thead></thead>'
             + '<tbody>';
 
-        for (i = 1; i <= cantidadDescuentos; i++) {
+        for (i = 1; i <= cantidadDescuentosProducto; i++) {
             descuentosAgregadosProducto.push(0);
             descuentosAppend = descuentosAppend
                 + '<tr>'
@@ -237,7 +248,7 @@ function crearControlDescuentos() {
             var hayErrorMaximo = false;
             var hayErrorMinimo = false;
 
-            for (i = 1; i <= cantidadDescuentos; i++) {
+            for (i = 1; i <= cantidadDescuentosProducto; i++) {
                 var descuento = $("#descuento_" + i).val();
                 descuento = parseFloat(descuento);
 
@@ -380,11 +391,12 @@ function CalcularProductosAgregados() {
     if (productosAgregados.length > 0) {
         var url = $("#urlCalcularProductosAgregados").val();
         var dataPost = productosAgregados;
+        var descuentos = obtieneDescuentosTotales();
 
         $.ajax({
             url: url,
             type: "POST",
-            data: { productos: dataPost },
+            data: { productos: dataPost, descuentos: descuentos },
             success: function (result) {
                 var subTotal = result.SubTotal;
                 var impuesto = result.Impuesto;
@@ -405,6 +417,15 @@ function CalcularProductosAgregados() {
         $('#lbimpuesto').text(0);
         $('#lbtotalfinal').text(0);
     }
+}
+
+function obtieneDescuentosTotales() {
+    var descuentos = [];
+    for (i = 1; i <= cantidadDescuentosTotal; i++) {
+        descuentos.push(parseInt($("#txtDescuentoTotal" + i).val()));
+    }
+
+    return descuentos;
 }
 
 function addRow() {
@@ -450,11 +471,13 @@ function addRow() {
             '<tr id="id_' + contador + '" class="thproductolist' + contador + '">' +
             '<td><span id="lblCodigo_' + contador + '">' + codigo + '</td>'
             + '<td><span id="lblDescripcion_' + contador + '">' + descripcion + '</td>'
+            + '<td><span id="lblTalla_' + contador + '">' + talla + '</td>'
+            + '<td><span id="lblColor_' + contador + '">' + color + '</td>'
             + '<td style="text-align: right"><span id="lblCantidad_' + contador + '">' + cantidad + '</td>'
             + '<td><span id="lblMedida_' + contador + '">' + medida + '</td>'
             + '<td style="text-align: right"><span id="lblPrecioUnitario_' + contador + '">' + preciounitario + '</td>'
             + '<td style="text-align: right"><span id="lblSubTotal_' + contador + '">' + subtotal + '</td>'
-            + (cantidadDescuentos <= 1 ?
+            + (cantidadDescuentosProducto <= 1 ?
                 '<td style="text-align: right"><span id="lblDescuento_' + contador + '">' + descuento[0] + '</td>' :
                 '<td><a class="editable editable-click editable-empty" id="verDescuentos_' + contador + '" onclick="verDescuentos(' + contador + ')">Ver Descuentos</a></td>')
             + '<td style="text-align: right"><span id="lblTotal_' + contador + '">' + valordescuento + '</td>'
@@ -473,6 +496,8 @@ function addRow() {
         $('#txtIngresoSubTotal').editable('setValue', '0');
         crearControlDescuentos();
         $('#txtIngresoTotal').editable('setValue', '0');
+        verTallaColorTalla = "";
+        verTallaColorColor = "";
 
         var productoAgregado = {
             Codigo: codigo,
@@ -550,10 +575,9 @@ function verTallaColor(datos) {
         $("#modalTallaColorControlesTable thead > tr > th").each(function (index) {
             if ($(this).text() === bodegaNombre) {
                 indexBodega = index - 2;
+                jQuery.moverColumna("#modalTallaColorControlesTable", indexBodega, 4);
             }
         });
-
-        jQuery.moverColumna("#modalTallaColorControlesTable", indexBodega, 4);
     });
 
     var tallaColorAppend = "";
@@ -686,6 +710,116 @@ function verTallaColor(datos) {
 }
 
 function agregarnotadeventa() {
+    var urlAgregarNotaVenta = $("#urlAgregarNotaVenta").val();
+    var urlAgregarNotaVentaDetalle = $("#urlDetalleNotaVenta").val();
+
+    var NVNumero = $('#txtnventa').val();
+    var nvFem = $('#txtfechapedido').val();
+    var nvFeEnt = $('#txtfechaentrega').val();
+    var CodAux = $('#txtcliente').val();
+    var VenCod = $('#txtvendedor').val();
+    var CodLista = $('#cbxlista').val();
+    var nvObser = $('#txtobservacion').val();
+    var CveCod = $('#cbxconven').val();
+    var CodiCC = $('#cbxccosto').val();
+    var nvSubTotal = $('#txttotal').val();
+    var nvMonto = $('#txttotalfinal').val();
+    var nvNetoAfecto = $('#txttotal').val();
+
+    var Usuario = $('#txtnomvendedor').val();
+    var UsuarioGeneraDocto = $('#txtnomvendedor').val();
+
+    var FechaHoraCreacion = $('#txtfechapedido').val();
+    var TotalBoleta = $('#txttotalfinal').val();
+    var id = $('#txtid').val();
+    var CodLugarDesp = '';
+    if (validespa == 'No Tiene Dirección Asociado') {
+    }
+    else {
+        CodLugarDesp = $('#cbxDireccion').val();
+    }
+
+    var CorreoCliente = $("#txtCorreoCliente").val();
+
+    var cabecera = {
+        NVNumero: NVNumero,
+        nvFem: nvFem,
+        //nvEstado: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //nvEstFact: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //nvEstDesp: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //nvEstRese: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //nvEstConc: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //CotNum: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //NumOC: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        nvFeEnt: nvFeEnt,
+        CodAux: CodAux,
+        VenCod: VenCod,
+        //CodMon: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        CodLista: CodLista,
+        nvObser: nvObser,
+        //nvCanalNV: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        CveCod: CveCod,
+        //NomCon: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        CodiCC: CodiCC,
+        //CodBode: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        nvSubTotal: nvSubTotal,
+        //nvPorcDesc01: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //nvDescto01: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //nvPorcDesc02: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //nvDescto02: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //nvPorcDesc03: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //nvDescto03: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //nvPorcDesc04: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //nvDescto04: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //nvPorcDesc05: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //nvDescto05: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        nvMonto: nvMonto,
+        //nvFeAprob: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //NumGuiaRes: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //nvPorcFlete: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //nvValflete: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //nvPorcEmb: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //nvValEmb: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //nvEquiv: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //nvNetoExento: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        nvNetoAfecto: nvNetoAfecto,
+        //nvTotalDesc: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //ConcAuto: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        CodLugarDesp: CodLugarDesp,
+        //SolicitadoPor: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //DespachadoPor: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //Patente: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //RetiradoPor: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //CheckeoPorAlarmaVtas: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //EnMantencion: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        Usuario: Usuario,
+        UsuarioGeneraDocto: UsuarioGeneraDocto,
+        FechaHoraCreacion: FechaHoraCreacion,
+        //Sistema: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //ConcManual: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //RutSolicitante: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //proceso: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        TotalBoleta: TotalBoleta,
+        //NumReq: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //CodVenWeb: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //CodBodeWms: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //CodLugarDocto: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //RutTransportista: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //Cod_Distrib: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //Nom_Distrib: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //MarcaWG: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+    };
+
+    for (i = 0; i < productosAgregados.length; i++) {
+
+    }
+
+
+
+
+
+
+
     var max = $('#contador_registros').val();
     var detalleexi = 0;
     for (var i = 1; i <= max; i++) {
