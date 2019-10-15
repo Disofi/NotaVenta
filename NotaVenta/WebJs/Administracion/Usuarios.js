@@ -77,16 +77,43 @@ function ObtenerDatosUsuario(id) {
         success: function (data) {
             $.each(data, function (index, value) {
                 $.each(this, function (name, value) {
+                    $("#IdUsuarioMod").val(value.id);
                     $("#UsuarioMod").val(value.Usuario);
                     $("#NombreMod").val(value.Nombre);
-                    //$("#ContrasenaMod").val(value.Contrasena);
                     $("#EmailMod").val(value.email);
-
                     $("#PerfilMod").val(value.tipoId);
                     $("#CodVendSoftMod").val(value.VenCod.trim());
                 });
             });
 
+        }
+    });
+}
+
+function EditarUsuario() {
+    var id = $("#IdUsuarioMod").val();
+    var Usuario = $("#UsuarioMod").val();
+    var Nombre = $("#NombreMod").val();
+    var Contrasena = $("#ContrasenaMod").val();
+    var Email = $("#EmailMod").val();
+    var Perfil = $("#PerfilMod").val();
+    var CodVend = $("#CodVendSoftMod").val();
+    $.ajax({
+        url: "Editarusuario",
+        type: "POST",
+        data: {_Id:id,_Usuario:Usuario,_Nombre:Nombre,_Contrasena:Contrasena,_Email:Email,_Perfil:Perfil,_CodVend:CodVend},
+        async: true,
+        success: function (data) {
+            if (data.Verificador) {
+                alert(data.Mensaje);
+                location.reload();
+            }
+            if (data.Verificador == false) {
+                alert(data.Mensaje);
+            }
+            if (data == -666) {
+                alert("Debe Ingresar Campos Obligatorios");
+            }
         }
     });
 }
