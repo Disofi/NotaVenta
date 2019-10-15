@@ -164,10 +164,46 @@ namespace TexasHub.Controllers
             return (Json(result));
         }
 
+        public JsonResult EditarUsuario(int _Id, string _Usuario, string _Nombre, string _Contrasena, string _Email, string _Perfil, string _CodVend)
+        {
+            if (!string.IsNullOrEmpty(_Usuario) && !string.IsNullOrEmpty(_Nombre) && !string.IsNullOrEmpty(_Contrasena) && !string.IsNullOrEmpty(_Email) && !string.IsNullOrEmpty(_Perfil) && !string.IsNullOrEmpty(_CodVend))
+            {
+                UsuariosModels usuarios = new UsuariosModels()
+                {
+                    id = _Id,
+                    Usuario = _Usuario,
+                    Nombre = _Nombre,
+                    Password = HashMd5.GetMD5(_Contrasena),
+                    email = _Email,
+                    tipoUsuario = _Perfil,
+                    VenCod = _CodVend
+                };
+                RespuestaModel result = controlDisofi().EditarUsuario(usuarios);
+                return (Json(result));
+            }
+            else
+            {
+                var result = -666;
+                return Json(result);
+            }
+        }
+
+        public JsonResult EditarCliente()
+        {
+            var validador = 1;
+            return Json(validador);
+        }
+
         public JsonResult ObtenerDatosUsuario(string _IdUsuario)
         {
             List<UsuariosModels> usuarios = controlDisofi().GetDatosUsuario(_IdUsuario);
             return Json(new { list = usuarios }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult obtenerDatosClientes(string _CodAux)
+        {
+            List<ClientesModels> clientes = controlDisofi().GetDatosClientes(_CodAux);
+            return Json(new { list = clientes }, JsonRequestBehavior.AllowGet);
         }
 
         #region"--- Web Methods ---"

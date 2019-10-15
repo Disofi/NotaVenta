@@ -120,36 +120,38 @@ onclick="EliminarUsuario(@item.id,@item.Estado, @Html.Raw(item.Estado == 1 ? "fa
                     <br />
                     <div class="form-horizontal form-label-left input_mask">
                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <input type="hidden" name="txtcodAux" id="IdUsuarioMod">
+                            <label class="control-label"><b>Usuario: </b></label>
                             <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             <input type="text" required="required" class="form-control has-feedback-left" id="UsuarioMod" name="txtUsuario" placeholder="Usuario">
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <label class="control-label"><b>Nombre: </b></label>
                             <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             <input type="text" required="required" class="form-control has-feedback-left" id="NombreMod" name="txtNombre" placeholder="Nombre">
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <label class="control-label"><b>Contraseña: </b></label>
+                            <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
                             <input type="password" required="required" class="form-control" id="ContrasenaMod" name="txtContrasena" placeholder="Contraseña">
-                            @*<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>*@
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <label class="control-label"><b>Email: </b></label>
+                            <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
                             <input type="email" required class="form-control" id="EmailMod" name="txtEmail" placeholder="Email">
-                            @*<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>*@
                         </div>
-
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3  col-xs-12">Seleccione Perfil</label>
+                            <label class="control-label col-md-3 col-sm-2  col-xs-12"><b>Seleccione Perfil: </b></label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 @Html.DropDownList("Perfil", (IEnumerable<SelectListItem>)ViewBag.Perfil, "Seleccione...", new { @class = "form-control", @ID = "PerfilMod", @Name = "Perfil" })
                             </div>
                         </div>
-
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3  col-xs-12">Seleccione CodVendedor</label>
+                            <label class="control-label col-md-3 col-sm-2  col-xs-12"><b>Seleccione CodVendedor: </b></label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 @Html.DropDownList("CodVenSoft", (IEnumerable<SelectListItem>)ViewBag.VenCodSoft, "Seleccione...", new { @class = "form-control", @ID = "CodVendSoftMod", @Name = "CodVendSoft" })
                             </div>
                         </div>
-
                         <div class="ln_solid"></div>
                         <div class="form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
@@ -166,7 +168,3 @@ onclick="EliminarUsuario(@item.id,@item.Estado, @Html.Raw(item.Estado == 1 ? "fa
         </div>
     </div>
 </div>
-
-
-@*modal editar usuario
-function obtenerdatosusuario*@

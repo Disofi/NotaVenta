@@ -7,6 +7,7 @@
 
 <link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
 <script src="~/WebJs/Administracion/Clientes.js"></script>
+<script type="text/javascript" src='https://maps.google.com/maps/api/js?sensor=false&libraries=places&key=AIzaSyDzRSaM9JymiqoUaNVMayH3G5XykA2ieFQ'></script>
 
 <div id="content" class="content">
     <h1 class="page-header">@ViewBag.Message <small></small></h1>
@@ -31,12 +32,139 @@ grid.Column(columnName: "Nombre", header: "Nombre", format: @<text>@item.NomAux<
 grid.Column(columnName: "Direccion", header: "Direccion", format: @<text>@item.DirAux</text>),
 grid.Column(columnName: "Direccion", header: "Contacto", format: @<text>@item.NomCon</text>),
 grid.Column(columnName: "Telefono", header: "Telefono", format: @<text>@item.FonCon</text>),
-grid.Column(columnName: "Editar", header: "Editar", format: @<button class="btn btn-warning btn-m" data-toggle="modal" data-target="#modalEditarUsuario" onclick="ObtenerDatosUsuario(@item.id)">
-<span class="fas fa-pencil-alt fa-fw"></span></button>)
+grid.Column(columnName: "Editar", header: "Editar", format: @<button class="btn btn-warning btn-m" data-toggle="modal" data-target="#modalEditarCliente" onclick="ObtenerDatosCliente(@item.CodAux)">
+    <span class="fas fa-pencil-alt fa-fw"></span>
+</button>)
 ))
+        </div>
     </div>
+    <div>
+        <center><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AgregarCliente">Agregar Cliente</button></center>
     </div>
 </div>
 
-@*modal editar Cliente*@
-@*Function ObtenerDatosCliente*@
+<div id="modalEditarCliente" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Modificar Cliente</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="x_content">
+                    <br />
+                    <div class="form-horizontal form-label-left input_mask">
+                        <input type="hidden" name="txtcodAux" id="CodAuxMod">
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <label class="control-label"><b>Nombre: </b></label>
+                            <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                            <input type="text" required="required" class="form-control has-feedback-left" id="NombreMod" name="txtUsuario" placeholder="Nombre">
+                        </div>
+
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <label class="control-label"><b>Rut: </b></label>
+                            <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                            <input type="text" required="required" class="form-control has-feedback-left" id="RutMod" name="txtNombre" placeholder="Rut" oninput="checkRut(this)" onchange="Valida_Rut(this)">
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <label class="control-label"><b>Contraseña: </b></label>
+                            <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                            <input type="text" required="required" class="form-control" id="ContactoMod" name="txtContrasena" placeholder="Contacto">
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <label class="control-label"><b>Email: </b></label>
+                            <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                            <input type="email" required class="form-control" id="EmailMod" name="Email" placeholder="Email">
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <label class="control-label"><b>Telefono: </b></label>
+                            <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                            <input type="tel" required class="form-control" id="TelefonoMod" name="Telefono" placeholder="Telefono">
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <label class="control-label"><b>Direccion: </b></label>
+                            <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                            <input type="text" required class="form-control" id="DireccionMod" name="Direccion" placeholder="Direccion">
+                        </div>
+
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                <button class="btn btn-success" type="submit" id="EditarCliente" onclick="EditarCliente()">Modificar</button>
+                                <button class="btn btn-primary" type="reset">Resetear</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCerrarModal" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="AgregarCliente" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Agregar Cliente</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="x_content">
+                    <br />
+                    <div class="form-horizontal form-label-left input_mask">
+                        <input type="hidden" name="txtcodAux" id="CodAuxMod">
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <label class="control-label"><b>Nombre: </b></label>
+                            <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                            <input type="text" required="required" class="form-control has-feedback-left" id="NombreMod" name="txtUsuario" placeholder="Nombre">
+                        </div>
+
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <label class="control-label"><b>Rut: </b></label>
+                            <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                            <input type="text" required="required" class="form-control has-feedback-left" id="RutMod" name="txtNombre" placeholder="Rut" oninput="checkRut(this)" onchange="Valida_Rut(this)">
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <label class="control-label"><b>Contraseña: </b></label>
+                            <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                            <input type="text" required="required" class="form-control" id="ContactoMod" name="txtContrasena" placeholder="Contacto">
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <label class="control-label"><b>Email: </b></label>
+                            <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                            <input type="email" required class="form-control" id="EmailMod" name="Email" placeholder="Email">
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <label class="control-label"><b>Telefono: </b></label>
+                            <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                            <input type="tel" required class="form-control" id="TelefonoMod" name="Telefono" placeholder="Telefono">
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <label class="control-label"><b>Direccion: </b></label>
+                            <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                            <input type="text" required class="form-control" id="DireccionMod" name="Direccion" placeholder="Direccion">
+                        </div>
+
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                <button class="btn btn-success" type="submit" id="EditarCliente" onclick="EditarCliente()">Modificar</button>
+                                <button class="btn btn-primary" type="reset">Resetear</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCerrarModal" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
