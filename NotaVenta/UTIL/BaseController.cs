@@ -17,9 +17,10 @@ namespace NotaVenta.UTIL
         {
             return SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.BaseDatos;
         }
-        public ParametrosModels ObtieneParametros()
+        public ParametrosModels ObtieneParametros(int idEmpresa = -1)
         {
-            return controlDisofi().BuscarParametros();
+            if (idEmpresa == -1) { idEmpresa = SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.IdEmpresa; }
+            return controlDisofi().BuscarParametros(idEmpresa);
         }
 
         public ControlDisofi controlDisofi()
