@@ -31,9 +31,9 @@ namespace TexasHub.Controllers
 
             List<ClientesModels> lclientes = new List<ClientesModels>();
 
-            usr.VenCod = SessionVariables.SESSION_DATOS_USUARIO.VenCod;
+            usr.VenCod = codigoVendedorUsuario();
             usr.id = SessionVariables.SESSION_DATOS_USUARIO.IdUsuario;
-            var misClientes = controlDisofi().BuscarMisClientesVenCod(usr);
+            var misClientes = controlDisofi().BuscarMisClientesVenCod(usr,baseDatosUsuario());
 
             if (misClientes != null)
             {
@@ -42,7 +42,7 @@ namespace TexasHub.Controllers
 
             ViewBag.clientes = lclientes;
 
-            IEnumerable<SelectListItem> clientesGiro = controlDisofi().ObtenerGiro().Select(c => new SelectListItem()
+            IEnumerable<SelectListItem> clientesGiro = controlDisofi().ObtenerGiro(baseDatosUsuario()).Select(c => new SelectListItem()
             {
                 Text = c.GirDes,
                 Value = c.GirCod
@@ -81,7 +81,7 @@ namespace TexasHub.Controllers
         public ActionResult NotaDeVenta()
         {
             var id_ = SessionVariables.SESSION_DATOS_USUARIO.IdUsuario.ToString();
-            var VenCod = SessionVariables.SESSION_DATOS_USUARIO.VenCod.ToString();
+            var VenCod = codigoVendedorUsuario();
             var id = id_;
 
             NotadeVentaCabeceraModels NVC = SessionVariables.SESSION_NOTA_VENTA_CABECERA_MODEL;

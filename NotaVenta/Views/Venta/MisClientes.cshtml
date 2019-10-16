@@ -9,7 +9,7 @@
     List<ClientesModels> clientes = ViewBag.clientes;
     var validacion = "$0";
 
-    if (SessionVariables.SESSION_DATOS_USUARIO.VenCod == null)
+    if (((BaseController)this.ViewContext.Controller).codigoVendedorUsuario() == null)
     {
         var URL = System.Configuration.ConfigurationManager.AppSettings.Get("url");
         Response.Redirect(URL);
@@ -194,21 +194,17 @@
                             <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
                             <input type="text" required class="form-control" id="DireccioCli" name="Direccion" placeholder="Direccion">
                         </div>
-                        <h6>Giro Cliente:</h6>
                         <div class="col-md-6 col-sm-6 col-xs-12">
+                            <label class="control-label"><b>Giro Cliente: </b></label>
                             @Html.DropDownList("GirAux", (IEnumerable<SelectListItem>)ViewBag.Giro, "Seleccione Giro", new { @class = "form-control", @id = "GirAux", @name = "GirAux" })
                         </div>
-
-                        <h6>Ciudad Cliente:</h6>
+                        <br />
                         <div class="col-md-6 col-sm-6 col-xs-12">
+                            <label class="control-label"><b>Ciudad Cliente: </b></label>
                             @Html.DropDownList("CiuAux", (IEnumerable<SelectListItem>)ViewBag.Ciudad, "Seleccione Ciudad", new { @class = "form-control", @id = "CiuAux", @name = "CiuAux" })
                         </div>
-
-                        <h6>Comuna Cliente:</h6>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            @*@Html.DropDownList("ComAux", (IEnumerable<SelectListItem>)ViewBag.Comuna, "Seleccione Comuna", new { @class = "form-control", @id = "ComAux", @name = "ComAux" })*@
-                        </div>
-
+                        <br />
+                        <br />
                         <div class="ln_solid"></div>
                         <div class="form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">

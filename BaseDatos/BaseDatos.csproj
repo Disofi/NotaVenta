@@ -52,6 +52,7 @@
     <Content Include="SP\SP_GET_Ciudad.sql" />
     <Content Include="SP\FR_BuscarDirecDespa.sql" />
     <Content Include="SP\DS_GET_ObtenerDatosUsuario.sql" />
+    <Content Include="SP\SP_GET_LOGIN.sql" />
     <Content Include="SP\DS_AgregarDireccionDespacho.sql" />
     <Content Include="SP\DS_ListarPefiles.sql" />
     <Content Include="SP\DS_ListaEmpresa.sql" />
