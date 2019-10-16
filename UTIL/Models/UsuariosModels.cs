@@ -21,5 +21,7 @@ namespace UTIL.Models
 
         public int Estado { get; set; }
 
+        public int BaseDatos { get; set; }
+
     }
 }
