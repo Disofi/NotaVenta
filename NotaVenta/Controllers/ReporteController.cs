@@ -75,7 +75,7 @@ namespace TexasHub.Controllers
         {
             var de = "";
             var clavecorreo = "";
-            var vendCodi = SessionVariables.SESSION_DATOS_USUARIO.VenCod.ToString().Trim();
+            var vendCodi = codigoVendedorUsuario();
 
             IEnumerable<_NotaDeVentaDetalleModels> datosAprobador = controlDisofi().DatosCorreoAprobador(vendCodi);
             foreach (_NotaDeVentaDetalleModels ot in datosAprobador)

@@ -28,7 +28,6 @@ namespace UTIL.Objetos
         public int TipoUsuario { get => _TipoUsuario; set => _TipoUsuario = value; }
         public string Nombre { get => _Nombre; set => _Nombre = value; }
         public int Activo { get => _Activo; set => _Activo = value; }
-        public string VenCod { get => _VenCod; set => _VenCod = value; }
         public string VenDes { get => _VenDes; set => _VenDes = value; }
         public string NombrePerfil { get => _NombrePerfil; set => _NombrePerfil = value; }
         public UsuarioEmpresaModel UsuarioEmpresaModel { get => _UsuarioEmpresaModel; set => _UsuarioEmpresaModel = value; }

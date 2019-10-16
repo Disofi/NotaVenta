@@ -22,6 +22,7 @@ BEGIN
 	,		IdEmpresa = a.IdEmpresa
 	,		NombreEmpresa = b.Nombre
 	,		BaseDatos = b.BaseDatos
+	,		VenCod = a.VenCod
 	FROM	DS_UsuarioEmpresa a
 		INNER JOIN DS_Empresa b
 			on a.IdEmpresa = b.Id
