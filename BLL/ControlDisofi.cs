@@ -52,9 +52,9 @@ namespace BLL
             return _Control.GetCliente(cliente);
         }
 
-        public List<ClientesModels> listarClientes()
+        public List<ClientesModels> listarClientes(string basedatos)
         {
-            return _Control.listarClientes();
+            return _Control.listarClientes(basedatos);
         }
 
         public List<ClientesModels> BuscarClientes(ClientesModels clientes)
@@ -102,9 +102,9 @@ namespace BLL
             return _Control.AgregarDireccionDespacho(DirDes, baseDatos);
         }
 
-        public RespuestaModel ActualizarCliente(ClientesModels cliente)
+        public RespuestaModel ActualizarCliente(ClientesModels cliente,string basedatos)
         {
-            return _Control.ActualizarCliente(cliente);
+            return _Control.ActualizarCliente(cliente,basedatos);
         }
 
         public List<CondicionVentasModels> listarConVen(CondicionVentasModels conven)
@@ -256,9 +256,9 @@ namespace BLL
             return _Control.ListarVendedoresSoftland(venCod);
         }
 
-        public List<VendedoresSoftlandModels> listarVendedoresSoftland()
+        public List<VendedoresSoftlandModels> listarVendedoresSoftland(string basedatos)
         {
-            return _Control.listarVendedoresSoftland();
+            return _Control.listarVendedoresSoftland(basedatos);
         }
 
         public List<ObjetoPerfil> ListarPerfiles()
@@ -266,9 +266,9 @@ namespace BLL
             return _Control.ListarPerfiles();
         }
 
-        public List<UsuariosModels> ListarCodVendedorSoft()
+        public List<UsuariosModels> ListarCodVendedorSoft(string basedatos)
         {
-            return _Control.ListarCodVendedorSoft();
+            return _Control.ListarCodVendedorSoft(basedatos);
         }
 
         public List<ClientesModels> GetVendedores(ClientesModels cliente = null)
@@ -276,14 +276,14 @@ namespace BLL
             return _Control.GetVendedores(cliente);
         }
 
-        public List<UsuariosModels> GetDatosUsuario(string Id)
+        public List<UsuariosModels> GetDatosUsuario(string Id,string basedatos)
         {
-            return _Control.GetDatosUsuario(Id);
+            return _Control.GetDatosUsuario(Id,basedatos);
         }
 
-        public List<ClientesModels> GetDatosClientes(string CodAux)
+        public List<ClientesModels> GetDatosClientes(string CodAux,string basedatos)
         {
-            return _Control.GetDatosClientes(CodAux);
+            return _Control.GetDatosClientes(CodAux,basedatos);
         }
 
         public List<UsuarioEmpresaModel> ListaUsuarioEmpresas(int idUsuario)

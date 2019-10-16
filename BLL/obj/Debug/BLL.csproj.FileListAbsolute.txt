@@ -63,9 +63,6 @@ C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaV
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\BLL\obj\Debug\BLL.csproj.CopyComplete
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\BLL\obj\Debug\BLL.dll
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\BLL\obj\Debug\BLL.pdb
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\BLL\obj\Debug\BLL.csprojAssemblyReference.cache
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\BLL\obj\Debug\BLL.dll
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\BLL\obj\Debug\BLL.pdb
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\BLL\bin\Debug\BLL.dll
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\BLL\bin\Debug\BLL.pdb
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\BLL\bin\Debug\DAL.dll
@@ -73,7 +70,9 @@ C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVent
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\BLL\bin\Debug\log4net.dll
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\BLL\bin\Debug\DAL.pdb
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\BLL\bin\Debug\UTIL.pdb
+C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\BLL\obj\Debug\BLL.csprojAssemblyReference.cache
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\BLL\obj\Debug\BLL.csproj.CopyComplete
+<<<<<<< HEAD
 D:\ProyectosYVEGA\NotaVenta\BLL\bin\Debug\BLL.dll
 D:\ProyectosYVEGA\NotaVenta\BLL\bin\Debug\BLL.pdb
 D:\ProyectosYVEGA\NotaVenta\BLL\bin\Debug\DAL.dll
@@ -86,3 +85,7 @@ D:\ProyectosYVEGA\NotaVenta\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
 D:\ProyectosYVEGA\NotaVenta\BLL\obj\Debug\BLL.csproj.CopyComplete
 D:\ProyectosYVEGA\NotaVenta\BLL\obj\Debug\BLL.dll
 D:\ProyectosYVEGA\NotaVenta\BLL\obj\Debug\BLL.pdb
+=======
+C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\BLL\obj\Debug\BLL.dll
+C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\BLL\obj\Debug\BLL.pdb
+>>>>>>> fduran

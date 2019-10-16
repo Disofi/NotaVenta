@@ -149,9 +149,6 @@ C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaV
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\NotaVenta\obj\Debug\NotaVenta.csproj.CopyComplete
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\NotaVenta\obj\Debug\TexasHub.dll
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\NotaVenta\obj\Debug\TexasHub.pdb
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\NotaVenta\obj\Debug\NotaVenta.csprojAssemblyReference.cache
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\NotaVenta\obj\Debug\TexasHub.dll
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\NotaVenta\obj\Debug\TexasHub.pdb
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\NotaVenta\bin\TexasHub.dll.config
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\NotaVenta\bin\TexasHub.dll
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\NotaVenta\bin\TexasHub.pdb
@@ -223,7 +220,9 @@ C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVent
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\NotaVenta\bin\es\System.Web.WebPages.resources.dll
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\NotaVenta\bin\es\System.Web.WebPages.Deployment.resources.dll
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\NotaVenta\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\NotaVenta\obj\Debug\NotaVenta.csprojAssemblyReference.cache
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\NotaVenta\obj\Debug\NotaVenta.csproj.CopyComplete
+<<<<<<< HEAD
 D:\ProyectosYVEGA\NotaVenta\NotaVenta\bin\TexasHub.dll.config
 D:\ProyectosYVEGA\NotaVenta\NotaVenta\bin\TexasHub.dll
 D:\ProyectosYVEGA\NotaVenta\NotaVenta\bin\TexasHub.pdb
@@ -300,3 +299,7 @@ D:\ProyectosYVEGA\NotaVenta\NotaVenta\obj\Debug\NotaVenta.csproj.CoreCompileInpu
 D:\ProyectosYVEGA\NotaVenta\NotaVenta\obj\Debug\NotaVenta.csproj.CopyComplete
 D:\ProyectosYVEGA\NotaVenta\NotaVenta\obj\Debug\TexasHub.dll
 D:\ProyectosYVEGA\NotaVenta\NotaVenta\obj\Debug\TexasHub.pdb
+=======
+C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\NotaVenta\obj\Debug\TexasHub.dll
+C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\NotaVenta\obj\Debug\TexasHub.pdb
+>>>>>>> fduran

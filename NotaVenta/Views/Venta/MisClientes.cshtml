@@ -1,10 +1,6 @@
 ﻿@using UTIL.Models;
 @using NotaVenta.UTIL;
 @{
-    /**/
-
-    /**/
-
     ViewBag.Title = "Mis Clientes";
     List<ClientesModels> clientes = ViewBag.clientes;
     var validacion = "$0";
@@ -177,7 +173,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
                             <label class="control-label"><b>Rut: </b></label>
                             <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
-                            <input type="text" required="required" class="form-control has-feedback-left" id="RutCli" name="txtNombre" placeholder="Rut" oninput="checkRut(this)" onchange="Valida_Rut(this)">
+                            <input type="text" required="required" class="form-control has-feedback-left" id="RutCli" name="txtNombre" placeholder="Rut" oninput="checkRut(this)" maxlength="13">
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
                             <label class="control-label"><b>Email: </b></label>
@@ -223,29 +219,3 @@
     </div>
 </div>
 </body>
-
-@* IEnumerable<SelectListItem> clientesCiudad = ClientesDAO.ObtenerCiudad().Select(c => new SelectListItem()
-            {
-                Text = c.CiuDes,
-                Value = c.CiuCod
-            }).ToList();
-            ViewBag.Ciudad = clientesCiudad;
-    
-    ===========================================================================================
-
-    public static List<ClientesModels> ObtenerCiudad()
-        {
-            try
-            {
-                using (DataContext dc = new DataContext(catalogo, "SP_GET_Ciudad", CommandType.StoredProcedure))
-                    return dc.executeQuery<ClientesModels>();
-            }
-            catch (Exception ex)
-            {
-                string error = ex.ToString();
-                return null;
-            }
-
-        }
-    *@
-                                               
