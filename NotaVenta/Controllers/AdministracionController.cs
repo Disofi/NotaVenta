@@ -13,7 +13,7 @@ using UTIL.Validaciones;
 namespace TexasHub.Controllers
 {
     public class AdministracionController : BaseController
-    { 
+    {
         #region Vistas
 
         public ActionResult Index()

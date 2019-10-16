@@ -49,12 +49,19 @@ namespace TexasHub.Controllers
             }).ToList();
             ViewBag.Giro = clientesGiro;
 
-            IEnumerable<SelectListItem> clientesCiudad = controlDisofi().ObtenerCiudad().Select(c => new SelectListItem()
+            IEnumerable<SelectListItem> clientesCiudad = controlDisofi().ObtenerCiudad(baseDatosUsuario()).Select(c => new SelectListItem()
             {
                 Text = c.CiuDes,
                 Value = c.CiuCod
             }).ToList();
             ViewBag.Ciudad = clientesCiudad;
+
+            IEnumerable<SelectListItem> clientesComuna = controlDisofi().ObtenerComuna(baseDatosUsuario()).Select(c => new SelectListItem()
+            {
+                Text = c.ComDes,
+                Value = c.ComCod
+            }).ToList();
+            ViewBag.Comuna = clientesComuna;
 
             return View();
         }
@@ -147,7 +154,7 @@ namespace TexasHub.Controllers
             direc.CodAxD = NVC.CodAux.ToString();
 
             //Se lista(n) la(s) dirección(es) de despacho
-            List<DireccionDespachoModels> direciones = controlDisofi().BuscarDirecDespach(direc);
+            List<DireccionDespachoModels> direciones = controlDisofi().BuscarDirecDespach(direc, baseDatosUsuario());
 
             if (direciones == null)
             {
@@ -174,6 +181,20 @@ namespace TexasHub.Controllers
             //Se listan los centros de costos
             List<CentrodeCostoModels> lcc = controlDisofi().listarCC();
             ViewBag.cc = lcc;
+
+            IEnumerable<SelectListItem> clientesCiudad = controlDisofi().ObtenerCiudad(baseDatosUsuario()).Select(c => new SelectListItem()
+            {
+                Text = c.CiuDes,
+                Value = c.CiuCod
+            }).ToList();
+            ViewBag.Ciudad = clientesCiudad;
+
+            IEnumerable<SelectListItem> clientesComuna = controlDisofi().ObtenerComuna(baseDatosUsuario()).Select(c => new SelectListItem()
+            {
+                Text = c.ComDes,
+                Value = c.ComCod
+            }).ToList();
+            ViewBag.Comuna = clientesComuna;
 
             return View();
         }
@@ -662,6 +683,22 @@ namespace TexasHub.Controllers
                 //EMail
                 VerificationEmail(notadeVentaCabeceraModels.NVNumero, notadeVentaCabeceraModels.NomCon);
                 return Json(new { ID = notadeVentaCabeceraModels.Id });
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            //return RedirectToAction("Misclientes", "Ventas", new { ID = id });
+
+        }
+
+        [HttpPost, ValidateInput(false)]
+        public JsonResult AgregarDireccionDespacho(DireccionDespachoModels direccion)
+        {
+            try
+            {
+                RespuestaModel rm = controlDisofi().AgregarDireccionDespacho(direccion, baseDatosUsuario());
+                return Json(rm);
             }
             catch (Exception ex)
             {

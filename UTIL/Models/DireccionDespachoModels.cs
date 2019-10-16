@@ -11,5 +11,6 @@ namespace UTIL.Models
         public string DirDch { get; set; }
         public string NomDch { get; set; }
         public string CodAxD { get; set; }
+        public string CiuDch { get; set; }
     }
 }
