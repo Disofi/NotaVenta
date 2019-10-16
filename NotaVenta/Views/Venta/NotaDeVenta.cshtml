@@ -10,7 +10,7 @@
     /**/
 
 
-    if (SessionVariables.SESSION_DATOS_USUARIO.VenCod == null)
+    if (((BaseController)this.ViewContext.Controller).codigoVendedorUsuario() == null)
     {
         var URL = System.Configuration.ConfigurationManager.AppSettings.Get("url");
         Response.Redirect(URL);
@@ -20,7 +20,7 @@
     string anterior = ViewBag.Anterior;
     string NomAux = ViewBag.NomAux;
     string CodAux = ViewBag.CodAux;
-    string VenCodigo = SessionVariables.SESSION_DATOS_USUARIO.VenCod.ToString();
+    string VenCodigo = ((BaseController)this.ViewContext.Controller).codigoVendedorUsuario();
     string VenDes = SessionVariables.SESSION_DATOS_USUARIO.VenDes.ToString();
     string user = SessionVariables.SESSION_DATOS_USUARIO.Nombre.ToString();
     List<CondicionVentasModels> condicion = ViewBag.condicion;
