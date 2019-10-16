@@ -48,6 +48,13 @@
     <Content Include="Otros\ScriptParametros.sql" />
     <Content Include="Otros\scriptNotaVenta.sql" />
     <Content Include="Otros\Inserts.sql" />
+    <Content Include="SP\FR_ListarListaDePrecio.sql" />
+    <Content Include="SP\FR_ListarContactos.sql" />
+    <Content Include="SP\JS_ListarClientesCodAuxRut.sql" />
+    <Content Include="SP\FR_ListarCondicionesDeVenta.sql" />
+    <Content Include="SP\FR_ListarCentroDeCosto.sql" />
+    <Content Include="SP\JS_ListarContactos.sql" />
+    <Content Include="SP\JS_ListarVendorVenCod.sql" />
     <Content Include="SP\SP_GET_Comuna.sql" />
     <Content Include="SP\SP_GET_Ciudad.sql" />
     <Content Include="SP\FR_BuscarDirecDespa.sql" />
@@ -59,7 +66,6 @@
     <Content Include="SP\DS_ListaUsuarioEmpresa.sql" />
     <Content Include="SP\FR_BuscarParametrosUsuarios.sql" />
     <Content Include="SP\FR_ActualizarCliente.sql" />
-    <Content Include="SP\FR_ActualizarUsuario.sql" />
     <Content Include="SP\FR_AgregarUsuario.sql" />
     <Content Include="SP\FR_EliminarUsuario.sql" />
     <Content Include="SP\FR_ModificarParametrosUsuarios.sql" />
