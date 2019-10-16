@@ -26,6 +26,49 @@ $(document).ready(function () {
         });
     }
 
+    $("#btnAgregarDireccionDespacho").click(function () {
+        $("#aModalAgregarDireccionDespacho").click();
+    });
+    $("#modalAgregarDireccionDespachoAgregar").click(function () {
+        var codigoCliente = $("#modalAgregarDireccionDespachoCodigoCliente").html();
+        var direccion = $("#modalAgregarDireccionDespachoDireccion").val();
+        var codigoCiudad = $("#modalAgregarDireccionDespachoCiudad").val();
+        var textoCiudad = $("#modalAgregarDireccionDespachoCiudad").text();
+        var codigoComuna = $("#modalAgregarDireccionDespachoComuna").val();
+
+        var data = {
+            CodAxD: codigoCliente,
+            DirDch: direccion,
+            CiuDch: codigoCiudad,
+            ComDch: codigoComuna,
+            NomDch: textoCiudad
+        };
+
+        console.log(data);
+
+        return;
+        $.ajax({
+            url: "AgregarDireccionDespacho",
+            data: { direccion: data },
+            type: "POST",
+            dataType: "json",
+            async: false,
+            success: function (response) {
+                if (response.Verificador) {
+                    abrirInformacion("Agregar Direccion Despacho", response.Mensaje);
+                }
+                else {
+                    abrirError("Agregar Direccion Despacho", response.Mensaje);
+                }
+            },
+            error: function (response) {
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            }
+        });
+    });
+
     FormEditable.init();
 
     cbxlistaChange();

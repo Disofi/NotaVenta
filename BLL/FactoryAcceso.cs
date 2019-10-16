@@ -371,15 +371,38 @@ namespace BLL
             }
         }
 
-        public List<DireccionDespachoModels> BuscarDirecDespach(DireccionDespachoModels DirDes)
+        public List<DireccionDespachoModels> BuscarDirecDespach(DireccionDespachoModels DirDes, string baseDatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_BuscarDirecDespa", new System.Collections.Hashtable()
                 {
                     { "CodAxD", DirDes.CodAxD},
+                    { "pv_BaseDatos", baseDatos},
                 });
                 return UTIL.Mapper.BindDataList<DireccionDespachoModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public RespuestaModel AgregarDireccionDespacho(DireccionDespachoModels DirDes, string baseDatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_AgregarDireccionDespacho", new System.Collections.Hashtable()
+                {
+                    { "pv_CodAux", DirDes.CodAxD},
+                    { "pv_DirDch", DirDes.DirDch},
+                    { "pv_ComDch", DirDes.ComDch},
+                    { "pv_NomDch", DirDes.NomDch},
+                    { "pv_CiuDch", DirDes.CiuDch},
+                    { "pv_BaseDatos", baseDatos},
+                });
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
             }
             catch (Exception ex)
             {
@@ -1209,19 +1232,38 @@ namespace BLL
 
         }
 
-        public List<ClientesModels> ObtenerCiudad()
+        public List<CiudadModel> ObtenerCiudad(string baseDatos)
         {
             try
             {
-                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GET_Ciudad", new System.Collections.Hashtable());
-                return UTIL.Mapper.BindDataList<ClientesModels>(data);
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GET_Ciudad", new System.Collections.Hashtable()
+                {
+                    { "pv_BaseDatos", baseDatos},
+                });
+                return UTIL.Mapper.BindDataList<CiudadModel>(data);
             }
             catch (Exception ex)
             {
                 string error = ex.ToString();
                 return null;
             }
+        }
 
+        public List<ComunaModel> ObtenerComuna(string baseDatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GET_Comuna", new System.Collections.Hashtable()
+                {
+                    { "pv_BaseDatos", baseDatos},
+                });
+                return UTIL.Mapper.BindDataList<ComunaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
         }
 
 

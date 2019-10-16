@@ -92,9 +92,14 @@ namespace BLL
             return _Control.AgregarContacto(contacto);
         }
 
-        public List<DireccionDespachoModels> BuscarDirecDespach(DireccionDespachoModels DirDes)
+        public List<DireccionDespachoModels> BuscarDirecDespach(DireccionDespachoModels DirDes, string baseDatos)
         {
-            return _Control.BuscarDirecDespach(DirDes);
+            return _Control.BuscarDirecDespach(DirDes, baseDatos);
+        }
+
+        public RespuestaModel AgregarDireccionDespacho(DireccionDespachoModels DirDes, string baseDatos)
+        {
+            return _Control.AgregarDireccionDespacho(DirDes, baseDatos);
         }
 
         public RespuestaModel ActualizarCliente(ClientesModels cliente)
@@ -291,9 +296,14 @@ namespace BLL
             return _Control.ObtenerGiro();
         }
 
-        public List<ClientesModels> ObtenerCiudad()
+        public List<CiudadModel> ObtenerCiudad(string baseDatos)
         {
-            return _Control.ObtenerCiudad();
+            return _Control.ObtenerCiudad(baseDatos);
+        }
+
+        public List<ComunaModel> ObtenerComuna(string baseDatos)
+        {
+            return _Control.ObtenerComuna(baseDatos);
         }
     }
 }
