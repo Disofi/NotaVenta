@@ -33,40 +33,66 @@ $(document).ready(function () {
         var codigoCliente = $("#modalAgregarDireccionDespachoCodigoCliente").html();
         var direccion = $("#modalAgregarDireccionDespachoDireccion").val();
         var codigoCiudad = $("#modalAgregarDireccionDespachoCiudad").val();
-        var textoCiudad = $("#modalAgregarDireccionDespachoCiudad").text();
+        var textoCiudad = $("#modalAgregarDireccionDespachoCiudad option:selected").text();
         var codigoComuna = $("#modalAgregarDireccionDespachoComuna").val();
 
         var data = {
             CodAxD: codigoCliente,
-            DirDch: direccion,
-            CiuDch: codigoCiudad,
-            ComDch: codigoComuna,
-            NomDch: textoCiudad
+            DirDch: direccion.trim(),
+            CiuDch: codigoCiudad.trim(),
+            ComDch: codigoComuna.trim(),
+            NomDch: textoCiudad.trim()
         };
 
-        console.log(data);
+        
+        if (data.DirDch !== "" && data.CiuDch !== "" && data.DirDch !== "") {
+            $.ajax({
+                url: "AgregarDireccionDespacho",
+                data: { direccion: data },
+                type: "POST",
+                dataType: "json",
+                async: false,
+                success: function (response) {
+                    if (response.Verificador) {
+                        abrirInformacion("Agregar Direccion Despacho", response.Mensaje);
+                        $.ajax({
+                            url: "BuscarDireccionDespacho",
+                            data: { CodAux: data.CodAxD },
+                            type: "POST",
+                            dataType: "json",
+                            async: true,
+                            success: function (response) {
+                                $("#cbxDireccion").find('option').remove().end();
 
-        return;
-        $.ajax({
-            url: "AgregarDireccionDespacho",
-            data: { direccion: data },
-            type: "POST",
-            dataType: "json",
-            async: false,
-            success: function (response) {
-                if (response.Verificador) {
-                    abrirInformacion("Agregar Direccion Despacho", response.Mensaje);
+                                $.each(response, function (index, item) {
+                                    $("#cbxDireccion").append('<option value="' + item.NomDch + '">' + item.DirDch + " " + item.ComDch + '</option>');
+                                });
+
+                                $("#cbxDireccion").val(data.NomDch);
+
+                                $("#modalAgregarDireccionDespachoCerrar").click();
+                            },
+                            error: function (response) {
+                            },
+                            failure: function (response) {
+                                alert(response.responseText);
+                            }
+                        });
+                    }
+                    else {
+                        abrirError("Agregar Direccion Despacho", response.Mensaje);
+                    }
+                },
+                error: function (response) {
+                },
+                failure: function (response) {
+                    alert(response.responseText);
                 }
-                else {
-                    abrirError("Agregar Direccion Despacho", response.Mensaje);
-                }
-            },
-            error: function (response) {
-            },
-            failure: function (response) {
-                alert(response.responseText);
-            }
-        });
+            });
+        }
+        else {
+            abrirError("Agregar Direccion Despacho", "Favor complete los campos requeridos");
+        }
     });
 
     FormEditable.init();

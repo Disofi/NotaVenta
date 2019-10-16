@@ -30,28 +30,34 @@ BEGIN
 	select @query = ''
 
 	select @query = @query + '
-	INSERT INTO [' + @pv_BaseDatos + '].[softland].[cwtauxd]
-	(
-		CodAux
-	,	DirDch
-	,	ComDch
-	,	NomDch
-	,	CiuDch
-	)
-	VALUES
-	(
-		''' + @pv_CodAux + '''
-	,	''' + @pv_DirDch + '''
-	,	''' + @pv_ComDch + '''
-	,	''' + @pv_NomDch + '''
-	,	''' + @pv_CiuDch + '''
-	)
+	IF NOT EXISTS (SELECT TOP 1 1 FROM [' + @pv_BaseDatos + '].[softland].[cwtauxd] WHERE CodAxD = ''' + @pv_CodAux + ''' AND NomDch = ''' + @pv_NomDch + ''') BEGIN
+		INSERT INTO [' + @pv_BaseDatos + '].[softland].[cwtauxd]
+		(
+			CodAxD
+		,	DirDch
+		,	ComDch
+		,	NomDch
+		,	CiuDch
+		)
+		VALUES
+		(
+			''' + @pv_CodAux + '''
+		,	''' + @pv_DirDch + '''
+		,	''' + @pv_ComDch + '''
+		,	''' + @pv_NomDch + '''
+		,	''' + @pv_CiuDch + '''
+		)
+
+		SELECT	Verificador = Cast(1 as bit)
+		,		Mensaje = ''Se agrega direccion de despacho satisfactoriamente''
+	END
+	ELSE BEGIN
+		SELECT	Verificador = Cast(0 as bit)
+		,		Mensaje = ''Direccion ingresada ya existe''
+	END
 	'
 
 	EXEC (@query)
-
-	SELECT	Verificador = Cast(1 as bit)
-	,		Mensaje = 'Se agrega direccion de despacho satisfactoriamente'
 END  
 GO
 
