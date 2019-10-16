@@ -45,7 +45,6 @@ namespace NotaVenta.Controllers
                 resultado.NombrePerfil = "SUPERADMINISTRADOR";
                 resultado.Rut = "1-9";
                 resultado.TipoUsuario = -1;
-                resultado.VenCod = "";
                 resultado.VenDes = "";
 
                 SessionVariables.SESSION_DATOS_USUARIO = resultado;

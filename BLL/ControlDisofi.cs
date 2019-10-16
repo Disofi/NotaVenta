@@ -77,9 +77,9 @@ namespace BLL
             return _Control.BuscarMisClientes(RutAux);
         }
 
-        public List<ClientesModels> BuscarMisClientesVenCod(UsuariosModels usuario)
+        public List<ClientesModels> BuscarMisClientesVenCod(UsuariosModels usuario,string basedatos)
         {
-            return _Control.BuscarMisClientesVenCod(usuario);
+            return _Control.BuscarMisClientesVenCod(usuario,basedatos);
         }
 
         public List<ClientesModels> BuscarContacto(ClientesModels contacto)
@@ -286,14 +286,14 @@ namespace BLL
             return _Control.ListaUsuarioEmpresas(idUsuario);
         }
 
-        public List<ClientesModels> ObtenerGiro()
+        public List<ClientesModels> ObtenerGiro(string basedatos)
         {
-            return _Control.ObtenerGiro();
+            return _Control.ObtenerGiro(basedatos);
         }
 
-        public List<ClientesModels> ObtenerCiudad()
+        public List<ClientesModels> ObtenerCiudad(string basedatos)
         {
-            return _Control.ObtenerCiudad();
+            return _Control.ObtenerCiudad(basedatos);
         }
     }
 }

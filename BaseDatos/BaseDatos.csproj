@@ -49,6 +49,7 @@
     <Content Include="Otros\scriptNotaVenta.sql" />
     <Content Include="Otros\Inserts.sql" />
     <Content Include="SP\DS_GET_ObtenerDatosUsuario.sql" />
+    <Content Include="SP\SP_GET_LOGIN.sql" />
     <Content Include="SP\DS_ListarPefiles.sql" />
     <Content Include="SP\DS_ListaEmpresa.sql" />
     <Content Include="SP\DS_ListaUsuarioEmpresa.sql" />

@@ -317,7 +317,7 @@ namespace BLL
 
 
         //Busca los clientes por el VenCod del Usuario//
-        public List<ClientesModels> BuscarMisClientesVenCod(UsuariosModels usuario)
+        public List<ClientesModels> BuscarMisClientesVenCod(UsuariosModels usuario,string basedatos)
         {
             try
             {
@@ -325,6 +325,7 @@ namespace BLL
                 {
                     { "cod", usuario.VenCod},
                     { "ID", usuario.id},
+                    {"pv_BaseDatos",basedatos }
                 });
                 return UTIL.Mapper.BindDataList<ClientesModels>(data);
             }
@@ -471,9 +472,6 @@ namespace BLL
 
                 validador = data.Rows[0].Field<object>("TipoUsuario");
                 DatosLogin.TipoUsuario = validador != null ? data.Rows[0].Field<int>("TipoUsuario") : -1;
-
-                validador = data.Rows[0].Field<object>("VenCod");
-                DatosLogin.VenCod = validador != null ? data.Rows[0].Field<string>("VenCod") : "NO ASIGNADO";
             }
             else
             {
@@ -1194,11 +1192,14 @@ namespace BLL
             }
         }
 
-        public List<ClientesModels> ObtenerGiro()
+        public List<ClientesModels> ObtenerGiro(string basedatos)
         {
             try
             {
-                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GET_Giro", new System.Collections.Hashtable());
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GET_Giro", new System.Collections.Hashtable() 
+                {
+                    {"pv_BaseDatos",basedatos }
+                });
                 return UTIL.Mapper.BindDataList<ClientesModels>(data);
             }
             catch (Exception ex)
@@ -1209,11 +1210,14 @@ namespace BLL
 
         }
 
-        public List<ClientesModels> ObtenerCiudad()
+        public List<ClientesModels> ObtenerCiudad(string basedatos)
         {
             try
             {
-                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GET_Ciudad", new System.Collections.Hashtable());
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GET_Ciudad", new System.Collections.Hashtable()
+                {
+                    {"pv_BaseDatos",basedatos }
+                });
                 return UTIL.Mapper.BindDataList<ClientesModels>(data);
             }
             catch (Exception ex)

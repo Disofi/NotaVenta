@@ -2,10 +2,10 @@
 
 truncate table [dbo].[DS_Usuarios] 
 
-INSERT [dbo].[DS_Usuarios] ([Usuario], [Contrasena], [Cliente], [CCosto], [email], [tipoUsuario], [VenCod], [Nombre], [ContrasenaCorreo], [Estado]) 
-SELECT	N'adm', N'81dc9bdb52d04dc20036dbd8313ed055', N'CAFSANMART', N'057', N'prueba.disofi@gmail.com', 1, N'', N'Admin', N'Disofi2019', 1 UNION ALL
-SELECT	N'vendedor', N'81dc9bdb52d04dc20036dbd8313ed055', N'CAFSANMART', N'057', N'prueba.disofi@gmail.com', 2, N'02        ', N'Vendedor', N'Disofi2019', 1 UNION ALL
-SELECT	N'aprobador', N'81dc9bdb52d04dc20036dbd8313ed055', N'CAFSANMART', N'057', N'prueba.disofi@gmail.com', 3, N'04        ', N'Aprobador', N'Disofi2019', 1
+INSERT [dbo].[DS_Usuarios] ([Usuario], [Contrasena], [Cliente], [CCosto], [email], [tipoUsuario], [Nombre], [ContrasenaCorreo], [Estado]) 
+SELECT	N'adm', N'81dc9bdb52d04dc20036dbd8313ed055', N'CAFSANMART', N'057', N'prueba.disofi@gmail.com', 1, N'Admin', N'Disofi2019', 1 UNION ALL
+SELECT	N'vendedor', N'81dc9bdb52d04dc20036dbd8313ed055', N'CAFSANMART', N'057', N'prueba.disofi@gmail.com', 2, N'Vendedor', N'Disofi2019', 1 UNION ALL
+SELECT	N'aprobador', N'81dc9bdb52d04dc20036dbd8313ed055', N'CAFSANMART', N'057', N'prueba.disofi@gmail.com', 3, N'Aprobador', N'Disofi2019', 1
 
 GO
 
@@ -36,5 +36,6 @@ GO
 
 TRUNCATE TABLE [dbo].[DS_UsuarioEmpresa]
 
-insert into [dbo].[DS_UsuarioEmpresa](IdUsuario, IdEmpresa)
-SELECT	2, 1
+insert into [dbo].[DS_UsuarioEmpresa](IdUsuario, IdEmpresa, VenCod)
+--SELECT	2, 2, N'02        ' UNION ALL
+SELECT	2, 1, N'15'
