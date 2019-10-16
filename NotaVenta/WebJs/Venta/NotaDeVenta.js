@@ -1041,20 +1041,5 @@ function agregarnotadeventa() {
                 async: false
             });
         }
-
-
-        //else {
-        //    $.post(url, data).done(function (data) {
-        //    if (data == null) {
-        //        alert("Cliente no tiene Correo Asignado");
-        //    }
-        //    confirm("Se Genero Cotización" + " " + NVNumero);
-        //    var url1 = $("#RedirectTo").val();
-        //        location.href = url1;
-
-        //    //Window.location.href = '/Ventas/Misclientes/' + id;
-        //});
-        //}
-
     }
 }

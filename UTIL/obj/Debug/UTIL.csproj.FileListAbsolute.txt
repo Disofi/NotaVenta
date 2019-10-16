@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 C:\Users\Disofi\Source\Repos\Afubach\UTIL\bin\Debug\UTIL.dll
 C:\Users\Disofi\Source\Repos\Afubach\UTIL\bin\Debug\UTIL.pdb
 C:\Users\Disofi\Source\Repos\Afubach\UTIL\obj\Debug\UTIL.csproj.CoreCompileInputs.cache
@@ -31,8 +33,10 @@ C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaV
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\UTIL\bin\Debug\UTIL.pdb
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\UTIL\obj\Debug\UTIL.dll
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\UTIL\obj\Debug\UTIL.pdb
+>>>>>>> fduran
 D:\ProyectosYVEGA\NotaVenta\UTIL\bin\Debug\UTIL.dll
 D:\ProyectosYVEGA\NotaVenta\UTIL\bin\Debug\UTIL.pdb
+D:\ProyectosYVEGA\NotaVenta\UTIL\obj\Debug\UTIL.csprojAssemblyReference.cache
 D:\ProyectosYVEGA\NotaVenta\UTIL\obj\Debug\UTIL.csproj.CoreCompileInputs.cache
 D:\ProyectosYVEGA\NotaVenta\UTIL\obj\Debug\UTIL.dll
 D:\ProyectosYVEGA\NotaVenta\UTIL\obj\Debug\UTIL.pdb

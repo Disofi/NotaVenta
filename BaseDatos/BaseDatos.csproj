@@ -48,6 +48,13 @@
     <Content Include="Otros\ScriptParametros.sql" />
     <Content Include="Otros\scriptNotaVenta.sql" />
     <Content Include="Otros\Inserts.sql" />
+    <Content Include="SP\FR_ListarListaDePrecio.sql" />
+    <Content Include="SP\FR_ListarContactos.sql" />
+    <Content Include="SP\JS_ListarClientesCodAuxRut.sql" />
+    <Content Include="SP\FR_ListarCondicionesDeVenta.sql" />
+    <Content Include="SP\FR_ListarCentroDeCosto.sql" />
+    <Content Include="SP\JS_ListarContactos.sql" />
+    <Content Include="SP\JS_ListarVendorVenCod.sql" />
     <Content Include="SP\SP_GET_Comuna.sql" />
     <Content Include="SP\SP_GET_Ciudad.sql" />
     <Content Include="SP\FR_BuscarDirecDespa.sql" />
