@@ -20,8 +20,6 @@ CREATE PROCEDURE [dbo].[FR_ListaProductos]
 AS  
 BEGIN  
 	declare @query varchar(max)
-	DECLARE @NOMBRE_TABLA VARCHAR(100)
-	SELECT	@NOMBRE_TABLA = 'TABLA' + REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(CONVERT(VARCHAR(100), GETDATE(), 120), '-', '_'), '-', '_'), ' ', '_'), ' ', '_'), ':', '_'), ':', '_')
 
 	select @query = ''
 

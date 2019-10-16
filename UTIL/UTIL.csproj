@@ -46,6 +46,8 @@
     <Compile Include="Models\ClientesModels.cs" />
     <Compile Include="Models\CondicionVentasModels.cs" />
     <Compile Include="Models\DireccionDespachoModels.cs" />
+    <Compile Include="Models\CiudadModel.cs" />
+    <Compile Include="Models\ComunaModel.cs" />
     <Compile Include="Models\ListaDePrecioModels.cs" />
     <Compile Include="Models\NotadeVentaCabeceraModels.cs" />
     <Compile Include="Models\NotaDeVentaDetalleModels.cs" />

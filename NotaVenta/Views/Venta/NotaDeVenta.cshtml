@@ -186,34 +186,40 @@
                                 <tr>
                                     <td>Dirección de Despacho</td>
                                     <td colspan="5">
+                                        <div class="row">
+                                            <div class="col-lg-10">
+                                                @{
+                                                    try
+                                                    {
+                                                        if (vdirec == 1)
+                                                        {
+                                                            <select class="form-control" name="cbxDireccion" id="cbxDireccion" tabindex="9">
+                                                                <option selected value="00"> -- Seleccione Dirección de Despacho -- </option>
+                                                                @{
+                                                                    for (int i = 0; i < direc.Count; i++)
+                                                                    {
+                                                                        <option selected value="@direc[i].NomDch"> @direc[i].DirDch @direc[i].ComDch </option>
+                                                                    }
+                                                                }
 
-                                        @{
-                                            try
-                                            {
-                                                if (vdirec == 1)
-                                                {
-                                                    <select class="form-control" name="cbxDireccion" id="cbxDireccion" tabindex="9">
-                                                        <option selected value="00"> -- Seleccione Dirección de Despacho -- </option>
-                                                        @{
-                                                            for (int i = 0; i < direc.Count; i++)
-                                                            {
-                                                                <option selected value="@direc[i].NomDch"> @direc[i].DirDch @direc[i].ComDch </option>
-                                                            }
+                                                            </select>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input class="form-control" type="text" name="cbxDireccion" id="cbxDireccion" value="No Tiene Dirección Asociado" tabindex="-1" readonly="readonly" />
                                                         }
 
-                                                    </select>
-                                                }
-                                                else
-                                                {
-                                                    <input class="form-control" type="text" name="cbxDireccion" id="cbxDireccion" value="No Tiene Dirección Asociado" tabindex="-1" readonly="readonly" />
-                                                }
+                                                    }
+                                                    catch (Exception)
+                                                    {
 
-                                            }
-                                            catch (Exception)
-                                            {
-
-                                            }
-                                        }
+                                                    }
+                                                }
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <input type="button" id="btnAgregarDireccionDespacho" class="btn btn-primary" value="Agregar Direccion" />
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -473,6 +479,54 @@
             </div>
             <div class="modal-footer">
                 <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+            </div>
+        </div>
+    </div>
+</div>
+<a id="aModalAgregarDireccionDespacho" style="display: none" href="#modalAgregarDireccionDespacho" class="btn btn-sm btn-success" data-toggle="modal">Agregar Direccion Despacho</a>
+<div class="modal fade" id="modalAgregarDireccionDespacho">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Ingrese Direccion Despacho</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive form-inline">
+                    <table class="table table-profile">
+                        <tbody>
+                            <tr class="highlight">
+                                <td>Codigo Cliente</td>
+                                <td><label id="modalAgregarDireccionDespachoCodigoCliente">@Html.Raw(CodAux)</label></td>
+                            </tr>
+                            <tr class="highlight">
+                                <td>Direccion</td>
+                                <td>
+                                <input type="text" id="modalAgregarDireccionDespachoDireccion" class="form-control" />
+                                </td>
+                            </tr>
+                            <tr class="highlight">
+                                <td>Ciudad</td>
+                                <td>
+                                    @Html.DropDownList("modalAgregarDireccionDespachoCiudad", (IEnumerable<SelectListItem>)ViewBag.Ciudad, "Seleccione Ciudad", new { @class = "form-control", @id = "modalAgregarDireccionDespachoCiudad", @name = "modalAgregarDireccionDespachoCiudad" })
+                                </td>
+                            </tr>
+                            <tr class="highlight">
+                                <td>Comuna</td>
+                                <td>
+                                    @Html.DropDownList("modalAgregarDireccionDespachoComuna", (IEnumerable<SelectListItem>)ViewBag.Comuna, "Seleccione Comuna", new { @class = "form-control", @id = "modalAgregarDireccionDespachoComuna", @name = "modalAgregarDireccionDespachoComuna" })
+                                </td>
+                            </tr>
+                            <tr class="highlight">
+                                <td colspan="2"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a id="modalAgregarDireccionDespachoAgregar" href="javascript:;" class="btn btn-success">Agregar Direccion Despacho</a>
+                <a id="modalAgregarDireccionDespachoCerrar" href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
             </div>
         </div>
     </div>
