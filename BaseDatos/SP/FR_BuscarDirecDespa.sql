@@ -28,7 +28,7 @@ begin
 	select @query = @query + '
 	select	DirDch
 	,		ComDch
-	,		nomdch 
+	,		NomDch 
 	from	[' + @pv_BaseDatos + '].[Softland].cwtauxd  
 	where	CodAxD = ''' + @CodAxD + ''''
 

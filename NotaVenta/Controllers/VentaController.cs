@@ -94,6 +94,8 @@ namespace TexasHub.Controllers
                 CodAux = NVC.CodAux
             };
 
+            ViewBag.CodAux = NVC.CodAux;
+
             List<ClientesModels> contactoCorreos = controlDisofi().GetContacto(cliente);
             List<ClientesModels> clientes = controlDisofi().GetClientes(cliente);
 
@@ -691,7 +693,27 @@ namespace TexasHub.Controllers
             //return RedirectToAction("Misclientes", "Ventas", new { ID = id });
 
         }
+        
+        [HttpPost, ValidateInput(false)]
+        public JsonResult BuscarDireccionDespacho(string CodAux)
+        {
+            try
+            {
+                DireccionDespachoModels direc = new DireccionDespachoModels();
+                direc.CodAxD = CodAux;
 
+                //Se lista(n) la(s) dirección(es) de despacho
+                List<DireccionDespachoModels> direciones = controlDisofi().BuscarDirecDespach(direc, baseDatosUsuario());
+
+                return Json(direciones);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            //return RedirectToAction("Misclientes", "Ventas", new { ID = id });
+
+        }
         [HttpPost, ValidateInput(false)]
         public JsonResult AgregarDireccionDespacho(DireccionDespachoModels direccion)
         {
