@@ -4,11 +4,11 @@
     ViewBag.Title = "Facturas Aprobadas";
     List<NotadeVentaCabeceraModels> doc = ViewBag.doc;
 
-    if (SessionVariables.SESSION_DATOS_USUARIO.VenCod == null)
-    {
-        var URL = System.Configuration.ConfigurationManager.AppSettings.Get("url");
-        Response.Redirect(URL);
-    }
+    //if (SessionVariables.SESSION_DATOS_USUARIO.VenCod == null)
+    //{
+    //    var URL = System.Configuration.ConfigurationManager.AppSettings.Get("url");
+    //    Response.Redirect(URL);
+    //}
 }
 
 <link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
