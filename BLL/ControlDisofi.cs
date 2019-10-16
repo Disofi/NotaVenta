@@ -32,19 +32,19 @@ namespace BLL
             return _Control.MenuUsuario(idUsuario);
         }
 
-        public List<CentrodeCostoModels> listarCC()
+        public List<CentrodeCostoModels> ListarCentroCosto(string basedatos)
         {
-            return _Control.listarCC();
+            return _Control.ListarCentroCosto(basedatos);
         }
 
-        public List<ClientesModels> GetClientes(ClientesModels cliente = null)
+        public List<ClientesModels> GetClientes(string basedatos, ClientesModels cliente = null)
         {
-            return _Control.GetClientes(cliente);
+            return _Control.GetClientes(basedatos, cliente);
         }
 
-        public List<ClientesModels> GetContacto(ClientesModels cliente = null)
+        public List<ClientesModels> GetContacto(string basedatos, ClientesModels cliente = null)
         {
-            return _Control.GetContacto(cliente);
+            return _Control.GetContacto(basedatos, cliente);
         }
 
         public List<ClientesModels> GetCliente(ClientesModels cliente = null)
@@ -82,9 +82,9 @@ namespace BLL
             return _Control.BuscarMisClientesVenCod(usuario,basedatos);
         }
 
-        public List<ClientesModels> BuscarContacto(ClientesModels contacto)
+        public List<ClientesModels> BuscarContacto(string basedatos, ClientesModels contacto)
         {
-            return _Control.BuscarContacto(contacto);
+            return _Control.BuscarContacto(basedatos, contacto);
         }
 
         public List<ClientesModels> AgregarContacto(ClientesModels contacto)
@@ -107,14 +107,14 @@ namespace BLL
             return _Control.ActualizarCliente(cliente,basedatos);
         }
 
-        public List<CondicionVentasModels> listarConVen(CondicionVentasModels conven)
+        public List<CondicionVentasModels> listarConVen(string baseDatos, CondicionVentasModels conven)
         {
-            return _Control.listarConVen(conven);
+            return _Control.listarConVen(baseDatos, conven);
         }
 
-        public List<ListaDePrecioModels> listarListaDePrecio(ListaDePrecioModels lista)
+        public List<ListaDePrecioModels> listarListaDePrecio(string baseDatos, ListaDePrecioModels lista)
         {
-            return _Control.listarListaDePrecio(lista);
+            return _Control.listarListaDePrecio(baseDatos, lista);
         }
 
         public ObjetoUsuario Login(ObjetoUsuario usuario)
@@ -271,9 +271,9 @@ namespace BLL
             return _Control.ListarCodVendedorSoft(basedatos);
         }
 
-        public List<ClientesModels> GetVendedores(ClientesModels cliente = null)
+        public List<ClientesModels> GetVendedores(string basedatos, ClientesModels cliente = null)
         {
-            return _Control.GetVendedores(cliente);
+            return _Control.GetVendedores(basedatos, cliente);
         }
 
         public List<UsuariosModels> GetDatosUsuario(string Id,string basedatos)

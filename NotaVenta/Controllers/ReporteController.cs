@@ -147,7 +147,7 @@ namespace TexasHub.Controllers
                 VenCod = NVentaCabeceras[0].VenCod
             };
 
-            List<ClientesModels> vendedores = controlDisofi().GetVendedores(Vendedor);
+            List<ClientesModels> vendedores = controlDisofi().GetVendedores(baseDatosUsuario(), Vendedor);
 
             MailMessage mail = new MailMessage
             {

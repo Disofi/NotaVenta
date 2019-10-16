@@ -33,7 +33,7 @@ namespace TexasHub.Controllers
 
             usr.VenCod = codigoVendedorUsuario();
             usr.id = SessionVariables.SESSION_DATOS_USUARIO.IdUsuario;
-            var misClientes = controlDisofi().BuscarMisClientesVenCod(usr,baseDatosUsuario());
+            var misClientes = controlDisofi().BuscarMisClientesVenCod(usr, baseDatosUsuario());
 
             if (misClientes != null)
             {
@@ -96,25 +96,25 @@ namespace TexasHub.Controllers
 
             ViewBag.CodAux = NVC.CodAux;
 
-            List<ClientesModels> contactoCorreos = controlDisofi().GetContacto(cliente);
-            List<ClientesModels> clientes = controlDisofi().GetClientes(cliente);
+            List<ClientesModels> contactoCorreos = controlDisofi().GetContacto(baseDatosUsuario(), cliente);
+            List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), cliente);
 
-            if (contactoCorreos == null || contactoCorreos[0].EMail == "")
+            if (contactoCorreos != null && contactoCorreos.Count > 0 && contactoCorreos[0].EMail != "")
             {
-                if (clientes == null || clientes[0].EMail == "")
-                {
-                    TempData["Mensaje"] = "CLIENTE SELECCIONADO NO CUENTA CON CORREO NI CONTACTOS. <br>";
-                    return RedirectToAction("MisClientes", "Ventas", new { cod = VenCod, ID = id });
-                }
-                else
-                {
-                    ViewBag.CorreoCliente = clientes[0].EMail;
-                }
-
+                ViewBag.CorreoCliente = contactoCorreos[0].EMail;
             }
             else
             {
-                ViewBag.CorreoCliente = contactoCorreos[0].EMail;
+                if (clientes != null && clientes.Count > 0 && clientes[0].EMail != "")
+                {
+                    ViewBag.CorreoCliente = clientes[0].EMail;
+                }
+                else
+                {
+                    TempData["Mensaje"] = "CLIENTE SELECCIONADO NO CUENTA CON CORREO NI CONTACTOS. <br>";
+                    return RedirectToAction("MisClientes", "Venta");
+                }
+
             }
 
             //Se agrega la cabecera
@@ -128,7 +128,7 @@ namespace TexasHub.Controllers
             conven.CodAux = NVC.CodAux.ToString();
 
             //Se lista(n) la(s) condicion(es) de venta(s)
-            List<CondicionVentasModels> lcondicion = controlDisofi().listarConVen(conven);
+            List<CondicionVentasModels> lcondicion = controlDisofi().listarConVen(baseDatosUsuario(), conven);
 
             ViewBag.condicion = lcondicion;
 
@@ -138,7 +138,7 @@ namespace TexasHub.Controllers
             contacto.NomAux = SessionVariables.SESSION_DATOS_USUARIO.Nombre.ToString();
 
             //Se ubica la lista de contactos
-            List<ClientesModels> contactos = controlDisofi().BuscarContacto(contacto);
+            List<ClientesModels> contactos = controlDisofi().BuscarContacto(baseDatosUsuario(), contacto);
 
             if (contactos == null)
             {
@@ -176,12 +176,12 @@ namespace TexasHub.Controllers
             ListPrecio.CodAux = NVC.CodAux.ToString();
 
             //Se listan los precios
-            List<ListaDePrecioModels> ListDePrecios = controlDisofi().listarListaDePrecio(ListPrecio);
+            List<ListaDePrecioModels> ListDePrecios = controlDisofi().listarListaDePrecio(baseDatosUsuario(), ListPrecio);
 
             ViewBag.lista = ListDePrecios;
 
             //Se listan los centros de costos
-            List<CentrodeCostoModels> lcc = controlDisofi().listarCC();
+            List<CentrodeCostoModels> lcc = controlDisofi().ListarCentroCosto(baseDatosUsuario());
             ViewBag.cc = lcc;
 
             IEnumerable<SelectListItem> clientesCiudad = controlDisofi().ObtenerCiudad(baseDatosUsuario()).Select(c => new SelectListItem()
@@ -349,16 +349,16 @@ namespace TexasHub.Controllers
                 NomCon = NomCon
             };
 
-            List<ClientesModels> contacto = controlDisofi().GetContacto(cliente);
+            List<ClientesModels> contacto = controlDisofi().GetContacto(baseDatosUsuario(), cliente);
 
-            List<ClientesModels> clientes = controlDisofi().GetClientes(cliente);
+            List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), cliente);
 
             ClientesModels Vendedor = new ClientesModels
             {
                 VenCod = NVentaCabeceras[0].VenCod
             };
 
-            List<ClientesModels> vendedores = controlDisofi().GetVendedores(Vendedor);
+            List<ClientesModels> vendedores = controlDisofi().GetVendedores(baseDatosUsuario(), Vendedor);
 
             MailMessage mail = new MailMessage
             {
@@ -690,10 +690,9 @@ namespace TexasHub.Controllers
             {
                 throw (ex);
             }
-            //return RedirectToAction("Misclientes", "Ventas", new { ID = id });
 
         }
-        
+
         [HttpPost, ValidateInput(false)]
         public JsonResult BuscarDireccionDespacho(string CodAux)
         {
@@ -711,7 +710,6 @@ namespace TexasHub.Controllers
             {
                 throw (ex);
             }
-            //return RedirectToAction("Misclientes", "Ventas", new { ID = id });
 
         }
         [HttpPost, ValidateInput(false)]
@@ -726,104 +724,8 @@ namespace TexasHub.Controllers
             {
                 throw (ex);
             }
-            //return RedirectToAction("Misclientes", "Ventas", new { ID = id });
 
         }
-        /*
-    [HttpPost, ValidateInput(false)]
-    public JsonResult AgregarNV(FormCollection frm, int NVNumero, DateTime nvFem, DateTime nvFeEnt, string CodAux, string VenCod,
-    string CodLista, string nvObser, string CveCod, string NomCon, string CodiCC, double nvSubTotal, double nvMonto,
-    double nvNetoAfecto, string Usuario, string UsuarioGeneraDocto, DateTime FechaHoraCreacion, double TotalBoleta,
-    string id, string CodLugarDesp)
-    {
-        #region"NVC"
-        try
-        {
-            NotadeVentaCabeceraModels NVC = new NotadeVentaCabeceraModels
-            {
-                NVNumero = NVNumero,
-                nvFem = nvFem,
-                nvEstado = "P",
-                nvEstFact = 0,
-                nvEstDesp = 0,
-                nvEstRese = 0,
-                nvEstConc = 0,
-                nvFeEnt = nvFeEnt,
-                CodAux = CodAux,
-                VenCod = VenCod,
-                CodMon = "01",
-                CodLista = CodLista,
-                nvObser = nvObser,
-                CveCod = CveCod,
-                NomCon = NomCon,
-                CodiCC = CodiCC,
-                nvSubTotal = nvSubTotal,
-                nvPorcDesc01 = 0,
-                nvDescto01 = 0,
-                nvPorcDesc02 = 0,
-                nvDescto02 = 0,
-                nvPorcDesc03 = 0,
-                nvDescto03 = 0,
-                nvPorcDesc04 = 0,
-                nvDescto04 = 0,
-                nvPorcDesc05 = 0,
-                nvDescto05 = 0,
-                nvMonto = nvMonto,
-                NumGuiaRes = 0,
-                nvPorcFlete = 0,
-                nvValflete = 0,
-                nvPorcEmb = 0,
-                nvEquiv = 1,
-                nvNetoExento = 0,
-                nvNetoAfecto = nvNetoAfecto,
-                nvTotalDesc = 0,
-                ConcAuto = "N",
-                CheckeoPorAlarmaVtas = "N",
-                EnMantencion = 0,
-                Usuario = Usuario,
-                UsuarioGeneraDocto = UsuarioGeneraDocto,
-                FechaHoraCreacion = FechaHoraCreacion,
-                Sistema = "NW",
-                ConcManual = "N",
-                proceso = "Notas de Venta",
-                TotalBoleta = TotalBoleta,
-                NumReq = 0,
-                CodVenWeb = "5",
-                CodLugarDesp = CodLugarDesp
-            };
-            #endregion
-
-            List<ParametrosModels> para = controlDisofi().BuscarParametros();
-
-            if (para[0].Aprobador == 1)
-            {
-                NVC.EstadoNP = "P";
-            }
-            else
-            {
-                NVC.EstadoNP = "P";
-            }
-
-            if (para[0].Aprobador == 1)
-            {
-                List<NotadeVentaCabeceraModels> NV = controlDisofi().EditarNV(NVC);
-            }
-            else
-            {
-
-            }
-            //EMail
-            VerificationEmail(NVNumero, NomCon);
-            return Json(new { ID = id });
-        }
-        catch (Exception ex)
-        {
-            throw (ex);
-        }
-        //return RedirectToAction("Misclientes", "Ventas", new { ID = id });
-
-    }
-    */
 
         [HttpPost]
         public JsonResult ObtieneProductosPorListaPrecio(string ListaPrecio)

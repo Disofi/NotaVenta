@@ -160,12 +160,13 @@ namespace BLL
             return listadoMenu;
         }
 
-        public List<CentrodeCostoModels> listarCC()
+        public List<CentrodeCostoModels> ListarCentroCosto(string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListarCentroDeCosto", new System.Collections.Hashtable()
                 {
+                    { "pv_BaseDatos", basedatos},
                 });
 
                 return UTIL.Mapper.BindDataList<CentrodeCostoModels>(data);
@@ -178,14 +179,15 @@ namespace BLL
         }
 
 
-        public List<ClientesModels> GetClientes(ClientesModels cliente = null)
+        public List<ClientesModels> GetClientes(string basedatos, ClientesModels cliente = null)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("JS_ListarClientesCodAuxRut", new System.Collections.Hashtable()
                 {
                     { "vchrRutAux", cliente.RutAux},
-                    { "vchrCodAux", cliente.CodAux}
+                    { "vchrCodAux", cliente.CodAux},
+                    { "pv_BaseDatos", basedatos},
                 });
                 return UTIL.Mapper.BindDataList<ClientesModels>(data);
             }
@@ -196,13 +198,14 @@ namespace BLL
             }
         }
 
-        public List<ClientesModels> GetContacto(ClientesModels cliente = null)
+        public List<ClientesModels> GetContacto(string basedatos, ClientesModels cliente = null)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("JS_ListarContactos", new System.Collections.Hashtable()
                 {
-                    { "vchrCodAux", cliente.NomCon},
+                    { "vchrCodAux", cliente.CodAux},
+                    { "pv_BaseDatos", basedatos},
                 });
                 return UTIL.Mapper.BindDataList<ClientesModels>(data);
             }
@@ -318,7 +321,7 @@ namespace BLL
 
 
         //Busca los clientes por el VenCod del Usuario//
-        public List<ClientesModels> BuscarMisClientesVenCod(UsuariosModels usuario,string basedatos)
+        public List<ClientesModels> BuscarMisClientesVenCod(UsuariosModels usuario, string basedatos)
         {
             try
             {
@@ -337,7 +340,7 @@ namespace BLL
             }
         }
 
-        public List<ClientesModels> BuscarContacto(ClientesModels contacto)
+        public List<ClientesModels> BuscarContacto(string basedatos, ClientesModels contacto)
         {
             try
             {
@@ -345,6 +348,8 @@ namespace BLL
                 {
                     { "CodAuc", contacto.CodAux},
                     { "NomCon", contacto.NomAux},
+                    {"pv_BaseDatos",basedatos }
+
                 });
                 return UTIL.Mapper.BindDataList<ClientesModels>(data);
             }
@@ -413,7 +418,7 @@ namespace BLL
             }
         }
 
-        public RespuestaModel ActualizarCliente(ClientesModels cliente,string basedatos)
+        public RespuestaModel ActualizarCliente(ClientesModels cliente, string basedatos)
         {
             try
             {
@@ -443,13 +448,14 @@ namespace BLL
 
 
 
-        public List<CondicionVentasModels> listarConVen(CondicionVentasModels conven)
+        public List<CondicionVentasModels> listarConVen(string baseDatos, CondicionVentasModels conven)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListarCondicionesDeVenta", new System.Collections.Hashtable()
                 {
                     { "CodAux", conven.CodAux},
+                    { "pv_BaseDatos", baseDatos},
                 });
                 return UTIL.Mapper.BindDataList<CondicionVentasModels>(data);
             }
@@ -459,13 +465,14 @@ namespace BLL
                 return null;
             }
         }
-        public List<ListaDePrecioModels> listarListaDePrecio(ListaDePrecioModels lista)
+        public List<ListaDePrecioModels> listarListaDePrecio(string baseDatos, ListaDePrecioModels lista)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListarListaDePrecio", new System.Collections.Hashtable()
                 {
                     { "CodAux", lista.CodAux},
+                    { "pv_BaseDatos", baseDatos},
                 });
                 return UTIL.Mapper.BindDataList<ListaDePrecioModels>(data);
             }
@@ -1152,13 +1159,14 @@ namespace BLL
         }
 
 
-        public List<ClientesModels> GetVendedores(ClientesModels cliente = null)
+        public List<ClientesModels> GetVendedores(string basedatos, ClientesModels cliente = null)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("JS_ListarVendorVenCod", new System.Collections.Hashtable()
                 {
                     { "VenCod", cliente.VenCod},
+                    {"pv_BaseDatos",basedatos }
                 });
                 return UTIL.Mapper.BindDataList<ClientesModels>(data);
             }
@@ -1169,7 +1177,7 @@ namespace BLL
             }
         }
 
-        public List<UsuariosModels> GetDatosUsuario(string Id,string basedatos)
+        public List<UsuariosModels> GetDatosUsuario(string Id, string basedatos)
         {
             try
             {
@@ -1187,7 +1195,7 @@ namespace BLL
             }
         }
 
-        public List<ClientesModels> GetDatosClientes(string CodAux,string basedatos)
+        public List<ClientesModels> GetDatosClientes(string CodAux, string basedatos)
         {
             try
             {
@@ -1226,7 +1234,7 @@ namespace BLL
         {
             try
             {
-                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GET_Giro", new System.Collections.Hashtable() 
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GET_Giro", new System.Collections.Hashtable()
                 {
                     {"pv_BaseDatos",basedatos }
                 });
