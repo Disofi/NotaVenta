@@ -231,12 +231,13 @@ namespace BLL
         }
 
 
-        public List<ClientesModels> listarClientes()
+        public List<ClientesModels> listarClientes(string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListarClientes", new System.Collections.Hashtable()
                 {
+                    {"pv_BaseDatos",basedatos}
                 });
                 return UTIL.Mapper.BindDataList<ClientesModels>(data);
             }
@@ -412,7 +413,7 @@ namespace BLL
             }
         }
 
-        public RespuestaModel ActualizarCliente(ClientesModels cliente)
+        public RespuestaModel ActualizarCliente(ClientesModels cliente,string basedatos)
         {
             try
             {
@@ -425,6 +426,7 @@ namespace BLL
                     { "NomCon", cliente.NomCon},
                     { "FonCon", cliente.FonCon},
                     { "Email", cliente.EMail},
+                    { "pv_BaseDatos", basedatos}
             });
                 return UTIL.Mapper.BindData<RespuestaModel>(data);
             }
@@ -1016,7 +1018,8 @@ namespace BLL
                     { "tipoUsuario", usuario.tipoUsuario},
                     { "VenCod", usuario.VenCod },
                     { "Contrasena", usuario.Password },
-                    { "Nombre", usuario.Nombre }
+                    { "Nombre", usuario.Nombre },
+                    { "BaseDatos", usuario.BaseDatos},
                 });
 
                 return UTIL.Mapper.BindData<RespuestaModel>(data);
@@ -1098,12 +1101,13 @@ namespace BLL
             }
         }
 
-        public List<VendedoresSoftlandModels> listarVendedoresSoftland()
+        public List<VendedoresSoftlandModels> listarVendedoresSoftland(string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListarVendedorSoftland2", new System.Collections.Hashtable()
                 {
+                    {"pv_BaseDatos",basedatos }
                 });
                 return UTIL.Mapper.BindDataList<VendedoresSoftlandModels>(data);
             }
@@ -1130,12 +1134,13 @@ namespace BLL
             }
         }
 
-        public List<UsuariosModels> ListarCodVendedorSoft()
+        public List<UsuariosModels> ListarCodVendedorSoft(string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GetCodVendedor", new System.Collections.Hashtable()
                 {
+                    {"pv_BaseDatos",basedatos }
                 });
                 return UTIL.Mapper.BindDataList<UsuariosModels>(data);
             }
@@ -1164,14 +1169,15 @@ namespace BLL
             }
         }
 
-        public List<UsuariosModels> GetDatosUsuario(string Id)
+        public List<UsuariosModels> GetDatosUsuario(string Id,string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_GET_ObtenerDatosUsuario", new System.Collections.Hashtable()
-                                                                                                 {
-                                                                                                 {"IdUsuario", int.Parse(Id) }
-                                                                                                 });
+                {
+                    {"IdUsuario", int.Parse(Id) },
+                    {"pv_BaseDatos",basedatos }
+                });
                 return UTIL.Mapper.BindDataList<UsuariosModels>(data);
             }
             catch (Exception ex)
@@ -1181,13 +1187,14 @@ namespace BLL
             }
         }
 
-        public List<ClientesModels> GetDatosClientes(string CodAux)
+        public List<ClientesModels> GetDatosClientes(string CodAux,string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_GET_ObtenerDatosCliente", new System.Collections.Hashtable()
                 {
-                    {"CodAux",CodAux }
+                    {"CodAux",CodAux },
+                    {"pv_BaseDatos",basedatos }
                 });
                 return UTIL.Mapper.BindDataList<ClientesModels>(data);
             }

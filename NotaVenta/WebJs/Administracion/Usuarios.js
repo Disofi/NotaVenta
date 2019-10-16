@@ -44,10 +44,11 @@ function AgregarUsuario() {
     var Email = $('#txtEmail').val();
     var Perfil = $('#Perfil').val();
     var VenCod = $('#CodVendSoft').val();
+    var BaseDatos = $('#ListaBaseDatos').val();
     $.ajax({
         type: 'POST',
         url: 'Addusuario',
-        data: { _Usuario: Usuario, _Nombre: Nombre, _Contrasena: Contrasena, _Email: Email, _Perfil: Perfil, _VenCod: VenCod },
+        data: { _Usuario: Usuario, _Nombre: Nombre, _Contrasena: Contrasena, _Email: Email, _Perfil: Perfil, _VenCod: VenCod, _BaseDatos:BaseDatos },
         async: true,
         success: function (data) {
             if (data == -666) {

@@ -1,56 +1,6 @@
-C:\Users\Disofi\Source\Repos\Afubach\DAL\bin\Debug\DAL.dll
-C:\Users\Disofi\Source\Repos\Afubach\DAL\bin\Debug\DAL.pdb
-C:\Users\Disofi\Source\Repos\Afubach\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
-C:\Users\Disofi\Source\Repos\Afubach\DAL\obj\Debug\DAL.dll
-C:\Users\Disofi\Source\Repos\Afubach\DAL\obj\Debug\DAL.pdb
-C:\Users\Disofi\Desktop\Afubach\DAL\bin\Debug\DAL.dll
-C:\Users\Disofi\Desktop\Afubach\DAL\bin\Debug\DAL.pdb
-C:\Users\Disofi\Desktop\Afubach\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
-C:\Users\Disofi\Desktop\Afubach\DAL\obj\Debug\DAL.dll
-C:\Users\Disofi\Desktop\Afubach\DAL\obj\Debug\DAL.pdb
-C:\Users\Disofi\Desktop\Afubach\DAL\bin\Debug\log4net.dll
-C:\Users\Disofi\Desktop\Afubach\DAL\obj\Debug\DAL.csproj.CopyComplete
-C:\Users\Disofi\Desktop\Afubach\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
-C:\Users\Disofi\Desktop\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\bin\Debug\DAL.dll
-C:\Users\Disofi\Desktop\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\bin\Debug\DAL.pdb
-C:\Users\Disofi\Desktop\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\bin\Debug\log4net.dll
-C:\Users\Disofi\Desktop\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
-C:\Users\Disofi\Desktop\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\obj\Debug\DAL.csproj.CopyComplete
-C:\Users\Disofi\Desktop\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\obj\Debug\DAL.dll
-C:\Users\Disofi\Desktop\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\obj\Debug\DAL.pdb
-C:\Users\Disofi\Desktop\Proyectos\Proyectos .NET\DS-AFUBACH\Afubach\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
-D:\ProyectosYVEGA\disofi-texas-hub\DAL\bin\Debug\DAL.dll
-D:\ProyectosYVEGA\disofi-texas-hub\DAL\bin\Debug\DAL.pdb
-D:\ProyectosYVEGA\disofi-texas-hub\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
-D:\ProyectosYVEGA\disofi-texas-hub\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
-D:\ProyectosYVEGA\disofi-texas-hub\DAL\obj\Debug\DAL.csproj.CopyComplete
-D:\ProyectosYVEGA\disofi-texas-hub\DAL\obj\Debug\DAL.dll
-D:\ProyectosYVEGA\disofi-texas-hub\DAL\obj\Debug\DAL.pdb
-D:\ProyectosYVEGA\disofi-notaventa\DAL\bin\Debug\DAL.dll
-D:\ProyectosYVEGA\disofi-notaventa\DAL\bin\Debug\DAL.pdb
-D:\ProyectosYVEGA\disofi-notaventa\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
-D:\ProyectosYVEGA\disofi-notaventa\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
-D:\ProyectosYVEGA\disofi-notaventa\DAL\obj\Debug\DAL.csproj.CopyComplete
-D:\ProyectosYVEGA\disofi-notaventa\DAL\obj\Debug\DAL.dll
-D:\ProyectosYVEGA\disofi-notaventa\DAL\obj\Debug\DAL.pdb
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\DAL\bin\Debug\DAL.dll
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\DAL\bin\Debug\DAL.pdb
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\DAL\obj\Debug\DAL.csproj.CopyComplete
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\DAL\obj\Debug\DAL.dll
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\DAL\obj\Debug\DAL.pdb
-<<<<<<< HEAD
-D:\ProyectosYVEGA\NotaVenta\DAL\bin\Debug\DAL.dll
-D:\ProyectosYVEGA\NotaVenta\DAL\bin\Debug\DAL.pdb
-D:\ProyectosYVEGA\NotaVenta\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
-D:\ProyectosYVEGA\NotaVenta\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
-D:\ProyectosYVEGA\NotaVenta\DAL\obj\Debug\DAL.csproj.CopyComplete
-D:\ProyectosYVEGA\NotaVenta\DAL\obj\Debug\DAL.dll
-D:\ProyectosYVEGA\NotaVenta\DAL\obj\Debug\DAL.pdb
-=======
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\DAL\bin\Debug\DAL.dll
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\DAL\bin\Debug\DAL.pdb
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\DAL\obj\Debug\DAL.csproj.CopyComplete
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\DAL\obj\Debug\DAL.dll
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\DAL\obj\Debug\DAL.pdb
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
->>>>>>> fduran
