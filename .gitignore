@@ -1,6 +1,2 @@
 .vs
-BaseDatos/obj
-BLL/obj
-DAL/obj
-NotaVenta/obj
-UTIL/obj
+obj/
