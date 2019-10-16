@@ -10,11 +10,11 @@
     List<NotadeVentaCabeceraModels> doc = ViewBag.doc;
 
 
-    if (SessionVariables.SESSION_DATOS_USUARIO.VenCod == null)
-    {
-        var URL = System.Configuration.ConfigurationManager.AppSettings.Get("url");
-        Response.Redirect(URL);
-    }
+    //if (SessionVariables.SESSION_DATOS_USUARIO.VenCod == null)
+    //{
+    //    var URL = System.Configuration.ConfigurationManager.AppSettings.Get("url");
+    //    Response.Redirect(URL);
+    //}
 
 }
 <link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
@@ -75,8 +75,8 @@
                                                             <td class="rojomaldito">@doc[i].NVNumero</td>
                                                             <td class="rojomaldito">@doc[i].NomAux</td>
                                                             <td class="rojomaldito">@doc[i].RutAux</td>
-                                                            <td class="rojomaldito">@doc[i].nvFem.ToShortDateString()</td>
-                                                            <th class="rojomaldito">@doc[i].nvFeEnt.ToShortDateString()</th>
+                                                            <td class="rojomaldito">@doc[i].nvFem</td>
+                                                            <th class="rojomaldito">@doc[i].nvFeEnt</th>
                                                             <td class="rojomaldito">@doc[i].CodLista</td>
                                                             <td class="rojomaldito">@doc[i].NomCon</td>
                                                             <td class="rojomaldito">$@double.Parse(doc[i].nvNetoAfecto.ToString()).ToString("N0")</td>
@@ -90,8 +90,8 @@
                                                             <td>@doc[i].NVNumero</td>
                                                             <td>@doc[i].NomAux</td>
                                                             <td>@doc[i].RutAux</td>
-                                                            <td>@doc[i].nvFem.ToShortDateString()</td>
-                                                            <th>@doc[i].nvFeEnt.ToShortDateString()</th>
+                                                            <td>@doc[i].nvFem</td>
+                                                            <th>@doc[i].nvFeEnt</th>
                                                             <td>@doc[i].CodLista</td>
                                                             <td>@doc[i].NomCon</td>
                                                             <td>$@double.Parse(doc[i].nvNetoAfecto.ToString()).ToString("N0")</td>

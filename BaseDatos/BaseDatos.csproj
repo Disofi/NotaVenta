@@ -52,6 +52,12 @@
     <Content Include="SP\SP_GET_Ciudad.sql" />
     <Content Include="SP\FR_BuscarDirecDespa.sql" />
     <Content Include="SP\DS_GET_ObtenerDatosUsuario.sql" />
+    <Content Include="SP\DS_GET_ObtenerDatosCliente.sql" />
+    <Content Include="SP\DS_SET_EditarUsuario.sql" />
+    <Content Include="SP\FR_ListarClientes.sql" />
+    <Content Include="SP\FR_ListarVendedorSoftland2.sql" />
+    <Content Include="SP\JS_ListarMisClientes.sql" />
+    <Content Include="SP\SP_GET_Giro.sql" />
     <Content Include="SP\SP_GET_LOGIN.sql" />
     <Content Include="SP\DS_AgregarDireccionDespacho.sql" />
     <Content Include="SP\DS_ListarPefiles.sql" />
@@ -59,7 +65,6 @@
     <Content Include="SP\DS_ListaUsuarioEmpresa.sql" />
     <Content Include="SP\FR_BuscarParametrosUsuarios.sql" />
     <Content Include="SP\FR_ActualizarCliente.sql" />
-    <Content Include="SP\FR_ActualizarUsuario.sql" />
     <Content Include="SP\FR_AgregarUsuario.sql" />
     <Content Include="SP\FR_EliminarUsuario.sql" />
     <Content Include="SP\FR_ModificarParametrosUsuarios.sql" />
