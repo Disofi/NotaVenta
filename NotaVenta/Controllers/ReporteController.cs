@@ -25,7 +25,7 @@ namespace NotaVenta.Controllers
         public ActionResult FacturasPendientes()
         {
             List<NotadeVentaCabeceraModels> doc = new List<NotadeVentaCabeceraModels>();
-            var docPendientes = controlDisofi().listarDocPendientes();
+            var docPendientes = controlDisofi().listarDocPendientes(baseDatosUsuario());
 
             if (docPendientes != null)
             {
@@ -41,7 +41,7 @@ namespace NotaVenta.Controllers
         public ActionResult FacturasAprobadas()
         {
             List<NotadeVentaCabeceraModels> doc = new List<NotadeVentaCabeceraModels>();
-            var docAprobados = controlDisofi().listarDocAprobados();
+            var docAprobados = controlDisofi().listarDocAprobados(baseDatosUsuario());
 
             if (docAprobados != null)
             {
@@ -63,7 +63,7 @@ namespace NotaVenta.Controllers
 
             List<NotadeVentaCabeceraModels> proceso = controlDisofi().actualizaEstado(notaVenta);
 
-            List<NotadeVentaCabeceraModels> doc = controlDisofi().listarDocPendientes();
+            List<NotadeVentaCabeceraModels> doc = controlDisofi().listarDocPendientes(baseDatosUsuario());
 
             ViewBag.doc = doc;
             VerificationEmail(notaVenta.NVNumero);
