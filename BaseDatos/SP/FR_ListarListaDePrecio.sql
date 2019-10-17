@@ -54,7 +54,7 @@ BEGIN
 				on condicion.codlista = lista.CodLista
 		WHERE	condicion.codlista != ''''
 		AND		condicion.codlista IS NOT NULL 
-		AND		cliente.CodAux = ' + @CodAux + '
+		AND		cliente.CodAux = ''' + @CodAux + '''
 	END
 	'
 
