@@ -860,12 +860,13 @@ namespace BLL
             }
         }
 
-        public List<NotadeVentaCabeceraModels> listarDocAprobados()
+        public List<NotadeVentaCabeceraModels> listarDocAprobados(string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListarDocumentosAprobados", new System.Collections.Hashtable()
                 {
+                    {"pv_BaseDatos",basedatos }
                 });
                 return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
             }
@@ -876,12 +877,13 @@ namespace BLL
             }
         }
 
-        public List<NotadeVentaCabeceraModels> listarDocPendientes()
+        public List<NotadeVentaCabeceraModels> listarDocPendientes(string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListarDocumentosPendientes", new System.Collections.Hashtable()
                 {
+                    {"pv_BaseDatos",basedatos }
                 });
                 return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
             }
