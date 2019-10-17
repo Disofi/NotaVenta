@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-=======
-D:\ProyectosYVEGA\disofi-texas-hub\BaseDatos\bin\Debug\BaseDatos.dll
-D:\ProyectosYVEGA\disofi-texas-hub\BaseDatos\bin\Debug\BaseDatos.pdb
-D:\ProyectosYVEGA\disofi-texas-hub\BaseDatos\obj\Debug\BaseDatos.csproj.CoreCompileInputs.cache
-D:\ProyectosYVEGA\disofi-texas-hub\BaseDatos\obj\Debug\BaseDatos.dll
-D:\ProyectosYVEGA\disofi-texas-hub\BaseDatos\obj\Debug\BaseDatos.pdb
-D:\ProyectosYVEGA\disofi-notaventa\BaseDatos\bin\Debug\BaseDatos.dll
-D:\ProyectosYVEGA\disofi-notaventa\BaseDatos\bin\Debug\BaseDatos.pdb
-D:\ProyectosYVEGA\disofi-notaventa\BaseDatos\obj\Debug\BaseDatos.csproj.CoreCompileInputs.cache
-D:\ProyectosYVEGA\disofi-notaventa\BaseDatos\obj\Debug\BaseDatos.dll
-D:\ProyectosYVEGA\disofi-notaventa\BaseDatos\obj\Debug\BaseDatos.pdb
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\BaseDatos\bin\Debug\BaseDatos.dll
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\BaseDatos\bin\Debug\BaseDatos.pdb
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\BaseDatos\obj\Debug\BaseDatos.dll
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\BaseDatos\obj\Debug\BaseDatos.pdb
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\DS-NotaVenta\NotaVenta\BaseDatos\obj\Debug\BaseDatos.csprojAssemblyReference.cache
->>>>>>> fduran
 D:\ProyectosYVEGA\NotaVenta\BaseDatos\bin\Debug\BaseDatos.dll
 D:\ProyectosYVEGA\NotaVenta\BaseDatos\bin\Debug\BaseDatos.pdb
 D:\ProyectosYVEGA\NotaVenta\BaseDatos\obj\Debug\BaseDatos.csproj.CoreCompileInputs.cache

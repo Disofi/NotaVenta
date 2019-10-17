@@ -77,9 +77,9 @@ namespace BLL
             return _Control.BuscarMisClientes(RutAux);
         }
 
-        public List<ClientesModels> BuscarMisClientesVenCod(UsuariosModels usuario,string basedatos)
+        public List<ClientesModels> BuscarMisClientesVenCod(UsuariosModels usuario, string basedatos)
         {
-            return _Control.BuscarMisClientesVenCod(usuario,basedatos);
+            return _Control.BuscarMisClientesVenCod(usuario, basedatos);
         }
 
         public List<ClientesModels> BuscarContacto(string basedatos, ClientesModels contacto)
@@ -102,9 +102,9 @@ namespace BLL
             return _Control.AgregarDireccionDespacho(DirDes, baseDatos);
         }
 
-        public RespuestaModel ActualizarCliente(ClientesModels cliente,string basedatos)
+        public RespuestaModel ActualizarCliente(ClientesModels cliente, string basedatos)
         {
-            return _Control.ActualizarCliente(cliente,basedatos);
+            return _Control.ActualizarCliente(cliente, basedatos);
         }
 
         public List<CondicionVentasModels> listarConVen(string baseDatos, CondicionVentasModels conven)
@@ -122,9 +122,9 @@ namespace BLL
             return _Control.Login(usuario);
         }
 
-        public List<NotadeVentaCabeceraModels> AgregarNV(NotadeVentaCabeceraModels NVC)
+        public RespuestaNotaVentaModel AgregarNV(string baseDatos, bool insertaDisofi, bool insertaSoftland, NotadeVentaCabeceraModels NVC)
         {
-            return _Control.AgregarNV(NVC);
+            return _Control.AgregarNV(baseDatos, insertaDisofi, insertaSoftland, NVC);
         }
 
         public List<NotadeVentaCabeceraModels> EditarNV(NotadeVentaCabeceraModels NVC)
@@ -132,9 +132,9 @@ namespace BLL
             return _Control.EditarNV(NVC);
         }
 
-        public List<NotaDeVentaDetalleModels> DetalleNV(NotaDeVentaDetalleModels NVD)
+        public RespuestaNotaVentaModel AgregarDetalleNV(string baseDatos, bool insertaDisofi, bool insertaSoftland, NotaDeVentaDetalleModels NVD)
         {
-            return _Control.DetalleNV(NVD);
+            return _Control.AgregarDetalleNV(baseDatos, insertaDisofi, insertaSoftland, NVD);
         }
 
         public List<NotadeVentaCabeceraModels> BuscarNVPorNumero(NotadeVentaCabeceraModels NVC)
@@ -276,14 +276,14 @@ namespace BLL
             return _Control.GetVendedores(basedatos, cliente);
         }
 
-        public List<UsuariosModels> GetDatosUsuario(string Id,string basedatos)
+        public List<UsuariosModels> GetDatosUsuario(string Id, string basedatos)
         {
-            return _Control.GetDatosUsuario(Id,basedatos);
+            return _Control.GetDatosUsuario(Id, basedatos);
         }
 
-        public List<ClientesModels> GetDatosClientes(string CodAux,string basedatos)
+        public List<ClientesModels> GetDatosClientes(string CodAux, string basedatos)
         {
-            return _Control.GetDatosClientes(CodAux,basedatos);
+            return _Control.GetDatosClientes(CodAux, basedatos);
         }
 
         public List<UsuarioEmpresaModel> ListaUsuarioEmpresas(int idUsuario)

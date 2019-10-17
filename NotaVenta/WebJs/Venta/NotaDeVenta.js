@@ -44,7 +44,7 @@ $(document).ready(function () {
             NomDch: textoCiudad.trim()
         };
 
-        
+
         if (data.DirDch !== "" && data.CiuDch !== "" && data.DirDch !== "") {
             $.ajax({
                 url: "AgregarDireccionDespacho",
@@ -210,7 +210,9 @@ var handleEditableFormAjaxCall = function () {
                 if (/^([0-9])*$/.test(settings.data.value)) {
                     if (parseFloat(settings.data.value) <= 100 && parseFloat(settings.data.value) >= 0) {
                         descuentosAgregadosProducto = [];
-                        descuentosAgregadosProducto.push(parseFloat(settings.data.value));
+                        descuentosAgregadosProducto.push({
+                            Porcentaje: parseFloat(settings.data.value)
+                        });
                         CalcularFila(
                             $('#txtIngresoNeto').editable('getValue').txtIngresoNeto,
                             $('#txtIngresoCantidad').editable('getValue').txtIngresoCantidad,
@@ -292,7 +294,9 @@ function crearControlDescuentos() {
             + '<tbody>';
 
         for (i = 1; i <= cantidadDescuentosProducto; i++) {
-            descuentosAgregadosProducto.push(0);
+            descuentosAgregadosProducto.push({
+                Porcentaje: 0
+            });
             descuentosAppend = descuentosAppend
                 + '<tr>'
                 + '<td>'
@@ -324,7 +328,9 @@ function crearControlDescuentos() {
                 if (descuento > 100) { hayErrorMaximo = true; $("#descuento_" + i).val(descuentosAgregadosProducto[i - 1]); }
                 if (descuento < 0) { hayErrorMinimo = true; $("#descuento_" + i).val(descuentosAgregadosProducto[i - 1]); }
 
-                descuentosTemp.push(descuento);
+                descuentosTemp.push({
+                    Porcentaje: descuento
+                });
             }
             if (!hayErrorMaximo) {
                 if (!hayErrorMinimo) {
@@ -491,7 +497,9 @@ function CalcularProductosAgregados() {
 function obtieneDescuentosTotales() {
     var descuentos = [];
     for (i = 1; i <= cantidadDescuentosTotal; i++) {
-        descuentos.push(parseInt($("#txtDescuentoTotal" + i).val()));
+        descuentos.push({
+            Porcentaje: parseInt($("#txtDescuentoTotal" + i).val())
+        });
     }
 
     return descuentos;
@@ -761,7 +769,7 @@ function verTallaColor(datos) {
             $('#txtIngresoNeto').editable('setValue', verTallaColorPrecioUnitario);
             verTallaColorTalla = valores[z].talla;
             verTallaColorColor = valores[z].color;
-            descuentosAgregadosProducto = [verTallaColorDescuento];
+            descuentosAgregadosProducto = [{ Porcentaje: verTallaColorDescuento }];
 
             CalcularFila(
                 $('#txtIngresoNeto').editable('getValue').txtIngresoNeto,
@@ -808,6 +816,8 @@ function agregarnotadeventa() {
         CodLugarDesp = $('#cbxDireccion').val();
     }
 
+    var contacto = $('#txtcontacto').val();
+
     var CorreoCliente = $("#txtCorreoCliente").val();
 
     var cabecera = {
@@ -819,7 +829,7 @@ function agregarnotadeventa() {
         //nvEstRese: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //nvEstConc: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //CotNum: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
-        //NumOC: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        NumOC: 0,
         nvFeEnt: nvFeEnt,
         CodAux: CodAux,
         VenCod: VenCod,
@@ -828,7 +838,7 @@ function agregarnotadeventa() {
         nvObser: nvObser,
         //nvCanalNV: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         CveCod: CveCod,
-        //NomCon: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        NomCon: contacto,
         CodiCC: CodiCC,
         //CodBode: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         nvSubTotal: nvSubTotal,
@@ -878,12 +888,30 @@ function agregarnotadeventa() {
         //Nom_Distrib: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //MarcaWG: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
     };
+    var productos = productosAgregados;
+    var detalle = {};
 
-    for (i = 0; i < productosAgregados.length; i++) {
-
+    var dataNotaVenta = {
+        cabecera: cabecera,
+        productos: productos
     }
 
+    $.ajax({
+        url: "AgregarNV",
+        type: "POST",
+        data: dataNotaVenta,
+        success: function (result) {
+            confirm("Se Genero Cotizacion" + " " + NVNumero);
+            var url1 = $("#RedirectTo").val();
+            location.href = url1;
+        },
+        error: function (a, b, c) {
+            console.log(a, b, c);
+        },
+        async: false
+    });
 
+    return;
 
 
 

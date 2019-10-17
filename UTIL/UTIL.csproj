@@ -52,6 +52,7 @@
     <Compile Include="Models\NotadeVentaCabeceraModels.cs" />
     <Compile Include="Models\NotaDeVentaDetalleModels.cs" />
     <Compile Include="Models\ParametrosModels.cs" />
+    <Compile Include="Models\DescuentoProductoAgregadoModel.cs" />
     <Compile Include="Models\ProductoAgregadoModel.cs" />
     <Compile Include="Models\TallaColorProductoModels.cs" />
     <Compile Include="Models\ProductosModels.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Objetos\ObjetoMenu.cs" />
     <Compile Include="Objetos\ObjetoPerfil.cs" />
     <Compile Include="Objetos\ObjetoUsuario.cs" />
+    <Compile Include="Objetos\RespuestaNotaVentaModel.cs" />
     <Compile Include="Objetos\RespuestaModel.cs" />
     <Compile Include="Objetos\UsuariosModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -88,7 +88,7 @@ namespace UTIL.Models
         public string RutTransportista { get; set; }
         public string Cod_Distrib { get; set; }
         public string Nom_Distrib { get; set; }
-        public int MarcaWG { get; set; }
+        public int? MarcaWG { get; set; }
 
         #endregion
     }

@@ -12,7 +12,7 @@ using System.Web.Mvc;
 using UTIL.Models;
 using UTIL.Objetos;
 
-namespace TexasHub.Controllers
+namespace NotaVenta.Controllers
 {
     public class VentaController : BaseController
     {
@@ -117,11 +117,7 @@ namespace TexasHub.Controllers
 
             }
 
-            //Se agrega la cabecera
-            List<NotadeVentaCabeceraModels> lnvc = controlDisofi().AgregarNV(NVC);
-
-
-            ViewBag.numeronota = lnvc;
+            ViewBag.numeronota = NVC;
 
             CondicionVentasModels conven = new CondicionVentasModels();
 
@@ -216,64 +212,6 @@ namespace TexasHub.Controllers
             ViewBag.clientes = lclientes;
 
             return View();
-        }
-
-        public void Detallenv(string CodProd, string DetProd, double nvCant, string CodUMed, double nvPrecio, string CodLista,
-        double nvSubTotal, double nvTotLinea, int NVNumero, double nvLinea, DateTime nvFecCompr)
-        {
-            double porcentajefinal = 0;
-            double descuento = 0;
-
-            if (nvTotLinea != nvSubTotal)
-            {
-                porcentajefinal = 100 - ((nvTotLinea * 100) / nvSubTotal);
-                descuento = nvSubTotal - nvTotLinea;
-            }
-
-            #region"NVD"
-            var NVD = new NotaDeVentaDetalleModels
-            {
-
-                CodProd = CodProd,
-                NVNumero = NVNumero,
-                nvLinea = nvLinea,
-                nvCorrela = 0,
-                nvFecCompr = nvFecCompr,
-                nvCant = nvCant,
-                nvPrecio = nvPrecio,
-                nvEquiv = 1,
-                nvSubTotal = nvSubTotal,
-                nvDPorcDesc01 = porcentajefinal,
-                nvDDescto01 = descuento,
-                nvDPorcDesc02 = 0,
-                nvDDescto02 = 0,
-                nvDPorcDesc03 = 0,
-                nvDDescto03 = 0,
-                nvDPorcDesc04 = 0,
-                nvDDescto04 = 0,
-                nvDPorcDesc05 = 0,
-                nvDDescto05 = 0,
-                nvTotDesc = 0,
-                nvTotLinea = nvTotLinea,
-                nvCantDesp = 0,
-                nvCantProd = 0,
-                nvCantFact = 0,
-                nvCantDevuelto = 0,
-                nvCantNC = 0,
-                nvCantBoleta = 0,
-                nvCantOC = 0,
-                DetProd = DetProd,
-                CheckeoMovporAlarmaVtas = "N",
-                KIT = "",
-                CodPromocion = 0,
-                CodUMed = CodUMed,
-                CantUVta = nvCant,
-                Partida = "",
-                Pieza = ""
-            };
-            #endregion
-
-            List<NotaDeVentaDetalleModels> nv = controlDisofi().DetalleNV(NVD);
         }
 
         [NonAction]
@@ -659,32 +597,200 @@ namespace TexasHub.Controllers
         //}
 
         [HttpPost, ValidateInput(false)]
-        public JsonResult AgregarNV(NotadeVentaCabeceraModels notadeVentaCabeceraModels)
+        public JsonResult AgregarNV(NotadeVentaCabeceraModels cabecera, List<ProductoAgregadoModel> productos)
         {
             try
             {
                 ParametrosModels para = ObtieneParametros();
 
-                if (para.EnvioObligatorioAprobador == true)
+                bool insertaDisofi = true;
+                bool insertaSoftland = !para.EnvioObligatorioAprobador;
+
+                cabecera = new NotadeVentaCabeceraModels()
                 {
-                    notadeVentaCabeceraModels.EstadoNP = "P";
-                }
-                else
+                    NVNumero = cabecera.NVNumero,
+                    nvFem = cabecera.nvFem,
+                    nvEstado = insertaSoftland ? "A" : "P",
+                    nvEstFact = 0,
+                    nvEstDesp = 0,
+                    nvEstRese = 0,
+                    nvEstConc = 0,
+                    CotNum = 0,
+                    NumOC = "0",
+                    nvFeEnt = cabecera.nvFeEnt,
+                    CodAux = cabecera.CodAux,
+                    VenCod = cabecera.VenCod,
+                    CodMon = "01", //PESO CHILENO
+                    CodLista = cabecera.CodLista,
+                    nvObser = cabecera.nvObser,
+                    //nvCanalNV = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+                    CveCod = cabecera.CveCod,
+                    NomCon = cabecera.NomCon,
+                    CodiCC = cabecera.CodiCC,
+                    //CodBode = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+                    nvSubTotal = cabecera.nvSubTotal,
+                    //nvPorcDesc01 = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+                    //nvDescto01 = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+                    //nvPorcDesc02 = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+                    //nvDescto02 = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+                    //nvPorcDesc03 = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+                    //nvDescto03 = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+                    //nvPorcDesc04 = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+                    //nvDescto04 = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+                    //nvPorcDesc05vaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+                    //nvDescto05 = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+                    nvMonto = cabecera.nvMonto,
+                    nvFeAprob = insertaSoftland ? (DateTime?)DateTime.Now : null,
+                    NumGuiaRes = 0,
+                    nvPorcFlete = 0,
+                    nvValflete = 0,
+                    nvPorcEmb = 0,
+                    nvValEmb = 0,
+                    nvEquiv = 1,
+                    nvNetoExento = 0,
+                    nvNetoAfecto = cabecera.nvNetoAfecto,
+                    //nvTotalDesc = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+                    ConcAuto = "N",
+                    CodLugarDesp = cabecera.CodLugarDesp,
+                    SolicitadoPor = null,
+                    DespachadoPor = null,
+                    Patente = null,
+                    RetiradoPor = null,
+                    CheckeoPorAlarmaVtas = "N",
+                    EnMantencion = 0,
+                    Usuario = "",
+                    UsuarioGeneraDocto = "SOFTLAND",
+                    FechaHoraCreacion = DateTime.Now,
+                    Sistema = "NW",
+                    ConcManual = "N",
+                    RutSolicitante = null,
+                    proceso = "Notas de Venta",
+                    TotalBoleta = cabecera.TotalBoleta,
+                    NumReq = 0,
+                    //CodVenWeb = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+                    //CodBodeWms = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+                    CodLugarDocto = null,
+                    RutTransportista = null,
+                    Cod_Distrib = null,
+                    Nom_Distrib = null,
+                    MarcaWG = null,
+                };
+
+
+
+                RespuestaNotaVentaModel respuestaNotaVenta = controlDisofi().AgregarNV(baseDatosUsuario(), insertaDisofi, insertaSoftland, cabecera);
+
+                if ((insertaDisofi && respuestaNotaVenta.VerificadorDisofi) ||
+                    (!insertaDisofi && !respuestaNotaVenta.VerificadorDisofi))
                 {
-                    notadeVentaCabeceraModels.EstadoNP = "P";
+                    if ((insertaSoftland && respuestaNotaVenta.VerificadorSoftland) ||
+                        (!insertaSoftland && !respuestaNotaVenta.VerificadorSoftland))
+                    {
+                        for (int x = 0; x < productos.Count; x++)
+                        {
+                            NotaDeVentaDetalleModels detalle = new NotaDeVentaDetalleModels();
+
+                            detalle.IdNotaVenta = respuestaNotaVenta.IdNotaVenta;
+                            detalle.DesProd = productos[x].Descripcion;
+                            //detalle.Stock
+                            //detalle.Iva
+                            //detalle.EmailVend
+                            //detalle.PassCorreo
+                            detalle.NVNumero = respuestaNotaVenta.NVNumero;
+                            detalle.nvLinea = (x + 1);
+                            detalle.nvCorrela = 0;
+                            detalle.nvFecCompr = DateTime.Now;
+                            detalle.CodProd = productos[x].Codigo;
+                            detalle.nvCant = Convert.ToDouble(productos[x].Cantidad);
+                            detalle.nvPrecio = Convert.ToDouble(productos[x].PrecioUnitario);
+                            detalle.nvEquiv = 1;
+                            detalle.nvSubTotal = Convert.ToDouble(productos[x].SubTotal);
+                            int totalDescuento = 0;
+                            if (productos[x].Descuentos != null && productos[x].Descuentos.Count > 0)
+                            {
+                                detalle.nvDPorcDesc01 = Convert.ToDouble(productos[x].Descuentos[0].Porcentaje);
+                                detalle.nvDDescto01 = Convert.ToDouble(productos[x].Descuentos[0].Valor);
+                                totalDescuento = totalDescuento + Convert.ToInt32(detalle.nvDDescto01);
+                            }
+                            else
+                            {
+                                detalle.nvDPorcDesc01 = 0;
+                                detalle.nvDDescto01 = 0;
+                            }
+                            if (productos[x].Descuentos != null && productos[x].Descuentos.Count > 1)
+                            {
+                                detalle.nvDPorcDesc02 = Convert.ToDouble(productos[x].Descuentos[1].Porcentaje);
+                                detalle.nvDDescto02 = Convert.ToDouble(productos[x].Descuentos[1].Valor);
+                                totalDescuento = totalDescuento + Convert.ToInt32(detalle.nvDDescto02);
+                            }
+                            else
+                            {
+                                detalle.nvDPorcDesc02 = 0;
+                                detalle.nvDDescto02 = 0;
+                            }
+                            if (productos[x].Descuentos != null && productos[x].Descuentos.Count > 2)
+                            {
+                                detalle.nvDPorcDesc03 = Convert.ToDouble(productos[x].Descuentos[2].Porcentaje);
+                                detalle.nvDDescto03 = Convert.ToDouble(productos[x].Descuentos[2].Valor);
+                                totalDescuento = totalDescuento + Convert.ToInt32(detalle.nvDDescto03);
+                            }
+                            else
+                            {
+                                detalle.nvDPorcDesc03 = 0;
+                                detalle.nvDDescto03 = 0;
+                            }
+                            if (productos[x].Descuentos != null && productos[x].Descuentos.Count > 3)
+                            {
+                                detalle.nvDPorcDesc04 = Convert.ToDouble(productos[x].Descuentos[3].Porcentaje);
+                                detalle.nvDDescto04 = Convert.ToDouble(productos[x].Descuentos[3].Valor);
+                                totalDescuento = totalDescuento + Convert.ToInt32(detalle.nvDDescto04);
+                            }
+                            else
+                            {
+                                detalle.nvDPorcDesc04 = 0;
+                                detalle.nvDDescto04 = 0;
+                            }
+                            if (productos[x].Descuentos != null && productos[x].Descuentos.Count > 4)
+                            {
+                                detalle.nvDPorcDesc05 = Convert.ToDouble(productos[x].Descuentos[4].Porcentaje);
+                                detalle.nvDDescto05 = Convert.ToDouble(productos[x].Descuentos[4].Valor);
+                                totalDescuento = totalDescuento + Convert.ToInt32(detalle.nvDDescto05);
+                            }
+                            else
+                            {
+                                detalle.nvDPorcDesc05 = 0;
+                                detalle.nvDDescto05 = 0;
+                            }
+
+
+                            detalle.nvTotDesc = totalDescuento;
+                            detalle.nvTotLinea = Convert.ToDouble(productos[x].Total);
+                            detalle.nvCantDesp = 0;
+                            detalle.nvCantProd = 0;
+                            detalle.nvCantFact = 0;
+                            detalle.nvCantDevuelto = 0;
+                            detalle.nvCantNC = 0;
+                            detalle.nvCantBoleta = 0;
+                            detalle.nvCantOC = 0;
+                            detalle.DetProd = productos[x].Descripcion;
+                            detalle.CheckeoMovporAlarmaVtas = "N";
+                            detalle.KIT = null;
+                            detalle.CodPromocion = null;
+                            //detalle.CodUMed
+                            detalle.CantUVta = Convert.ToDouble(productos[x].Cantidad);
+                            detalle.Partida = productos[x].Talla;
+                            detalle.Pieza = productos[x].Color;
+                            detalle.FechaVencto = null;
+                            detalle.CantidadKit = 0;
+                            detalle.MarcaWG = null;
+                            detalle.PorcIncidenciaKit = 0;
+
+                            RespuestaNotaVentaModel respuestaDetalleNotaVenta = controlDisofi().AgregarDetalleNV(baseDatosUsuario(), insertaDisofi, insertaSoftland, detalle);
+                        }
+                    }
                 }
 
-                if (para.EnvioObligatorioAprobador == true)
-                {
-                    List<NotadeVentaCabeceraModels> NV = controlDisofi().EditarNV(notadeVentaCabeceraModels);
-                }
-                else
-                {
-
-                }
-                //EMail
-                VerificationEmail(notadeVentaCabeceraModels.NVNumero, notadeVentaCabeceraModels.NomCon);
-                return Json(new { ID = notadeVentaCabeceraModels.Id });
+                return Json(new { });
             }
             catch (Exception ex)
             {
@@ -732,7 +838,7 @@ namespace TexasHub.Controllers
         {
             List<ProductosModels> pro = controlDisofi().ListarProducto(ListaPrecio, baseDatosUsuario());
 
-            return Json(pro);
+            return NotaVenta.UTIL.JsonResultResponse.ObtenerResponse<List<ProductosModels>>(pro);
         }
 
         [HttpPost]
@@ -782,9 +888,9 @@ namespace TexasHub.Controllers
         }
 
 
-        public ProductoAgregadoModel CalcularFilaFunction(decimal precioUnitario, decimal cantidad, List<decimal> descuentos)
+        public ProductoAgregadoModel CalcularFilaFunction(decimal precioUnitario, decimal cantidad, List<DescuentoProductoAgregadoModel> descuentos)
         {
-            if (descuentos == null) { descuentos = new List<decimal>(); }
+            if (descuentos == null) { descuentos = new List<DescuentoProductoAgregadoModel>(); }
             decimal _precioUnitario = 0;
             decimal _cantidad = 0;
 
@@ -798,13 +904,17 @@ namespace TexasHub.Controllers
                 _cantidad = cantidad == 0 ? _cantidad : Convert.ToDecimal((decimal)cantidad / (cantidad * 100)) * (cantidad * 100);
             }
 
-            List<decimal> _descuentos = new List<decimal>();
+            List<DescuentoProductoAgregadoModel> _descuentos = new List<DescuentoProductoAgregadoModel>();
 
-            foreach (int item in descuentos)
+            for (int x = 0; x < descuentos.Count; x++)
             {
-                if (item > 0)
+                if (descuentos[x].Porcentaje > 0)
                 {
-                    _descuentos.Add(Convert.ToDecimal((decimal)item / (item * 100)) * (item * 100));
+                    DescuentoProductoAgregadoModel temp = new DescuentoProductoAgregadoModel()
+                    {
+                        Porcentaje = Convert.ToDecimal((decimal)descuentos[x].Porcentaje / (descuentos[x].Porcentaje * 100)) * (descuentos[x].Porcentaje * 100)
+                    };
+                    _descuentos.Add(temp);
                 }
             }
 
@@ -817,12 +927,14 @@ namespace TexasHub.Controllers
             total = subTotal;
             subTotalDescuento = subTotal;
 
-            foreach (decimal item in _descuentos)
+            for (int x = 0; x < _descuentos.Count; x++)
             {
-                if (item != 0)
+                if (_descuentos[x].Porcentaje != 0)
                 {
-                    total = total - (total * (item / 100));
-                    subTotalDescuento = subTotalDescuento - (subTotalDescuento * (item / 100));
+                    decimal valorDescuento = (total * (_descuentos[x].Porcentaje / 100));
+                    _descuentos[x].Valor = valorDescuento;
+                    total = total - valorDescuento;
+                    subTotalDescuento = subTotalDescuento - (subTotalDescuento * (_descuentos[x].Porcentaje / 100));
                 }
             }
 
@@ -837,7 +949,7 @@ namespace TexasHub.Controllers
         }
 
         [HttpPost]
-        public JsonResult CalcularFila(decimal precioUnitario, decimal cantidad, List<decimal> descuentos)
+        public JsonResult CalcularFila(decimal precioUnitario, decimal cantidad, List<DescuentoProductoAgregadoModel> descuentos)
         {
 
             return Json(CalcularFilaFunction(precioUnitario, cantidad, descuentos));
@@ -847,7 +959,7 @@ namespace TexasHub.Controllers
 
 
         [HttpPost]
-        public JsonResult CalcularProductosAgregados(List<ProductoAgregadoModel> productos, List<decimal> descuentos)
+        public JsonResult CalcularProductosAgregados(List<ProductoAgregadoModel> productos, List<DescuentoProductoAgregadoModel> descuentos)
         {
             decimal subTotal = 0;
             decimal impuesto = 0;
@@ -862,9 +974,11 @@ namespace TexasHub.Controllers
             impuesto = Convert.ToInt32(((subTotal * 19) / 100));
             total = subTotal - impuesto;
 
-            foreach (decimal item in descuentos)
+            for (int X = 0; X < descuentos.Count; X++)
             {
-                total = total - Convert.ToInt32(((total * item) / 100));
+                decimal valorDescuento = ((total * descuentos[X].Porcentaje) / 100);
+                descuentos[X].Valor = valorDescuento;
+                total = total - Convert.ToInt32(valorDescuento);
             }
 
             return Json(new
