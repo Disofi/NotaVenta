@@ -4,4 +4,13 @@ D:\ProyectosYVEGA\NotaVenta\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
 D:\ProyectosYVEGA\NotaVenta\DAL\obj\Debug\DAL.csproj.CopyComplete
 D:\ProyectosYVEGA\NotaVenta\DAL\obj\Debug\DAL.dll
 D:\ProyectosYVEGA\NotaVenta\DAL\obj\Debug\DAL.pdb
+<<<<<<< HEAD
 D:\ProyectosYVEGA\NotaVenta\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
+=======
+C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\DAL\bin\Debug\DAL.dll
+C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\DAL\bin\Debug\DAL.pdb
+C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
+C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\DAL\obj\Debug\DAL.csproj.CopyComplete
+C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\DAL\obj\Debug\DAL.dll
+C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\NotaVenta\DAL\obj\Debug\DAL.pdb
+>>>>>>> fduran

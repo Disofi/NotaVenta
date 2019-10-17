@@ -186,14 +186,14 @@ namespace BLL
             return _Control.BuscarProductoRapido(producto);
         }
 
-        public List<NotadeVentaCabeceraModels> listarDocAprobados()
+        public List<NotadeVentaCabeceraModels> listarDocAprobados(string basedatos)
         {
-            return _Control.listarDocAprobados();
+            return _Control.listarDocAprobados(basedatos);
         }
 
-        public List<NotadeVentaCabeceraModels> listarDocPendientes()
+        public List<NotadeVentaCabeceraModels> listarDocPendientes(string basedatos)
         {
-            return _Control.listarDocPendientes();
+            return _Control.listarDocPendientes(basedatos);
         }
 
         public List<NotadeVentaCabeceraModels> actualizaEstado(NotadeVentaCabeceraModels nw)
