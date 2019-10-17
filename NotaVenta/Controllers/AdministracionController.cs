@@ -10,7 +10,7 @@ using UTIL.Models;
 using UTIL.Objetos;
 using UTIL.Validaciones;
 
-namespace TexasHub.Controllers
+namespace NotaVenta.Controllers
 {
     public class AdministracionController : BaseController
     {

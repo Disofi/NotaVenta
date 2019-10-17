@@ -166,6 +166,7 @@
     <Compile Include="UTIL\Error\TipoAccionError.cs" />
     <Compile Include="UTIL\FilterAttributes\Autorizacion.cs" />
     <Compile Include="UTIL\FTP.cs" />
+    <Compile Include="UTIL\JsonResultResponse.cs" />
     <Compile Include="UTIL\SessionVariables.cs" />
     <Compile Include="UTIL\StringFormat.cs" />
   </ItemGroup>

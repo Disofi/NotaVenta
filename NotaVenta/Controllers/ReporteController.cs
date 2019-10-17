@@ -10,7 +10,7 @@ using System.Web.Mvc;
 using UTIL.Models;
 using UTIL.Objetos;
 
-namespace TexasHub.Controllers
+namespace NotaVenta.Controllers
 {
     public class ReporteController : BaseController
     {

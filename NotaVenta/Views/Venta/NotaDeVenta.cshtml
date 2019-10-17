@@ -42,7 +42,6 @@
     int total1 = 0;
     double impuesto = 0;
     double totalfinal = 0;
-    List<NotadeVentaCabeceraModels> nnotaventa = ViewBag.numeronota;
     int id = SessionVariables.SESSION_DATOS_USUARIO.IdUsuario;
 }
 
@@ -91,8 +90,8 @@
                         <table class="table table-profile">
                             <tbody>
                                 <tr class="highlight">
-                                    <td>N&ordm; Cotización</td>
-                                    <td><input type="text" name="txtnventa" value="@nnotaventa[0].NVNumero" class="form-control" readonly="readonly" id="txtnventa" /></td>
+                                    <td></td>
+                                    <td></td>
                                     <td>Cod. Cliente</td>
                                     <td>
                                         <input type="text" name="nombreCliente" id="nombreCliente" class="form-control" value="@codigo - @nombre" readonly="readonly" tabindex="-1" />
@@ -114,8 +113,8 @@
                                             {
                                                 if (vcontacto == 1)
                                                 {
-                                                    <select name="txtcontacto1" id="txtcontacto1" class="form-control">
-                                                        <option selected value="00"> -- Seleccione Contacto -- </option>
+                                                    <select name="txtcontacto" id="txtcontacto" class="form-control">
+                                                        <option selected value=""> -- Seleccione Contacto -- </option>
                                                         @{
                                                             for (int i = 0; i < listcontacto.Count; i++)
                                                             {
@@ -126,12 +125,12 @@
                                                 }
                                                 else
                                                 {
-                                                    <input type="text" name="txtcontacto0" id="txtcontacto0" class="form-control" value="" tabindex="-1" />
+                                                    <input type="text" name="txtcontacto" id="txtcontacto" class="form-control" value="" tabindex="-1" />
                                                 }
                                             }
                                             catch (Exception)
                                             {
-                                                <input type="text" name="txtcontacto00" id="txtcontacto00" value="" class="form-control" tabindex="-1" />
+                                                <input type="text" name="txtcontacto" id="txtcontacto" value="" class="form-control" tabindex="-1" />
                                             }
                                         }
                                         <input type="hidden" id="txtVcontacto" name="txtVcontacto" class="form-control" value=@vcontacto>
@@ -151,7 +150,7 @@
                                     <td nowrap="nowrap">Lista de Precio</td>
                                     <td>
                                         <select name="cbxlista" class="form-control" id="cbxlista" tabindex="7">
-                                            <option selected value="00"> -- Seleccione Lista De Precio -- </option>
+                                            <option selected value=""> -- Seleccione Lista De Precio -- </option>
                                             @{
                                                 for (int i = 0; i < listap.Count; i++)
                                                 {

@@ -8,9 +8,11 @@ namespace UTIL.Models
 {
     public class ProductoAgregadoModel
     {
+        public string Codigo { get; set; }
+        public string Descripcion { get; set; }
         public decimal PrecioUnitario { get; set; }
         public decimal Cantidad { get; set; }
-        public List<decimal> Descuentos { get; set; }
+        public List<DescuentoProductoAgregadoModel> Descuentos { get; set; }
         public decimal SubTotal { get; set; }
         public decimal Total { get; set; }
         public string Talla { get; set; }
