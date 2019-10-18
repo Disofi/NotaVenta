@@ -49,8 +49,8 @@ $(document).ready(function () {
 
     parametros = {
         /**/EditaPrecioProducto: ($("#EditaPrecioProducto").val().toLowerCase() === "true"),
-        MuestraCondicionVentaCliente: ($("#MuestraCondicionVentaCliente").val().toLowerCase() === "true"),
-        MuestraCondicionVentaTodos: ($("#MuestraCondicionVentaTodos").val().toLowerCase() === "true"),
+        /**/MuestraCondicionVentaCliente: ($("#MuestraCondicionVentaCliente").val().toLowerCase() === "true"),
+        /**/MuestraCondicionVentaTodos: ($("#MuestraCondicionVentaTodos").val().toLowerCase() === "true"),
         EditaDescuentoProducto: ($("#EditaDescuentoProducto").val().toLowerCase() === "true"),
         /**/MaximoDescuentoProducto: parseFloat($("#MaximoDescuentoProducto").val()),
         /**/CantidadDescuentosProducto: parseInt($("#CantidadDescuentosProducto").val()),

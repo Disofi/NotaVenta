@@ -38,7 +38,7 @@ BEGIN
 								on condicion.ConVta = ven.CveCod  
 						where	condicion.ConVta != ''''
 						and		condicion.ConVta is NOT null   
-						and		cliente.CodAux = ''' + @CodAux + '''
+						' + case when @CodAux = '-1' then '' else ('and		cliente.CodAux = ''' + @CodAux) end + '''
 					)
 	
 	if(@contar = 0) BEGIN  
@@ -58,7 +58,7 @@ BEGIN
 				ON condicion.ConVta = ven.CveCod  
 		WHERE	condicion.ConVta != ''''
 		AND		condicion.ConVta is NOT null   
-		AND		cliente.CodAux = ''' + @CodAux + '''
+		' + case when @CodAux = '-1' then '' else ('and		cliente.CodAux = ''' + @CodAux) end + '''
 	END
 	'
 	EXEC (@query)
