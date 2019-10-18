@@ -43,6 +43,8 @@
     double impuesto = 0;
     double totalfinal = 0;
     int id = SessionVariables.SESSION_DATOS_USUARIO.IdUsuario;
+
+    ParametrosModels parametros = ViewBag.Parametros;
 }
 
 
@@ -61,6 +63,28 @@
 <!-- end page-header -->
 <!-- begin row -->
 <div class="row">
+    <input type="hidden" id="EditaPrecioProducto" value="@parametros.EditaPrecioProducto.ToString()" />
+    <input type="hidden" id="MuestraCondicionVentaCliente" value="@parametros.MuestraCondicionVentaCliente.ToString()" />
+    <input type="hidden" id="MuestraCondicionVentaTodos" value="@parametros.MuestraCondicionVentaTodos.ToString()" />
+    <input type="hidden" id="EditaDescuentoProducto" value="@parametros.EditaDescuentoProducto.ToString()" />
+    <input type="hidden" id="MaximoDescuentoProducto" value="@parametros.MaximoDescuentoProducto" />
+    <input type="hidden" id="CantidadDescuentosProducto" value="@parametros.CantidadDescuentosProducto" />
+    <input type="hidden" id="MuestraStockProducto" value="@parametros.MuestraStockProducto.ToString()" />
+    <input type="hidden" id="StockProductoEsMasivo" value="@parametros.StockProductoEsMasivo.ToString()" />
+    <input type="hidden" id="StockProductoEsBodega" value="@parametros.StockProductoEsBodega.ToString()" />
+    <input type="hidden" id="StockProductoCodigoBodega" value="@parametros.StockProductoCodigoBodega" />
+    <input type="hidden" id="ControlaStockProducto" value="@parametros.ControlaStockProducto.ToString()" />
+    <input type="hidden" id="ManejaTallaColor" value="@parametros.ManejaTallaColor.ToString()" />
+    <input type="hidden" id="ManejaDescuentoTotalDocumento" value="@parametros.ManejaDescuentoTotalDocumento.ToString()" />
+    <input type="hidden" id="CantidadDescuentosTotalDocumento" value="@parametros.CantidadDescuentosTotalDocumento" />
+    <input type="hidden" id="ManejaLineaCredito" value="@parametros.ManejaLineaCredito.ToString()" />
+    <input type="hidden" id="ManejaCanalVenta" value="@parametros.ManejaCanalVenta.ToString()" />
+    <input type="hidden" id="PermiteModificacionCondicionVenta" value="@parametros.PermiteModificacionCondicionVenta.ToString()" />
+    <input type="hidden" id="AtributoSoftlandDescuentoCliente" value="@parametros.AtributoSoftlandDescuentoCliente" />
+    <input type="hidden" id="PermiteCrearDireccion" value="@parametros.PermiteCrearDireccion.ToString()" />
+    <input type="hidden" id="MuestraUnidadMedidaProducto" value="@parametros.MuestraUnidadMedidaProducto.ToString()" />
+
+
     <input type="hidden" id="urlObtieneProductosPorListaPrecio" value="@Url.Action("ObtieneProductosPorListaPrecio", "Venta" )" />
     <input type="hidden" id="urlPorcentaje" value="@Url.Action("Porcentaje", "Venta" )" />
     <input type="hidden" id="urlBusquedaProducto" value="@Url.Action("ProductSearch","Venta")" />
@@ -268,6 +292,7 @@
                                 <td style="text-align: right"><a href="javascript:;" id="txtIngresoSubTotal" data-type="text" data-pk="4" data-title="Sub Total">0</a></td>
                                 <td style="text-align: right">
                                     <a href="javascript:;" id="txtIngresoDescuento" data-pk="4" data-title="Descuento"></a>
+                                    <a href="javascript:;" id="txtIngresoDescuentoModal" style="display: none">Seleccionar Descuentos</a>
                                 </td>
                                 <td style="text-align: right"><a href="javascript:;" id="txtIngresoTotal" data-type="text" data-pk="4" data-title="Total">0</a></td>
                                 <td>

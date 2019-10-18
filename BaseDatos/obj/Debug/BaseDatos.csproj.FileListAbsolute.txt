@@ -1,0 +1,5 @@
+D:\ProyectosYVEGA\NotaVenta\BaseDatos\bin\Debug\BaseDatos.dll
+D:\ProyectosYVEGA\NotaVenta\BaseDatos\bin\Debug\BaseDatos.pdb
+D:\ProyectosYVEGA\NotaVenta\BaseDatos\obj\Debug\BaseDatos.csproj.CoreCompileInputs.cache
+D:\ProyectosYVEGA\NotaVenta\BaseDatos\obj\Debug\BaseDatos.dll
+D:\ProyectosYVEGA\NotaVenta\BaseDatos\obj\Debug\BaseDatos.pdb

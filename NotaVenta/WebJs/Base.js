@@ -39,6 +39,22 @@
         type: 'iframe'
     });
     */
+
+    $("#modalLayoutEmpresasAgregar").click(function () {
+        var empresa = $("#ddlLayoutEmpresas").val();
+
+        var urlSeleccionaEmpresa = $("#urlSeleccionaEmpresa").val();
+
+        $.ajax({
+            url: urlSeleccionaEmpresa,
+            type: "POST",
+            data: { _IdEmpresa: empresa },
+            async: true,
+            success: function (data) {
+                location.reload();
+            }
+        });
+    });
 });
 
 

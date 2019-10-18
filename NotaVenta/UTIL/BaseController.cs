@@ -32,6 +32,16 @@ namespace NotaVenta.UTIL
             return _control;
         }
 
+        public JsonResult SeleccionaEmpresa(int _IdEmpresa)
+        {
+            UsuarioEmpresaModel ue = new UsuarioEmpresaModel();
+            List<UsuarioEmpresaModel> empresas = controlDisofi().ListaUsuarioEmpresas(SessionVariables.SESSION_DATOS_USUARIO.IdUsuario);
+            UsuarioEmpresaModel usuarioEmpresaModel = empresas.Where(m => m.IdEmpresa == _IdEmpresa).First();
+            SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel = usuarioEmpresaModel;
+
+            return Json(new { Validador = 1, NombreEmpresa = usuarioEmpresaModel.NombreEmpresa });
+        }
+
         public ActionResult AbrirError(Errores.ERRORES codigoError, TipoAccionError.TIPO_ACCION_BTN tipoAccionBtn)
         {
             return RedirectToAction("Index", "Error", new { codigoError = codigoError, tipoAccionBtn = tipoAccionBtn });

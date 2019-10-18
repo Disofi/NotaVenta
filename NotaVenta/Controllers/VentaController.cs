@@ -194,6 +194,10 @@ namespace NotaVenta.Controllers
             }).ToList();
             ViewBag.Comuna = clientesComuna;
 
+            ParametrosModels parametros = ObtieneParametros();
+
+            ViewBag.Parametros = parametros;
+
             return View();
         }
 
@@ -776,7 +780,7 @@ namespace NotaVenta.Controllers
                             detalle.CheckeoMovporAlarmaVtas = "N";
                             detalle.KIT = null;
                             detalle.CodPromocion = null;
-                            //detalle.CodUMed
+                            detalle.CodUMed = productos[x].UnidadMedida;
                             detalle.CantUVta = Convert.ToDouble(productos[x].Cantidad);
                             detalle.Partida = productos[x].Talla;
                             detalle.Pieza = productos[x].Color;

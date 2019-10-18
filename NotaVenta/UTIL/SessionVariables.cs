@@ -12,20 +12,25 @@ namespace NotaVenta.UTIL
     {
         public static ObjetoUsuario SESSION_DATOS_USUARIO
         {
-            get { return (ObjetoUsuario)HttpContext.Current.Session["DatosUsuario"]; }
-            set { HttpContext.Current.Session["DatosUsuario"] = value; }
+            get { return (ObjetoUsuario)HttpContext.Current.Session["EWRWEFVREFGVR"]; }
+            set { HttpContext.Current.Session["EWRWEFVREFGVR"] = value; }
+        }
+        public static List<UsuarioEmpresaModel> SESSION_EMPRESAS_USUARIO
+        {
+            get { return (List<UsuarioEmpresaModel>)HttpContext.Current.Session["CNDSKOAOIODSFAF"]; }
+            set { HttpContext.Current.Session["CNDSKOAOIODSFAF"] = value; }
         }
 
         public static List<ClientesModels> SESSION_BUSCAR_CLIENTE
         {
-            get { return (List<ClientesModels>)HttpContext.Current.Session["buscarCliente"]; }
-            set { HttpContext.Current.Session["buscarCliente"] = value; }
+            get { return (List<ClientesModels>)HttpContext.Current.Session["FERTG54YHTR"]; }
+            set { HttpContext.Current.Session["FERTG54YHTR"] = value; }
         }
 
         public static NotadeVentaCabeceraModels SESSION_NOTA_VENTA_CABECERA_MODEL
         {
-            get { return (NotadeVentaCabeceraModels)HttpContext.Current.Session["NotadeVentaCabeceraModels"]; }
-            set { HttpContext.Current.Session["NotadeVentaCabeceraModels"] = value; }
+            get { return (NotadeVentaCabeceraModels)HttpContext.Current.Session["4RTG54Y65EY"]; }
+            set { HttpContext.Current.Session["4RTG54Y65EY"] = value; }
         }
     }
 }

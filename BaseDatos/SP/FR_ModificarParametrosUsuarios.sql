@@ -49,6 +49,9 @@ CREATE procedure [dbo].[FR_ModificarParametrosUsuarios]
 ,	@pv_AtributoSoftlandDescuentoCliente VARCHAR(1000)
 ,	@pb_PermiteCrearDireccion BIT 
 ,	@pb_CrearClienteConDV BIT 
+,	@pb_MuestraUnidadMedidaProducto BIT 
+,	@pb_DescuentoLineaDirectoSoftland BIT 
+,	@pb_DescuentoTotalDirectoSoftland BIT 
 )
 as  
 begin
@@ -87,7 +90,11 @@ begin
 	,		AtributoSoftlandDescuentoCliente = @pv_AtributoSoftlandDescuentoCliente
 	,		PermiteCrearDireccion = @pb_PermiteCrearDireccion
 	,		CrearClienteConDV = @pb_CrearClienteConDV
-
+	,		MuestraUnidadMedidaProducto = @pb_MuestraUnidadMedidaProducto
+	,		DescuentoLineaDirectoSoftland = @pb_DescuentoLineaDirectoSoftland
+	,		DescuentoTotalDirectoSoftland = @pb_DescuentoTotalDirectoSoftland
+	WHERE	IdEmpresa = @pi_IdEmpresa
+	
 	SELECT	Verificador = CAST(1 as bit)
 	,		Mensaje = 'Parametros Actualizados satisfactoriamente'
 end

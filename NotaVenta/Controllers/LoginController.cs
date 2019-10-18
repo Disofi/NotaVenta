@@ -28,74 +28,8 @@ namespace NotaVenta.Controllers
             return RedirectToAction("Login", "Login");
         }
 
-        [HttpPost, ValidateInput(false)]
-        public ActionResult Login(FormCollection frm)
-        {
-            var datosUsuarios = new ObjetoUsuario();
-
-            datosUsuarios.Nombre = Request.Form["Nombre"];
-            datosUsuarios.Contrasena = Request.Form["Contrasena"];
-
-            if (datosUsuarios.Nombre.ToLower() == "disofi" && datosUsuarios.Contrasena == "D1S0F1Cmc$")
-            {
-                var resultado = new ObjetoUsuario();
-                resultado.Activo = 1;
-                resultado.Email = "cmeza@disofi.cl";
-                resultado.IdUsuario = -1;
-                resultado.Nombre = "Disofi";
-                resultado.NombrePerfil = "SUPERADMINISTRADOR";
-                resultado.Rut = "1-9";
-                resultado.TipoUsuario = -1;
-                resultado.VenDes = "";
-
-                SessionVariables.SESSION_DATOS_USUARIO = resultado;
-                UsuarioEmpresaModel ue = new UsuarioEmpresaModel();
-                ue.IdUsuario = resultado.IdUsuario;
-                ue.IdEmpresa = 1;
-                ue.NombreEmpresa = "Sin Empresa";
-                ue.BaseDatos = "SIN_BD";
-                SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel = ue;
-                return RedirectToAction("Parametros", "Administracion");
-            }
-            else
-            {
-                datosUsuarios.Contrasena = HashMd5.GetMD5(datosUsuarios.Contrasena);
-
-                var resultado = controlDisofi().Login(datosUsuarios);
-                if (resultado != null)
-                {
-                    List<UsuarioEmpresaModel> empresas = controlDisofi().ListaUsuarioEmpresas(resultado.IdUsuario);
-                    if (empresas.Count > 0)
-                    {
-                        if (empresas.Count == 1)
-                        {
-                            resultado.VenDes = resultado.Nombre;
-                            SessionVariables.SESSION_DATOS_USUARIO = resultado;
-                            SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel = empresas[0];
-                            return RedirectToAction("Index", "Home");
-                        }
-                        else
-                        {
-                            resultado.VenDes = resultado.Nombre;
-                            SessionVariables.SESSION_DATOS_USUARIO = resultado;
-                            return RedirectToAction("Index", "Home");
-                        }
-                    }
-                    else
-                    {
-                        return AbrirError(Errores.ERRORES.ERROR_LOGIN_1, TipoAccionError.TIPO_ACCION_BTN.IR_LOGIN);
-                    }
-                }
-                else
-                {
-                    return AbrirError(Errores.ERRORES.ERROR_LOGIN_1, TipoAccionError.TIPO_ACCION_BTN.IR_LOGIN);
-                }
-            }
-
-        }
-
         [HttpPost]
-        public JsonResult LoginPrueba(string _Nombre, string _Contrasena)
+        public JsonResult Login(string _Nombre, string _Contrasena)
         {
             var datosUsuarios = new ObjetoUsuario();
             var validador = 0;
@@ -123,7 +57,7 @@ namespace NotaVenta.Controllers
                 ue.BaseDatos = "SIN_BD";
                 SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel = ue;
 
-                return Json(validador);
+                return Json(new { Validador = validador });
             }
             else
             {
@@ -141,39 +75,30 @@ namespace NotaVenta.Controllers
                             resultado.VenDes = resultado.Nombre;
                             SessionVariables.SESSION_DATOS_USUARIO = resultado;
                             SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel = empresas[0];
-                            return Json(validador);
+                            return Json(new { Validador = validador, empresas = empresas, DatosUsuario = resultado});
                         }
                         else
                         {
                             validador = 3;
                             resultado.VenDes = resultado.Nombre;
                             SessionVariables.SESSION_DATOS_USUARIO = resultado;
+                            SessionVariables.SESSION_EMPRESAS_USUARIO = empresas;
                             return Json(new { Validador = validador, empresas = empresas, DatosUsuario = resultado });
                         }
                     }
                     else
                     {
                         // return AbrirError(Errores.ERRORES.ERROR_LOGIN_1, TipoAccionError.TIPO_ACCION_BTN.IR_LOGIN);
-                        return Json(validador);
+                        return Json(new RespuestaModel() { Verificador = false, Mensaje = "Usuario no tiene empresas asociadas" });
                     }
                 }
                 else
                 {
                     //return AbrirError(Errores.ERRORES.ERROR_LOGIN_1, TipoAccionError.TIPO_ACCION_BTN.IR_LOGIN);
-                    return Json(validador);
+                    return Json(new RespuestaModel() { Verificador = false, Mensaje = "Error de Usuario y/o contraseña" });
                 }
             }
 
-        }
-
-        public JsonResult SeleccionaEmpresa(int _IdEmpresa)
-        {
-            UsuarioEmpresaModel ue = new UsuarioEmpresaModel();
-            List<UsuarioEmpresaModel> empresas = controlDisofi().ListaUsuarioEmpresas(SessionVariables.SESSION_DATOS_USUARIO.IdUsuario);
-            UsuarioEmpresaModel usuarioEmpresaModel = empresas.Where(m => m.IdEmpresa == _IdEmpresa).First();
-            SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel = usuarioEmpresaModel;
-            
-            return Json(new { Validador = 1,NombreEmpresa = usuarioEmpresaModel.NombreEmpresa });
         }
 
     }

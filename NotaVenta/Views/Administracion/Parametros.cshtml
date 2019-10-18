@@ -28,38 +28,36 @@
 </style>
 
 <div class="row">
-    <div class="row col-lg-2">
-    </div>
-    <div class="row col-lg-8">
-        <div class="col-lg-12">
-            <div class="panel panel-inverse" data-sortable-id="ui-widget-1">
-                <div class="panel-heading">
-                    <h4 class="panel-title">Parametros</h4>
-                    <div class="panel-heading-btn">
-                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>-->
-                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>-->
-                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>-->
+    <div class="col-lg-12">
+        <div class="panel panel-inverse" data-sortable-id="ui-widget-1">
+            <div class="panel-heading">
+                <h4 class="panel-title">Parametros</h4>
+                <div class="panel-heading-btn">
+                    <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>-->
+                    <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>-->
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                    <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>-->
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-4">
+                        Empresa
+                    </div>
+                    <div class="col-lg-8">
+                        <select name="ddlEmpresas" id="ddlEmpresas" class="form-control" tabindex="4">
+                            <option selected value="-1"> -- Seleccione Empresa -- </option>
+                            @{
+                                for (int i = 0; i < empresas.Count; i++)
+                                {
+                                    <option value="@empresas[i].IdEmpresa"> @empresas[i].NombreEmpresa </option>
+                                }
+                            }
+                        </select>
                     </div>
                 </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-4">
-                            Empresa
-                        </div>
-                        <div class="col-lg-8">
-                            <select name="ddlEmpresas" id="ddlEmpresas" class="form-control" tabindex="4">
-                                <option selected value="-1"> -- Seleccione Empresa -- </option>
-                                @{
-                                    for (int i = 0; i < empresas.Count; i++)
-                                    {
-                                        <option value="@empresas[i].IdEmpresa"> @empresas[i].NombreEmpresa </option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <div id="divDatos" class="row" style="display: none">
+                <div id="divDatos" class="row" style="display: none">
+                    <div class="col-lg-12">
                         <form id="formDatos">
                             <div class="table-responsive form-inline">
                                 <table class="table table-profile">
@@ -76,8 +74,6 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
                                                     <div class="col-lg-4">Maneja Administrador</div>
@@ -89,8 +85,6 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
                                                     <div class="col-lg-4">Maneja Aprobador</div>
@@ -115,8 +109,6 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
                                                     <div class="col-lg-4">ListaClientesTodos</div>
@@ -128,11 +120,9 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">ValidaReglasNegocio</div>
+                                                    <div class="col-lg-4">Valida Reglas de Negocio</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="ValidaReglasNegocio" id="ValidaReglasNegocio" @Html.Raw(parametros.ValidaReglasNegocio ? "checked" : "")>
@@ -145,7 +135,7 @@
                                         <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">ManejaListaPrecios</div>
+                                                    <div class="col-lg-4">Maneja Lista de Precios</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="ManejaListaPrecios" id="ManejaListaPrecios" @Html.Raw(parametros.ManejaListaPrecios ? "checked" : "")>
@@ -154,11 +144,9 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">EditaPrecioProducto</div>
+                                                    <div class="col-lg-4">Edita Precio de Producto</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="EditaPrecioProducto" id="EditaPrecioProducto" @Html.Raw(parametros.EditaPrecioProducto ? "checked" : "")>
@@ -167,11 +155,9 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">MuestraCondicionVentaCliente</div>
+                                                    <div class="col-lg-4">Muestra Condicion de Venta Cliente</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="MuestraCondicionVentaCliente" id="MuestraCondicionVentaCliente" @Html.Raw(parametros.MuestraCondicionVentaCliente ? "checked" : "")>
@@ -184,7 +170,7 @@
                                         <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">MuestraCondicionVentaTodos</div>
+                                                    <div class="col-lg-4">Muestra Condicion de Venta Todos</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="MuestraCondicionVentaTodos" id="MuestraCondicionVentaTodos" @Html.Raw(parametros.MuestraCondicionVentaTodos ? "checked" : "")>
@@ -193,11 +179,9 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">EditaDescuentoProducto</div>
+                                                    <div class="col-lg-4">Edita Descuento de Producto</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="EditaDescuentoProducto" id="EditaDescuentoProducto" @Html.Raw(parametros.EditaDescuentoProducto ? "checked" : "")>
@@ -206,11 +190,9 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">MaximoDescuentoProducto</div>
+                                                    <div class="col-lg-4">Maximo Descuento de Producto</div>
                                                     <div class="col-lg-8">
                                                         <input type="text" class="form-control" id="MaximoDescuentoProducto" name="MaximoDescuentoProducto" value="@parametros.MaximoDescuentoProducto" />
                                                     </div>
@@ -220,17 +202,15 @@
                                         <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">CantidadDescuentosProducto</div>
+                                                    <div class="col-lg-4">Cantidad Descuentos de Producto</div>
                                                     <div class="col-lg-8">
                                                         <input type="text" class="form-control" id="CantidadDescuentosProducto" name="CantidadDescuentosProducto" value="@parametros.CantidadDescuentosProducto" />
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">MuestraStockProducto</div>
+                                                    <div class="col-lg-4">Muestra Stock de Producto</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="MuestraStockProducto" id="MuestraStockProducto" @Html.Raw(parametros.MuestraStockProducto ? "checked" : "")>
@@ -239,11 +219,9 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">StockProductoEsMasivo</div>
+                                                    <div class="col-lg-4">Stock de Producto Es Masivo</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="StockProductoEsMasivo" id="StockProductoEsMasivo" @Html.Raw(parametros.StockProductoEsMasivo ? "checked" : "")>
@@ -256,7 +234,7 @@
                                         <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">StockProductoEsBodega</div>
+                                                    <div class="col-lg-4">Stock Producto es por Bodega</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="StockProductoEsBodega" id="StockProductoEsBodega" @Html.Raw(parametros.StockProductoEsBodega ? "checked" : "")>
@@ -265,21 +243,17 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">StockProductoCodigoBodega</div>
+                                                    <div class="col-lg-4">Codigo Bodega stock de producto</div>
                                                     <div class="col-lg-8">
                                                         <input type="text" class="form-control" id="StockProductoCodigoBodega" name="StockProductoCodigoBodega" value="@parametros.StockProductoCodigoBodega" />
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">ControlaStockProducto</div>
+                                                    <div class="col-lg-4">Controla Stock de Producto</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="ControlaStockProducto" id="ControlaStockProducto" @Html.Raw(parametros.ControlaStockProducto ? "checked" : "")>
@@ -292,7 +266,7 @@
                                         <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">EnvioMailCliente</div>
+                                                    <div class="col-lg-4">Envio Mail Cliente</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="EnvioMailCliente" id="EnvioMailCliente" @Html.Raw(parametros.EnvioMailCliente ? "checked" : "")>
@@ -301,11 +275,9 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">EnvioMailVendedor</div>
+                                                    <div class="col-lg-4">Envio Mail Vendedor</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="EnvioMailVendedor" id="EnvioMailVendedor" @Html.Raw(parametros.EnvioMailVendedor ? "checked" : "")>
@@ -314,11 +286,9 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">EnvioMailContacto</div>
+                                                    <div class="col-lg-4">Envio Mail Contacto</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="EnvioMailContacto" id="EnvioMailContacto" @Html.Raw(parametros.EnvioMailContacto ? "checked" : "")>
@@ -331,7 +301,7 @@
                                         <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">EnvioObligatorioAprobador</div>
+                                                    <div class="col-lg-4">Envio Obligatorio Aprobador</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="EnvioObligatorioAprobador" id="EnvioObligatorioAprobador" @Html.Raw(parametros.EnvioObligatorioAprobador ? "checked" : "")>
@@ -340,11 +310,9 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">ManejaTallaColor</div>
+                                                    <div class="col-lg-4">Maneja Talla Color</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="ManejaTallaColor" id="ManejaTallaColor" @Html.Raw(parametros.ManejaTallaColor ? "checked" : "")>
@@ -353,11 +321,9 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">ManejaDescuentoTotalDocumento</div>
+                                                    <div class="col-lg-4">Maneja Descuento Total Documento</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="ManejaDescuentoTotalDocumento" id="ManejaDescuentoTotalDocumento" @Html.Raw(parametros.ManejaDescuentoTotalDocumento ? "checked" : "")>
@@ -370,27 +336,23 @@
                                         <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">CantidadDescuentosTotalDocumento</div>
+                                                    <div class="col-lg-4">Cantidad Descuentos Total Documento</div>
                                                     <div class="col-lg-8">
                                                         <input type="text" class="form-control" id="CantidadDescuentosTotalDocumento" name="CantidadDescuentosTotalDocumento" value="@parametros.CantidadDescuentosTotalDocumento" />
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">CantidadLineas</div>
+                                                    <div class="col-lg-4">Cantidad Lineas nota de Venta</div>
                                                     <div class="col-lg-8">
                                                         <input type="text" class="form-control" id="CantidadLineas" name="CantidadLineas" value="@parametros.CantidadLineas" />
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">ManejaLineaCredito</div>
+                                                    <div class="col-lg-4">Maneja Linea Credito</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="ManejaLineaCredito" id="ManejaLineaCredito" @Html.Raw(parametros.ManejaLineaCredito ? "checked" : "")>
@@ -403,7 +365,7 @@
                                         <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">ManejaCanalVenta</div>
+                                                    <div class="col-lg-4">Maneja Canal Venta</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="ManejaCanalVenta" id="ManejaCanalVenta" @Html.Raw(parametros.ManejaCanalVenta ? "checked" : "")>
@@ -412,11 +374,9 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">CreacionNotaVentaUsuariosBloqueados</div>
+                                                    <div class="col-lg-4">Creacion Nota de Venta Usuarios Bloqueados</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="CreacionNotaVentaUsuariosBloqueados" id="CreacionNotaVentaUsuariosBloqueados" @Html.Raw(parametros.CreacionNotaVentaUsuariosBloqueados ? "checked" : "")>
@@ -425,11 +385,9 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">CreacionNotaVentaUsuariosInactivos</div>
+                                                    <div class="col-lg-4">Creacion Nota de Venta Usuarios Inactivos</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="CreacionNotaVentaUsuariosInactivos" id="CreacionNotaVentaUsuariosInactivos" @Html.Raw(parametros.CreacionNotaVentaUsuariosInactivos ? "checked" : "")>
@@ -442,7 +400,7 @@
                                         <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">PermiteModificacionCondicionVenta</div>
+                                                    <div class="col-lg-4">Permite Modificacion Condicion de Venta</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="PermiteModificacionCondicionVenta" id="PermiteModificacionCondicionVenta" @Html.Raw(parametros.PermiteModificacionCondicionVenta ? "checked" : "")>
@@ -451,21 +409,17 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">AtributoSoftlandDescuentoCliente</div>
+                                                    <div class="col-lg-4">Atributo Softland Descuento Cliente</div>
                                                     <div class="col-lg-8">
                                                         <input type="text" class="form-control" id="AtributoSoftlandDescuentoCliente" name="AtributoSoftlandDescuentoCliente" value="@parametros.AtributoSoftlandDescuentoCliente" />
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">PermiteCrearDireccion</div>
+                                                    <div class="col-lg-4">Permite Crear Direccion Despacho</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="PermiteCrearDireccion" id="PermiteCrearDireccion" @Html.Raw(parametros.PermiteCrearDireccion ? "checked" : "")>
@@ -478,11 +432,46 @@
                                         <tr>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">CrearClienteConDV</div>
+                                                    <div class="col-lg-4">Crear Cliente Con DV</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="CrearClienteConDV" id="CrearClienteConDV" @Html.Raw(parametros.CrearClienteConDV ? "checked" : "")>
                                                             <label for="CrearClienteConDV"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">Muestra Unidad de Medida Producto</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="MuestraUnidadMedidaProducto" id="MuestraUnidadMedidaProducto" @Html.Raw(parametros.MuestraUnidadMedidaProducto ? "checked" : "")>
+                                                            <label for="MuestraUnidadMedidaProducto"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">Descuento Linea Directo Softland</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="DescuentoLineaDirectoSoftland" id="DescuentoLineaDirectoSoftland" @Html.Raw(parametros.DescuentoLineaDirectoSoftland ? "checked" : "")>
+                                                            <label for="DescuentoLineaDirectoSoftland"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">Descuento Total Directo Softland</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="DescuentoTotalDirectoSoftland" id="DescuentoTotalDirectoSoftland" @Html.Raw(parametros.DescuentoTotalDirectoSoftland ? "checked" : "")>
+                                                            <label for="DescuentoTotalDirectoSoftland"></label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -505,8 +494,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row col-lg-2">
     </div>
 </div>
 

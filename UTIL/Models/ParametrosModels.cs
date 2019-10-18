@@ -78,5 +78,11 @@ namespace UTIL.Models
         //- CREACIÓN DE CLIENTE 
         //	- CON DIGITO VERIFICADOR SI/NO
         public bool CrearClienteConDV { get; set; }
+        //ELIMINAR UM
+        public bool MuestraUnidadMedidaProducto { get; set; }
+        //PARA FABRICA DEBEN IR LOS PRECIOS CON LOS DESCUENTOS A SOFTLAND
+        public bool DescuentoLineaDirectoSoftland { get; set; }
+        //PARA FABRICA DEBEN IR LOS PRECIOS CON LOS DESCUENTOS A SOFTLAND
+        public bool DescuentoTotalDirectoSoftland { get; set; }
     }
 }

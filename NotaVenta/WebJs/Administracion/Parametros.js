@@ -4,6 +4,7 @@
 
         var id = this.id;
 
+        /*
         switch (id) {
             case "ListaClientesVendedor":
                 $("#ListaClientesTodos").click();
@@ -12,6 +13,7 @@
                 $("#ListaClientesVendedor").click();
                 break;
         }
+        */
     });
 
     $("#btnGuardarParametro").click(function () {
@@ -61,6 +63,9 @@
                     $("#AtributoSoftlandDescuentoCliente").val(response.AtributoSoftlandDescuentoCliente);
                     cambiarValorSwitcher("PermiteCrearDireccion", response.PermiteCrearDireccion);
                     cambiarValorSwitcher("CrearClienteConDV", response.CrearClienteConDV);
+                    cambiarValorSwitcher("MuestraUnidadMedidaProducto", response.MuestraUnidadMedidaProducto);
+                    cambiarValorSwitcher("DescuentoLineaDirectoSoftland", response.DescuentoLineaDirectoSoftland);
+                    cambiarValorSwitcher("DescuentoTotalDirectoSoftland", response.DescuentoTotalDirectoSoftland);
 
                     $("#divDatos").fadeIn();
                 },
@@ -155,6 +160,9 @@ function GuardarParametros() {
     var AtributoSoftlandDescuentoCliente = $("#AtributoSoftlandDescuentoCliente").val();
     var PermiteCrearDireccion = estaHabilitadoSwitcher("PermiteCrearDireccion");
     var CrearClienteConDV = estaHabilitadoSwitcher("CrearClienteConDV");
+    var MuestraUnidadMedidaProducto = estaHabilitadoSwitcher("MuestraUnidadMedidaProducto");
+    var DescuentoLineaDirectoSoftland = estaHabilitadoSwitcher("DescuentoLineaDirectoSoftland");
+    var DescuentoTotalDirectoSoftland = estaHabilitadoSwitcher("DescuentoTotalDirectoSoftland");
 
     var datosRequest = {
         IdEmpresa: IdEmpresa,
@@ -192,6 +200,9 @@ function GuardarParametros() {
         AtributoSoftlandDescuentoCliente: AtributoSoftlandDescuentoCliente,
         PermiteCrearDireccion: PermiteCrearDireccion,
         CrearClienteConDV: CrearClienteConDV,
+        MuestraUnidadMedidaProducto: MuestraUnidadMedidaProducto,
+        DescuentoLineaDirectoSoftland: DescuentoLineaDirectoSoftland,
+        DescuentoTotalDirectoSoftland: DescuentoTotalDirectoSoftland,
     }
 
     $.ajax({
