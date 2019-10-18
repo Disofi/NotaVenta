@@ -51,7 +51,8 @@
             data: { _IdEmpresa: empresa },
             async: true,
             success: function (data) {
-                location.reload();
+                var urlHome = $("#urlHome").val();
+                window.location = urlHome;
             }
         });
     });
