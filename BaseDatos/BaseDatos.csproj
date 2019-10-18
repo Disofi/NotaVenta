@@ -57,6 +57,7 @@
     <Content Include="SP\FR_ListarCondicionesDeVenta.sql" />
     <Content Include="SP\FR_ListarCentroDeCosto.sql" />
     <Content Include="SP\JS_ListarContactos.sql" />
+    <Content Include="SP\FR_ObtenerCredito.sql" />
     <Content Include="SP\JS_ListarVendorVenCod.sql" />
     <Content Include="SP\FR_AgregarNVCabeceraSoftland.sql" />
     <Content Include="SP\SP_GET_Comuna.sql" />
