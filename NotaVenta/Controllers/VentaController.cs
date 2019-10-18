@@ -98,6 +98,19 @@ namespace NotaVenta.Controllers
                 CodAux = NVC.CodAux
             };
 
+             controlDisofi().ObtenerCredito(cliente.CodAux, baseDatosUsuario());
+
+
+            CreditoModel credito = controlDisofi().ObtenerCredito(cliente.CodAux, baseDatosUsuario());
+            if (credito != null)
+            {
+                credito.Deuda = credito.Debe - credito.Haber;
+                credito.Saldo = credito.Credito - credito.Deuda;
+            }
+
+            ViewBag.Credito = credito;
+
+
             ViewBag.CodAux = NVC.CodAux;
 
             List<ClientesModels> contactoCorreos = controlDisofi().GetContacto(baseDatosUsuario(), cliente);

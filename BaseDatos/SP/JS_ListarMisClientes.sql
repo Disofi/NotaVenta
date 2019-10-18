@@ -20,11 +20,23 @@ ALTER PROCEDURE [dbo].[JS_ListarMisClientes]
 AS
 BEGIN
 	declare @query nvarchar(max)
+	declare @nombre_tabla_temporal_clientes nvarchar(max)
+	declare @nombre_tabla_temporal_gmovi nvarchar(max)
 	
 	select	@query = ''
+	select	@nombre_tabla_temporal_clientes = 'tablaclientestemp'
+	select	@nombre_tabla_temporal_gmovi = 'tablagmovitemp'
 
 	select	@query = @query + '
-	SELECT top 10	c.CodAux
+	if object_id(''' + @nombre_tabla_temporal_clientes + ''') is not null begin
+		drop table ' + @nombre_tabla_temporal_clientes + '
+	end
+	
+	if object_id(''' + @nombre_tabla_temporal_gmovi + ''') is not null begin
+		drop table ' + @nombre_tabla_temporal_gmovi + '
+	end
+
+	SELECT	c.CodAux
 	,		c.NomAux
 	,		c.DirAux
 	,		c.DirNum
@@ -36,48 +48,10 @@ BEGIN
 						ELSE c.FonAux3 
 			END
 	,		C.Notas
-	,		DeudaVencida = 
-			(
-				SELECT	isnull(convert (numeric,( (sum(sub_a.DEBE)) - (sum(sub_a.HABER)))), 0)
-				from	[' + @pv_BaseDatos + '].[softland].[CWDocSaldos] sub_a
-				where	sub_a.CODAUX = c.CodAux
-				and		(
-							select	isnull(min(MovFv), '''')
-							from	[' + @pv_BaseDatos + '].[softland].[cwmovim] sub_cwom
-							where	sub_cwom.MovNumDocRef = sub_a.MOVNUMDOCREF and ttdcod= ''FV''
-						) < getdate()
-				and		MONTH
-						(
-							(
-								select	isnull(min(MovFv), '''')
-								from	[' + @pv_BaseDatos + '].[softland].[cwmovim] sub_cwom
-								where	sub_cwom.MovNumDocRef = sub_a.MOVNUMDOCREF and ttdcod= ''FV''
-							)
-						) < getdate()
-			)
-	,		Deuda = 
-			(
-				SELECT	isnull(convert (numeric,( (sum(sub_a.DEBE)) - (sum(sub_a.HABER)))), 0)
-				FROM	[' + @pv_BaseDatos + '].[softland].[CWDocSaldos] sub_a
-				where	sub_a.CODAUX = c.CodAux
-			)
-	,		Credito = 
-			CASE	WHEN	(
-								(Select CONVERT(numeric(18,2),vcl.MtoCre)
-								From [' + @pv_BaseDatos + '].softland.cwtcvcl as vcl INNER JOIN [' + @pv_BaseDatos + '].softland.CWDocSaldos as doc on
-								 vcl.CodAux = c.CodAux and doc.CodAux= vcl.CodAux 
-								Group by vcl.MtoCre ) - 
-								(SELECT convert (numeric,( (sum(DEBE)) - (sum(HABER)) ))  from  [' + @pv_BaseDatos + '].softland.CWDocSaldos
-								where CODAUX= c.CodAux)
-							) < 0 
-						then ''$0''
-						ELSE FORMAT((Select CONVERT(numeric(18,2),vcl.MtoCre)
-								From [' + @pv_BaseDatos + '].softland.cwtcvcl as vcl INNER JOIN [' + @pv_BaseDatos + '].softland.CWDocSaldos as doc on
-								 vcl.CodAux = c.CodAux and doc.CodAux= vcl.CodAux 
-								Group by vcl.MtoCre ) - 
-								(SELECT convert (numeric,( (sum(DEBE)) - (sum(HABER)) ))  from  [' + @pv_BaseDatos + '].softland.CWDocSaldos
-								where CODAUX= c.CodAux),''$0'')  
-			END
+	,		DeudaVencida = cast(null as float)
+	,		Deuda = cast(null as float)
+	,		Credito = cast(null as float)
+	INTO	' + @nombre_tabla_temporal_clientes + '
 	FROM	[' + @pv_BaseDatos + '].softland.[cwtauxven] A 
 		INNER JOIN [' + @pv_BaseDatos + '].softland.cwtauxi C 
 			ON (c.CodAux = a.CodAux) 
@@ -90,8 +64,86 @@ BEGIN
 	WHERE	D.VenCod = ' + @cod + '
 	and		D.ID = ' + CONVERT(VARCHAR(20), @ID ) + '
 	AND		C.Bloqueado	<> ''S''
+
+	
+	select	sub_cwom.MovNumDocRef
+	,		MovFv = isnull(min(MovFv), '''')
+	,		AntesFecha = case when isnull(min(sub_cwom.MovFv), '''') < getdate() then 1 else 0 end
+	,		AntesMes = case when MONTH(isnull(min(sub_cwom.MovFv), '''')) < getdate() then 1 else 0 end
+	,		Vencido = case when convert(datetime, convert(varchar(8), isnull(min(sub_cwom.MovFv), ''20501231''), 112)) < convert(datetime, convert(varchar(8), getdate(), 112)) then 1 else 0 end
+	into	' + @nombre_tabla_temporal_gmovi + '
+	from	[transporte].[softland].[cwmovim] sub_cwom
+	where	ttdcod= ''FV''
+	group by sub_cwom.MovNumDocRef
+	
+
+	select	codaux
+	,		case when Vencido = 1 then sum(DEBE - HABER) else 0 end
+	from	(
+				SELECT	codaux = sub_a.codaux
+				,		DEBE = isnull(sub_a.DEBE, 0)
+				,		HABER = isnull(sub_a.HABER, 0)
+				,		MovNumDocRef = sub_a.MovNumDocRef
+				,		sub_b.Vencido
+				from	[' + @pv_BaseDatos + '].[softland].[CWDocSaldos] sub_a
+					inner join ' + @nombre_tabla_temporal_gmovi + ' sub_b
+						on sub_a.MovNumDocRef = sub_b.MovNumDocRef
+				WHERE	sub_a.CodAux in (select sub_sub_a.codaux from ' + @nombre_tabla_temporal_clientes + ' sub_sub_a)
+			) a
+	group by codaux, MovNumDocRef, Vencido
+
+	--SELECT * FROM ' + @nombre_tabla_temporal_gmovi + '
+
+
+
+
+
+
+
+
+	declare @codaux varchar(30)
+
+	IF CURSOR_STATUS(''global'',''cursor_filas'')>=-1 BEGIN
+	 DEALLOCATE cursor_filas
+	END
+
+	declare cursor_filas cursor for
+		select	CodAux
+		from	' + @nombre_tabla_temporal_clientes + '
+
+	open cursor_filas 
+
+	fetch next from cursor_filas 
+	into @codaux
+
+	while @@fetch_status = 0 begin
+
+		fetch next from cursor_filas 
+		into @codaux
+	end
+
+	close cursor_filas 
+	deallocate cursor_filas 
+
+
+	--select	*
+	--from	' + @nombre_tabla_temporal_clientes + '
+	
+	if object_id(''' + @nombre_tabla_temporal_clientes + ''') is not null begin
+		drop table ' + @nombre_tabla_temporal_clientes + '
+	end
+	
+	if object_id(''' + @nombre_tabla_temporal_gmovi + ''') is not null begin
+		drop table ' + @nombre_tabla_temporal_gmovi + '
+	end
 	'
 
-	EXEC (@query)
+	exec (@query)
 END
 
+GO
+
+EXEC [dbo].[JS_ListarMisClientes]
+								@cod = '15'
+,								@ID = 2
+,								@pv_BaseDatos = 'TRANSPORTE'

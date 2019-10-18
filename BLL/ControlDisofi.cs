@@ -305,5 +305,9 @@ namespace BLL
         {
             return _Control.ObtenerComuna(baseDatos);
         }
+        public CreditoModel ObtenerCredito(string CodAux, string baseDatos)
+        {
+            return _Control.ObtenerCredito(CodAux, baseDatos);
+        }
     }
 }

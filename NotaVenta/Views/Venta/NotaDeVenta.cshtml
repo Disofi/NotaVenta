@@ -1,6 +1,11 @@
 ﻿@using UTIL.Models;
+@using UTIL.Objetos;
 @using NotaVenta.UTIL;
 @{
+    /**/
+
+    /**/
+
     /**/
 
     /**/
@@ -38,6 +43,7 @@
     string nombre = ViewBag.nombre;
     string tituloanterior = ViewBag.anterior;
     string pageantegior = ViewBag.page;
+    CreditoModel credito = ViewBag.Credito;
     int numero1 = 1;
     int total1 = 0;
     double impuesto = 0;
@@ -185,6 +191,12 @@
                                 <tr class="highlight">
                                     <td nowrap="nowrap">Fecha Pedido</td>
                                     <td><input type="date" class="form-control" name="txtfechapedido" value="@fechaactual" id="txtfechapedido" readonly="readonly" /></td>
+                                    <td nowrap="nowrap">Fecha Entrega</td>
+                                    <td><input type="date" class="form-control" name="txtfechaentrega" min=@fechamin value=@fechamin id="txtfechaentrega" /></td>
+                                </tr>
+                                <tr class="highlight">
+                                    <td nowrap="nowrap">Observaci&oacute;n</td>
+                                    <td><textarea class="form-control" name="txtobservacion" id="txtobservacion" rows="2"> </textarea></td>
                                     <td nowrap="nowrap">Centro de Costo</td>
                                     <td>
                                         <select class="form-control" name="cbxccosto" id="cbxccosto" tabindex="9">
@@ -197,12 +209,16 @@
                                             }
                                         </select>
                                     </td>
-                                    <td nowrap="nowrap">Fecha Entrega</td>
-                                    <td><input type="date" class="form-control" name="txtfechaentrega" min=@fechamin value=@fechamin id="txtfechaentrega" /></td>
                                 </tr>
                                 <tr class="highlight">
-                                    <td nowrap="nowrap">Observaci&oacute;n</td>
-                                    <td colspan="5"><textarea class="form-control" name="txtobservacion" id="txtobservacion" rows="2"> </textarea></td>
+                                    <td>Credito</td>
+                                    <td>
+                                        <label id="lblDeudaVencida">@credito.Credito</label>
+                                    </td>
+                                    <td>Disponible</td>
+                                    <td>
+                                        <label id="lblDeudaTotal">@credito.Saldo</label>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Dirección de Despacho</td>

@@ -46,7 +46,6 @@ var handleEditableFieldConstruct = function () {
 };
 
 $(document).ready(function () {
-
     parametros = {
         /**/EditaPrecioProducto: ($("#EditaPrecioProducto").val().toLowerCase() === "true"),
         /**/MuestraCondicionVentaCliente: ($("#MuestraCondicionVentaCliente").val().toLowerCase() === "true"),

@@ -1362,6 +1362,22 @@ namespace BLL
             }
         }
 
-
+        public CreditoModel ObtenerCredito(string CodAux, string baseDatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ObtenerCredito", new System.Collections.Hashtable()
+                {
+                    { "pv_CodAux", CodAux},
+                    { "pv_BaseDatos", baseDatos},
+                });
+                return UTIL.Mapper.BindData<CreditoModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
     }
 }
