@@ -965,6 +965,7 @@ namespace NotaVenta.Controllers
         [HttpPost]
         public JsonResult CalcularProductosAgregados(List<ProductoAgregadoModel> productos, List<DescuentoProductoAgregadoModel> descuentos)
         {
+            if (descuentos == null) { descuentos = new List<DescuentoProductoAgregadoModel>(); }
             decimal subTotal = 0;
             decimal impuesto = 0;
             decimal total = 0;

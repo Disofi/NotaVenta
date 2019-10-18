@@ -114,8 +114,6 @@
                         <table class="table table-profile">
                             <tbody>
                                 <tr class="highlight">
-                                    <td></td>
-                                    <td></td>
                                     <td>Cod. Cliente</td>
                                     <td>
                                         <input type="text" name="nombreCliente" id="nombreCliente" class="form-control" value="@codigo - @nombre" readonly="readonly" tabindex="-1" />
@@ -240,7 +238,10 @@
                                                 }
                                             </div>
                                             <div class="col-lg-2">
-                                                <input type="button" id="btnAgregarDireccionDespacho" class="btn btn-primary" value="Agregar Direccion" />
+                                                @if (parametros.PermiteCrearDireccion)
+                                                {
+                                                    <input type="button" id="btnAgregarDireccionDespacho" class="btn btn-primary" value="Agregar Direccion" />
+                                                }
                                             </div>
                                         </div>
                                     </td>
@@ -271,8 +272,14 @@
                                 <th>Cod. Rap.</th>
                                 <th style=" width: 450px !important">Descripcion/Codigo</th>
                                 <th>Cant.</th>
-                                <th>Stock</th>
-                                <th>U. deM</th>
+                                @if (parametros.MuestraStockProducto)
+                                {
+                                    <th>Stock</th>
+                                }
+                                @if (parametros.MuestraUnidadMedidaProducto)
+                                {
+                                    <th>U. deM</th>
+                                }
                                 <th>Neto</th>
                                 <th>Sub Total</th>
                                 <th>Descuen.(%)</th>
@@ -286,8 +293,8 @@
                                 <!--<td><a href="javascript:;" id="txtIngresoDescripcionCodigo" data-type="text" data-pk="2" data-title="Descripcion / Codigo"></a></td>-->
                                 <td data-select2-id="277"><a href="javascript:;" id="txtIngresoDescripcionCodigo" data-type="select2" data-pk="2" data-value="BS" data-title="Seleccione Producto" class="editable editable-click" style=""></a></td>
                                 <td style="text-align: right"><a href="javascript:;" id="txtIngresoCantidad" data-type="text" data-pk="3" data-title="Cantidad">1</a></td>
-                                <td style="text-align: right"><a href="javascript:;" id="txtIngresoStock" data-type="text" data-pk="4" data-title="Stock">0</a></td>
-                                <td><a href="javascript:;" id="txtIngresoUnidadDeMedida" data-type="text" data-pk="4" data-title="Unidad Medida"></a></td>
+                                <td style="text-align: right; @Html.Raw(parametros.MuestraStockProducto ? "" : "display: none")"><a href="javascript:;" id="txtIngresoStock" data-type="text" data-pk="4" data-title="Stock">0</a></td>
+                                <td style="text-align: right; @Html.Raw(parametros.MuestraUnidadMedidaProducto ? "" : "display: none")"><a href="javascript:;" id="txtIngresoUnidadDeMedida" data-type="text" data-pk="4" data-title="Unidad Medida"></a></td>
                                 <td style="text-align: right"><a href="javascript:;" id="txtIngresoNeto" data-type="text" data-pk="4" data-title="Neto">0</a></td>
                                 <td style="text-align: right"><a href="javascript:;" id="txtIngresoSubTotal" data-type="text" data-pk="4" data-title="Sub Total">0</a></td>
                                 <td style="text-align: right">
@@ -325,10 +332,10 @@
                                 <tr>
                                     <th nowrap="" class="codigoTh">C&oacute;digo</th>
                                     <th nowrap="" class="descripcionTh">Descripci&oacute;n</th>
-                                    <th nowrap="" class="tallaTh">Talla</th>
-                                    <th nowrap="" class="ColorTh">Color</th>
+                                    <th nowrap="" class="tallaTh" style="@Html.Raw(parametros.ManejaTallaColor ? "" : "display: none")">Talla</th>
+                                    <th nowrap="" class="ColorTh" style="@Html.Raw(parametros.ManejaTallaColor ? "" : "display: none")">Color</th>
                                     <th nowrap="" class="cantidadTh">Cantidad</th>
-                                    <th nowrap="" class="unimedTh">Unidad Medida </th>
+                                    <th nowrap="" class="unimedTh" style="@Html.Raw(parametros.MuestraUnidadMedidaProducto ? "" : "display: none")">Unidad Medida </th>
                                     <th nowrap="" classnowrap="" class="precioTh">Precio Unit Neto</th>
                                     <th nowrap="" class="subTotalTh">Subtotal Neto</th>
                                     <th nowrap="" class="subTotalTh">Descu. (%)</th>
@@ -456,7 +463,7 @@
                 <div class="row">
                     <div class="col-lg-3">Bodegas</div>
                     <div class="col-lg-9">
-                        <select id="modalTallaColorBodegas" class="form-control"></select>
+                        <select id="modalTallaColorBodegas" class="form-control" style="display: none"></select>
                     </div>
                 </div>
                 <div class="row">
@@ -526,7 +533,7 @@
                             <tr class="highlight">
                                 <td>Direccion</td>
                                 <td>
-                                <input type="text" id="modalAgregarDireccionDespachoDireccion" class="form-control" />
+                                    <input type="text" id="modalAgregarDireccionDespachoDireccion" class="form-control" />
                                 </td>
                             </tr>
                             <tr class="highlight">
