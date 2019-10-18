@@ -1,0 +1,103 @@
+﻿@using UTIL.Models;
+@using NotaVenta.UTIL;
+@{
+    ViewBag.Title = "Facturas Aprobadas";
+    List<NotadeVentaCabeceraModels> doc = ViewBag.doc;
+}
+
+<link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
+<script src="~/WebJs/Reporte/FacturasAprobadas.js"></script>
+<input type="hidden" id="urlFacturasPendientes" value="@Url.Action("FacturasPendientes", "Reportes")" />
+<div id="content" class="content">
+    <h1 class="page-header">@ViewBag.Message <small></small></h1>
+    <div class="panel panel-inverse width-full">
+        <div class="panel-heading">
+            <h4 class="panel-title">Listado De Facturas Aprobadas </h4>
+            <div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+            </div>
+        </div>
+        <div class="table-responsive">
+
+            <table id="dataTable" class="table" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Nº Int.</th>
+                        <th>Cliente</th>
+                        <th>RUT</th>
+                        <th>Fecha Creacion</th>
+                        <th>L.P.</th>
+                        <th>Contacto</th>
+                        <th>Neto</th>
+                        <th>Valo Final</th>
+                        <th>Estado</th>
+                        <th>NV Softland</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        try
+                        {
+                            for (int i = 0; i < doc.Count; i++)
+                            {
+                                <tr>
+                                    <td>@doc[i].NVNumero</td>
+                                    <td>@doc[i].NomAux</td>
+                                    <td>@doc[i].RutAux</td>
+                                    <td>@doc[i].nvFem</td>
+                                    <td>@doc[i].CodLista</td>
+                                    <td>@doc[i].NomCon</td>
+                                    <td>$@double.Parse(doc[i].nvNetoAfecto.ToString()).ToString("N0")</td>
+                                    <td>$@double.Parse(doc[i].TotalBoleta.ToString()).ToString("N0")</td>
+                                    <td>@doc[i].EstadoNP</td>
+                                    <td>@doc[i].RutSolicitante</td>
+                                    <td>
+                                        @if (doc[i].EstadoNP == "P")
+                                        {
+                                            <a id="iframe" href='@Url.Action("VerDetalleNV", "Reportes", new { nvNumero = @doc[i].NVNumero })'><img src="~/Image/zoom.png"></a>
+                                            <a><img src="~/Image/ok.png" onclick="aprobarNW(@doc[i].NVNumero)"></a>
+                                        }
+                                        else
+                                        {
+                                            <a id="iframe" href='@Url.Action("VerDetalleNV", "Reportes", new { nvNumero = @doc[i].NVNumero })'><img src="~/Image/zoom.png"></a>
+                                            <a>&nbsp;</a>
+                                        }
+
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th>SIN DOCUMENTOS APROBADOS</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+                    @*</div>
+                    <br />
+                </div>
+            </div>
+        </div>
+</section>*@
+    <form id="sss" name="sss" action="@Url.Action("FacturasPendientes", "Reportes")">
+        <input type="hidden" name="nvnumero" id="nvnumero" value="" />
+    </form>
+@*</div>*@
+
