@@ -31,7 +31,7 @@ namespace NotaVenta.Controllers
 
             List<ClientesModels> lclientes = new List<ClientesModels>();
 
-            usr.VenCod = codigoVendedorUsuario();
+            usr.VenCod = codigoVendedorUsuario().Trim();
             usr.id = SessionVariables.SESSION_DATOS_USUARIO.IdUsuario;
             var misClientes = controlDisofi().BuscarMisClientesVenCod(usr, baseDatosUsuario());
 

@@ -29,5 +29,6 @@ namespace UTIL.Models
         public string VenDes { get; set; }
         public string CodTipV { get; set; }
         public string Usuario { get; set; }
+
     }
 }
