@@ -856,6 +856,9 @@ namespace BLL
                     { "pv_AtributoSoftlandDescuentoCliente", parametro.AtributoSoftlandDescuentoCliente},
                     { "pb_PermiteCrearDireccion", parametro.PermiteCrearDireccion},
                     { "pb_CrearClienteConDV", parametro.CrearClienteConDV},
+                    { "pb_MuestraUnidadMedidaProducto", parametro.MuestraUnidadMedidaProducto},
+                    { "pb_DescuentoLineaDirectoSoftland", parametro.DescuentoLineaDirectoSoftland},
+                    { "pb_DescuentoTotalDirectoSoftland", parametro.DescuentoTotalDirectoSoftland},
                 });
                 return UTIL.Mapper.BindData<RespuestaModel>(data);
             }

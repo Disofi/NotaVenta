@@ -1,29 +1,92 @@
-﻿var precioProducto = 0;
+﻿var objetosEditable = {};
+
+var parametros = {};
+
+
+
+
+var precioProducto = 0;
 var productos = [];
 var productosAgregados = [];
 var descuentosAgregadosProducto = [];
-var cantidadDescuentosProducto = 0;
-var cantidadDescuentosTotal = 0;
 var BodegaPorDefecto = "";
 var validaCantidadVSStock = true;
 var cantidadMaximaLineas = 0;
 
+
+var FormEditable = function () {
+    "use strict";
+    return {
+        //main function
+        init: function () {
+            handleEditableFormAjaxCall();
+            handleEditableFieldConstruct();
+        }
+    };
+}();
+
+var handleEditableFieldConstruct = function () {
+    $.fn.editable.defaults.mode = 'inline';
+    $.fn.editable.defaults.inputclass = 'form-control input-sm';
+    $.fn.editable.defaults.url = '/post';
+
+    objetosEditable = {
+        codigoRapido: new EditableClass(document, "txtIngresoCodigoRapido", TiposEditable.Texto, { textoVacio: '', desactivar: true }),
+        cantidad: new EditableClass(document, "txtIngresoCantidad", TiposEditable.Texto, { textoVacio: 'Seleccione cantidad', desactivar: false }),
+        stock: new EditableClass(document, "txtIngresoStock", TiposEditable.Texto, { textoVacio: '', desactivar: true }),
+        unidadDeMedida: new EditableClass(document, "txtIngresoUnidadDeMedida", TiposEditable.Texto, { textoVacio: '', desactivar: true }),
+        neto: new EditableClass(document, "txtIngresoNeto", TiposEditable.Texto, { textoVacio: 'Seleccione neto', desactivar: false }),
+        descuento: new EditableClass(document, "txtIngresoDescuento", TiposEditable.Texto, { textoVacio: 'Seleccione descuento', desactivar: false }),
+        subTotal: new EditableClass(document, "txtIngresoSubTotal", TiposEditable.Texto, { textoVacio: '', desactivar: true }),
+        total: new EditableClass(document, "txtIngresoTotal", TiposEditable.Texto, { textoVacio: '', desactivar: true }),
+    };
+    if (!parametros.EditaPrecioProducto) {
+        objetosEditable.neto.desactivar();
+    }
+};
+
 $(document).ready(function () {
+
+    parametros = {
+        /**/EditaPrecioProducto: ($("#EditaPrecioProducto").val().toLowerCase() === "true"),
+        /**/MuestraCondicionVentaCliente: ($("#MuestraCondicionVentaCliente").val().toLowerCase() === "true"),
+        /**/MuestraCondicionVentaTodos: ($("#MuestraCondicionVentaTodos").val().toLowerCase() === "true"),
+        EditaDescuentoProducto: ($("#EditaDescuentoProducto").val().toLowerCase() === "true"),
+        /**/MaximoDescuentoProducto: parseFloat($("#MaximoDescuentoProducto").val()),
+        /**/CantidadDescuentosProducto: parseInt($("#CantidadDescuentosProducto").val()),
+        /**/MuestraStockProducto: ($("#MuestraStockProducto").val().toLowerCase() === "true"),
+        StockProductoEsMasivo: ($("#StockProductoEsMasivo").val().toLowerCase() === "true"),
+        StockProductoEsBodega: ($("#StockProductoEsBodega").val().toLowerCase() === "true"),
+        StockProductoCodigoBodega: $("#StockProductoCodigoBodega").val(),
+        ControlaStockProducto: ($("#ControlaStockProducto").val().toLowerCase() === "true"),
+        /**/ManejaTallaColor: ($("#ManejaTallaColor").val().toLowerCase() === "true"),
+        /**/ManejaDescuentoTotalDocumento: ($("#ManejaDescuentoTotalDocumento").val().toLowerCase() === "true"),
+        /**/CantidadDescuentosTotalDocumento: parseInt($("#CantidadDescuentosTotalDocumento").val()),
+        ManejaLineaCredito: ($("#ManejaLineaCredito").val().toLowerCase() === "true"),
+        ManejaCanalVenta: ($("#ManejaCanalVenta").val().toLowerCase() === "true"),
+        PermiteModificacionCondicionVenta: ($("#PermiteModificacionCondicionVenta").val().toLowerCase() === "true"),
+        AtributoSoftlandDescuentoCliente: $("#AtributoSoftlandDescuentoCliente").val(),
+        /**/PermiteCrearDireccion: ($("#PermiteCrearDireccion").val().toLowerCase() === "true"),
+        /**/MuestraUnidadMedidaProducto: ($("#MuestraUnidadMedidaProducto").val().toLowerCase() === "true"),
+    };
+
+    console.log(parametros);
+
     precioProducto = 0;
     productos = [];
     productosAgregados = [];
     descuentosAgregadosProducto = [];
-    cantidadDescuentosProducto = 5;
-    cantidadDescuentosTotal = 2;
     BodegaPorDefecto = "C01";
     validaCantidadVSStock = false;
     cantidadMaximaLineas = 20;
 
-    for (i = 1; i <= cantidadDescuentosTotal; i++) {
-        $("#trDescuento" + i).fadeIn();
-        $("#txtDescuentoTotal" + i).change(function () {
-            CalcularProductosAgregados();
-        });
+    if (parametros.ManejaDescuentoTotalDocumento) {
+        for (i = 1; i <= parametros.CantidadDescuentosTotalDocumento; i++) {
+            $("#trDescuento" + i).fadeIn();
+            $("#txtDescuentoTotal" + i).change(function () {
+                CalcularProductosAgregados();
+            });
+        }
     }
 
     $("#btnAgregarDireccionDespacho").click(function () {
@@ -98,6 +161,7 @@ $(document).ready(function () {
     FormEditable.init();
 
     cbxlistaChange();
+    crearControlDescuentos();
 });
 jQuery.moverColumna = function (table, from, to) {
     var rows = jQuery('tr', table);
@@ -119,49 +183,56 @@ var handleEditableFormAjaxCall = function () {
                     this.statusText = "Producto ya fue ingresado";
                 }
                 else {
-                    var urlTC = $("#urlObtieneTallaColorProducto").val();
-
-                    $.ajax({
-                        url: urlTC,
-                        data: { CodProd: producto.CodProd },
-                        type: "POST",
-                        dataType: "json",
-                        async: false,
-                        success: function (response) {
-                            console.log(response);
-                            if (response.length === 0) {
-                                $('#txtIngresoCodigoRapido').editable('setValue', producto.CodProd);
-                                $('#txtIngresoNeto').editable('setValue', producto.PrecioVta);
-                                $('#txtIngresoUnidadDeMedida').editable('setValue', producto.codumed);
-                                $('#txtIngresoStock').editable('setValue', producto.Stock);
-
-                                CalcularFila(
-                                    producto.PrecioVta,
-                                    $('#txtIngresoCantidad').editable('getValue').txtIngresoCantidad,
-                                    descuentosAgregadosProducto
-                                );
-                            }
-                            else {
-                                verTallaColorDescripcion = settings.data.value;
-                                verTallaColorMedida = producto.codumed;
-                                verTallaColorPrecioUnitario = producto.PrecioVta;
-                                verTallaColorDescuento = 0;
-                                verTallaColor(response);
-                            }
-                        },
-                        error: function (response) {
-                        },
-                        failure: function (response) {
-                            alert(response.responseText);
+                    if (!parametros.EditaPrecioProducto) {
+                        if (producto.PrecioVta === 0) {
+                            abrirError("Error precio de venta", "Producto no tiene precio asociado y este no se puede editar");
+                            limpiarCamposLinea();
+                            return;
                         }
-                    });
+                    }
+                    if (parametros.ManejaTallaColor) {
+                        var urlTC = $("#urlObtieneTallaColorProducto").val();
+
+                        $.ajax({
+                            url: urlTC,
+                            data: { CodProd: producto.CodProd },
+                            type: "POST",
+                            dataType: "json",
+                            async: false,
+                            success: function (response) {
+                                if (response.length === 0) {
+                                    llenarCamposSeleccionProducto(producto);
+                                }
+                                else {
+                                    verTallaColorDescripcion = settings.data.value;
+                                    if (parametros.MuestraUnidadMedidaProducto) {
+                                        verTallaColorMedida = producto.codumed;
+                                    }
+                                    else {
+                                        verTallaColorMedida = "";
+                                    }
+                                    verTallaColorPrecioUnitario = producto.PrecioVta;
+                                    verTallaColorDescuento = 0;
+                                    verTallaColor(response);
+                                }
+                            },
+                            error: function (response) {
+                            },
+                            failure: function (response) {
+                                alert(response.responseText);
+                            }
+                        });
+                    }
+                    else {
+                        llenarCamposSeleccionProducto(producto);
+                    }
                 }
             }
             if (settings.data.name === "txtIngresoCantidad") {
                 if (/^([0-9])*$/.test(settings.data.value)) {
                     if (parseFloat(settings.data.value) > 0) {
                         if (validaCantidadVSStock) {
-                            var stock = parseFloat($('#txtIngresoStock').editable('getValue').txtIngresoStock);
+                            var stock = parseFloat(objetosEditable.stock.getValor());
                             var cantidad = parseFloat(settings.data.value);
 
                             if (stock < cantidad) {
@@ -172,7 +243,7 @@ var handleEditableFormAjaxCall = function () {
                         }
 
                         CalcularFila(
-                            $('#txtIngresoNeto').editable('getValue').txtIngresoNeto,
+                            objetosEditable.neto.getValor(),
                             settings.data.value,
                             descuentosAgregadosProducto
                         );
@@ -192,7 +263,7 @@ var handleEditableFormAjaxCall = function () {
                     if (parseFloat(settings.data.value) > 0) {
                         CalcularFila(
                             settings.data.value,
-                            $('#txtIngresoCantidad').editable('getValue').txtIngresoCantidad,
+                            objetosEditable.cantidad.getValor(),
                             descuentosAgregadosProducto
                         );
                     }
@@ -209,15 +280,22 @@ var handleEditableFormAjaxCall = function () {
             if (settings.data.name === "txtIngresoDescuento") {
                 if (/^([0-9])*$/.test(settings.data.value)) {
                     if (parseFloat(settings.data.value) <= 100 && parseFloat(settings.data.value) >= 0) {
-                        descuentosAgregadosProducto = [];
-                        descuentosAgregadosProducto.push({
-                            Porcentaje: parseFloat(settings.data.value)
-                        });
-                        CalcularFila(
-                            $('#txtIngresoNeto').editable('getValue').txtIngresoNeto,
-                            $('#txtIngresoCantidad').editable('getValue').txtIngresoCantidad,
-                            descuentosAgregadosProducto
-                        );
+                        if (parametros.MaximoDescuentoProducto === 0 || parametros.MaximoDescuentoProducto >= parseFloat(settings.data.value)) {
+
+                            descuentosAgregadosProducto = [];
+                            descuentosAgregadosProducto.push({
+                                Porcentaje: parseFloat(settings.data.value)
+                            });
+                            CalcularFila(
+                                objetosEditable.neto.getValor(),
+                                objetosEditable.cantidad.getValor(),
+                                descuentosAgregadosProducto
+                            );
+                        }
+                        else {
+                            this.status = 500;
+                            this.statusText = "Descuento no pueden superar el maximo permitido (" + parametros.MaximoDescuentoProducto + "%)";
+                        }
                     }
                     else {
                         this.status = 500;
@@ -233,58 +311,40 @@ var handleEditableFormAjaxCall = function () {
     });
 };
 
-var handleEditableFieldConstruct = function () {
-    $.fn.editable.defaults.mode = 'inline';
-    $.fn.editable.defaults.inputclass = 'form-control input-sm';
-    $.fn.editable.defaults.url = '/post';
+function llenarCamposSeleccionProducto(producto) {
+    objetosEditable.codigoRapido.setValor(producto.CodProd);
+    objetosEditable.neto.setValor(producto.PrecioVta);
+    if (parametros.MuestraUnidadMedidaProducto) {
+        objetosEditable.unidadDeMedida.setValor(producto.codumed);
+    }
+    else {
+        objetosEditable.unidadDeMedida.setValor("");
+    }
+    if (parametros.MuestraStockProducto) {
+        objetosEditable.stock.setValor(producto.Stock);
+    }
+    else {
+        objetosEditable.stock.setValor(0);
+    }
 
-    $('#txtIngresoCodigoRapido').editable({
-        emptytext: '',
-    });
-
-    $('#txtIngresoCantidad').editable({
-        emptytext: 'Seleccione cantidad',
-    });
-
-    $('#txtIngresoStock').editable({
-        emptytext: '',
-    });
-    $('#txtIngresoStock').editable('toggleDisabled');
-
-    $('#txtIngresoUnidadDeMedida').editable({
-        emptytext: ''
-    });
-    $('#txtIngresoUnidadDeMedida').editable('toggleDisabled');
-
-    $('#txtIngresoNeto').editable({
-        emptytext: 'Seleccione neto',
-    });
-
-    $('#txtIngresoSubTotal').editable();
-    $('#txtIngresoSubTotal').editable('toggleDisabled');
-
-    crearControlDescuentos();
-
-    $('#txtIngresoTotal').editable();
-    $('#txtIngresoTotal').editable('toggleDisabled');
-};
+    CalcularFila(
+        producto.PrecioVta,
+        objetosEditable.cantidad.getValor(),
+        descuentosAgregadosProducto
+    );
+}
 
 function crearControlDescuentos() {
     descuentosAgregadosProducto = [];
-    if (cantidadDescuentosProducto === 0) {
-        $('#txtIngresoDescuento').editable({
-            emptytext: 'Seleccione descuento',
-        });
-        $('#txtIngresoDescuento').editable('toggleDisabled');
+    if (parametros.CantidadDescuentosProducto === 0) {
+        objetosEditable.descuento.desactivar();
     }
-    else if (cantidadDescuentosProducto === 1) {
-        $('#txtIngresoDescuento').editable({
-            emptytext: 'Seleccione descuento',
-        });
+    else if (parametros.CantidadDescuentosProducto === 1) {
     }
     else {
-        $('#txtIngresoDescuento').html("Seleccione descuento");
-        $('#txtIngresoDescuento').addClass("editable editable-click editable-empty");
+        $('#txtIngresoDescuento').fadeOut();
+        $('#txtIngresoDescuentoModal').fadeIn();
+        $('#txtIngresoDescuentoModal').addClass("editable editable-click editable-empty");
 
         var descuentosAppend = "";
         descuentosAppend = descuentosAppend
@@ -293,7 +353,7 @@ function crearControlDescuentos() {
             + '<thead></thead>'
             + '<tbody>';
 
-        for (i = 1; i <= cantidadDescuentosProducto; i++) {
+        for (i = 1; i <= parametros.CantidadDescuentosProducto; i++) {
             descuentosAgregadosProducto.push({
                 Porcentaje: 0
             });
@@ -313,58 +373,49 @@ function crearControlDescuentos() {
 
         $("#modalDescuentosControles").html(descuentosAppend);
 
-        $('#txtIngresoDescuento').click(function () {
+        $('#txtIngresoDescuentoModal').click(function () {
             $("#aModalDescuentos").click();
         });
         $('#modalDescuentosAgregarDescuentos').click(function () {
             var descuentosTemp = [];
+            var hayErrorMaximoPermitido = false;
             var hayErrorMaximo = false;
             var hayErrorMinimo = false;
 
-            for (i = 1; i <= cantidadDescuentosProducto; i++) {
+            for (i = 1; i <= parametros.CantidadDescuentosProducto; i++) {
                 var descuento = $("#descuento_" + i).val();
                 descuento = parseFloat(descuento);
 
-                if (descuento > 100) { hayErrorMaximo = true; $("#descuento_" + i).val(descuentosAgregadosProducto[i - 1]); }
-                if (descuento < 0) { hayErrorMinimo = true; $("#descuento_" + i).val(descuentosAgregadosProducto[i - 1]); }
+                if (descuento > 100) {
+                    abrirError("Error de descuentos", "Los descuentos no pueden superar el 100%");
+                    return;
+                }
+                if (descuento < 0) {
+                    abrirError("Error de descuentos", "Los descuentos no pueden ser inferior a 0%");
+                    return;
+                }
+                if (parametros.MaximoDescuentoProducto > 0 && parametros.MaximoDescuentoProducto < descuento) {
+                    abrirError("Error de descuentos", "Los descuentos no pueden superar el maximo permitido (" + parametros.MaximoDescuentoProducto + "%)");
+                    return;
+                }
 
                 descuentosTemp.push({
                     Porcentaje: descuento
                 });
             }
-            if (!hayErrorMaximo) {
-                if (!hayErrorMinimo) {
-                    descuentosAgregadosProducto = [];
-                    descuentosAgregadosProducto = descuentosTemp;
 
-                    CalcularFila(
-                        $('#txtIngresoNeto').editable('getValue').txtIngresoNeto,
-                        $('#txtIngresoCantidad').editable('getValue').txtIngresoCantidad,
-                        descuentosAgregadosProducto
-                    );
-                    $("#modalDescuentosCerrar").click();
-                }
-                else {
-                    abrirError("Error de descuentos", "Los descuentos no pueden ser inferior a 0%");
-                }
-            }
-            else {
-                abrirError("Error de descuentos", "Los descuentos no pueden superar el 100%");
-            }
+            descuentosAgregadosProducto = [];
+            descuentosAgregadosProducto = descuentosTemp;
+
+            CalcularFila(
+                objetosEditable.neto.getValor(),
+                objetosEditable.cantidad.getValor(),
+                descuentosAgregadosProducto
+            );
+            $("#modalDescuentosCerrar").click();
         });
     }
 }
-
-var FormEditable = function () {
-    "use strict";
-    return {
-        //main function
-        init: function () {
-            handleEditableFormAjaxCall();
-            handleEditableFieldConstruct();
-        }
-    };
-}();
 
 function cbxlistaChange() {
     var _url = $("#urlObtieneProductosPorListaPrecio").val();
@@ -383,15 +434,18 @@ function cbxlistaChange() {
                 return x
             });
 
-            $('#txtIngresoDescripcionCodigo').editable({
-                emptytext: 'Busqueda de Producto',
-                source: productos.map(m => { return { id: m.busqueda, text: m.busqueda } }),
-                select2: {
-                    width: 200,
-                    placeholder: 'Seleccione Productos',
-                    allowClear: true
-                }
-            });
+            objetosEditable.descripcionCodigo = new EditableClass(document,
+                "txtIngresoDescripcionCodigo",
+                TiposEditable.Select2,
+                {
+                    textoVacio: "Busqueda de Producto",
+                    fuenteDatos: productos.map(m => { return { id: m.busqueda, text: m.busqueda } }),
+                    select2: {
+                        width: 'resolve',
+                        placeholder: 'Seleccione Productos',
+                        allowClear: true
+                    }
+                });
         },
         error: function (response) {
             alert("Este Producto no se encuentra en esta lista de Precio");
@@ -451,8 +505,8 @@ function CalcularFila(precioUnitario, cantidad, descuentos) {
             var subTotal = result.SubTotal;
             var total = result.Total;
 
-            $('#txtIngresoSubTotal').editable('setValue', parseInt(subTotal));
-            $('#txtIngresoTotal').editable('setValue', parseInt(total));
+            objetosEditable.subTotal.setValor(parseInt(subTotal));
+            objetosEditable.total.setValor(parseInt(total));
         },
         error: function (a, b, c) {
             console.log(a, b, c);
@@ -496,10 +550,12 @@ function CalcularProductosAgregados() {
 
 function obtieneDescuentosTotales() {
     var descuentos = [];
-    for (i = 1; i <= cantidadDescuentosTotal; i++) {
-        descuentos.push({
-            Porcentaje: parseInt($("#txtDescuentoTotal" + i).val())
-        });
+    if (parametros.ManejaDescuentoTotalDocumento) {
+        for (i = 1; i <= parametros.CantidadDescuentosTotalDocumento; i++) {
+            descuentos.push({
+                Porcentaje: parseInt($("#txtDescuentoTotal" + i).val())
+            });
+        }
     }
 
     return descuentos;
@@ -508,15 +564,15 @@ function obtieneDescuentosTotales() {
 function addRow() {
     var validador = 0;
 
-    var codigo = $('#txtIngresoCodigoRapido').editable('getValue').txtIngresoCodigoRapido;
-    var descripcion = $('#txtIngresoDescripcionCodigo').editable('getValue').txtIngresoDescripcionCodigo;
-    var cantidad = $('#txtIngresoCantidad').editable('getValue').txtIngresoCantidad;
-    //$('#txtIngresoStock').editable('getValue').txtIngresoStock;
-    var medida = $('#txtIngresoUnidadDeMedida').editable('getValue').txtIngresoUnidadDeMedida;
-    var preciounitario = $('#txtIngresoNeto').editable('getValue').txtIngresoNeto;
-    var subtotal = $('#txtIngresoSubTotal').editable('getValue').txtIngresoSubTotal;
+    var codigo = objetosEditable.codigoRapido.getValor();
+    var descripcion = objetosEditable.descripcionCodigo.getValor();
+    var cantidad = objetosEditable.cantidad.getValor();
+    var stock = objetosEditable.stock.getValor();
+    var medida = objetosEditable.unidadDeMedida.getValor();
+    var preciounitario = objetosEditable.neto.getValor();
+    var subtotal = objetosEditable.subTotal.getValor();
     var descuento = descuentosAgregadosProducto;
-    var valordescuento = $('#txtIngresoTotal').editable('getValue').txtIngresoTotal;
+    var total = objetosEditable.total.getValor();
     var talla = verTallaColorTalla;
     var color = verTallaColorColor;
 
@@ -526,9 +582,6 @@ function addRow() {
     if (color === null || color === undefined || color === "") {
         color = "";
     }
-
-    var porcentaje = Math.round(precioProducto * 0.15);
-    var precioMax = (precioProducto - porcentaje);
 
     if (codigo === null || codigo === undefined || codigo === "" ||
         cantidad === null || cantidad === undefined || cantidad === "" || cantidad === "0" ||
@@ -545,36 +598,27 @@ function addRow() {
         }
 
         var texto_insertar =
-            '<tr id="id_' + contador + '" class="thproductolist' + contador + '">' +
-            '<td><span id="lblCodigo_' + contador + '">' + codigo + '</td>'
+            '<tr id="id_' + contador + '" class="thproductolist' + contador + '">'
+            + '<td><span id="lblCodigo_' + contador + '">' + codigo + '</td>'
             + '<td><span id="lblDescripcion_' + contador + '">' + descripcion + '</td>'
-            + '<td><span id="lblTalla_' + contador + '">' + talla + '</td>'
-            + '<td><span id="lblColor_' + contador + '">' + color + '</td>'
+            + '<td style="' + (parametros.ManejaTallaColor ? '' : 'display: none') + '"><span id="lblTalla_' + contador + '">' + talla + '</td>'
+            + '<td style="' + (parametros.ManejaTallaColor ? '' : 'display: none') + '"><span id="lblColor_' + contador + '">' + color + '</td>'
             + '<td style="text-align: right"><span id="lblCantidad_' + contador + '">' + cantidad + '</td>'
-            + '<td><span id="lblMedida_' + contador + '">' + medida + '</td>'
+            + '<td style="' + (parametros.MuestraUnidadMedidaProducto ? '' : 'display: none') + '"><span id="lblMedida_' + contador + '">' + medida + '</td>'
             + '<td style="text-align: right"><span id="lblPrecioUnitario_' + contador + '">' + preciounitario + '</td>'
             + '<td style="text-align: right"><span id="lblSubTotal_' + contador + '">' + subtotal + '</td>'
-            + (cantidadDescuentosProducto <= 1 ?
-                '<td style="text-align: right"><span id="lblDescuento_' + contador + '">' + descuento[0] + '</td>' :
-                '<td><a class="editable editable-click editable-empty" id="verDescuentos_' + contador + '" onclick="verDescuentos(' + contador + ')">Ver Descuentos</a></td>')
-            + '<td style="text-align: right"><span id="lblTotal_' + contador + '">' + valordescuento + '</td>'
+            + (descuento.length === 0 ? '<td style="text-align: right"><span id="lblDescuento_' + contador + '">0</td>' :
+                descuento.length === 1 ?
+                    '<td style="text-align: right"><span id="lblDescuento_' + contador + '">' + descuento[0].Porcentaje + '</td>' :
+                    '<td><a class="editable editable-click editable-empty" id="verDescuentos_' + contador + '" onclick="verDescuentos(' + contador + ')">Ver Descuentos</a></td>')
+            + '<td style="text-align: right"><span id="lblTotal_' + contador + '">' + total + '</td>'
             + '<td><a id="thproductolist' + contador + '" href="#divCodigo" onclick="eliminarFilas(' + contador + ');"><img src="../Content/Image/delete.png" /></a></td>'
             + '</tr>';
 
         var nuevo_campo = $(texto_insertar);
         $("#generaTabla").append(nuevo_campo);
 
-        $('#txtIngresoCodigoRapido').editable('setValue', '');
-        $('#txtIngresoDescripcionCodigo').editable('setValue', '');
-        $('#txtIngresoCantidad').editable('setValue', '1');
-        $('#txtIngresoStock').editable('setValue', '0');
-        $('#txtIngresoUnidadDeMedida').editable('setValue', '');
-        $('#txtIngresoNeto').editable('setValue', '0');
-        $('#txtIngresoSubTotal').editable('setValue', '0');
-        crearControlDescuentos();
-        $('#txtIngresoTotal').editable('setValue', '0');
-        verTallaColorTalla = "";
-        verTallaColorColor = "";
+        limpiarCamposLinea();
 
         var productoAgregado = {
             Codigo: codigo,
@@ -583,15 +627,31 @@ function addRow() {
             contador: contador,
             PrecioUnitario: preciounitario,
             Cantidad: cantidad,
+            Stock: stock,
+            UnidadMedida: medida,
             Descuentos: descuento,
             SubTotal: subtotal,
-            Total: valordescuento
+            Total: total
         };
 
         productosAgregados.push(productoAgregado);
 
         CalcularProductosAgregados();
     }
+}
+
+function limpiarCamposLinea() {
+    objetosEditable.codigoRapido.setValor("");
+    objetosEditable.descripcionCodigo.setValor("");
+    objetosEditable.cantidad.setValor("1");
+    objetosEditable.stock.setValor("0");
+    objetosEditable.unidadDeMedida.setValor("");
+    objetosEditable.neto.setValor("0");
+    objetosEditable.subTotal.setValor("0");
+    objetosEditable.total.setValor("0");
+    crearControlDescuentos();
+    verTallaColorTalla = "";
+    verTallaColorColor = "";
 }
 
 function verDescuentos(contador) {
@@ -613,7 +673,7 @@ function verDescuentos(contador) {
             + 'Descuento N°' + (i + 1)
             + '</td>'
             + '<td style="text-align: right">'
-            + producto.Descuentos[i]
+            + producto.Descuentos[i].Porcentaje
             + '</td>'
             + '</tr>';
     }
@@ -646,6 +706,9 @@ function verTallaColor(datos) {
     for (i = 0; i < bodegas.length; i++) {
         $("#modalTallaColorBodegas").append('<option value="' + bodegas[i] + '">' + bodegas[i] + '</option>');
     }
+    if (parametros.MuestraStockProducto) {
+        $("#modalTallaColorBodegas").fadeIn();
+    }
     $("#modalTallaColorBodegas").change(function () {
         var bodegaNombre = $("#modalTallaColorBodegas").val();
         var indexBodega = 0;
@@ -664,17 +727,18 @@ function verTallaColor(datos) {
         + '<thead>'
         + '<tr>'
         + '<th colspan="4">Informacion Producto</th>'
-        + '<th colspan="' + bodegas.length + '">Bodegas</th>'
+        + (parametros.MuestraStockProducto ? '<th colspan="' + bodegas.length + '">Bodegas</th>' : '')
         + '</tr>'
         + '<tr>'
         + '<th>Codigo Producto</th>'
         + '<th>Talla</th>'
         + '<th>Color</th>'
         + '<th>Cantidad</th>';
-
-    for (y = 0; y < bodegas.length; y++) {
-        tallaColorAppend = tallaColorAppend
-            + '<th>' + bodegas[y] + '</th>';
+    if (parametros.MuestraStockProducto) {
+        for (y = 0; y < bodegas.length; y++) {
+            tallaColorAppend = tallaColorAppend
+                + '<th>' + bodegas[y] + '</th>';
+        }
     }
 
     tallaColorAppend = tallaColorAppend
@@ -700,18 +764,20 @@ function verTallaColor(datos) {
             + '<td>' + productoTallaColor[i].Color + '</td>'
             + '<td><input type="number" value="0" class="form-control" /></td>';
 
-        for (y = 0; y < bodegas.length; y++) {
-            var valorBodega = datos.find(m =>
-                m.CodigoProducto === productoTallaColor[i].CodigoProducto &&
-                m.Talla === productoTallaColor[i].Talla &&
-                m.Color === productoTallaColor[i].Color &&
-                m.CodigoBodega === bodegas[y]);
-            try {
-                tallaColorAppend = tallaColorAppend
-                    + '<td>' + valorBodega.CantidadBodega + '</td>';
-            } catch (e) {
-                tallaColorAppend = tallaColorAppend
-                    + '<td>0</td>';
+        if (parametros.MuestraStockProducto) {
+            for (y = 0; y < bodegas.length; y++) {
+                var valorBodega = datos.find(m =>
+                    m.CodigoProducto === productoTallaColor[i].CodigoProducto &&
+                    m.Talla === productoTallaColor[i].Talla &&
+                    m.Color === productoTallaColor[i].Color &&
+                    m.CodigoBodega === bodegas[y]);
+                try {
+                    tallaColorAppend = tallaColorAppend
+                        + '<td>' + valorBodega.CantidadBodega + '</td>';
+                } catch (e) {
+                    tallaColorAppend = tallaColorAppend
+                        + '<td>0</td>';
+                }
             }
         }
 
@@ -733,7 +799,11 @@ function verTallaColor(datos) {
             var valorTalla = $($(filas[i]).children("td")[1]).html();
             var valorColor = $($(filas[i]).children("td")[2]).html();
             var valorCantidad = $($(filas[i]).children("td")[3]).children("input").val();
-            var valorStock = $($(filas[i]).children("td")[4]).html();
+            var valorStock = 0;
+
+            if (parametros.MuestraStockProducto) {
+                valorStock = $($(filas[i]).children("td")[4]).html();
+            }
 
             if (parseFloat(valorCantidad) > 0) {
                 valores.push({
@@ -762,18 +832,24 @@ function verTallaColor(datos) {
         }
 
         for (z = 0; z < valores.length; z++) {
-            $('#txtIngresoCodigoRapido').editable('setValue', valores[z].codigoProducto);
-            $('#txtIngresoDescripcionCodigo').editable('setValue', verTallaColorDescripcion);
-            $('#txtIngresoCantidad').editable('setValue', valores[z].cantidad);
-            $('#txtIngresoUnidadDeMedida').editable('setValue', verTallaColorMedida);
-            $('#txtIngresoNeto').editable('setValue', verTallaColorPrecioUnitario);
+            objetosEditable.codigoRapido.setValor(valores[z].codigoProducto);
+            objetosEditable.descripcionCodigo.setValor(verTallaColorDescripcion);
+            objetosEditable.cantidad.setValor(valores[z].cantidad);
+            if (parametros.MuestraUnidadMedidaProducto) {
+                objetosEditable.unidadDeMedida.setValor(verTallaColorMedida);
+            }
+            else {
+                objetosEditable.unidadDeMedida.setValor("");
+            }
+            objetosEditable.neto.setValor(verTallaColorPrecioUnitario);
+
             verTallaColorTalla = valores[z].talla;
             verTallaColorColor = valores[z].color;
             descuentosAgregadosProducto = [{ Porcentaje: verTallaColorDescuento }];
 
             CalcularFila(
-                $('#txtIngresoNeto').editable('getValue').txtIngresoNeto,
-                $('#txtIngresoCantidad').editable('getValue').txtIngresoCantidad,
+                objetosEditable.neto.getValor(),
+                objetosEditable.cantidad.getValor(),
                 descuentosAgregadosProducto
             );
 
@@ -784,6 +860,9 @@ function verTallaColor(datos) {
     });
 
     $("#aModalTallaColor").click();
+    $("#modalTallaColor").on("hidden.bs.modal", function () {
+        limpiarCamposLinea();
+    });
 }
 
 function agregarnotadeventa() {

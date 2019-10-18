@@ -80,6 +80,10 @@ namespace NotaVenta.Controllers
         [Autorizacion(PERFILES.SUPER_ADMINISTRADOR, PERFILES.VENDEDOR)]
         public ActionResult NotaDeVenta()
         {
+            ParametrosModels parametros = ObtieneParametros();
+
+            ViewBag.Parametros = parametros;
+
             var id_ = SessionVariables.SESSION_DATOS_USUARIO.IdUsuario.ToString();
             var VenCod = codigoVendedorUsuario();
             var id = id_;
@@ -121,10 +125,19 @@ namespace NotaVenta.Controllers
 
             CondicionVentasModels conven = new CondicionVentasModels();
 
-            conven.CodAux = NVC.CodAux.ToString();
-
             //Se lista(n) la(s) condicion(es) de venta(s)
-            List<CondicionVentasModels> lcondicion = controlDisofi().listarConVen(baseDatosUsuario(), conven);
+
+            List<CondicionVentasModels> lcondicion = new List<CondicionVentasModels>();
+            if (parametros.MuestraCondicionVentaCliente)
+            {
+                conven.CodAux = NVC.CodAux.ToString();
+                lcondicion = controlDisofi().listarConVen(baseDatosUsuario(), conven);
+            }
+            else if (parametros.MuestraCondicionVentaTodos)
+            {
+                conven.CodAux = "-1";
+                lcondicion = controlDisofi().listarConVen(baseDatosUsuario(), conven);
+            }
 
             ViewBag.condicion = lcondicion;
 
@@ -776,7 +789,7 @@ namespace NotaVenta.Controllers
                             detalle.CheckeoMovporAlarmaVtas = "N";
                             detalle.KIT = null;
                             detalle.CodPromocion = null;
-                            //detalle.CodUMed
+                            detalle.CodUMed = productos[x].UnidadMedida;
                             detalle.CantUVta = Convert.ToDouble(productos[x].Cantidad);
                             detalle.Partida = productos[x].Talla;
                             detalle.Pieza = productos[x].Color;
@@ -961,6 +974,7 @@ namespace NotaVenta.Controllers
         [HttpPost]
         public JsonResult CalcularProductosAgregados(List<ProductoAgregadoModel> productos, List<DescuentoProductoAgregadoModel> descuentos)
         {
+            if (descuentos == null) { descuentos = new List<DescuentoProductoAgregadoModel>(); }
             decimal subTotal = 0;
             decimal impuesto = 0;
             decimal total = 0;
