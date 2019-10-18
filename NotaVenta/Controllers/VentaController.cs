@@ -97,15 +97,20 @@ namespace NotaVenta.Controllers
             {
                 CodAux = NVC.CodAux
             };
-
-             controlDisofi().ObtenerCredito(cliente.CodAux, baseDatosUsuario());
-
-
+            
             CreditoModel credito = controlDisofi().ObtenerCredito(cliente.CodAux, baseDatosUsuario());
             if (credito != null)
             {
                 credito.Deuda = credito.Debe - credito.Haber;
                 credito.Saldo = credito.Credito - credito.Deuda;
+                if (parametros.ManejaLineaCredito)
+                {
+                    if (credito.Credito == 0)
+                    {
+                        TempData["Mensaje"] = "CLIENTE NO TIENE CREDITO. <br>";
+                        return RedirectToAction("MisClientes", "Venta");
+                    }
+                }
             }
 
             ViewBag.Credito = credito;

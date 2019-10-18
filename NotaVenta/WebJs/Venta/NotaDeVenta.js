@@ -10,7 +10,6 @@ var productos = [];
 var productosAgregados = [];
 var descuentosAgregadosProducto = [];
 var BodegaPorDefecto = "";
-var validaCantidadVSStock = true;
 var cantidadMaximaLineas = 0;
 
 
@@ -50,18 +49,18 @@ $(document).ready(function () {
         /**/EditaPrecioProducto: ($("#EditaPrecioProducto").val().toLowerCase() === "true"),
         /**/MuestraCondicionVentaCliente: ($("#MuestraCondicionVentaCliente").val().toLowerCase() === "true"),
         /**/MuestraCondicionVentaTodos: ($("#MuestraCondicionVentaTodos").val().toLowerCase() === "true"),
-        EditaDescuentoProducto: ($("#EditaDescuentoProducto").val().toLowerCase() === "true"),
+        /**/EditaDescuentoProducto: ($("#EditaDescuentoProducto").val().toLowerCase() === "true"),
         /**/MaximoDescuentoProducto: parseFloat($("#MaximoDescuentoProducto").val()),
         /**/CantidadDescuentosProducto: parseInt($("#CantidadDescuentosProducto").val()),
         /**/MuestraStockProducto: ($("#MuestraStockProducto").val().toLowerCase() === "true"),
         StockProductoEsMasivo: ($("#StockProductoEsMasivo").val().toLowerCase() === "true"),
         StockProductoEsBodega: ($("#StockProductoEsBodega").val().toLowerCase() === "true"),
         StockProductoCodigoBodega: $("#StockProductoCodigoBodega").val(),
-        ControlaStockProducto: ($("#ControlaStockProducto").val().toLowerCase() === "true"),
+        /**/ControlaStockProducto: ($("#ControlaStockProducto").val().toLowerCase() === "true"),
         /**/ManejaTallaColor: ($("#ManejaTallaColor").val().toLowerCase() === "true"),
         /**/ManejaDescuentoTotalDocumento: ($("#ManejaDescuentoTotalDocumento").val().toLowerCase() === "true"),
         /**/CantidadDescuentosTotalDocumento: parseInt($("#CantidadDescuentosTotalDocumento").val()),
-        ManejaLineaCredito: ($("#ManejaLineaCredito").val().toLowerCase() === "true"),
+        /**/ManejaLineaCredito: ($("#ManejaLineaCredito").val().toLowerCase() === "true"),
         ManejaCanalVenta: ($("#ManejaCanalVenta").val().toLowerCase() === "true"),
         PermiteModificacionCondicionVenta: ($("#PermiteModificacionCondicionVenta").val().toLowerCase() === "true"),
         AtributoSoftlandDescuentoCliente: $("#AtributoSoftlandDescuentoCliente").val(),
@@ -76,7 +75,6 @@ $(document).ready(function () {
     productosAgregados = [];
     descuentosAgregadosProducto = [];
     BodegaPorDefecto = "C01";
-    validaCantidadVSStock = false;
     cantidadMaximaLineas = 20;
 
     if (parametros.ManejaDescuentoTotalDocumento) {
@@ -184,7 +182,8 @@ var handleEditableFormAjaxCall = function () {
                 else {
                     if (!parametros.EditaPrecioProducto) {
                         if (producto.PrecioVta === 0) {
-                            abrirError("Error precio de venta", "Producto no tiene precio asociado y este no se puede editar");
+                            this.status = 500;
+                            this.statusText = "Producto no tiene precio asociado y este no se puede editar";
                             limpiarCamposLinea();
                             return;
                         }
@@ -230,7 +229,7 @@ var handleEditableFormAjaxCall = function () {
             if (settings.data.name === "txtIngresoCantidad") {
                 if (/^([0-9])*$/.test(settings.data.value)) {
                     if (parseFloat(settings.data.value) > 0) {
-                        if (validaCantidadVSStock) {
+                        if (parametros.ControlaStockProducto) {
                             var stock = parseFloat(objetosEditable.stock.getValor());
                             var cantidad = parseFloat(settings.data.value);
 
@@ -335,7 +334,12 @@ function llenarCamposSeleccionProducto(producto) {
 
 function crearControlDescuentos() {
     descuentosAgregadosProducto = [];
-    if (parametros.CantidadDescuentosProducto === 0) {
+    if (!parametros.EditaDescuentoProducto) {
+        objetosEditable.descuento.setValor("0");
+        objetosEditable.descuento.desactivar();
+    }
+    else if (parametros.CantidadDescuentosProducto === 0) {
+        objetosEditable.descuento.setValor("0");
         objetosEditable.descuento.desactivar();
     }
     else if (parametros.CantidadDescuentosProducto === 1) {
@@ -815,7 +819,7 @@ function verTallaColor(datos) {
             }
         }
 
-        if (validaCantidadVSStock) {
+        if (parametros.ControlaStockProducto) {
             for (i = 0; i < valores.length; i++) {
                 if (valores[i].stock < valores[i].cantidad) {
                     abrirError("Error Cantidad VS Stock", "cantidad no puede superar al stock del producto (Producto: " +
