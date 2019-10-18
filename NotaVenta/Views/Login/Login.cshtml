@@ -21,6 +21,8 @@
 </head>
 <body class="pace-top  pace-done">
     <input type="hidden" id="urlIndex" value="@Url.Action("Index", "Home" )" />
+    <input type="hidden" id="urlLogin" value="@Url.Action("Login", "Login" )" />
+    <input type="hidden" id="urlSeleccionaEmpresa" value="@Url.Action("SeleccionaEmpresa", "Login" )" />
     <input type="hidden" id="urlParametros" value="@Url.Action("Parametros", "Administracion" )" />
     <div class="pace  pace-inactive">
         <div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
@@ -62,22 +64,22 @@
                 <!-- begin login-content -->
                 <div class="login-content">
                     @*<form action="@Url.Action("Login" , "Login" )" method="post" class="margin-bottom-0">*@
-                        <div class="form-group m-b-15">
-                            <input type="text" class="form-control form-control-lg" id="Nombre" name="Nombre" placeholder="Nombre Usuario" required>
-                        </div>
-                        <div class="form-group m-b-15">
-                            <input type="password" class="form-control form-control-lg" id="Contrasena" name="Contrasena" placeholder="Contraseña" required>
-                        </div>
-                        @*<div class="login-buttons">
+                    <div class="form-group m-b-15">
+                        <input type="text" class="form-control form-control-lg" id="Nombre" name="Nombre" placeholder="Nombre Usuario" required>
+                    </div>
+                    <div class="form-group m-b-15">
+                        <input type="password" class="form-control form-control-lg" id="Contrasena" name="Contrasena" placeholder="Contraseña" required>
+                    </div>
+                    @*<div class="login-buttons">
                             <button type="submit" class="btn btn-success btn-block btn-lg">Sign me in</button>
                         </div>*@
-                        <div class="login-buttons">
-                            <input type="button" id="LoginPrueba" class="btn btn-success btn-block btn-lg" value="Iniciar Sesion" />
-                        </div>
-                        <hr>
-                        <p class="text-center text-black mb-0">
-                            &copy; Disofi
-                        </p>
+                    <div class="login-buttons">
+                        <input type="button" id="Login" class="btn btn-success btn-block btn-lg" value="Iniciar Sesion" />
+                    </div>
+                    <hr>
+                    <p class="text-center text-black mb-0">
+                        &copy; Disofi
+                    </p>
                     @*</form>*@
                 </div>
                 <!-- end login-content -->
@@ -93,7 +95,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Ingrese Direccion Despacho</h4>
+                    <h4 class="modal-title">Seleccion de Empresa</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <div class="modal-body">
@@ -103,9 +105,7 @@
                                 <tr class="highlight">
                                     <td>Empresa</td>
                                     <td>
-                                        <select id="ddlEmpresas" class="form-control">
-
-                                        </select>
+                                        <select id="ddlEmpresas" class="form-control"></select>
                                     </td>
                                 </tr>
                             </tbody>
@@ -113,8 +113,25 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a id="modalEmpresasAgregar" href="javascript:;" class="btn btn-success">Agregar Direccion Despacho</a>
+                    <a id="modalEmpresasAgregar" href="javascript:;" class="btn btn-success">Seleccionar Empresa</a>
                     <a id="modalEmpresasCerrar" href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a id="aModalErrorLogin" style="display: none" href="#modalErrorLogin" class="btn btn-sm btn-success" data-toggle="modal">Agregar Direccion Despacho</a>
+    <div class="modal fade" id="modalErrorLogin">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Error de Acceso</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body text-center">
+                    <h4 class="" style="color: red" id="modalErrorLoginMensaje"></h4>
+                </div>
+                <div class="modal-footer">
+                    <a id="aModalErrorLogin" href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
                 </div>
             </div>
         </div>

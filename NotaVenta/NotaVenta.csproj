@@ -6129,6 +6129,7 @@
     <Content Include="Content\MDB-Free_4.8.9\scss\_custom-variables.scss" />
     <Content Include="Content\MDB-Free_4.8.9\Useful_Resources.pdf" />
     <Content Include="libs\automapper.9.0.0.nupkg" />
+    <Content Include="WebJs\EditableClass.js" />
     <Content Include="WebJs\Funciones.js" />
     <Content Include="WebJs\Login\Login.js" />
     <Content Include="WebJs\Reporte\FacturasAprobadas.js" />
