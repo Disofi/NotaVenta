@@ -1,63 +1,97 @@
 ﻿USE [DSNotaVenta]
 GO
-IF OBJECT_ID('[dbo].[DS_AgregarDireccionDespacho]') IS NOT NULL BEGIN
-	DROP PROCEDURE [dbo].[DS_AgregarDireccionDespacho]
-	PRINT ('Procedimiento [dbo].[DS_AgregarDireccionDespacho] eliminado exitosamente')
-END
-
+/****** Object:  StoredProcedure [dbo].[JS_ListarMisClientes]    Script Date: 18-10-2019 12:35:53 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 /*------------------------------------------------------------------------------*/
 /*-- Empresa			: DISOFI												*/
 /*-- Tipo				: Procedimiento											*/
-/*-- Nombre				: [dbo].[DS_AgregarDireccionDespacho]							*/
+/*-- Nombre				: [dbo].[JS_ListarMisClientes]								*/
 /*-- Detalle			:														*/
 /*-- Autor				: FDURAN												*/
 /*-- Modificaciones		:														*/
 /*------------------------------------------------------------------------------*/
-CREATE PROCEDURE [dbo].[DS_AgregarDireccionDespacho]
-(
-	@pv_CodAux varchar(500)
-,	@pv_DirDch varchar(500)
-,	@pv_ComDch varchar(500)
-,	@pv_NomDch varchar(500)
-,	@pv_CiuDch varchar(500)
+ALTER PROCEDURE [dbo].[JS_ListarMisClientes]
+	@cod nchar(10)
+,	@ID int
 ,	@pv_BaseDatos varchar(100)
-)
-AS  
-BEGIN  
-	declare @query varchar(max)
+AS
+BEGIN
+	declare @query nvarchar(max)
+	
+	select	@query = ''
 
-	select @query = ''
-
-	select @query = @query + '
-	INSERT INTO [' + @pv_BaseDatos + '].[softland].[cwtauxd]
-	(
-		CodAux
-	,	DirDch
-	,	ComDch
-	,	NomDch
-	,	CiuDch
-	)
-	VALUES
-	(
-		''' + @pv_CodAux + '''
-	,	''' + @pv_DirDch + '''
-	,	''' + @pv_ComDch + '''
-	,	''' + @pv_NomDch + '''
-	,	''' + @pv_CiuDch + '''
-	)
+	select	@query = @query + '
+	SELECT top 10	c.CodAux
+	,		c.NomAux
+	,		c.DirAux
+	,		c.DirNum
+	,		FonAux1 = 
+			CASE	WHEN c.FonAux1 IS NOT NULL 
+						THEN c.FonAux1 
+					WHEN c.FonAux2 IS NOT NULL 
+						THEN c.FonAux2 
+						ELSE c.FonAux3 
+			END
+	,		C.Notas
+	,		DeudaVencida = 
+			(
+				SELECT	isnull(convert (numeric,( (sum(sub_a.DEBE)) - (sum(sub_a.HABER)))), 0)
+				from	[' + @pv_BaseDatos + '].[softland].[CWDocSaldos] sub_a
+				where	sub_a.CODAUX = c.CodAux
+				and		(
+							select	isnull(min(MovFv), '''')
+							from	[' + @pv_BaseDatos + '].[softland].[cwmovim] sub_cwom
+							where	sub_cwom.MovNumDocRef = sub_a.MOVNUMDOCREF and ttdcod= ''FV''
+						) < getdate()
+				and		MONTH
+						(
+							(
+								select	isnull(min(MovFv), '''')
+								from	[' + @pv_BaseDatos + '].[softland].[cwmovim] sub_cwom
+								where	sub_cwom.MovNumDocRef = sub_a.MOVNUMDOCREF and ttdcod= ''FV''
+							)
+						) < getdate()
+			)
+	,		Deuda = 
+			(
+				SELECT	isnull(convert (numeric,( (sum(sub_a.DEBE)) - (sum(sub_a.HABER)))), 0)
+				FROM	[' + @pv_BaseDatos + '].[softland].[CWDocSaldos] sub_a
+				where	sub_a.CODAUX = c.CodAux
+			)
+	,		Credito = 
+			CASE	WHEN	(
+								(Select CONVERT(numeric(18,2),vcl.MtoCre)
+								From [' + @pv_BaseDatos + '].softland.cwtcvcl as vcl INNER JOIN [' + @pv_BaseDatos + '].softland.CWDocSaldos as doc on
+								 vcl.CodAux = c.CodAux and doc.CodAux= vcl.CodAux 
+								Group by vcl.MtoCre ) - 
+								(SELECT convert (numeric,( (sum(DEBE)) - (sum(HABER)) ))  from  [' + @pv_BaseDatos + '].softland.CWDocSaldos
+								where CODAUX= c.CodAux)
+							) < 0 
+						then ''$0''
+						ELSE FORMAT((Select CONVERT(numeric(18,2),vcl.MtoCre)
+								From [' + @pv_BaseDatos + '].softland.cwtcvcl as vcl INNER JOIN [' + @pv_BaseDatos + '].softland.CWDocSaldos as doc on
+								 vcl.CodAux = c.CodAux and doc.CodAux= vcl.CodAux 
+								Group by vcl.MtoCre ) - 
+								(SELECT convert (numeric,( (sum(DEBE)) - (sum(HABER)) ))  from  [' + @pv_BaseDatos + '].softland.CWDocSaldos
+								where CODAUX= c.CodAux),''$0'')  
+			END
+	FROM	[' + @pv_BaseDatos + '].softland.[cwtauxven] A 
+		INNER JOIN [' + @pv_BaseDatos + '].softland.cwtauxi C 
+			ON (c.CodAux = a.CodAux) 
+		INNER JOIN [' + @pv_BaseDatos + '].softland.cwtvend B 
+			ON (b.VenCod = a.VenCod) 
+		INNER JOIN [dbo].[DS_UsuarioEmpresa] D 
+			ON (b.VenCod collate Modern_Spanish_CI_AS = d.VenCod) 
+		LEFT JOIN [' + @pv_BaseDatos + '].softland.cwtcvcl as vcl 
+			ON vcl.CodAux = A.CodAux
+	WHERE	D.VenCod = ' + @cod + '
+	and		D.ID = ' + CONVERT(VARCHAR(20), @ID ) + '
+	AND		C.Bloqueado	<> ''S''
 	'
 
 	EXEC (@query)
-
-	SELECT	Verificador = Cast(1 as bit)
-	,		Mensaje = 'Se agrega direccion de despacho satisfactoriamente'
-END  
-GO
-
-IF OBJECT_ID('[dbo].[DS_AgregarDireccionDespacho]') IS NOT NULL BEGIN
-	PRINT ('Procedimiento [dbo].[DS_AgregarDireccionDespacho] creado exitosamente')
 END
-ELSE BEGIN
-	PRINT ('Error al crear procedimiento [dbo].[DS_AgregarDireccionDespacho]')
-END
+
