@@ -296,6 +296,11 @@ namespace BLL
             return _Control.ObtenerGiro(basedatos);
         }
 
+        public ClientesModels ObtenerAtributoDescuento(string basedatos, string codaux, string textoAtributo)
+        {
+            return _Control.ObtenerAtributoDescuento(basedatos, codaux, textoAtributo);
+        }
+
         public List<CiudadModel> ObtenerCiudad(string baseDatos)
         {
             return _Control.ObtenerCiudad(baseDatos);

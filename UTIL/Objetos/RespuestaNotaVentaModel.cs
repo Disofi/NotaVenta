@@ -14,5 +14,6 @@ namespace UTIL.Objetos
         public string MensajeSoftland { get; set; }
         public int IdNotaVenta { get; set; }
         public int NVNumero { get; set; }
+        public string EstadoNP { get; set; }
     }
 }

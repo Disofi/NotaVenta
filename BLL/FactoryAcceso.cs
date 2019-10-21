@@ -1345,6 +1345,25 @@ namespace BLL
             }
         }
 
+        public ClientesModels ObtenerAtributoDescuento(string basedatos, string codaux, string textoAtributo)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ObtenerAtributoDescuentoCliente", new System.Collections.Hashtable()
+                {
+                    { "pv_CodAux", codaux},
+                    { "pv_textoAtributo", textoAtributo},
+                    { "pv_BaseDatos", basedatos},
+                });
+                return UTIL.Mapper.BindData<ClientesModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
         public List<ComunaModel> ObtenerComuna(string baseDatos)
         {
             try
