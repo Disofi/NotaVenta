@@ -8,7 +8,6 @@ var parametros = {};
 var precioProducto = 0;
 var productos = [];
 var productosAgregados = [];
-var totales = {};
 var descuentosAgregadosProducto = [];
 var cantidadMaximaLineas = 0;
 var PorcentajeAtributoDescuento = 0;
@@ -516,7 +515,6 @@ function CalcularFila(precioUnitario, cantidad, descuentos, porcentajeAtributoDe
         success: function (result) {
             var subTotal = result.SubTotal;
             var total = result.Total;
-            descuentosAgregadosProducto = result.Descuentos;
             var valorDescuentoAtributo = result.ValorDescuentoAtributo;
 
             objetosEditable.valorAtributoDescuento.setValor(parseInt(valorDescuentoAtributo));
@@ -541,17 +539,11 @@ function CalcularProductosAgregados() {
         $.ajax({
             url: url,
             type: "POST",
-            data: { productos: dataPost, descuentos: descuentos, porcentajeAtributoDescuento: porcentajeAtributoDescuento },
+            data: { productos: dataPost, descuentos: descuentos, porcentajeAtributoDescuento: porcentajeAtributoDescuento  },
             success: function (result) {
                 var subTotal = result.SubTotal;
                 var impuesto = result.Impuesto;
-                descuentos = result.descuentos;
                 var total = result.Total;
-
-                totales.subTotal = subTotal;
-                totales.impuesto = impuesto;
-                totales.total = total;
-                totales.descuentos = descuentos;
 
                 $('#lbtotal').text(subTotal);
                 $('#lbimpuesto').text(impuesto);
@@ -931,7 +923,6 @@ function agregarnotadeventa() {
     var CorreoCliente = $("#txtCorreoCliente").val();
 
     var cabecera = {
-        Descuentos: totales.descuentos,
         NVNumero: NVNumero,
         nvFem: nvFem,
         //nvEstado: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
@@ -952,7 +943,7 @@ function agregarnotadeventa() {
         NomCon: contacto,
         CodiCC: CodiCC,
         //CodBode: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
-        nvSubTotal: totales.subTotal,
+        nvSubTotal: nvSubTotal,
         //nvPorcDesc01: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //nvDescto01: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //nvPorcDesc02: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
@@ -963,7 +954,7 @@ function agregarnotadeventa() {
         //nvDescto04: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //nvPorcDesc05: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //nvDescto05: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
-        nvMonto: totales.subTotal,
+        nvMonto: nvMonto,
         //nvFeAprob: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //NumGuiaRes: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //nvPorcFlete: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
@@ -972,7 +963,7 @@ function agregarnotadeventa() {
         //nvValEmb: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //nvEquiv: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //nvNetoExento: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
-        nvNetoAfecto: totales.total,
+        nvNetoAfecto: nvNetoAfecto,
         //nvTotalDesc: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //ConcAuto: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         CodLugarDesp: CodLugarDesp,
@@ -989,7 +980,7 @@ function agregarnotadeventa() {
         //ConcManual: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //RutSolicitante: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //proceso: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
-        TotalBoleta: totales.total,
+        TotalBoleta: TotalBoleta,
         //NumReq: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //CodVenWeb: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //CodBodeWms: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
@@ -1000,6 +991,7 @@ function agregarnotadeventa() {
         //MarcaWG: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
     };
     var productos = productosAgregados;
+    var detalle = {};
 
     var dataNotaVenta = {
         cabecera: cabecera,
@@ -1011,20 +1003,19 @@ function agregarnotadeventa() {
         type: "POST",
         data: dataNotaVenta,
         success: function (result) {
-            if (result.EstadoNP === "P") {
-                $("#divAlertaOkGeneracionNVPendiente").html(result.NVNumero);
-            }
             if (result.NVNumero > 0) {
                 $("#divAlertaOkGeneracionNVSoftland").fadeIn();
                 $("#divAlertaOkGeneracionNVIdSoftland").html(result.NVNumero);
             }
-            if (result.IdNotaVenta > 0) {
+            if (result.NVNumero > 0) {
                 $("#divAlertaOkGeneracionNVInterno").fadeIn();
                 $("#divAlertaOkGeneracionNVIdInterno").html(result.IdNotaVenta);
             }
 
-            $("#divFormulacioCompletoIngresoDatos").fadeOut();
             $("#divAlertaOkGeneracionNV").fadeIn();
+
+            var url1 = $("#RedirectTo").val();
+            location.href = url1;
         },
         error: function (a, b, c) {
             console.log(a, b, c);

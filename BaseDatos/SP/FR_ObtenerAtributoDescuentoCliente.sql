@@ -58,8 +58,8 @@ AS
 	'
 	
 	begin try
-		select	ValorAtributo = 15
-		--EXEC (@query)
+		--select	ValorAtributo = 15
+		EXEC (@query)
 	end try
 	begin catch
 		select	ValorAtributo = 0

@@ -70,7 +70,7 @@
 <h1 class="page-header">Nota de Venta <small>Creacion nota de venta</small></h1>
 <!-- end page-header -->
 <!-- begin row -->
-<div class="row">
+<div class="row" id="divFormulacioCompletoIngresoDatos">
     <input type="hidden" id="EditaPrecioProducto" value="@parametros.EditaPrecioProducto.ToString()" />
     <input type="hidden" id="MuestraCondicionVentaCliente" value="@parametros.MuestraCondicionVentaCliente.ToString()" />
     <input type="hidden" id="MuestraCondicionVentaTodos" value="@parametros.MuestraCondicionVentaTodos.ToString()" />
@@ -168,7 +168,7 @@
                                     </td>
                                     <td nowrap="nowrap">Cond. Venta</td>
                                     <td>
-                                        <select name="cbxconven" id="cbxconven" class="form-control" tabindex="4">
+                                        <select @Html.Raw(parametros.PermiteModificacionCondicionVenta ? "" : "disabled") name="cbxconven" id="cbxconven" class="form-control" tabindex="4">
                                             <option selected value="00"> -- Seleccione Cond. Vta -- </option>
                                             @{
                                                 for (int i = 0; i < condicion.Count; i++)
@@ -475,6 +475,18 @@
             </div>
         </div>
     </div>
+</div>
+<div id="divAlertaOkGeneracionNV" style="display: none" class="alert alert-success" role="alert">
+    <h4 class="alert-heading">Nota de Venta Generada</h4>
+    <p>Nota de venta a sido generada con exito <label id="divAlertaOkGeneracionNVPendiente">(enviado a aprobacion)</label></p>
+    <div id="divAlertaOkGeneracionNVSoftland">
+        <p>N° Nota de venta (Softland): <label id="divAlertaOkGeneracionNVIdSoftland"></label></p>
+    </div>
+    <div id="divAlertaOkGeneracionNVInterno">
+        <p>N° Nota de venta (Interno): <label id="divAlertaOkGeneracionNVIdInterno"></label></p>
+    </div>
+    <hr>
+    <p class="mb-0">Para volver a generar una nueva nota de venta, presione <a href="javascript:location.reload()">aqui</a>.</p>
 </div>
 <a id="aModalTallaColor" style="display: none" href="#modalTallaColor" class="btn btn-sm btn-success" data-toggle="modal">Talla Color</a>
 <div class="modal fade" id="modalTallaColor">

@@ -11,7 +11,8 @@
         opciones = {
             textoVacio: (opciones.textoVacio === null || opciones.textoVacio === undefined) ? "Seleccione" : opciones.textoVacio,
             desactivar: (opciones.desactivar === null || opciones.desactivar === undefined) ? false : opciones.desactivar,
-            fuenteDatos: (opciones.fuenteDatos === null || opciones.fuenteDatos === undefined) ? [] : opciones.fuenteDatos
+            fuenteDatos: (opciones.fuenteDatos === null || opciones.fuenteDatos === undefined) ? [] : opciones.fuenteDatos,
+            select2: (opciones.select2 === null || opciones.select2 === undefined) ? [] : opciones.select2,
         }
 
         if (parseInt(tipo) === parseInt(TiposEditable.Texto)) {
