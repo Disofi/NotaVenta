@@ -48,6 +48,7 @@
     <Content Include="Otros\ScriptParametros.sql" />
     <Content Include="Otros\scriptNotaVenta.sql" />
     <Content Include="Otros\Inserts.sql" />
+    <Content Include="SP\FR_ObtenerAtributoDescuentoCliente.sql" />
     <Content Include="SP\FR_AgregarNVDetalle.sql" />
     <Content Include="SP\FR_AgregarNVCabecera.sql" />
     <Content Include="SP\FR_AgregarNVDetalleSoftland.sql" />

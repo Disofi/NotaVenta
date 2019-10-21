@@ -51,6 +51,8 @@
     int id = SessionVariables.SESSION_DATOS_USUARIO.IdUsuario;
 
     ParametrosModels parametros = ViewBag.Parametros;
+
+    double PorcentajeAtributoDescuento = Convert.ToDouble(ViewBag.ValorAtributo);
 }
 
 
@@ -89,6 +91,7 @@
     <input type="hidden" id="AtributoSoftlandDescuentoCliente" value="@parametros.AtributoSoftlandDescuentoCliente" />
     <input type="hidden" id="PermiteCrearDireccion" value="@parametros.PermiteCrearDireccion.ToString()" />
     <input type="hidden" id="MuestraUnidadMedidaProducto" value="@parametros.MuestraUnidadMedidaProducto.ToString()" />
+    <input type="hidden" id="PorcentajeAtributoDescuento" value="@ViewBag.ValorAtributo" />
 
 
     <input type="hidden" id="urlObtieneProductosPorListaPrecio" value="@Url.Action("ObtieneProductosPorListaPrecio", "Venta" )" />
@@ -298,6 +301,10 @@
                                 }
                                 <th>Neto</th>
                                 <th>Sub Total</th>
+                                @if (PorcentajeAtributoDescuento > 0)
+                                {
+                                    <th>Descuento Atributo (@PorcentajeAtributoDescuento%)</th>
+                                }
                                 <th>Descuen.(%)</th>
                                 <th>Total</th>
                                 <th>Accion</th>
@@ -313,6 +320,7 @@
                                 <td style="text-align: right; @Html.Raw(parametros.MuestraUnidadMedidaProducto ? "" : "display: none")"><a href="javascript:;" id="txtIngresoUnidadDeMedida" data-type="text" data-pk="4" data-title="Unidad Medida"></a></td>
                                 <td style="text-align: right"><a href="javascript:;" id="txtIngresoNeto" data-type="text" data-pk="4" data-title="Neto">0</a></td>
                                 <td style="text-align: right"><a href="javascript:;" id="txtIngresoSubTotal" data-type="text" data-pk="4" data-title="Sub Total">0</a></td>
+                                <td style="text-align: right; @Html.Raw(PorcentajeAtributoDescuento > 0 ? "" : "display: none")"><a href="javascript:;" id="txtIngresoDescuentoAtributo" data-type="text" data-pk="4" data-title="Descuento Atributo">0</a></td>
                                 <td style="text-align: right">
                                     <a href="javascript:;" id="txtIngresoDescuento" data-pk="4" data-title="Descuento"></a>
                                     <a href="javascript:;" id="txtIngresoDescuentoModal" style="display: none">Seleccionar Descuentos</a>
@@ -354,6 +362,7 @@
                                     <th nowrap="" class="unimedTh" style="@Html.Raw(parametros.MuestraUnidadMedidaProducto ? "" : "display: none")">Unidad Medida </th>
                                     <th nowrap="" classnowrap="" class="precioTh">Precio Unit Neto</th>
                                     <th nowrap="" class="subTotalTh">Subtotal Neto</th>
+                                    <th nowrap="" class="unimedTh" style="@Html.Raw(PorcentajeAtributoDescuento > 0 ? "" : "display: none")">Descuento Atributo</th>
                                     <th nowrap="" class="subTotalTh">Descu. (%)</th>
                                     <th nowrap="" class="subTotalTh">Total</th>
                                     <th nowrap="" class="accionesTh">&nbsp;</th>

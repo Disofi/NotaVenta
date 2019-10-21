@@ -9,8 +9,9 @@ var precioProducto = 0;
 var productos = [];
 var productosAgregados = [];
 var descuentosAgregadosProducto = [];
-var BodegaPorDefecto = "";
 var cantidadMaximaLineas = 0;
+var PorcentajeAtributoDescuento = 0;
+
 
 
 var FormEditable = function () {
@@ -38,6 +39,7 @@ var handleEditableFieldConstruct = function () {
         descuento: new EditableClass(document, "txtIngresoDescuento", TiposEditable.Texto, { textoVacio: 'Seleccione descuento', desactivar: false }),
         subTotal: new EditableClass(document, "txtIngresoSubTotal", TiposEditable.Texto, { textoVacio: '', desactivar: true }),
         total: new EditableClass(document, "txtIngresoTotal", TiposEditable.Texto, { textoVacio: '', desactivar: true }),
+        valorAtributoDescuento: new EditableClass(document, "txtIngresoDescuentoAtributo", TiposEditable.Texto, { textoVacio: '', desactivar: true }),
     };
     if (!parametros.EditaPrecioProducto) {
         objetosEditable.neto.desactivar();
@@ -53,9 +55,9 @@ $(document).ready(function () {
         /**/MaximoDescuentoProducto: parseFloat($("#MaximoDescuentoProducto").val()),
         /**/CantidadDescuentosProducto: parseInt($("#CantidadDescuentosProducto").val()),
         /**/MuestraStockProducto: ($("#MuestraStockProducto").val().toLowerCase() === "true"),
-        StockProductoEsMasivo: ($("#StockProductoEsMasivo").val().toLowerCase() === "true"),
-        StockProductoEsBodega: ($("#StockProductoEsBodega").val().toLowerCase() === "true"),
-        StockProductoCodigoBodega: $("#StockProductoCodigoBodega").val(),
+        /**/StockProductoEsMasivo: ($("#StockProductoEsMasivo").val().toLowerCase() === "true"),
+        /**/StockProductoEsBodega: ($("#StockProductoEsBodega").val().toLowerCase() === "true"),
+        /**/StockProductoCodigoBodega: $("#StockProductoCodigoBodega").val(),
         /**/ControlaStockProducto: ($("#ControlaStockProducto").val().toLowerCase() === "true"),
         /**/ManejaTallaColor: ($("#ManejaTallaColor").val().toLowerCase() === "true"),
         /**/ManejaDescuentoTotalDocumento: ($("#ManejaDescuentoTotalDocumento").val().toLowerCase() === "true"),
@@ -68,13 +70,14 @@ $(document).ready(function () {
         /**/MuestraUnidadMedidaProducto: ($("#MuestraUnidadMedidaProducto").val().toLowerCase() === "true"),
     };
 
+    PorcentajeAtributoDescuento = parseFloat($("#PorcentajeAtributoDescuento").val());
+
     console.log(parametros);
 
     precioProducto = 0;
     productos = [];
     productosAgregados = [];
     descuentosAgregadosProducto = [];
-    BodegaPorDefecto = "C01";
     cantidadMaximaLineas = 20;
 
     if (parametros.ManejaDescuentoTotalDocumento) {
@@ -243,7 +246,8 @@ var handleEditableFormAjaxCall = function () {
                         CalcularFila(
                             objetosEditable.neto.getValor(),
                             settings.data.value,
-                            descuentosAgregadosProducto
+                            descuentosAgregadosProducto,
+                            PorcentajeAtributoDescuento
                         );
                     }
                     else {
@@ -262,7 +266,8 @@ var handleEditableFormAjaxCall = function () {
                         CalcularFila(
                             settings.data.value,
                             objetosEditable.cantidad.getValor(),
-                            descuentosAgregadosProducto
+                            descuentosAgregadosProducto,
+                            PorcentajeAtributoDescuento
                         );
                     }
                     else {
@@ -287,7 +292,8 @@ var handleEditableFormAjaxCall = function () {
                             CalcularFila(
                                 objetosEditable.neto.getValor(),
                                 objetosEditable.cantidad.getValor(),
-                                descuentosAgregadosProducto
+                                descuentosAgregadosProducto,
+                                PorcentajeAtributoDescuento
                             );
                         }
                         else {
@@ -328,7 +334,8 @@ function llenarCamposSeleccionProducto(producto) {
     CalcularFila(
         producto.PrecioVta,
         objetosEditable.cantidad.getValor(),
-        descuentosAgregadosProducto
+        descuentosAgregadosProducto,
+        PorcentajeAtributoDescuento
     );
 }
 
@@ -413,7 +420,8 @@ function crearControlDescuentos() {
             CalcularFila(
                 objetosEditable.neto.getValor(),
                 objetosEditable.cantidad.getValor(),
-                descuentosAgregadosProducto
+                descuentosAgregadosProducto,
+                PorcentajeAtributoDescuento
             );
             $("#modalDescuentosCerrar").click();
         });
@@ -487,18 +495,18 @@ function eliminarFilas(filaDelete) {
     fila.remove();
 }
 
-function CalcularFila(precioUnitario, cantidad, descuentos) {
+function CalcularFila(precioUnitario, cantidad, descuentos, porcentajeAtributoDescuento) {
     if (precioUnitario === undefined || precioUnitario === null || precioUnitario === "") { precioUnitario = 0; }
     if (cantidad === undefined || cantidad === null || cantidad === "") { cantidad = 0; }
-
     if (descuentos === undefined || descuentos === null || descuentos === "") { descuentos = []; }
+    if (porcentajeAtributoDescuento === undefined || porcentajeAtributoDescuento === null || porcentajeAtributoDescuento === "") { porcentajeAtributoDescuento = 0; }
 
     precioUnitario = parseInt(precioUnitario);
     cantidad = parseInt(cantidad);
 
     var url = $("#urlCalcularFila").val();
 
-    var dataPost = { precioUnitario: precioUnitario, cantidad: cantidad, descuentos: descuentos };
+    var dataPost = { precioUnitario: precioUnitario, cantidad: cantidad, descuentos: descuentos, porcentajeAtributoDescuento: porcentajeAtributoDescuento };
 
     $.ajax({
         url: url,
@@ -507,7 +515,9 @@ function CalcularFila(precioUnitario, cantidad, descuentos) {
         success: function (result) {
             var subTotal = result.SubTotal;
             var total = result.Total;
+            var valorDescuentoAtributo = result.ValorDescuentoAtributo;
 
+            objetosEditable.valorAtributoDescuento.setValor(parseInt(valorDescuentoAtributo));
             objetosEditable.subTotal.setValor(parseInt(subTotal));
             objetosEditable.total.setValor(parseInt(total));
         },
@@ -524,11 +534,12 @@ function CalcularProductosAgregados() {
         var url = $("#urlCalcularProductosAgregados").val();
         var dataPost = productosAgregados;
         var descuentos = obtieneDescuentosTotales();
+        var porcentajeAtributoDescuento = PorcentajeAtributoDescuento;
 
         $.ajax({
             url: url,
             type: "POST",
-            data: { productos: dataPost, descuentos: descuentos },
+            data: { productos: dataPost, descuentos: descuentos, porcentajeAtributoDescuento: porcentajeAtributoDescuento  },
             success: function (result) {
                 var subTotal = result.SubTotal;
                 var impuesto = result.Impuesto;
@@ -573,6 +584,7 @@ function addRow() {
     var stock = objetosEditable.stock.getValor();
     var medida = objetosEditable.unidadDeMedida.getValor();
     var preciounitario = objetosEditable.neto.getValor();
+    var porcentajeAtributoDescuento = objetosEditable.valorAtributoDescuento.getValor();
     var subtotal = objetosEditable.subTotal.getValor();
     var descuento = descuentosAgregadosProducto;
     var total = objetosEditable.total.getValor();
@@ -610,6 +622,7 @@ function addRow() {
             + '<td style="' + (parametros.MuestraUnidadMedidaProducto ? '' : 'display: none') + '"><span id="lblMedida_' + contador + '">' + medida + '</td>'
             + '<td style="text-align: right"><span id="lblPrecioUnitario_' + contador + '">' + preciounitario + '</td>'
             + '<td style="text-align: right"><span id="lblSubTotal_' + contador + '">' + subtotal + '</td>'
+            + '<td style="' + (PorcentajeAtributoDescuento > 0 ? '' : 'display: none') + '"><span id="lblAtributoDescuento_' + contador + '">' + porcentajeAtributoDescuento + '</td>'
             + (descuento.length === 0 ? '<td style="text-align: right"><span id="lblDescuento_' + contador + '">0</td>' :
                 descuento.length === 1 ?
                     '<td style="text-align: right"><span id="lblDescuento_' + contador + '">' + descuento[0].Porcentaje + '</td>' :
@@ -633,6 +646,7 @@ function addRow() {
             Stock: stock,
             UnidadMedida: medida,
             Descuentos: descuento,
+            DescuentoAtributo: PorcentajeAtributoDescuento,
             SubTotal: subtotal,
             Total: total
         };
@@ -698,10 +712,14 @@ var verTallaColorDescuento = 0;
 
 function verTallaColor(datos) {
     var bodegas = [];
-    bodegas.push(BodegaPorDefecto);
-    for (i = 0; i < datos.length; i++) {
-        if (bodegas.find(m => m === datos[i].CodigoBodega) === undefined) {
-            bodegas.push(datos[i].CodigoBodega);
+    if (parametros.StockProductoEsBodega) {
+        bodegas.push(parametros.StockProductoCodigoBodega);
+    }
+    if (parametros.StockProductoEsMasivo) {
+        for (i = 0; i < datos.length; i++) {
+            if (bodegas.find(m => m === datos[i].CodigoBodega) === undefined) {
+                bodegas.push(datos[i].CodigoBodega);
+            }
         }
     }
     $("#modalTallaColorBodegas").find('option').remove().end();
@@ -853,7 +871,8 @@ function verTallaColor(datos) {
             CalcularFila(
                 objetosEditable.neto.getValor(),
                 objetosEditable.cantidad.getValor(),
-                descuentosAgregadosProducto
+                descuentosAgregadosProducto,
+                PorcentajeAtributoDescuento
             );
 
             addRow();

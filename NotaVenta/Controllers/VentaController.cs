@@ -97,7 +97,12 @@ namespace NotaVenta.Controllers
             {
                 CodAux = NVC.CodAux
             };
-            
+
+            ClientesModels cm = controlDisofi().ObtenerAtributoDescuento(baseDatosUsuario(), cliente.CodAux, parametros.AtributoSoftlandDescuentoCliente);
+            cliente.ValorAtributo = cm.ValorAtributo;
+
+            ViewBag.ValorAtributo = cliente.ValorAtributo;
+
             CreditoModel credito = controlDisofi().ObtenerCredito(cliente.CodAux, baseDatosUsuario());
             if (credito != null)
             {
@@ -919,7 +924,7 @@ namespace NotaVenta.Controllers
         }
 
 
-        public ProductoAgregadoModel CalcularFilaFunction(decimal precioUnitario, decimal cantidad, List<DescuentoProductoAgregadoModel> descuentos)
+        public ProductoAgregadoModel CalcularFilaFunction(decimal precioUnitario, decimal cantidad, List<DescuentoProductoAgregadoModel> descuentos, decimal porcentajeAtributoDescuento)
         {
             if (descuentos == null) { descuentos = new List<DescuentoProductoAgregadoModel>(); }
             decimal _precioUnitario = 0;
@@ -950,13 +955,11 @@ namespace NotaVenta.Controllers
             }
 
             decimal subTotal = 0;
-            decimal subTotalDescuento = 0;
             decimal total = 0;
 
             subTotal = _precioUnitario * _cantidad;
 
             total = subTotal;
-            subTotalDescuento = subTotal;
 
             for (int x = 0; x < _descuentos.Count; x++)
             {
@@ -965,8 +968,13 @@ namespace NotaVenta.Controllers
                     decimal valorDescuento = (total * (_descuentos[x].Porcentaje / 100));
                     _descuentos[x].Valor = valorDescuento;
                     total = total - valorDescuento;
-                    subTotalDescuento = subTotalDescuento - (subTotalDescuento * (_descuentos[x].Porcentaje / 100));
                 }
+            }
+            decimal valorAtributoDescuento = 0;
+            if (porcentajeAtributoDescuento > 0)
+            {
+                valorAtributoDescuento = (total * (porcentajeAtributoDescuento / 100));
+                total = total - valorAtributoDescuento;
             }
 
             return new ProductoAgregadoModel()
@@ -975,22 +983,22 @@ namespace NotaVenta.Controllers
                 Cantidad = _cantidad,
                 Descuentos = _descuentos,
                 SubTotal = subTotal,
+                ValorDescuentoAtributo = valorAtributoDescuento,
                 Total = total
             };
         }
 
         [HttpPost]
-        public JsonResult CalcularFila(decimal precioUnitario, decimal cantidad, List<DescuentoProductoAgregadoModel> descuentos)
+        public JsonResult CalcularFila(decimal precioUnitario, decimal cantidad, List<DescuentoProductoAgregadoModel> descuentos, decimal porcentajeAtributoDescuento)
         {
-
-            return Json(CalcularFilaFunction(precioUnitario, cantidad, descuentos));
+            return Json(CalcularFilaFunction(precioUnitario, cantidad, descuentos, porcentajeAtributoDescuento));
         }
 
 
 
 
         [HttpPost]
-        public JsonResult CalcularProductosAgregados(List<ProductoAgregadoModel> productos, List<DescuentoProductoAgregadoModel> descuentos)
+        public JsonResult CalcularProductosAgregados(List<ProductoAgregadoModel> productos, List<DescuentoProductoAgregadoModel> descuentos, decimal porcentajeAtributoDescuento)
         {
             if (descuentos == null) { descuentos = new List<DescuentoProductoAgregadoModel>(); }
             decimal subTotal = 0;
@@ -999,7 +1007,7 @@ namespace NotaVenta.Controllers
 
             foreach (ProductoAgregadoModel item in productos)
             {
-                ProductoAgregadoModel producto = CalcularFilaFunction(item.PrecioUnitario, item.Cantidad, item.Descuentos);
+                ProductoAgregadoModel producto = CalcularFilaFunction(item.PrecioUnitario, item.Cantidad, item.Descuentos, porcentajeAtributoDescuento);
                 subTotal = subTotal + producto.Total;
             }
             subTotal = Convert.ToInt32(subTotal);
