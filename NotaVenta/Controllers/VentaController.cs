@@ -874,6 +874,55 @@ namespace NotaVenta.Controllers
 
                 respuestaNotaVenta.EstadoNP = cabecera.EstadoNP;
 
+                try
+                {
+                    List<string> paraEmail = new List<string>();
+
+
+
+
+                    List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), new ClientesModels { CodAux = cabecera.CodAux });
+                    List<ClientesModels> vendedores = controlDisofi().GetVendedores(baseDatosUsuario(), new ClientesModels { VenCod = cabecera.VenCod });
+                    List<ClientesModels> contacto = controlDisofi().GetContacto(baseDatosUsuario(), new ClientesModels { CodAux = cabecera.CodAux });
+
+
+                    if (para.EnvioMailCliente)
+                    {
+                        if (clientes != null && clientes.Count > 0)
+                        {
+                            if (clientes[0].EMail != null && clientes[0].EMail != "")
+                            {
+                                paraEmail.Add(clientes[0].EMail);
+                            }
+                        }
+                    }
+                    if (para.EnvioMailContacto)
+                    {
+                        if (contacto != null && contacto.Count > 0)
+                        {
+                            if (contacto[0].EMail != null && contacto[0].EMail != "")
+                            {
+                                paraEmail.Add(contacto[0].EMail);
+                            }
+                        }
+                    }
+                    if (para.EnvioMailVendedor)
+                    {
+                        if (vendedores != null && vendedores.Count > 0)
+                        {
+                            if (vendedores[0].EMail != null && vendedores[0].EMail != "")
+                            {
+                                paraEmail.Add(vendedores[0].EMail);
+                            }
+                        }
+                    }
+
+                    EnviarEmail(cabecera.NVNumero, vendedores[0].EMail, paraEmail);
+                }
+                catch (Exception ex)
+                {
+                }
+
                 return Json(respuestaNotaVenta);
             }
             catch (Exception ex)
@@ -881,6 +930,67 @@ namespace NotaVenta.Controllers
                 throw (ex);
             }
 
+        }
+
+        [NonAction]
+        public void EnviarEmail(int nvnumero, string de, List<string> para)
+        {
+            var clavecorreo = "";
+
+            string subject = string.Format("Cotizacion {0}", nvnumero);
+
+            string from = de;
+            string displayName = System.Configuration.ConfigurationManager.AppSettings.Get("Remitente");
+            string password = clavecorreo;
+            string host = System.Configuration.ConfigurationManager.AppSettings.Get("Host");
+            int port = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("Port"));
+            bool enableSs1 = Boolean.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("EnableSsl"));
+            bool useDefaultCredentials = Boolean.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("UseDefaultCredentials"));
+
+
+            var fromEmail = new MailAddress(from, displayName);
+
+            var smtp = new SmtpClient
+            {
+                Host = host,
+                Port = port,
+                EnableSsl = enableSs1,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = useDefaultCredentials,
+                Credentials = new NetworkCredential(fromEmail.Address, password)
+            };
+
+
+            NotadeVentaCabeceraModels NVentaCabecera = new NotadeVentaCabeceraModels
+            {
+                NVNumero = nvnumero
+            };
+            List<NotadeVentaCabeceraModels> NVentaCabeceras = controlDisofi().BuscarNVPorNumero(NVentaCabecera);
+
+            List<NotaDeVentaDetalleModels> NVentaDetalles = controlDisofi().BuscarNVDETALLEPorNumero(NVentaCabecera);
+
+            ClientesModels cliente = new ClientesModels
+            {
+                CodAux = NVentaCabeceras[0].CodAux,
+            };
+            List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), cliente);
+
+            MailMessage mail = new MailMessage
+            {
+                IsBodyHtml = true
+            };
+            mail.AlternateViews.Add(GetEmbeddedImage(NVentaCabeceras, NVentaDetalles, clientes));
+            mail.From = new MailAddress(from);
+
+            foreach (string item in para)
+            {
+                mail.To.Add(item);
+            }
+
+            if (mail != null)
+            {
+                smtp.Send(mail);
+            }
         }
 
         [HttpPost, ValidateInput(false)]
