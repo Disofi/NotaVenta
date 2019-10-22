@@ -21,3 +21,14 @@ C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\Nueva ca
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\Nueva carpeta\NotaVenta\BLL\obj\Debug\BLL.csproj.CopyComplete
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\Nueva carpeta\NotaVenta\BLL\obj\Debug\BLL.dll
 C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\Nueva carpeta\NotaVenta\BLL\obj\Debug\BLL.pdb
+C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\bin\Debug\BLL.dll
+C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\bin\Debug\BLL.pdb
+C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\bin\Debug\DAL.dll
+C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\bin\Debug\UTIL.dll
+C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\bin\Debug\log4net.dll
+C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\bin\Debug\DAL.pdb
+C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\bin\Debug\UTIL.pdb
+C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\obj\Debug\BLL.csprojAssemblyReference.cache
+C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\obj\Debug\BLL.csproj.CopyComplete
+C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\obj\Debug\BLL.dll
+C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\obj\Debug\BLL.pdb

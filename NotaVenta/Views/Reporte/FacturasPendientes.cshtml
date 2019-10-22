@@ -1,23 +1,11 @@
 ﻿@using UTIL.Models;
 @using NotaVenta.UTIL;
 @{
-    /**/
-
-    /**/
-
     ViewBag.Title = "Facturas Pendientes";
-
     List<NotadeVentaCabeceraModels> doc = ViewBag.doc;
 }
 <link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
 <script src="~/WebJs/Reporte/FacturasPendientes.js"></script>
-<style>
-    .rojomaldito {
-        background: #E49685;
-        color: black;
-    }
-</style>
-
 
 <div id="content" class="content">
     <h1 class="page-header">@ViewBag.Message <small></small></h1>
@@ -57,23 +45,6 @@
                                 for (int i = 0; i < doc.Count; i++)
                                 {
                                     <tr>
-                                        @if (@doc[i].stocklista > 0)
-                                        {
-                                            <td class="rojomaldito">@doc[i].NVNumero</td>
-                                            <td class="rojomaldito">@doc[i].NomAux</td>
-                                            <td class="rojomaldito">@doc[i].RutAux</td>
-                                            <td class="rojomaldito">@doc[i].nvFem</td>
-                                            <th class="rojomaldito">@doc[i].nvFeEnt</th>
-                                            <td class="rojomaldito">@doc[i].CodLista</td>
-                                            <td class="rojomaldito">@doc[i].NomCon</td>
-                                            <td class="rojomaldito">$@double.Parse(doc[i].nvNetoAfecto.ToString()).ToString("N0")</td>
-                                            <td class="rojomaldito">$@double.Parse(doc[i].TotalBoleta.ToString()).ToString("N0")</td>
-                                            <td class="rojomaldito">@doc[i].EstadoNP</td>
-                                            <td class="rojomaldito">@double.Parse(doc[i].Saldo.ToString()).ToString("N0")</td>
-
-                                        }
-                                        else
-                                        {
                                             <td>@doc[i].NVNumero</td>
                                             <td>@doc[i].NomAux</td>
                                             <td>@doc[i].RutAux</td>
@@ -83,27 +54,22 @@
                                             <td>@doc[i].NomCon</td>
                                             <td>$@double.Parse(doc[i].nvNetoAfecto.ToString()).ToString("N0")</td>
                                             <td>$@double.Parse(doc[i].TotalBoleta.ToString()).ToString("N0")</td>
-                                            <td>@doc[i].EstadoNP</td>
+                                            <td>@doc[i].nvEstado</td>
                                             <td>@double.Parse(doc[i].Saldo.ToString()).ToString("N0")</td>
+                                            <td>
+                                                @if (doc[i].nvEstado == "P")
+                                                {
+                                                    <button class="btn btn-warning btn-m" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id)"><img src="~/Content/Image/zoom.png" /></button>
+                                                    <button><img src="~/Content/Image/ok.png" onclick="AprobarNotaVenta(@doc[i].Id)"></button>
+                                                    <button><img src="~/Content/Image/delete.png" onclick="aprobarNW(@doc[i].NVNumero)"></button>
+                                                }
+                                                else
+                                                {
+                                                    <button class="btn btn-warning btn-m" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id)"><img src="~/Content/Image/zoom.png" /></button>
+                                                    <a>&nbsp;</a>
+                                                }
 
-                                        }
-
-
-
-                                        <td>
-                                            @if (doc[i].EstadoNP == "P")
-                                            {
-                                                <a id="iframe" href='@Url.Action("VerDetalleNV", "Reportes", new { nvNumero = @doc[i].NVNumero })'><img src="~/Image/zoom.png"></a>
-                                                <a href=""><img src="~/Image/ok.png" onclick="aprobarNW(@doc[i].NVNumero)"></a>
-
-                                            }
-                                            else
-                                            {
-                                                <a id="iframe" href='@Url.Action("VerDetalleNV", "Reportes", new { nvNumero = @doc[i].NVNumero })'><img src="~/Image/zoom.png"></a>
-                                                <a>&nbsp;</a>
-                                            }
-
-                                        </td>
+                                            </td>
                                     </tr>
                                 }
                             }
@@ -140,3 +106,35 @@
     <input type="hidden" name="nvnumero" id="nvnumero" value="" />
     @*@Html.Hidden("RedirectTo", Url.Action("FacturasPendientes", "Reportes");*@
 </form>
+
+<div id="DetalleNotaPedido" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Detalle Nota de Pedido</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="x_content">
+                    <br />
+                    <div class="col-lg-push-12">
+                        <div class="table-responsive form-inline">
+                            <table id="tblDetalleNotaPedido" class="table table-profile"></table>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="col-lg-push-12">
+                        <div class="table-responsive form-inline">
+                            <table id="tblDetalleNotaPedidoDetalle" class="table table-profile"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCerrarModal" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

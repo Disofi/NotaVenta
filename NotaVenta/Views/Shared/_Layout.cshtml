@@ -117,8 +117,11 @@
                         <h4 class="d-none d-md-inline">@NotaVenta.UTIL.SessionVariables.SESSION_DATOS_USUARIO.Nombre <small>Empresa: @NotaVenta.UTIL.SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.NombreEmpresa</small></h4> <b class="caret"></b>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
+                        @if (NotaVenta.UTIL.SessionVariables.SESSION_EMPRESAS_USUARIO != null)
+                        {
                         <a id="aLayoutCambioEmpresa" href="#modalLayoutEmpresas" class="dropdown-item" data-toggle="modal">Cambiar Empresa</a>
                         <div class="dropdown-divider"></div>
+                        }
                         <a href="@Url.Action("LogOut", "Login")" class="dropdown-item">Cerrar Sesion</a>
                     </div>
                 </li>
@@ -159,13 +162,16 @@
                                         <td>Empresa</td>
                                         <td>
                                             <select id="ddlLayoutEmpresas" class="form-control">
-                                                @foreach (var item in NotaVenta.UTIL.SessionVariables.SESSION_EMPRESAS_USUARIO)
+                                                @if (NotaVenta.UTIL.SessionVariables.SESSION_EMPRESAS_USUARIO != null)
                                                 {
-                                                    if (item.IdEmpresa != NotaVenta.UTIL.SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.IdEmpresa)
+                                                    foreach (var item in NotaVenta.UTIL.SessionVariables.SESSION_EMPRESAS_USUARIO)
                                                     {
-                                                        <option value="@item.IdEmpresa">
-                                                            @item.NombreEmpresa
-                                                        </option>
+                                                        if (item.IdEmpresa != NotaVenta.UTIL.SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.IdEmpresa)
+                                                        {
+                                                            <option value="@item.IdEmpresa">
+                                                                @item.NombreEmpresa
+                                                            </option>
+                                                        }
                                                     }
                                                 }
                                             </select>

@@ -7,7 +7,7 @@
 
 <link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
 <script src="~/WebJs/Reporte/FacturasAprobadas.js"></script>
-<input type="hidden" id="urlFacturasPendientes" value="@Url.Action("FacturasPendientes", "Reportes")" />
+
 <div id="content" class="content">
     <h1 class="page-header">@ViewBag.Message <small></small></h1>
     <div class="panel panel-inverse width-full">
@@ -42,7 +42,7 @@
                             for (int i = 0; i < doc.Count; i++)
                             {
                                 <tr>
-                                    <td>@doc[i].NVNumero</td>
+                                    <td>@doc[i].Id</td>
                                     <td>@doc[i].NomAux</td>
                                     <td>@doc[i].RutAux</td>
                                     <td>@doc[i].nvFem</td>
@@ -50,17 +50,18 @@
                                     <td>@doc[i].NomCon</td>
                                     <td>$@double.Parse(doc[i].nvNetoAfecto.ToString()).ToString("N0")</td>
                                     <td>$@double.Parse(doc[i].TotalBoleta.ToString()).ToString("N0")</td>
-                                    <td>@doc[i].EstadoNP</td>
+                                    <td>@doc[i].nvEstado</td>
                                     <td>@doc[i].RutSolicitante</td>
                                     <td>
-                                        @if (doc[i].EstadoNP == "P")
+                                        @if (doc[i].nvEstado == "A")
                                         {
-                                            <a id="iframe" href='@Url.Action("VerDetalleNV", "Reportes", new { nvNumero = @doc[i].NVNumero })'><img src="~/Image/zoom.png"></a>
-                                            <a><img src="~/Image/ok.png" onclick="aprobarNW(@doc[i].NVNumero)"></a>
+                                            <button class="btn btn-warning btn-m" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id)"><img src="~/Content/Image/zoom.png" /></button>
                                         }
                                         else
                                         {
-                                            <a id="iframe" href='@Url.Action("VerDetalleNV", "Reportes", new { nvNumero = @doc[i].NVNumero })'><img src="~/Image/zoom.png"></a>
+                                            <a id="iframe" href='@Url.Action("VerDetalleNV", "Reportes", new { nvNumero = @doc[i].NVNumero })'>
+                                                <img src="~/Content/Image/zoom.png" />
+                                            </a>
                                             <a>&nbsp;</a>
                                         }
 
@@ -90,14 +91,45 @@
         </div>
     </div>
 </div>
-                    @*</div>
-                    <br />
+@*</div>
+                        <br />
+                    </div>
                 </div>
             </div>
-        </div>
-</section>*@
-    <form id="sss" name="sss" action="@Url.Action("FacturasPendientes", "Reportes")">
-        <input type="hidden" name="nvnumero" id="nvnumero" value="" />
-    </form>
+    </section>*@
+<form id="sss" name="sss" action="@Url.Action("FacturasPendientes", "Reportes")">
+    <input type="hidden" name="nvnumero" id="nvnumero" value="" />
+</form>
 @*</div>*@
 
+<div id="DetalleNotaPedido" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Detalle Nota de Pedido</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="x_content">
+                    <br />
+                    <div class="col-lg-push-12">
+                        <div class="table-responsive form-inline">
+                            <table id="tblDetalleNotaPedido" class="table table-profile"></table>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="col-lg-push-12">
+                        <div class="table-responsive form-inline">
+                            <table id="tblDetalleNotaPedidoDetalle" class="table table-profile"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCerrarModal" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

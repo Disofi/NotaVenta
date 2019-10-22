@@ -196,19 +196,19 @@ namespace BLL
             return _Control.listarDocPendientes(basedatos);
         }
 
-        public List<NotadeVentaCabeceraModels> actualizaEstado(NotadeVentaCabeceraModels nw)
+        public List<NotadeVentaCabeceraModels> actualizaEstado(NotadeVentaCabeceraModels nw,string basedatos)
         {
-            return _Control.actualizaEstado(nw);
+            return _Control.actualizaEstado(nw,basedatos);
         }
 
-        public List<NotadeVentaCabeceraModels> BuscarNVC(NotadeVentaCabeceraModels nw)
+        public List<NotadeVentaCabeceraModels> BuscarNVC(NotadeVentaCabeceraModels nw, string basedatos)
         {
-            return _Control.BuscarNVC(nw);
+            return _Control.BuscarNVC(nw,basedatos);
         }
 
-        public List<NotaDeVentaDetalleModels> BuscarNVD(NotaDeVentaDetalleModels nw)
+        public List<NotaDeVentaDetalleModels> BuscarNVD(NotaDeVentaDetalleModels nw,string basedatos)
         {
-            return _Control.BuscarNVD(nw);
+            return _Control.BuscarNVD(nw,basedatos);
         }
 
         public List<NotaDeVentaDetalleModels> ListarNotaDetalle(NotaDeVentaDetalleModels nw)

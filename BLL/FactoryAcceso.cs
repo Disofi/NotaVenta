@@ -972,13 +972,14 @@ namespace BLL
             }
         }
 
-        public List<NotadeVentaCabeceraModels> actualizaEstado(NotadeVentaCabeceraModels nw)
+        public List<NotadeVentaCabeceraModels> actualizaEstado(NotadeVentaCabeceraModels nw,string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("RRA_ActualizaEstadoNW", new System.Collections.Hashtable()
                 {
-                    { "nvNumero", nw.NVNumero},
+                    { "nvId", nw.Id},
+                    { "pv_BaseDatos", basedatos}
                 });
                 return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
             }
@@ -989,13 +990,14 @@ namespace BLL
             }
         }
 
-        public List<NotadeVentaCabeceraModels> BuscarNVC(NotadeVentaCabeceraModels nw)
+        public List<NotadeVentaCabeceraModels> BuscarNVC(NotadeVentaCabeceraModels nw,string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_BuscarNVCabecera", new System.Collections.Hashtable()
                 {
-                    { "nvNumero", nw.NVNumero},
+                    { "nvId", nw.Id},
+                    { "pv_BaseDatos", basedatos}
                 });
                 return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
             }
@@ -1006,13 +1008,14 @@ namespace BLL
             }
         }
 
-        public List<NotaDeVentaDetalleModels> BuscarNVD(NotaDeVentaDetalleModels nw)
+        public List<NotaDeVentaDetalleModels> BuscarNVD(NotaDeVentaDetalleModels nw,string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_BuscarNVDetalle", new System.Collections.Hashtable()
                 {
-                    { "nvNumero", nw.NVNumero},
+                    { "nvId", nw.Id},
+                    { "pv_BaseDatos", basedatos}
                 });
                 return UTIL.Mapper.BindDataList<NotaDeVentaDetalleModels>(data);
             }
