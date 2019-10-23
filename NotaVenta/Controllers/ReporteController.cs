@@ -37,6 +37,22 @@ namespace NotaVenta.Controllers
             return View();
         }
 
+        [Autorizacion(PERFILES.SUPER_ADMINISTRADOR, PERFILES.ADMINISTRADOR, PERFILES.APROBADOR)]
+        public ActionResult FacturasRechazadas()
+        {
+            List<NotadeVentaCabeceraModels> doc = new List<NotadeVentaCabeceraModels>();
+            var docPendientes = controlDisofi().listarDocRechazadas(baseDatosUsuario());
+
+            if (docPendientes != null)
+            {
+                doc = docPendientes;
+            }
+
+            ViewBag.doc = doc;
+
+            return View();
+        }
+
         [HttpPost]
         public JsonResult FacturasPendientes(int _nvId)
         {

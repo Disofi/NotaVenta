@@ -44,9 +44,9 @@ function DetalleNotaPedido(nvId) {
                         "<tr><th nowrap='nowrap'>Cond. Venta</th>" +
                         "<td>" + value.CveCod + "-" + value.CveDes + "</td></tr>" +
                         "<tr><th nowrap='nowrap'>Fecha Pedido</th>" +
-                        "<td>" + value.nvFem + "</td></tr>" +
+                        "<td>" + value.nvFemString + "</td></tr>" +
                         "<tr><th nowrap='nowrap'>Fecha Entrega</th>" +
-                        "<td>" + value.nvFeEnt + "</td></tr>" +
+                        "<td>" + value.nvFeEntString + "</td></tr>" +
                         "<tr><th nowrap='nowrap'>Lista de Precio</th>" +
                         "<td>" + value.CodLista + "-" + value.DesLista + "</td></tr>" +
                         "<tr><th nowrap='nowrap'>Cod. Cliente</th>" +

@@ -25,6 +25,7 @@ namespace UTIL.Models
 
         public int NVNumero { get; set; }
         public DateTime nvFem { get; set; }
+        public string nvFemString { get { return this.nvFem == null ? "" : nvFem.ToString("dd/MM/yyyy"); } }
         public string nvEstado { get; set; }
         public int nvEstFact { get; set; }
         public int nvEstDesp { get; set; }
@@ -33,6 +34,7 @@ namespace UTIL.Models
         public int CotNum { get; set; }
         public string NumOC { get; set; }
         public DateTime nvFeEnt { get; set; }
+        public string nvFeEntString { get { return this.nvFeEnt == null ? "" : nvFeEnt.ToString("dd/MM/yyyy"); } }
         public string CodAux { get; set; }
         public string VenCod { get; set; }
         public string CodMon { get; set; }

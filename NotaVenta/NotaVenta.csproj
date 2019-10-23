@@ -6410,6 +6410,7 @@
     <Content Include="Views\Venta\Index.cshtml" />
     <Content Include="Views\Venta\MisClientes.cshtml" />
     <Content Include="Views\Venta\NotaDeVenta.cshtml" />
+    <Content Include="Views\Reporte\FacturasRechazadas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

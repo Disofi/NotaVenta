@@ -972,6 +972,23 @@ namespace BLL
             }
         }
 
+        public List<NotadeVentaCabeceraModels> listarDocRechazadas(string basedatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListarDocumentosRechazadas", new System.Collections.Hashtable()
+                {
+                    {"pv_BaseDatos",basedatos }
+                });
+                return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
         public List<NotadeVentaCabeceraModels> actualizaEstado(NotadeVentaCabeceraModels nw,string basedatos)
         {
             try

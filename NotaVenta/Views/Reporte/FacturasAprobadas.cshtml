@@ -12,7 +12,7 @@
     <h1 class="page-header">@ViewBag.Message <small></small></h1>
     <div class="panel panel-inverse width-full">
         <div class="panel-heading">
-            <h4 class="panel-title">Listado De Facturas Aprobadas </h4>
+            <h4 class="panel-title">Listado De Notas de Venta Aprobadas </h4>
             <div class="panel-heading-btn">
                 <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
             </div>
@@ -69,14 +69,7 @@
                                             <td>
                                                 @if (doc[i].EstadoNP == "A")
                                                 {
-                                                    <button class="btn btn-warning btn-m" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id)"><img src="~/Content/Image/zoom.png" /></button>
-                                                }
-                                                else
-                                                {
-                                                    <a id="iframe" href='@Url.Action("VerDetalleNV", "Reportes", new { nvNumero = @doc[i].NVNumero })'>
-                                                        <img src="~/Content/Image/zoom.png" />
-                                                    </a>
-                                                    <a>&nbsp;</a>
+                                                    <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id)"><img src="~/Content/Image/zoom.png" /></button>
                                                 }
 
                                             </td>

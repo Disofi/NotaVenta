@@ -196,6 +196,11 @@ namespace BLL
             return _Control.listarDocPendientes(basedatos);
         }
 
+        public List<NotadeVentaCabeceraModels> listarDocRechazadas(string basedatos)
+        {
+            return _Control.listarDocRechazadas(basedatos);
+        }
+
         public List<NotadeVentaCabeceraModels> actualizaEstado(NotadeVentaCabeceraModels nw,string basedatos)
         {
             return _Control.actualizaEstado(nw,basedatos);
