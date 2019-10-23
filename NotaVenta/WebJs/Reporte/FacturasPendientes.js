@@ -108,7 +108,8 @@ function AprobarNotaVenta(nvId) {
         data: { _nvId: nvId },
         async: true,
         success: function (data) {
-            confirm("Numero Nota de Venta:\n" + data.Proceso[0].NVNumero);
+            alert("Numero Nota de Venta:\n" + data.nvNum);
+            location.reload();
         }
     });
 }

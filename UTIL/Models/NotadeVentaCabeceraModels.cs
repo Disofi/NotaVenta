@@ -24,7 +24,7 @@ namespace UTIL.Models
         #region Campos SOFTLAND
 
         public int NVNumero { get; set; }
-        public DateTime? nvFem { get; set; }
+        public DateTime nvFem { get; set; }
         public string nvEstado { get; set; }
         public int nvEstFact { get; set; }
         public int nvEstDesp { get; set; }
@@ -32,7 +32,7 @@ namespace UTIL.Models
         public int nvEstConc { get; set; }
         public int CotNum { get; set; }
         public string NumOC { get; set; }
-        public DateTime? nvFeEnt { get; set; }
+        public DateTime nvFeEnt { get; set; }
         public string CodAux { get; set; }
         public string VenCod { get; set; }
         public string CodMon { get; set; }

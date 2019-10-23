@@ -140,10 +140,10 @@ namespace NotaVenta.Controllers
             List<NotadeVentaCabeceraModels> proceso = controlDisofi().actualizaEstado(notaVenta,baseDatosUsuario());
 
             List<NotadeVentaCabeceraModels> doc = controlDisofi().listarDocPendientes(baseDatosUsuario());
-
+            
             ViewBag.doc = doc;
             //VerificationEmail(notaVenta.NVNumero);
-            return Json(proceso);
+            return Json(new { nvNum = proceso[0].NVNumero });
         }
 
         [NonAction]
