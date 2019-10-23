@@ -1,8 +1,5 @@
-﻿@using UTIL.Models;
-@using NotaVenta.UTIL;
+﻿@using NotaVenta.Models;
 @{
-    /**/
-
     ViewBag.Title = "VerDetalleNV";
     List<NotadeVentaCabeceraModels> cabecera = ViewBag.cabecera;
     List<NotaDeVentaDetalleModels> detalle = ViewBag.detalle;
@@ -10,7 +7,7 @@
     var nvNum = ViewBag.NVnum;
     Layout = null;
 
-    if (SessionVariables.SESSION_DATOS_USUARIO.VenCod == null)
+    if (Session["VenCod"] == null)
     {
         var URL = System.Configuration.ConfigurationManager.AppSettings.Get("url");
         Response.Redirect(URL);
@@ -172,44 +169,44 @@
             <table class="registros registrosLight registros_1 col-md-5">
                 <tr>
                     <th nowrap="nowrap">N&ordm; Int.</th>
-                    <td>@</td>
+                    <td>@cabecera[0].NVNumero</td>
                 </tr>
                 <tr>
                     <th nowrap="nowrap">Vendedor</th>
-                    <td>@ - @</td>
+                    <td>@cabecera[0].VenCod - @cabecera[0].Usuario</td>
                 </tr>
                 <tr>
                     <th nowrap="nowrap">Cond. Venta</th>
-                    <td>@ - @</td>
+                    <td>@cabecera[0].CveCod - @cabecera[0].CveDes</td>
                 </tr>
                 <tr>
                     <th nowrap="nowrap">Fecha Pedido</th>
-                    <td>@</td>
+                    <td>@cabecera[0].nvFem.ToShortDateString()</td>
                 </tr>
                 <tr>
                     <th nowrap="nowrap">Fecha Entrega</th>
-                    <td>@</td>
+                    <td>@cabecera[0].nvFeEnt.ToShortDateString()</td>
                 </tr>
                 <tr>
                     <th nowrap="nowrap">Lista de Precio</th>
-                    <td>@  - @</td>
+                    <td>@cabecera[0].CodLista  - @cabecera[0].DesLista</td>
                 </tr>
                 <tr>
                     <th nowrap="nowrap">Cod. Cliente</th>
-                    <td>@  - @</td>
+                    <td>@cabecera[0].CodAux  - @cabecera[0].NomAux</td>
 
                 </tr>
                 <tr>
                     <th nowrap="nowrap">Contacto</th>
-                    <td>@</td>
+                    <td>@cabecera[0].NomCon</td>
                 </tr>
                 <tr>
                     <th nowrap="nowrap">Centro de Costo</th>
-                    <td>@ - @</td>
+                    <td>@cabecera[0].CodiCC - @cabecera[0].DescCC</td>
                 </tr>
                 <tr>
                     <th nowrap="nowrap">Detalle</th>
-                    <td>@</td>
+                    <td>@cabecera[0].nvObser</td>
                 </tr>
 
             </table>
@@ -241,38 +238,38 @@
                                 if (@detalle[i].Stock < @detalle[i].nvCant)
                                 {
                                     <tr id=i>
-                                        <td>@</td>
-                                        <td nowrap="nowrap">@</td>
-                                        <td nowrap="nowrap">@</td>
-                                        <td nowrap="nowrap" class="ta-r">@</td>
-                                        <td nowrap="nowrap" class="ta-r bg-danger">@</td>
-                                        <td nowrap="nowrap" class="ta-r">@</td>
-                                        <td nowrap="nowrap" class="ta-r">@</td>
+                                        <td>@detalle[i].nvLinea</td>
+                                        <td nowrap="nowrap">@detalle[i].CodProd</td>
+                                        <td nowrap="nowrap">@detalle[i].DesProd</td>
+                                        <td nowrap="nowrap" class="ta-r">@detalle[i].nvCant</td>
+                                        <td nowrap="nowrap" class="ta-r bg-danger">@detalle[i].Stock</td>
+                                        <td nowrap="nowrap" class="ta-r">@detalle[i].CodUMed</td>
+                                        <td nowrap="nowrap" class="ta-r">@double.Parse(detalle[i].nvPrecio.ToString()).ToString("N0")</td>
                                         <td class="ta-r">
-                                            <strong>@</strong>
+                                            <strong>@double.Parse(detalle[i].nvSubTotal.ToString()).ToString("N0")</strong>
                                         </td>
-                                        <td nowrap="nowrap" class="ta-r">@</td>
+                                        <td nowrap="nowrap" class="ta-r">@detalle[i].nvDPorcDesc01</td>
                                         <td class="ta-r">
-                                            <strong>@</strong>
+                                            <strong>@double.Parse(detalle[i].nvTotLinea.ToString()).ToString("N0")</strong>
                                         </td>
                                     </tr>
                                 }
                                 else
                                 {
                                     <tr id=i>
-                                        <td>@</td>
-                                        <td nowrap="nowrap">@</td>
-                                        <td nowrap="nowrap">@</td>
-                                        <td nowrap="nowrap" class="ta-r">@</td>
-                                        <td nowrap="nowrap" class="ta-r bg-success">@</td>
-                                        <td nowrap="nowrap" class="ta-r">@</td>
-                                        <td nowrap="nowrap" class="ta-r">@</td>
+                                        <td>@detalle[i].nvLinea</td>
+                                        <td nowrap="nowrap">@detalle[i].CodProd</td>
+                                        <td nowrap="nowrap">@detalle[i].DesProd</td>
+                                        <td nowrap="nowrap" class="ta-r">@detalle[i].nvCant</td>
+                                        <td nowrap="nowrap" class="ta-r bg-success">@detalle[i].Stock</td>
+                                        <td nowrap="nowrap" class="ta-r">@detalle[i].CodUMed</td>
+                                        <td nowrap="nowrap" class="ta-r">@double.Parse(detalle[i].nvPrecio.ToString()).ToString("N0")</td>
                                         <td class="ta-r">
-                                            <strong>@</strong>
+                                            <strong>@double.Parse(detalle[i].nvSubTotal.ToString()).ToString("N0")</strong>
                                         </td>
-                                        <td nowrap="nowrap" class="ta-r">@</td>
+                                        <td nowrap="nowrap" class="ta-r">@detalle[i].nvDPorcDesc01</td>
                                         <td class="ta-r">
-                                            <strong>@</strong>
+                                            <strong>@double.Parse(detalle[i].nvTotLinea.ToString()).ToString("N0")</strong>
                                         </td>
                                     </tr>
                                 }
@@ -284,15 +281,15 @@
                 <tbody>
                     <tr>
                         <td class="ta-r" colspan="8" align="right"><strong>Sub-Total</strong></td>
-                        <td class="ta-r"><strong>@</strong></td>
+                        <td class="ta-r"><strong>@double.Parse(cabecera[0].nvSubTotal.ToString()).ToString("N0")</strong></td>
                     </tr>
                     <tr>
                         <td class="ta-r" colspan="8" style="{text-align: right !important}"><strong>Impuesto</strong></td>
-                        <td class="ta-r"><strong>@</strong></td>
+                        <td class="ta-r"><strong>@double.Parse((cabecera[0].TotalBoleta - cabecera[0].nvSubTotal).ToString()).ToString("N0")</strong></td>
                     </tr>
                     <tr>
                         <td class="ta-r" colspan="8" align="right"><strong>Total Final</strong></td>
-                        <td class="ta-r"><strong>@</strong></td>
+                        <td class="ta-r"><strong>@double.Parse(cabecera[0].TotalBoleta.ToString()).ToString("N0")</strong></td>
                     </tr>
                 </tbody>
             </table>
@@ -303,7 +300,7 @@ else
 {
     <div class="row col-md-10">
         <div class="col-md-6">
-            <label class="label-info">No se encontró el documento. @</label>
+            <label class="label-info">No se encontró el documento. @nvNum</label>
         </div>
     </div>
 }

@@ -196,19 +196,24 @@ namespace BLL
             return _Control.listarDocPendientes(basedatos);
         }
 
-        public List<NotadeVentaCabeceraModels> actualizaEstado(NotadeVentaCabeceraModels nw)
+        public List<NotadeVentaCabeceraModels> listarDocRechazadas(string basedatos)
         {
-            return _Control.actualizaEstado(nw);
+            return _Control.listarDocRechazadas(basedatos);
         }
 
-        public List<NotadeVentaCabeceraModels> BuscarNVC(NotadeVentaCabeceraModels nw)
+        public List<NotadeVentaCabeceraModels> actualizaEstado(NotadeVentaCabeceraModels nw,string basedatos)
         {
-            return _Control.BuscarNVC(nw);
+            return _Control.actualizaEstado(nw,basedatos);
         }
 
-        public List<NotaDeVentaDetalleModels> BuscarNVD(NotaDeVentaDetalleModels nw)
+        public List<NotadeVentaCabeceraModels> BuscarNVC(NotadeVentaCabeceraModels nw, string basedatos)
         {
-            return _Control.BuscarNVD(nw);
+            return _Control.BuscarNVC(nw,basedatos);
+        }
+
+        public List<NotaDeVentaDetalleModels> BuscarNVD(NotaDeVentaDetalleModels nw,string basedatos)
+        {
+            return _Control.BuscarNVD(nw,basedatos);
         }
 
         public List<NotaDeVentaDetalleModels> ListarNotaDetalle(NotaDeVentaDetalleModels nw)
@@ -313,6 +318,11 @@ namespace BLL
         public CreditoModel ObtenerCredito(string CodAux, string baseDatos)
         {
             return _Control.ObtenerCredito(CodAux, baseDatos);
+        }
+
+        public List<NotadeVentaCabeceraModels> RechazarNP(NotadeVentaCabeceraModels nw)
+        {
+            return _Control.RechazarNotaVenta(nw);
         }
     }
 }
