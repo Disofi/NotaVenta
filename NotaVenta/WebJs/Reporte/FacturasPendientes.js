@@ -20,24 +20,24 @@ function DetalleNotaPedido(nvId) {
 
                 $.each(data.Cabecera, function (index, value) {
                     var htmlCabecera = "<tr><th nowrap='nowrap'>N&ordm; Int.</th>" +
-                        "<td>" + value.NVNumero + "</td></tr>" +
-                        "<tr><th nowrap='nowrap'>Vendedor</th>" +
+                        "<td>" + value.NVNumero + "</td>" +
+                        "<th nowrap='nowrap'>Vendedor</th>" +
                         "<td>" + value.VenCod + "-" + value.Usuario + "</td></tr>" +
                         "<tr><th nowrap='nowrap'>Cond. Venta</th>" +
-                        "<td>" + value.CveCod + "-" + value.CveDes + "</td></tr>" +
-                        "<tr><th nowrap='nowrap'>Fecha Pedido</th>" +
+                        "<td>" + value.CveCod + "-" + value.CveDes + "</td>" +
+                        "<th nowrap='nowrap'>Fecha Pedido</th>" +
                         "<td>" + value.nvFemString + "</td></tr>" +
                         "<tr><th nowrap='nowrap'>Fecha Entrega</th>" +
-                        "<td>" + value.nvFeEntString + "</td></tr>" +
-                        "<tr><th nowrap='nowrap'>Lista de Precio</th>" +
+                        "<td>" + value.nvFeEntString + "</td>" +
+                        "<th nowrap='nowrap'>Lista de Precio</th>" +
                         "<td>" + value.CodLista + "-" + value.DesLista + "</td></tr>" +
                         "<tr><th nowrap='nowrap'>Cod. Cliente</th>" +
-                        "<td>" + value.CodAux + "-" + value.NomAux + "</td></tr>" +
-                        "<tr><th nowrap='nowrap'>Contacto</th>" +
+                        "<td>" + value.CodAux + "-" + value.NomAux + "</td>" +
+                        "<th nowrap='nowrap'>Contacto</th>" +
                         "<td>" + value.NomCon + "</td></tr>" +
                         "<tr><th nowrap='nowrap'>Centro de Costo</th>" +
-                        "<td>" + value.CodiCC + "-" + value.DescCC + "</td></tr>" +
-                        "<tr><th nowrap='nowrap'>Detalle</th>" +
+                        "<td>" + value.CodiCC + "-" + value.DescCC + "</td>" +
+                        "<th nowrap='nowrap'>Detalle</th>" +
                         "<td>" + value.nvObser + "</td></tr>";
                     tableCabecera.append(htmlCabecera);
                 });
