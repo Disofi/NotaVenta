@@ -83,23 +83,23 @@ function DetalleNotaPedido(nvId) {
     });
 }
 
-function aprobarNW(nvnumero) {
-    console.log(nvnumero);
+//function aprobarNW(nvnumero) {
+//    console.log(nvnumero);
 
-    $("#nvnumero").val(nvnumero);
-    var url = $("#urlFacturasPendientes").val();
+//    $("#nvnumero").val(nvnumero);
+//    var url = $("#urlFacturasPendientes").val();
 
-    var data = {
-        NVNumero: nvnumero
-    };
+//    var data = {
+//        NVNumero: nvnumero
+//    };
 
-    console.log(data);
-    debugger
-    $.post(url, data).done(function (data) {
-        confirm("Numero Nota de Venta:\n" + data[0].NVNumero);
-        debugger
-    });
-}
+//    console.log(data);
+//    debugger
+//    $.post(url, data).done(function (data) {
+//        confirm("Numero Nota de Venta:\n" + data[0].NVNumero);
+//        debugger
+//    });
+//}
 
 function AprobarNotaVenta(nvId) {
     $.ajax({
@@ -108,7 +108,20 @@ function AprobarNotaVenta(nvId) {
         data: { _nvId: nvId },
         async: true,
         success: function (data) {
-            alert("Numero Nota de Venta:\n" + data.nvNum);
+            alert("Numero Nota de Venta:" + data.nvNum);
+            location.reload();
+        }
+    });
+}
+
+function RechazarNotaVenta(nvId,nvNum) {
+    $.ajax({
+        type: "POST",
+        url: "/Reporte/RechazarNotaVenta",
+        data: { _nvId: nvId, _nvNum: nvNum },
+        async: true,
+        success: function (data) {
+            alert("Numero Nota de Venta Rechazada: " + data.nvNum);
             location.reload();
         }
     });

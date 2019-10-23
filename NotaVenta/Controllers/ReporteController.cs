@@ -139,11 +139,21 @@ namespace NotaVenta.Controllers
 
             List<NotadeVentaCabeceraModels> proceso = controlDisofi().actualizaEstado(notaVenta,baseDatosUsuario());
 
-            List<NotadeVentaCabeceraModels> doc = controlDisofi().listarDocPendientes(baseDatosUsuario());
+            //List<NotadeVentaCabeceraModels> doc = controlDisofi().listarDocPendientes(baseDatosUsuario());
             
-            ViewBag.doc = doc;
-            //VerificationEmail(notaVenta.NVNumero);
+            //ViewBag.doc = doc;
+            //VerificationEmail(notaVenta._nvId);
             return Json(new { nvNum = proceso[0].NVNumero });
+        }
+
+        [HttpPost]
+        public JsonResult RechazarNotaVenta(int _nvId, int _nvNum)
+        {
+            NotadeVentaCabeceraModels notaventa = new NotadeVentaCabeceraModels();
+            notaventa.Id = _nvId;
+            List<NotadeVentaCabeceraModels> proceso = controlDisofi().RechazarNP(notaventa);
+
+            return Json(new { nvNum = _nvNum });
         }
 
         [NonAction]

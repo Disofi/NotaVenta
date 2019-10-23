@@ -1382,5 +1382,22 @@ namespace BLL
                 return null;
             }
         }
+
+        public List<NotadeVentaCabeceraModels> RechazarNotaVenta(NotadeVentaCabeceraModels nw)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("Ds_RechazarNP", new System.Collections.Hashtable()
+                {
+                    {"nvId", nw.Id}
+                });
+                return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
     }
 }

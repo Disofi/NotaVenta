@@ -309,5 +309,10 @@ namespace BLL
         {
             return _Control.ObtenerCredito(CodAux, baseDatos);
         }
+
+        public List<NotadeVentaCabeceraModels> RechazarNP(NotadeVentaCabeceraModels nw)
+        {
+            return _Control.RechazarNotaVenta(nw);
+        }
     }
 }
