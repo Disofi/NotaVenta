@@ -38,6 +38,60 @@ namespace NotaVenta.Controllers
         }
 
         [Autorizacion(PERFILES.SUPER_ADMINISTRADOR, PERFILES.ADMINISTRADOR, PERFILES.APROBADOR)]
+        public ActionResult FacturasRechazadas()
+        {
+            List<NotadeVentaCabeceraModels> doc = new List<NotadeVentaCabeceraModels>();
+            var docPendientes = controlDisofi().listarDocRechazadas(baseDatosUsuario());
+
+            if (docPendientes != null)
+            {
+                doc = docPendientes;
+            }
+
+            ViewBag.doc = doc;
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult FacturasPendientes(int _nvId)
+        {
+            NotadeVentaCabeceraModels NVC = new NotadeVentaCabeceraModels();
+            List<NotadeVentaCabeceraModels> NVCL = new List<NotadeVentaCabeceraModels>();
+            NotaDeVentaDetalleModels NVD = new NotaDeVentaDetalleModels();
+            List<NotaDeVentaDetalleModels> NVDL = new List<NotaDeVentaDetalleModels>();
+
+            NVC.Id = _nvId;
+            NVD.Id = _nvId;
+
+            var nvc = controlDisofi().BuscarNVC(NVC, baseDatosUsuario());
+
+            if (nvc != null)
+            {
+                NVCL = nvc;
+            }
+            else
+            {
+                ViewBag.mensaje = 1;
+                ViewBag.NVnum = _nvId;
+                return Json(new { Mensaje = ViewBag.mensaje, nvNum = ViewBag.NVnum });
+            }
+
+            ViewBag.cabecera = NVCL;
+
+            var nvd = controlDisofi().BuscarNVD(NVD, baseDatosUsuario());
+
+            if (nvd != null)
+            {
+                NVDL = nvd;
+            }
+
+            ViewBag.detalle = NVDL;
+
+            return Json(new { Cabecera = NVCL, Detalle = NVDL, Mensaje = ViewBag.mensaje, NVNumero = ViewBag.NVnum }, JsonRequestBehavior.AllowGet);
+        }
+
+        [Autorizacion(PERFILES.SUPER_ADMINISTRADOR, PERFILES.ADMINISTRADOR, PERFILES.APROBADOR)]
         public ActionResult FacturasAprobadas()
         {
             List<NotadeVentaCabeceraModels> doc = new List<NotadeVentaCabeceraModels>();
@@ -53,21 +107,69 @@ namespace NotaVenta.Controllers
             return View();
         }
 
+        [HttpPost]
+        public JsonResult FacturasAprobadas(int _nvId)
+        {
+            NotadeVentaCabeceraModels NVC = new NotadeVentaCabeceraModels();
+            List<NotadeVentaCabeceraModels> NVCL = new List<NotadeVentaCabeceraModels>();
+            NotaDeVentaDetalleModels NVD = new NotaDeVentaDetalleModels();
+            List<NotaDeVentaDetalleModels> NVDL = new List<NotaDeVentaDetalleModels>();
+
+            NVC.Id = _nvId;
+            NVD.Id= _nvId;
+
+            var nvc = controlDisofi().BuscarNVC(NVC,baseDatosUsuario());
+
+            if (nvc != null)
+            {
+                NVCL = nvc;
+            }
+            else
+            {
+                ViewBag.mensaje = 1;
+                ViewBag.NVnum = _nvId;
+                return Json(new { Mensaje = ViewBag.mensaje, nvNum = ViewBag.NVnum });
+            }
+
+            ViewBag.cabecera = NVCL;
+
+            var nvd = controlDisofi().BuscarNVD(NVD,baseDatosUsuario());
+
+            if (nvd != null)
+            {
+                NVDL = nvd;
+            }
+
+            ViewBag.detalle = NVDL;
+
+            return Json(new {Cabecera = NVCL, Detalle = NVDL, Mensaje = ViewBag.mensaje, NVNumero = ViewBag.NVnum }, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
-        [HttpPost, ValidateInput(false)]
-        public ActionResult FacturasPendientes(FormCollection frm)
+        [HttpPost]
+        public JsonResult AprobarNotaVenta(int _nvId)
         {
             NotadeVentaCabeceraModels notaVenta = new NotadeVentaCabeceraModels();
-            notaVenta.NVNumero = Int32.Parse(Request.Form["nvnumero"]);
+            notaVenta.Id = _nvId;
 
-            List<NotadeVentaCabeceraModels> proceso = controlDisofi().actualizaEstado(notaVenta);
+            List<NotadeVentaCabeceraModels> proceso = controlDisofi().actualizaEstado(notaVenta,baseDatosUsuario());
 
-            List<NotadeVentaCabeceraModels> doc = controlDisofi().listarDocPendientes(baseDatosUsuario());
+            //List<NotadeVentaCabeceraModels> doc = controlDisofi().listarDocPendientes(baseDatosUsuario());
+            
+            //ViewBag.doc = doc;
+            //VerificationEmail(notaVenta._nvId);
+            return Json(new { nvNum = proceso[0].NVNumero });
+        }
 
-            ViewBag.doc = doc;
-            VerificationEmail(notaVenta.NVNumero);
-            return Json(proceso);
+        [HttpPost]
+        public JsonResult RechazarNotaVenta(int _nvId, int _nvNum)
+        {
+            NotadeVentaCabeceraModels notaventa = new NotadeVentaCabeceraModels();
+            notaventa.Id = _nvId;
+            List<NotadeVentaCabeceraModels> proceso = controlDisofi().RechazarNP(notaventa);
+
+            return Json(new { nvNum = _nvNum });
         }
 
         [NonAction]
@@ -234,49 +336,49 @@ namespace NotaVenta.Controllers
             return alternateView;
         }
 
-        public ActionResult VerDetalleNV(int nvNumero)
-        {
-            try
-            {
-                NotadeVentaCabeceraModels NVC = new NotadeVentaCabeceraModels();
-                List<NotadeVentaCabeceraModels> NVCL = new List<NotadeVentaCabeceraModels>();
-                NotaDeVentaDetalleModels NVD = new NotaDeVentaDetalleModels();
-                List<NotaDeVentaDetalleModels> NVDL = new List<NotaDeVentaDetalleModels>();
+        //public ActionResult VerDetalleNV(int nvNumero)
+        //{
+        //    try
+        //    {
+        //        NotadeVentaCabeceraModels NVC = new NotadeVentaCabeceraModels();
+        //        List<NotadeVentaCabeceraModels> NVCL = new List<NotadeVentaCabeceraModels>();
+        //        NotaDeVentaDetalleModels NVD = new NotaDeVentaDetalleModels();
+        //        List<NotaDeVentaDetalleModels> NVDL = new List<NotaDeVentaDetalleModels>();
 
-                NVC.NVNumero = nvNumero;
-                NVD.NVNumero = nvNumero;
+        //        NVC.NVNumero = nvNumero;
+        //        NVD.NVNumero = nvNumero;
 
-                var nvc = controlDisofi().BuscarNVC(NVC);
+        //        var nvc = controlDisofi().BuscarNVC(NVC);
 
-                if (nvc != null)
-                {
-                    NVCL = nvc;
-                }
-                else
-                {
-                    ViewBag.mensaje = 1;
-                    ViewBag.NVnum = nvNumero;
-                    return View();
-                }
+        //        if (nvc != null)
+        //        {
+        //            NVCL = nvc;
+        //        }
+        //        else
+        //        {
+        //            ViewBag.mensaje = 1;
+        //            ViewBag.NVnum = nvNumero;
+        //            return View();
+        //        }
 
-                ViewBag.cabecera = NVCL;
+        //        ViewBag.cabecera = NVCL;
 
-                var nvd = controlDisofi().BuscarNVD(NVD);
+        //        var nvd = controlDisofi().BuscarNVD(NVD);
 
-                if (nvd != null)
-                {
-                    NVDL = nvd;
-                }
+        //        if (nvd != null)
+        //        {
+        //            NVDL = nvd;
+        //        }
 
-                ViewBag.detalle = NVDL;
+        //        ViewBag.detalle = NVDL;
 
-                return View();
-            }
-            catch (Exception ex)
-            {
-                return View(ex.Message);
-            }
-        }
+        //        return View();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return View(ex.Message);
+        //    }
+        //}
 
         public ActionResult ListarNotasdeDetalle(int nvNumero)
         {
