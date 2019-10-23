@@ -657,11 +657,11 @@ namespace NotaVenta.Controllers
                 cabecera.CodAux = cabecera.CodAux;
                 cabecera.VenCod = cabecera.VenCod;
                 cabecera.CodMon = "01"; //PESO CHILENO
-                cabecera.CodLista = cabecera.CodLista;
+                cabecera.CodLista = (cabecera.CodLista == null || cabecera.CodLista == "") ? "SIN LISTA" : cabecera.NomCon;
                 cabecera.nvObser = cabecera.nvObser;
                 //cabecera.nvCanalNV = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa;
                 cabecera.CveCod = cabecera.CveCod;
-                cabecera.NomCon = cabecera.NomCon;
+                cabecera.NomCon = (cabecera.NomCon == null || cabecera.NomCon == "") ? "SIN COCTACTO" : cabecera.NomCon;
                 cabecera.CodiCC = cabecera.CodiCC;
                 //cabecera.CodBode = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa;
                 cabecera.nvSubTotal = para.DescuentoTotalDirectoSoftland ? cabecera.nvSubTotal : cabecera.TotalBoleta;
