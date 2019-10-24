@@ -16,7 +16,7 @@ namespace UTIL.Objetos
         private int _TipoUsuario;
         private string _Nombre;
         private int _Activo;
-        private string _VenCod;
+        //private string _VenCod;
         private string _VenDes;
         private string _NombrePerfil;
         private UsuarioEmpresaModel _UsuarioEmpresaModel;

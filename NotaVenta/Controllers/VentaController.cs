@@ -250,118 +250,120 @@ namespace NotaVenta.Controllers
             return View();
         }
 
-        [NonAction]
-        public void VerificationEmail(int nvnumero, string NomCon)
-        {
-            var de = "";
-            var clavecorreo = "";
-            IEnumerable<_NotaDeVentaDetalleModels> datosUser = controlDisofi().DatosCorreoVend(nvnumero);
-            foreach (_NotaDeVentaDetalleModels ot in datosUser)
-            {
-                de = ot.EmailVend;
-                clavecorreo = ot.PassCorreo;
-            }
+        //[NonAction]
+        //public void VerificationEmail(int nvnumero, string NomCon)
+        //{
+        //    var de = "";
+        //    var clavecorreo = "";
+        //    IEnumerable<_NotaDeVentaDetalleModels> datosUser = controlDisofi().DatosCorreoVend(nvnumero);
+        //    foreach (_NotaDeVentaDetalleModels ot in datosUser)
+        //    {
+        //        de = ot.EmailVend;
+        //        clavecorreo = ot.PassCorreo;
+        //    }
 
 
-            string to = System.Configuration.ConfigurationManager.AppSettings.Get("Para");
-            string from = de;
-            string displayName = System.Configuration.ConfigurationManager.AppSettings.Get("Remitente");
-            string password = clavecorreo;
-            string host = System.Configuration.ConfigurationManager.AppSettings.Get("Host");
-            int port = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("Port"));
-            bool enableSs1 = Boolean.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("EnableSsl"));
-            bool useDefaultCredentials = Boolean.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("UseDefaultCredentials"));
+        //    string to = System.Configuration.ConfigurationManager.AppSettings.Get("Para");
+        //    string from = de;
+        //    string displayName = System.Configuration.ConfigurationManager.AppSettings.Get("Remitente");
+        //    string password = clavecorreo;
+        //    string host = System.Configuration.ConfigurationManager.AppSettings.Get("Host");
+        //    int port = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("Port"));
+        //    bool enableSs1 = Boolean.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("EnableSsl"));
+        //    bool useDefaultCredentials = Boolean.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("UseDefaultCredentials"));
 
 
-            var fromEmail = new MailAddress(from, displayName);
-            var toEmail = new MailAddress(to);
+        //    var fromEmail = new MailAddress(from, displayName);
+        //    var toEmail = new MailAddress(to);
 
-            var smtp = new SmtpClient
-            {
-                Host = host,
-                Port = port,
-                EnableSsl = enableSs1,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = useDefaultCredentials,
-                Credentials = new NetworkCredential(fromEmail.Address, password)
-            };
+        //    var smtp = new SmtpClient
+        //    {
+        //        Host = host,
+        //        Port = port,
+        //        EnableSsl = enableSs1,
+        //        DeliveryMethod = SmtpDeliveryMethod.Network,
+        //        UseDefaultCredentials = useDefaultCredentials,
+        //        Credentials = new NetworkCredential(fromEmail.Address, password)
+        //    };
 
-            var mailWithImg = GetMailWithImg(nvnumero, NomCon);
+        //    var mailWithImg = GetMailWithImg(nvnumero, NomCon);
 
-            if (mailWithImg != null)
-            {
-                smtp.Send(mailWithImg);
-                //smtp.SendAsync(mailWithImg, mailWithImg);
-            }
+        //    if (mailWithImg != null)
+        //    {
+        //        smtp.Send(mailWithImg);
+        //        //smtp.SendAsync(mailWithImg, mailWithImg);
+        //    }
 
-        }
+        //}
 
-        private MailMessage GetMailWithImg(int nvnumero, string NomCon)
-        {
-            var de = "";
-            var clavecorreo = "";
-            IEnumerable<_NotaDeVentaDetalleModels> datosUser = controlDisofi().DatosCorreoVend(nvnumero);
-            foreach (_NotaDeVentaDetalleModels ot in datosUser)
-            {
-                de = ot.EmailVend;
-                clavecorreo = ot.PassCorreo;
-            }
-            string from = de;
-            string subject = string.Format("Cotizacion {0}", nvnumero);
+        //private MailMessage GetMailWithImg(int nvnumero, string NomCon)
+        //{
+        //    var de = "";
+        //    var clavecorreo = "";
+        //    IEnumerable<_NotaDeVentaDetalleModels> datosUser = controlDisofi().DatosCorreoVend(nvnumero);
+        //    foreach (_NotaDeVentaDetalleModels ot in datosUser)
+        //    {
+        //        de = ot.EmailVend;
+        //        clavecorreo = ot.PassCorreo;
+        //    }
+        //    string from = de;
+        //    string subject = string.Format("Cotizacion {0}", nvnumero);
 
-            NotadeVentaCabeceraModels NVentaCabecera = new NotadeVentaCabeceraModels
-            {
-                NVNumero = nvnumero
-            };
-            List<NotadeVentaCabeceraModels> NVentaCabeceras = controlDisofi().BuscarNVPorNumero(NVentaCabecera);
+        //    NotadeVentaCabeceraModels NVentaCabecera = new NotadeVentaCabeceraModels
+        //    {
+        //        NVNumero = nvnumero
+        //    };
+        //    List<NotadeVentaCabeceraModels> NVentaCabeceras = controlDisofi().BuscarNVPorNumero(NVentaCabecera);
 
-            List<NotaDeVentaDetalleModels> NVentaDetalles = controlDisofi().BuscarNVDETALLEPorNumero(NVentaCabecera);
+        //    List<NotaDeVentaDetalleModels> NVentaDetalles = controlDisofi().BuscarNVDETALLEPorNumero(NVentaCabecera);
 
-            ClientesModels cliente = new ClientesModels
-            {
-                CodAux = NVentaCabeceras[0].CodAux,
-                NomCon = NomCon
-            };
+        //    ClientesModels cliente = new ClientesModels
+        //    {
+        //        CodAux = NVentaCabeceras[0].CodAux,
+        //        NomCon = NomCon
+        //    };
 
-            List<ClientesModels> contacto = controlDisofi().GetContacto(baseDatosUsuario(), cliente);
+        //    List<ClientesModels> contacto = controlDisofi().GetContacto(baseDatosUsuario(), cliente);
 
-            List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), cliente);
+        //    List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), cliente);
 
-            ClientesModels Vendedor = new ClientesModels
-            {
-                VenCod = NVentaCabeceras[0].VenCod
-            };
+        //    ClientesModels Vendedor = new ClientesModels
+        //    {
+        //        VenCod = NVentaCabeceras[0].VenCod
+        //    };
 
-            List<ClientesModels> vendedores = controlDisofi().GetVendedores(baseDatosUsuario(), Vendedor);
+        //    List<ClientesModels> vendedores = controlDisofi().GetVendedores(baseDatosUsuario(), Vendedor);
 
-            MailMessage mail = new MailMessage
-            {
-                IsBodyHtml = true
-            };
+        //    MailMessage mail = new MailMessage
+        //    {
+        //        IsBodyHtml = true
+        //    };
 
-            mail.AlternateViews.Add(GetEmbeddedImage(NVentaCabeceras, NVentaDetalles, clientes));
-            mail.From = new MailAddress(from);
+        //    mail.AlternateViews.Add(GetEmbeddedImage(NVentaCabeceras, NVentaDetalles, clientes));
+        //    mail.From = new MailAddress(from);
 
-            if (clientes != null)
-            {
-                mail.To.Add(vendedores[0].EMail);
+        //    if (clientes != null)
+        //    {
+        //        mail.To.Add(vendedores[0].EMail);
 
-                if (contacto[0].EMail == null || contacto[0].EMail.Trim() == "")
-                {
-                    mail.To.Add(clientes[0].EMail);
-                }
-                else
-                {
-                    mail.To.Add(contacto[0].EMail);
-                }
-                mail.Subject = subject;
-                return mail;
-            }
-            else
-            {
-                return null;
-            }
-        }
+        //        if (contacto[0].EMail == null || contacto[0].EMail.Trim() == "")
+        //        {
+        //            mail.To.Add(clientes[0].EMail);
+        //        }
+        //        else
+        //        {
+        //            mail.To.Add(contacto[0].EMail);
+        //        }
+        //        mail.Subject = subject;
+        //        return mail;
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //}
+
+
         /*
         public void SendEmail(string pvarPara, string pvarsAsunto, string pvarsMensaje, string pvarFrom, bool pvarisHtml = false)
         {
@@ -917,10 +919,12 @@ namespace NotaVenta.Controllers
                         }
                     }
 
-                    EnviarEmail(cabecera.NVNumero, vendedores[0].EMail, paraEmail);
+                    //EnviarEmail(cabecera.NVNumero, vendedores[0].EMail, paraEmail);
                 }
                 catch (Exception ex)
                 {
+                    string error = ex.ToString();
+                    return null;
                 }
 
                 return Json(respuestaNotaVenta);
@@ -932,66 +936,66 @@ namespace NotaVenta.Controllers
 
         }
 
-        [NonAction]
-        public void EnviarEmail(int nvnumero, string de, List<string> para)
-        {
-            var clavecorreo = "";
+        //[NonAction]
+        //public void EnviarEmail(int nvnumero, string de, List<string> para)
+        //{
+        //    var clavecorreo = "";
 
-            string subject = string.Format("Cotizacion {0}", nvnumero);
+        //    string subject = string.Format("Cotizacion {0}", nvnumero);
 
-            string from = de;
-            string displayName = System.Configuration.ConfigurationManager.AppSettings.Get("Remitente");
-            string password = clavecorreo;
-            string host = System.Configuration.ConfigurationManager.AppSettings.Get("Host");
-            int port = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("Port"));
-            bool enableSs1 = Boolean.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("EnableSsl"));
-            bool useDefaultCredentials = Boolean.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("UseDefaultCredentials"));
-
-
-            var fromEmail = new MailAddress(from, displayName);
-
-            var smtp = new SmtpClient
-            {
-                Host = host,
-                Port = port,
-                EnableSsl = enableSs1,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = useDefaultCredentials,
-                Credentials = new NetworkCredential(fromEmail.Address, password)
-            };
+        //    string from = de;
+        //    string displayName = System.Configuration.ConfigurationManager.AppSettings.Get("Remitente");
+        //    string password = clavecorreo;
+        //    string host = System.Configuration.ConfigurationManager.AppSettings.Get("Host");
+        //    int port = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("Port"));
+        //    bool enableSs1 = Boolean.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("EnableSsl"));
+        //    bool useDefaultCredentials = Boolean.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("UseDefaultCredentials"));
 
 
-            NotadeVentaCabeceraModels NVentaCabecera = new NotadeVentaCabeceraModels
-            {
-                NVNumero = nvnumero
-            };
-            List<NotadeVentaCabeceraModels> NVentaCabeceras = controlDisofi().BuscarNVPorNumero(NVentaCabecera);
+        //    var fromEmail = new MailAddress(from, displayName);
 
-            List<NotaDeVentaDetalleModels> NVentaDetalles = controlDisofi().BuscarNVDETALLEPorNumero(NVentaCabecera);
+        //    var smtp = new SmtpClient
+        //    {
+        //        Host = host,
+        //        Port = port,
+        //        EnableSsl = enableSs1,
+        //        DeliveryMethod = SmtpDeliveryMethod.Network,
+        //        UseDefaultCredentials = useDefaultCredentials,
+        //        Credentials = new NetworkCredential(fromEmail.Address, password)
+        //    };
 
-            ClientesModels cliente = new ClientesModels
-            {
-                CodAux = NVentaCabeceras[0].CodAux,
-            };
-            List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), cliente);
 
-            MailMessage mail = new MailMessage
-            {
-                IsBodyHtml = true
-            };
-            mail.AlternateViews.Add(GetEmbeddedImage(NVentaCabeceras, NVentaDetalles, clientes));
-            mail.From = new MailAddress(from);
+        //    NotadeVentaCabeceraModels NVentaCabecera = new NotadeVentaCabeceraModels
+        //    {
+        //        NVNumero = nvnumero
+        //    };
+        //    List<NotadeVentaCabeceraModels> NVentaCabeceras = controlDisofi().BuscarNVPorNumero(NVentaCabecera);
 
-            foreach (string item in para)
-            {
-                mail.To.Add(item);
-            }
+        //    List<NotaDeVentaDetalleModels> NVentaDetalles = controlDisofi().BuscarNVDETALLEPorNumero(NVentaCabecera);
 
-            if (mail != null)
-            {
-                smtp.Send(mail);
-            }
-        }
+        //    ClientesModels cliente = new ClientesModels
+        //    {
+        //        CodAux = NVentaCabeceras[0].CodAux,
+        //    };
+        //    List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), cliente);
+
+        //    MailMessage mail = new MailMessage
+        //    {
+        //        IsBodyHtml = true
+        //    };
+        //    mail.AlternateViews.Add(GetEmbeddedImage(NVentaCabeceras, NVentaDetalles, clientes));
+        //    mail.From = new MailAddress(from);
+
+        //    foreach (string item in para)
+        //    {
+        //        mail.To.Add(item);
+        //    }
+
+        //    if (mail != null)
+        //    {
+        //        smtp.Send(mail);
+        //    }
+        //}
 
         [HttpPost, ValidateInput(false)]
         public JsonResult BuscarDireccionDespacho(string CodAux)
