@@ -18,6 +18,7 @@ namespace UTIL.Models
         public string DesLista { get; set; }
         public string DescCC { get; set; }
         public int stocklista { get; set; }
+        public List<DescuentoProductoAgregadoModel> Descuentos { get; set; }
 
         #endregion
 

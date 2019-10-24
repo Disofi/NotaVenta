@@ -17,6 +17,7 @@ namespace UTIL.Models
         public List<DescuentoProductoAgregadoModel> Descuentos { get; set; }
         public decimal SubTotal { get; set; }
         public decimal Total { get; set; }
+        public decimal ValorDescuentoAtributo { get; set; }
         public string Talla { get; set; }
         public string Color { get; set; }
     }
