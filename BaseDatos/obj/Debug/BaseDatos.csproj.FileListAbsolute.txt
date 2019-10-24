@@ -13,3 +13,8 @@ C:\Users\Desarrollo-PC\Desktop\DsNotaVenta\NotaVenta\BaseDatos\bin\Debug\BaseDat
 C:\Users\Desarrollo-PC\Desktop\DsNotaVenta\NotaVenta\BaseDatos\obj\Debug\BaseDatos.csprojAssemblyReference.cache
 C:\Users\Desarrollo-PC\Desktop\DsNotaVenta\NotaVenta\BaseDatos\obj\Debug\BaseDatos.dll
 C:\Users\Desarrollo-PC\Desktop\DsNotaVenta\NotaVenta\BaseDatos\obj\Debug\BaseDatos.pdb
+C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\BaseDatos\bin\Debug\BaseDatos.dll
+C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\BaseDatos\bin\Debug\BaseDatos.pdb
+C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\BaseDatos\obj\Debug\BaseDatos.dll
+C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\BaseDatos\obj\Debug\BaseDatos.pdb
+C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\BaseDatos\obj\Debug\BaseDatos.csprojAssemblyReference.cache

@@ -5,3 +5,9 @@ D:\ProyectosYVEGA\NotaVenta\DAL\obj\Release\DAL.csproj.CoreCompileInputs.cache
 D:\ProyectosYVEGA\NotaVenta\DAL\obj\Release\DAL.csproj.CopyComplete
 D:\ProyectosYVEGA\NotaVenta\DAL\obj\Release\DAL.dll
 D:\ProyectosYVEGA\NotaVenta\DAL\obj\Release\DAL.pdb
+C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\DAL\bin\Release\DAL.dll
+C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\DAL\bin\Release\DAL.pdb
+C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\DAL\obj\Release\DAL.csprojAssemblyReference.cache
+C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\DAL\obj\Release\DAL.csproj.CopyComplete
+C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\DAL\obj\Release\DAL.dll
+C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\DAL\obj\Release\DAL.pdb
