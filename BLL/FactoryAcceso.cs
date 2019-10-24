@@ -727,13 +727,14 @@ namespace BLL
             }
         }
 
-        public List<NotadeVentaCabeceraModels> BuscarNVPorNumero(NotadeVentaCabeceraModels NVC)
+        public List<NotadeVentaCabeceraModels> BuscarNVPorNumero(int Id, string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("JS_ListarNVNM", new System.Collections.Hashtable()
                 {
-                    { "intNVNumero", NVC.NVNumero},
+                    { "nvId",Id},
+                    {"pv_BaseDatos", basedatos }
                 });
                 return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
             }
@@ -763,13 +764,14 @@ namespace BLL
 
         }
 
-        public List<NotaDeVentaDetalleModels> BuscarNVDETALLEPorNumero(NotadeVentaCabeceraModels NVC)
+        public List<NotaDeVentaDetalleModels> BuscarNVDETALLEPorNumero(int Id, string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("JS_ListarNVDETALLENM", new System.Collections.Hashtable()
                 {
-                    { "intNVNumero", NVC.NVNumero},
+                    { "nvId", Id},
+                    {"pv_BaseDatos", basedatos }
                 });
                 return UTIL.Mapper.BindDataList<NotaDeVentaDetalleModels>(data);
             }
@@ -989,7 +991,7 @@ namespace BLL
             }
         }
 
-        public List<NotadeVentaCabeceraModels> actualizaEstado(NotadeVentaCabeceraModels nw,string basedatos)
+        public List<NotadeVentaCabeceraModels> actualizaEstado(NotadeVentaCabeceraModels nw, string basedatos)
         {
             try
             {
@@ -1007,7 +1009,7 @@ namespace BLL
             }
         }
 
-        public List<NotadeVentaCabeceraModels> BuscarNVC(NotadeVentaCabeceraModels nw,string basedatos)
+        public List<NotadeVentaCabeceraModels> BuscarNVC(NotadeVentaCabeceraModels nw, string basedatos)
         {
             try
             {
@@ -1025,7 +1027,24 @@ namespace BLL
             }
         }
 
-        public List<NotaDeVentaDetalleModels> BuscarNVD(NotaDeVentaDetalleModels nw,string basedatos)
+        public NotadeVentaCabeceraModels GetCab(int nvId)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_GetCab", new System.Collections.Hashtable()
+                {
+                    {"nvId",nvId }
+                });
+                return UTIL.Mapper.BindData<NotadeVentaCabeceraModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public List<NotaDeVentaDetalleModels> BuscarNVD(NotaDeVentaDetalleModels nw, string basedatos)
         {
             try
             {
@@ -1269,6 +1288,23 @@ namespace BLL
                     {"pv_BaseDatos",basedatos }
                 });
                 return UTIL.Mapper.BindDataList<ClientesModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public List<AprobadorModels> GetAprobador(int IdAprobador)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_GetAprobador", new System.Collections.Hashtable()
+                {
+                    {"IdAprobador",IdAprobador }
+                });
+                return UTIL.Mapper.BindDataList<AprobadorModels>(data);
             }
             catch (Exception ex)
             {

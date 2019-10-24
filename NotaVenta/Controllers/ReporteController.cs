@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Net.Mime;
 using System.Web;
 using System.Web.Mvc;
 using UTIL.Models;
@@ -116,9 +117,9 @@ namespace NotaVenta.Controllers
             List<NotaDeVentaDetalleModels> NVDL = new List<NotaDeVentaDetalleModels>();
 
             NVC.Id = _nvId;
-            NVD.Id= _nvId;
+            NVD.Id = _nvId;
 
-            var nvc = controlDisofi().BuscarNVC(NVC,baseDatosUsuario());
+            var nvc = controlDisofi().BuscarNVC(NVC, baseDatosUsuario());
 
             if (nvc != null)
             {
@@ -133,7 +134,7 @@ namespace NotaVenta.Controllers
 
             ViewBag.cabecera = NVCL;
 
-            var nvd = controlDisofi().BuscarNVD(NVD,baseDatosUsuario());
+            var nvd = controlDisofi().BuscarNVD(NVD, baseDatosUsuario());
 
             if (nvd != null)
             {
@@ -142,7 +143,7 @@ namespace NotaVenta.Controllers
 
             ViewBag.detalle = NVDL;
 
-            return Json(new {Cabecera = NVCL, Detalle = NVDL, Mensaje = ViewBag.mensaje, NVNumero = ViewBag.NVnum }, JsonRequestBehavior.AllowGet);
+            return Json(new { Cabecera = NVCL, Detalle = NVDL, Mensaje = ViewBag.mensaje, NVNumero = ViewBag.NVnum }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -151,14 +152,42 @@ namespace NotaVenta.Controllers
         public JsonResult AprobarNotaVenta(int _nvId)
         {
             NotadeVentaCabeceraModels notaVenta = new NotadeVentaCabeceraModels();
+
+            ParametrosModels para = ObtieneParametros();
+            NotadeVentaCabeceraModels cabecera = controlDisofi().GetCab(_nvId);
+
             notaVenta.Id = _nvId;
 
-            List<NotadeVentaCabeceraModels> proceso = controlDisofi().actualizaEstado(notaVenta,baseDatosUsuario());
+            List<NotadeVentaCabeceraModels> proceso = controlDisofi().actualizaEstado(notaVenta, baseDatosUsuario());
 
-            //List<NotadeVentaCabeceraModels> doc = controlDisofi().listarDocPendientes(baseDatosUsuario());
-            
-            //ViewBag.doc = doc;
-            //VerificationEmail(notaVenta._nvId);
+            try
+            {
+                List<string> paraEmail = new List<string>();
+
+                var IdAprobador = SessionVariables.SESSION_DATOS_USUARIO.IdUsuario;
+
+                List<ClientesModels> vendedores = controlDisofi().GetVendedores(baseDatosUsuario(), new ClientesModels { VenCod = cabecera.VenCod });
+                List<AprobadorModels> aprobador = controlDisofi().GetAprobador(IdAprobador);
+
+                if (para.EnvioMailVendedor)
+                {
+                    if (vendedores != null && vendedores.Count > 0)
+                    {
+                        if (vendedores[0].EMail != null && vendedores[0].EMail != "")
+                        {
+                            paraEmail.Add(vendedores[0].EMail);
+                        }
+                    }
+                }
+
+                EnviarEmail(cabecera.NVNumero, notaVenta.Id, aprobador[0].Email, aprobador[0].Contrasena, paraEmail);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+
             return Json(new { nvNum = proceso[0].NVNumero });
         }
 
@@ -173,20 +202,10 @@ namespace NotaVenta.Controllers
         }
 
         [NonAction]
-        public void VerificationEmail(int nvnumero)
+        public void EnviarEmail(int nvnumero, int Id, string de, string clavecorreo, List<string> para)
         {
-            var de = "";
-            var clavecorreo = "";
-            var vendCodi = codigoVendedorUsuario();
+            string subject = string.Format("Cotizacion {0}", nvnumero);
 
-            IEnumerable<_NotaDeVentaDetalleModels> datosAprobador = controlDisofi().DatosCorreoAprobador(vendCodi);
-            foreach (_NotaDeVentaDetalleModels ot in datosAprobador)
-            {
-                de = ot.EmailVend;
-                clavecorreo = ot.PassCorreo;
-            }
-
-            string to = System.Configuration.ConfigurationManager.AppSettings.Get("Para");
             string from = de;
             string displayName = System.Configuration.ConfigurationManager.AppSettings.Get("Remitente");
             string password = clavecorreo;
@@ -197,7 +216,6 @@ namespace NotaVenta.Controllers
 
 
             var fromEmail = new MailAddress(from, displayName);
-            var toEmail = new MailAddress(to);
 
             var smtp = new SmtpClient
             {
@@ -209,94 +227,113 @@ namespace NotaVenta.Controllers
                 Credentials = new NetworkCredential(fromEmail.Address, password)
             };
 
+            List<NotadeVentaCabeceraModels> NVentaCabeceras = controlDisofi().BuscarNVPorNumero(Id, baseDatosUsuario());
 
-            MailMessage mailWithImg = GetMailWithImg(nvnumero, vendCodi);
-            if (mailWithImg != null)
+            List<NotaDeVentaDetalleModels> NVentaDetalles = controlDisofi().BuscarNVDETALLEPorNumero(Id, baseDatosUsuario());
+
+            ClientesModels cliente = new ClientesModels
             {
-                smtp.Send(mailWithImg);
-                //smtp.SendAsync(mailWithImg, mailWithImg);
-            }
-        }
-
-        private MailMessage GetMailWithImg(int nvnumero, string vendCodi)
-        {
-            var de = "";
-            var clavecorreo = "";
-            //Correo aprobador
-
-            IEnumerable<_NotaDeVentaDetalleModels> datosAprobador = controlDisofi().DatosCorreoAprobador(vendCodi);
-            foreach (_NotaDeVentaDetalleModels ot in datosAprobador)
-            {
-                de = ot.EmailVend;
-                clavecorreo = ot.PassCorreo;
-            }
-
-            string from = de;
-            string subject = string.Format("Aprobación de Cotización {0}", nvnumero);
-
-            NotadeVentaCabeceraModels NVentaCabecera = new NotadeVentaCabeceraModels
-            {
-                NVNumero = nvnumero
+                CodAux = NVentaCabeceras[0].CodAux,
             };
-            List<NotadeVentaCabeceraModels> NVentaCabeceras = controlDisofi().BuscarNVPorNumero(NVentaCabecera);
-
-            List<NotaDeVentaDetalleModels> NVentaDetalles = controlDisofi().BuscarNVDETALLEPorNumero(NVentaCabecera);
-
-            List<NotadeVentaCabeceraModels> NVsoft = controlDisofi().BuscarNVNum(NVentaCabecera);
-
-            ClientesModels Vendedor = new ClientesModels
-            {
-                VenCod = NVentaCabeceras[0].VenCod
-            };
-
-            List<ClientesModels> vendedores = controlDisofi().GetVendedores(baseDatosUsuario(), Vendedor);
+            List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), cliente);
 
             MailMessage mail = new MailMessage
             {
                 IsBodyHtml = true
             };
-
-            mail.AlternateViews.Add(GetEmbeddedImage(NVentaCabeceras, NVentaDetalles, vendedores, NVsoft));
+            mail.AlternateViews.Add(GetEmbeddedImage(NVentaCabeceras, NVentaDetalles, clientes));
             mail.From = new MailAddress(from);
 
-            if (vendedores != null)
+            foreach (string item in para)
             {
-                mail.To.Add(vendedores[0].EMail);
-                mail.Subject = subject;
-                return mail;
+                mail.To.Add(item);
             }
-            else
+
+            if (mail != null)
             {
-                return null;
+                smtp.Send(mail);
             }
         }
 
+        //private MailMessage GetMailWithImg(int nvnumero, string vendCodi)
+        //{
+        //    var de = "";
+        //    var clavecorreo = "";
+        //    //Correo aprobador
+
+        //    IEnumerable<_NotaDeVentaDetalleModels> datosAprobador = controlDisofi().DatosCorreoAprobador(vendCodi);
+        //    foreach (_NotaDeVentaDetalleModels ot in datosAprobador)
+        //    {
+        //        de = ot.EmailVend;
+        //        clavecorreo = ot.PassCorreo;
+        //    }
+
+        //    string from = de;
+        //    string subject = string.Format("Aprobación de Cotización {0}", nvnumero);
+
+        //    NotadeVentaCabeceraModels NVentaCabecera = new NotadeVentaCabeceraModels
+        //    {
+        //        NVNumero = nvnumero
+        //    };
+        //    List<NotadeVentaCabeceraModels> NVentaCabeceras = controlDisofi().BuscarNVPorNumero(NVentaCabecera);
+
+        //    List<NotaDeVentaDetalleModels> NVentaDetalles = controlDisofi().BuscarNVDETALLEPorNumero(NVentaCabecera);
+
+        //    List<NotadeVentaCabeceraModels> NVsoft = controlDisofi().BuscarNVNum(NVentaCabecera);
+
+        //    ClientesModels Vendedor = new ClientesModels
+        //    {
+        //        VenCod = NVentaCabeceras[0].VenCod
+        //    };
+
+        //    List<ClientesModels> vendedores = controlDisofi().GetVendedores(baseDatosUsuario(), Vendedor);
+
+        //    MailMessage mail = new MailMessage
+        //    {
+        //        IsBodyHtml = true
+        //    };
+
+        //    mail.AlternateViews.Add(GetEmbeddedImage(NVentaCabeceras, NVentaDetalles, vendedores, NVsoft));
+        //    mail.From = new MailAddress(from);
+
+        //    if (vendedores != null)
+        //    {
+        //        mail.To.Add(vendedores[0].EMail);
+        //        mail.Subject = subject;
+        //        return mail;
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //}
+
         private AlternateView GetEmbeddedImage(List<NotadeVentaCabeceraModels> NVentaCabeceras,
-        List<NotaDeVentaDetalleModels> NVentaDetalles, List<ClientesModels> Clientes, List<NotadeVentaCabeceraModels> NVSoft)
+        List<NotaDeVentaDetalleModels> NVentaDetalles, List<ClientesModels> Clientes)
         {
             char[] blanco = { ' ' };
 
             string htmlBody = String.Format(
             "<html><body>" +
             "<img src='~/Image/logo.png' />" +
-            "<H1> APROBACION COTIZACIÓN </H1>" +
+            "<H1> COTIZACIÓN </H1>" +
             @"<H4> Nº de Cotización: " + NVentaCabeceras[0].NVNumero + @" </H4>" +
-            //@"<H4> Nº Nota de Venta Softland: " + NVSoft[0].NVNumero + @" </H4>" +
             @"<H4> Fecha Pedido: " + NVentaCabeceras[0].nvFem == null ? "" : ((DateTime)NVentaCabeceras[0].nvFem).ToShortDateString() + @" </H4>" +
             @"<H4> Cliente: " + NVentaCabeceras[0].NomAux + @" </H4>" +
             @"<H4> Dirección: " + Clientes[0].DirAux + @" </H4>" +
             @"<H4> Fecha Entrega: " + NVentaCabeceras[0].nvFeEnt == null ? "" : ((DateTime)NVentaCabeceras[0].nvFeEnt).ToShortDateString() + @" </H4>" +
             @"<H4> Observaciones: " + NVentaCabeceras[0].nvObser + @" </H4>" +
-            @"<H4> Vendedor: " + SessionVariables.SESSION_DATOS_USUARIO.VenDes + @" </H4>" +
+            @"<H4> Vendedor: " + SessionVariables.SESSION_DATOS_USUARIO.VenDes.ToString() + @" </H4>" +
             @"<table border = ""1"" >" +
             @"<tr>" +
             @"<td>ID</td>" +
             @"<th nowrap=""nowrap"">Codigo Producto</th>" +
+            //@"<th>Imagen</th>" +
             @"<th>Descripcion</th>" +
             @"<th>Cantidad</th>" +
             @"<th>Precio</th>" +
             @"<th>Sub-Total</th>" +
-            @"<th>Iva   </th>" +
+            @"<th>Iva    </th>" +
             @"<th>Total   </th>" +
             @"</tr>");
 
@@ -328,57 +365,13 @@ namespace NotaVenta.Controllers
                         @"<tr><th style='text-align: right;' colspan =" + 7 + @">Total</th><td style='text-align: right;'>" + NVentaCabeceras[0].TotalBoleta + @"</td></tr>";
             htmlBody += @" </body></html>";
 
-            AlternateView alternateView = AlternateView.CreateAlternateViewFromString(htmlBody, null, System.Net.Mime.MediaTypeNames.Text.Html);
+            AlternateView alternateView = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
             foreach (LinkedResource r in resources)
             {
                 alternateView.LinkedResources.Add(r);
             }
             return alternateView;
         }
-
-        //public ActionResult VerDetalleNV(int nvNumero)
-        //{
-        //    try
-        //    {
-        //        NotadeVentaCabeceraModels NVC = new NotadeVentaCabeceraModels();
-        //        List<NotadeVentaCabeceraModels> NVCL = new List<NotadeVentaCabeceraModels>();
-        //        NotaDeVentaDetalleModels NVD = new NotaDeVentaDetalleModels();
-        //        List<NotaDeVentaDetalleModels> NVDL = new List<NotaDeVentaDetalleModels>();
-
-        //        NVC.NVNumero = nvNumero;
-        //        NVD.NVNumero = nvNumero;
-
-        //        var nvc = controlDisofi().BuscarNVC(NVC);
-
-        //        if (nvc != null)
-        //        {
-        //            NVCL = nvc;
-        //        }
-        //        else
-        //        {
-        //            ViewBag.mensaje = 1;
-        //            ViewBag.NVnum = nvNumero;
-        //            return View();
-        //        }
-
-        //        ViewBag.cabecera = NVCL;
-
-        //        var nvd = controlDisofi().BuscarNVD(NVD);
-
-        //        if (nvd != null)
-        //        {
-        //            NVDL = nvd;
-        //        }
-
-        //        ViewBag.detalle = NVDL;
-
-        //        return View();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return View(ex.Message);
-        //    }
-        //}
 
         public ActionResult ListarNotasdeDetalle(int nvNumero)
         {

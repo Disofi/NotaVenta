@@ -137,9 +137,9 @@ namespace BLL
             return _Control.AgregarDetalleNV(baseDatos, insertaDisofi, insertaSoftland, NVD);
         }
 
-        public List<NotadeVentaCabeceraModels> BuscarNVPorNumero(NotadeVentaCabeceraModels NVC)
+        public List<NotadeVentaCabeceraModels> BuscarNVPorNumero(int Id, string basedatos)
         {
-            return _Control.BuscarNVPorNumero(NVC);
+            return _Control.BuscarNVPorNumero(Id, basedatos);
         }
 
         public List<NotadeVentaCabeceraModels> BuscarNVNum(NotadeVentaCabeceraModels NVSoft)
@@ -147,9 +147,9 @@ namespace BLL
             return _Control.BuscarNVNum(NVSoft);
         }
 
-        public List<NotaDeVentaDetalleModels> BuscarNVDETALLEPorNumero(NotadeVentaCabeceraModels NVC)
+        public List<NotaDeVentaDetalleModels> BuscarNVDETALLEPorNumero(int Id, string basedatos)
         {
-            return _Control.BuscarNVDETALLEPorNumero(NVC);
+            return _Control.BuscarNVDETALLEPorNumero(Id, basedatos);
         }
 
         public List<NotadeVentaCabeceraModels> InsertarNvSoftland(NotadeVentaCabeceraModels NVC)
@@ -201,19 +201,24 @@ namespace BLL
             return _Control.listarDocRechazadas(basedatos);
         }
 
-        public List<NotadeVentaCabeceraModels> actualizaEstado(NotadeVentaCabeceraModels nw,string basedatos)
+        public List<NotadeVentaCabeceraModels> actualizaEstado(NotadeVentaCabeceraModels nw, string basedatos)
         {
-            return _Control.actualizaEstado(nw,basedatos);
+            return _Control.actualizaEstado(nw, basedatos);
+        }
+
+        public NotadeVentaCabeceraModels GetCab(int nvId)
+        {
+            return _Control.GetCab(nvId);
         }
 
         public List<NotadeVentaCabeceraModels> BuscarNVC(NotadeVentaCabeceraModels nw, string basedatos)
         {
-            return _Control.BuscarNVC(nw,basedatos);
+            return _Control.BuscarNVC(nw, basedatos);
         }
 
-        public List<NotaDeVentaDetalleModels> BuscarNVD(NotaDeVentaDetalleModels nw,string basedatos)
+        public List<NotaDeVentaDetalleModels> BuscarNVD(NotaDeVentaDetalleModels nw, string basedatos)
         {
-            return _Control.BuscarNVD(nw,basedatos);
+            return _Control.BuscarNVD(nw, basedatos);
         }
 
         public List<NotaDeVentaDetalleModels> ListarNotaDetalle(NotaDeVentaDetalleModels nw)
@@ -279,6 +284,11 @@ namespace BLL
         public List<ClientesModels> GetVendedores(string basedatos, ClientesModels cliente = null)
         {
             return _Control.GetVendedores(basedatos, cliente);
+        }
+
+        public List<AprobadorModels> GetAprobador(int IdAprobador)
+        {
+            return _Control.GetAprobador(IdAprobador);
         }
 
         public List<UsuariosModels> GetDatosUsuario(string Id, string basedatos)

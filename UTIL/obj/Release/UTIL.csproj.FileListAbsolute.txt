@@ -4,3 +4,8 @@ D:\ProyectosYVEGA\NotaVenta\UTIL\obj\Release\UTIL.csprojAssemblyReference.cache
 D:\ProyectosYVEGA\NotaVenta\UTIL\obj\Release\UTIL.csproj.CoreCompileInputs.cache
 D:\ProyectosYVEGA\NotaVenta\UTIL\obj\Release\UTIL.dll
 D:\ProyectosYVEGA\NotaVenta\UTIL\obj\Release\UTIL.pdb
+C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\UTIL\bin\Release\UTIL.dll
+C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\UTIL\bin\Release\UTIL.pdb
+C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\UTIL\obj\Release\UTIL.csprojAssemblyReference.cache
+C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\UTIL\obj\Release\UTIL.dll
+C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\UTIL\obj\Release\UTIL.pdb
