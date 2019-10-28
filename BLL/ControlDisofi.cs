@@ -281,7 +281,7 @@ namespace BLL
             return _Control.ListarCodVendedorSoft(basedatos);
         }
 
-        public List<ClientesModels> GetVendedores(string basedatos, ClientesModels cliente = null)
+        public List<VendedorModels> GetVendedores(string basedatos, VendedorModels cliente = null)
         {
             return _Control.GetVendedores(basedatos, cliente);
         }

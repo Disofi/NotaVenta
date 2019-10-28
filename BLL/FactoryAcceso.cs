@@ -1278,7 +1278,7 @@ namespace BLL
         }
 
 
-        public List<ClientesModels> GetVendedores(string basedatos, ClientesModels cliente = null)
+        public List<VendedorModels> GetVendedores(string basedatos, VendedorModels cliente = null)
         {
             try
             {
@@ -1287,7 +1287,7 @@ namespace BLL
                     { "VenCod", cliente.VenCod},
                     {"pv_BaseDatos",basedatos }
                 });
-                return UTIL.Mapper.BindDataList<ClientesModels>(data);
+                return UTIL.Mapper.BindDataList<VendedorModels>(data);
             }
             catch (Exception ex)
             {
