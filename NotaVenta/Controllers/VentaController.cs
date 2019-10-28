@@ -102,7 +102,8 @@ namespace NotaVenta.Controllers
             cliente.ValorAtributo = cm.ValorAtributo;
 
             ViewBag.ValorAtributo = cliente.ValorAtributo;
-
+            VendedoresSoftlandModels vendedorCliente = controlDisofi().ObtenerVendedorCliente(cliente.CodAux, baseDatosUsuario());
+            ViewBag.VendedorCliente = vendedorCliente;
             CreditoModel credito = controlDisofi().ObtenerCredito(cliente.CodAux, baseDatosUsuario());
             if (credito != null)
             {
@@ -657,7 +658,7 @@ namespace NotaVenta.Controllers
                 cabecera.NumOC = "0";
                 cabecera.nvFeEnt = cabecera.nvFeEnt;
                 cabecera.CodAux = cabecera.CodAux;
-                cabecera.VenCod = cabecera.VenCod;
+                cabecera.VenCod = SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.VenCod;
                 cabecera.CodMon = "01"; //PESO CHILENO
                 cabecera.CodLista = (cabecera.CodLista == null || cabecera.CodLista == "") ? "SIN LISTA" : cabecera.NomCon;
                 cabecera.nvObser = cabecera.nvObser;
@@ -744,8 +745,8 @@ namespace NotaVenta.Controllers
                 cabecera.RetiradoPor = null;
                 cabecera.CheckeoPorAlarmaVtas = "N";
                 cabecera.EnMantencion = 0;
-                cabecera.Usuario = "";
-                cabecera.UsuarioGeneraDocto = "SOFTLAND";
+                cabecera.Usuario = SessionVariables.SESSION_DATOS_USUARIO.VenDes;
+                cabecera.UsuarioGeneraDocto = SessionVariables.SESSION_DATOS_USUARIO.VenDes;
                 cabecera.FechaHoraCreacion = DateTime.Now;
                 cabecera.Sistema = "NW";
                 cabecera.ConcManual = "N";
