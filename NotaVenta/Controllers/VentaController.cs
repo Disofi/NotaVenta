@@ -102,25 +102,25 @@ namespace NotaVenta.Controllers
             cliente.ValorAtributo = cm.ValorAtributo;
 
             ViewBag.ValorAtributo = cliente.ValorAtributo;
-
             CreditoModel credito = controlDisofi().ObtenerCredito(cliente.CodAux, baseDatosUsuario());
-            if (credito != null)
+
+            if (parametros.ManejaLineaCredito)
             {
-                credito.Deuda = credito.Debe - credito.Haber;
-                credito.Saldo = credito.Credito - credito.Deuda;
-                if (parametros.ManejaLineaCredito)
+                if (credito != null)
                 {
+                    credito.Deuda = credito.Debe - credito.Haber;
+                    credito.Saldo = credito.Credito - credito.Deuda;
+
                     if (credito.Credito == 0)
-                    {
-                        TempData["Mensaje"] = "CLIENTE NO TIENE CREDITO. <br>";
-                        return RedirectToAction("MisClientes", "Venta");
-                    }
+                        {
+                            TempData["Mensaje"] = "CLIENTE NO TIENE CREDITO. <br>";
+                            return RedirectToAction("MisClientes", "Venta");
+                        }
+                    
                 }
             }
-
+            
             ViewBag.Credito = credito;
-
-
             ViewBag.CodAux = NVC.CodAux;
 
             List<ClientesModels> contactoCorreos = controlDisofi().GetContacto(baseDatosUsuario(), cliente);
@@ -172,7 +172,7 @@ namespace NotaVenta.Controllers
             //Se ubica la lista de contactos
             List<ClientesModels> contactos = controlDisofi().BuscarContacto(baseDatosUsuario(), contacto);
 
-            if (contactos == null)
+            if (contactos == null || contactos.Count == 0)
             {
                 ViewBag.contactos = contactos;
                 ViewBag.vcontactos = 0;
@@ -206,10 +206,10 @@ namespace NotaVenta.Controllers
             ListaDePrecioModels ListPrecio = new ListaDePrecioModels();
 
             ListPrecio.CodAux = NVC.CodAux.ToString();
+            //List<ListaDePrecioModels> ListDePrecios = new List<ListaDePrecioModels>();
 
-            //Se listan los precios
             List<ListaDePrecioModels> ListDePrecios = controlDisofi().listarListaDePrecio(baseDatosUsuario(), ListPrecio);
-
+            
             ViewBag.lista = ListDePrecios;
 
             //Se listan los centros de costos
@@ -250,232 +250,26 @@ namespace NotaVenta.Controllers
             return View();
         }
 
-        //[NonAction]
-        //public void VerificationEmail(int nvnumero, string NomCon)
-        //{
-        //    var de = "";
-        //    var clavecorreo = "";
-        //    IEnumerable<_NotaDeVentaDetalleModels> datosUser = controlDisofi().DatosCorreoVend(nvnumero);
-        //    foreach (_NotaDeVentaDetalleModels ot in datosUser)
-        //    {
-        //        de = ot.EmailVend;
-        //        clavecorreo = ot.PassCorreo;
-        //    }
-
-
-        //    string to = System.Configuration.ConfigurationManager.AppSettings.Get("Para");
-        //    string from = de;
-        //    string displayName = System.Configuration.ConfigurationManager.AppSettings.Get("Remitente");
-        //    string password = clavecorreo;
-        //    string host = System.Configuration.ConfigurationManager.AppSettings.Get("Host");
-        //    int port = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("Port"));
-        //    bool enableSs1 = Boolean.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("EnableSsl"));
-        //    bool useDefaultCredentials = Boolean.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("UseDefaultCredentials"));
-
-
-        //    var fromEmail = new MailAddress(from, displayName);
-        //    var toEmail = new MailAddress(to);
-
-        //    var smtp = new SmtpClient
-        //    {
-        //        Host = host,
-        //        Port = port,
-        //        EnableSsl = enableSs1,
-        //        DeliveryMethod = SmtpDeliveryMethod.Network,
-        //        UseDefaultCredentials = useDefaultCredentials,
-        //        Credentials = new NetworkCredential(fromEmail.Address, password)
-        //    };
-
-        //    var mailWithImg = GetMailWithImg(nvnumero, NomCon);
-
-        //    if (mailWithImg != null)
-        //    {
-        //        smtp.Send(mailWithImg);
-        //        //smtp.SendAsync(mailWithImg, mailWithImg);
-        //    }
-
-        //}
-
-        //private MailMessage GetMailWithImg(int nvnumero, string NomCon)
-        //{
-        //    var de = "";
-        //    var clavecorreo = "";
-        //    IEnumerable<_NotaDeVentaDetalleModels> datosUser = controlDisofi().DatosCorreoVend(nvnumero);
-        //    foreach (_NotaDeVentaDetalleModels ot in datosUser)
-        //    {
-        //        de = ot.EmailVend;
-        //        clavecorreo = ot.PassCorreo;
-        //    }
-        //    string from = de;
-        //    string subject = string.Format("Cotizacion {0}", nvnumero);
-
-        //    NotadeVentaCabeceraModels NVentaCabecera = new NotadeVentaCabeceraModels
-        //    {
-        //        NVNumero = nvnumero
-        //    };
-        //    List<NotadeVentaCabeceraModels> NVentaCabeceras = controlDisofi().BuscarNVPorNumero(NVentaCabecera);
-
-        //    List<NotaDeVentaDetalleModels> NVentaDetalles = controlDisofi().BuscarNVDETALLEPorNumero(NVentaCabecera);
-
-        //    ClientesModels cliente = new ClientesModels
-        //    {
-        //        CodAux = NVentaCabeceras[0].CodAux,
-        //        NomCon = NomCon
-        //    };
-
-        //    List<ClientesModels> contacto = controlDisofi().GetContacto(baseDatosUsuario(), cliente);
-
-        //    List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), cliente);
-
-        //    ClientesModels Vendedor = new ClientesModels
-        //    {
-        //        VenCod = NVentaCabeceras[0].VenCod
-        //    };
-
-        //    List<ClientesModels> vendedores = controlDisofi().GetVendedores(baseDatosUsuario(), Vendedor);
-
-        //    MailMessage mail = new MailMessage
-        //    {
-        //        IsBodyHtml = true
-        //    };
-
-        //    mail.AlternateViews.Add(GetEmbeddedImage(NVentaCabeceras, NVentaDetalles, clientes));
-        //    mail.From = new MailAddress(from);
-
-        //    if (clientes != null)
-        //    {
-        //        mail.To.Add(vendedores[0].EMail);
-
-        //        if (contacto[0].EMail == null || contacto[0].EMail.Trim() == "")
-        //        {
-        //            mail.To.Add(clientes[0].EMail);
-        //        }
-        //        else
-        //        {
-        //            mail.To.Add(contacto[0].EMail);
-        //        }
-        //        mail.Subject = subject;
-        //        return mail;
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //}
-
-
-        /*
-        public void SendEmail(string pvarPara, string pvarsAsunto, string pvarsMensaje, string pvarFrom, bool pvarisHtml = false)
-        {
-
-            try
-            {
-
-                bool wvarEnvia = false;
-                MailMessage myMail = new MailMessage();
-
-                myMail.From = new MailAddress("rhurtado@disofi.cl");
-
-
-                if (pvarPara.Trim() != "")
-                {
-                    pvarPara = pvarPara + ",";
-
-                    string[] wvarPP = pvarPara.Split(Convert.ToChar(","));
-
-                    foreach (string wvarPara in wvarPP)
-                    {
-                        if (wvarPara != "")
-                        {
-                            myMail.To.Add(wvarPara);
-                            wvarEnvia = true;
-                        }
-                    }
-                }
-
-                myMail.Subject = pvarsAsunto;
-                myMail.SubjectEncoding = System.Text.Encoding.UTF8;
-
-                myMail.Body = pvarsMensaje;
-                myMail.BodyEncoding = System.Text.Encoding.UTF8;
-                myMail.IsBodyHtml = pvarisHtml;
-
-                SmtpClient mySmtpClient = new SmtpClient();
-                mySmtpClient.Host = "mail.disofi.cl";
-                mySmtpClient.Port = 25;
-                mySmtpClient.EnableSsl = true;
-
-
-                mySmtpClient.UseDefaultCredentials = false;
-                NetworkCredential MyCredentials = new NetworkCredential("fduran@disofi.cl", "D1s0f12019");
-                mySmtpClient.Credentials = MyCredentials;
-
-                if (wvarEnvia == true)
-                {
-                    mySmtpClient.Send(myMail);
-
-                    //ReleaseObject(mySmtpClient);
-                    //ReleaseObject(myMail);
-                }
-
-            }
-
-            catch (SmtpException ex)
-            {
-                //WriteLog("SmtpException has occured: " + ex.Message);
-            }
-
-        }
-        */
-
-
-
         private AlternateView GetEmbeddedImage(List<NotadeVentaCabeceraModels> NVentaCabeceras,
         List<NotaDeVentaDetalleModels> NVentaDetalles, List<ClientesModels> Clientes)
         {
-            //var connectionString = "";
-            //byte[] arrImage = ms.GetBuffer();
-            /*
-            using (SqlConnection cn = new SqlConnection(connectionString = "Data Source=SRV-DISOFI; Initial Catalog=DSKUPPEL; User ID=sa; Password=Softland2018; MultipleActiveResultSets=True; TrustServerCertificate =True"))
-            {
-                cn.Open();
-                SqlCommand cmd = new SqlCommand("select Imagen from DS_Imagenes", cn);
-                byte[] datosImagen = (byte[])cmd.ExecuteScalar();
-                MemoryStream ms = new MemoryStream(datosImagen);
-                System.Drawing.Image img = System.Drawing.Image.FromStream(ms);
-                //arrImage = img;
-                
-            }
-            */
             char[] blanco = { ' ' };
 
             string htmlBody = String.Format(
             "<html><body>" +
-            //Cabecera
-            /*"<table width ='400' cellspacing ='1' cellpadding ='3' border ='0' bgcolor ='#000000' align ='center'>" +
-            "<tr>" +
-            "<td width ='120' align ='left' bgcolor ='#ffffff'>" +
-            "<div class='custom - banner'>" +
-
-            "</div>" +
-            "</td>" +
-            "</tr>" +
-            "</table>" +*/
-            //
             "<img src='~/Image/logo.png' />" +
             "<H1> COTIZACIÓN </H1>" +
-            @"<H4> Nº de Cotización: " + NVentaCabeceras[0].NVNumero + @" </H4>" +
-            @"<H4> Fecha Pedido: " + NVentaCabeceras[0].nvFem == null ? "" : ((DateTime)NVentaCabeceras[0].nvFem).ToShortDateString() + @" </H4>" +
+            @"<H4> Nº de Cotización: " + NVentaCabeceras[0].Id + @" </H4>" +
+            @"<H4> Fecha Pedido: " + (NVentaCabeceras[0].nvFem == null ? "" : ((DateTime)NVentaCabeceras[0].nvFem).ToShortDateString()) + @" </H4>" +
             @"<H4> Cliente: " + NVentaCabeceras[0].NomAux + @" </H4>" +
             @"<H4> Dirección: " + Clientes[0].DirAux + @" </H4>" +
-            @"<H4> Fecha Entrega: " + NVentaCabeceras[0].nvFeEnt == null ? "" : ((DateTime)NVentaCabeceras[0].nvFeEnt).ToShortDateString() + @" </H4>" +
+            @"<H4> Fecha Entrega: " + (NVentaCabeceras[0].nvFeEnt == null ? "" : ((DateTime)NVentaCabeceras[0].nvFeEnt).ToShortDateString()) + @" </H4>" +
             @"<H4> Observaciones: " + NVentaCabeceras[0].nvObser + @" </H4>" +
             @"<H4> Vendedor: " + SessionVariables.SESSION_DATOS_USUARIO.VenDes.ToString() + @" </H4>" +
             @"<table border = ""1"" >" +
             @"<tr>" +
             @"<td>ID</td>" +
             @"<th nowrap=""nowrap"">Codigo Producto</th>" +
-            //@"<th>Imagen</th>" +
             @"<th>Descripcion</th>" +
             @"<th>Cantidad</th>" +
             @"<th>Precio</th>" +
@@ -501,15 +295,15 @@ namespace NotaVenta.Controllers
                            @"<td>" + nvd.CodProd + @"</td>" +
                            @"<td>" + nvd.DesProd + @"</td>" +
                            @"<td style='text-align: right;'>" + nvd.nvCant + @"</td>" +
-                           @"<td style='text-align: right;'>" + nvd.nvPrecio + @"</td>" +
-                           @"<td style='text-align: right;'>" + nvd.nvSubTotal + @"</td>" +
-                           @"<td style='text-align: right;'>" + Iva + @"</td>" +
-                           @"<td style='text-align: right;'>" + precioConIVa + @"</td>" +
+                           @"<td style='text-align: right;'>" + "$ " + nvd.nvPrecio.ToString("N0") + @"</td>" +
+                           @"<td style='text-align: right;'>" + "$ " + nvd.nvSubTotal.ToString("N0") + @"</td>" +
+                           @"<td style='text-align: right;'>" + "$ " + Iva.ToString("N0") + @"</td>" +
+                           @"<td style='text-align: right;'>" + "$ " + precioConIVa.ToString("N0") + @"</td>" +
                            @"</tr>";
             }
-            htmlBody += @"<tr><th style='text-align: right;' colspan =" + 7 + @">Sub Total</th><td style='text-align: right;'>" + subtotal + @"</td></tr>" +
-                        @"<tr><th style='text-align: right;' colspan =" + 7 + @">Total Iva</th><td style='text-align: right;'>" + ivaux + @"</td></tr>" +
-                        @"<tr><th style='text-align: right;' colspan =" + 7 + @">Total</th><td style='text-align: right;'>" + NVentaCabeceras[0].TotalBoleta + @"</td></tr>";
+            htmlBody += @"<tr><th style='text-align: right;' colspan =" + 7 + @">Sub Total</th><td style='text-align: right;'>" + "$ " + subtotal.ToString("N0") + @"</td></tr>" +
+                        @"<tr><th style='text-align: right;' colspan =" + 7 + @">Total Iva</th><td style='text-align: right;'>" + "$ " + ivaux.ToString("N0") + @"</td></tr>" +
+                        @"<tr><th style='text-align: right;' colspan =" + 7 + @">Total</th><td style='text-align: right;'>" + "$ " + NVentaCabeceras[0].TotalBoleta.ToString("N0") + @"</td></tr>";
             htmlBody += @" </body></html>";
 
             AlternateView alternateView = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
@@ -532,108 +326,7 @@ namespace NotaVenta.Controllers
 
 
         #region"--- Web Métodos ---"
-        //[HttpPost, ValidateInput(false)]
-        //public JsonResult AgregarNV(FormCollection frm, int NVNumero, DateTime nvFem, DateTime nvFeEnt, string CodAux, string VenCod,
-        //string CodLista, string nvObser, string CveCod, string NomCon, string CodiCC, double nvSubTotal, double nvMonto,
-        //double nvNetoAfecto, string Usuario, string UsuarioGeneraDocto, DateTime FechaHoraCreacion, double TotalBoleta,
-        //string id, string CodLugarDesp)
-        //{
-        //    int numSoft = 0;
-        //    try
-        //    {
-        //        #region"NVC"
-        //        NotadeVentaCabeceraModels NVC = new NotadeVentaCabeceraModels
-        //        {
-        //            NVNumero = NVNumero,
-        //            nvFem = nvFem,
-        //            nvEstado = "A",
-        //            nvEstFact = 0,
-        //            nvEstDesp = 0,
-        //            nvEstRese = 0,
-        //            nvEstConc = 0,
-        //            nvFeEnt = nvFeEnt,
-        //            CodAux = CodAux,
-        //            VenCod = VenCod,
-        //            CodMon = "01",
-        //            CodLista = CodLista,
-        //            nvObser = nvObser,
-        //            CveCod = CveCod,
-        //            NomCon = NomCon,
-        //            CodiCC = CodiCC,
-        //            nvSubTotal = nvSubTotal,
-        //            nvPorcDesc01 = 0,
-        //            nvDescto01 = 0,
-        //            nvPorcDesc02 = 0,
-        //            nvDescto02 = 0,
-        //            nvPorcDesc03 = 0,
-        //            nvDescto03 = 0,
-        //            nvPorcDesc04 = 0,
-        //            nvDescto04 = 0,
-        //            nvPorcDesc05 = 0,
-        //            nvDescto05 = 0,
-        //            nvMonto = nvMonto,
-        //            NumGuiaRes = 0,
-        //            nvPorcFlete = 0,
-        //            nvValflete = 0,
-        //            nvPorcEmb = 0,
-        //            nvEquiv = 1,
-        //            nvNetoExento = 0,
-        //            nvNetoAfecto = nvNetoAfecto,
-        //            nvTotalDesc = 0,
-        //            ConcAuto = "N",
-        //            CheckeoPorAlarmaVtas = "N",
-        //            EnMantencion = 0,
-        //            Usuario = Usuario,
-        //            UsuarioGeneraDocto = UsuarioGeneraDocto,
-        //            FechaHoraCreacion = FechaHoraCreacion,
-        //            Sistema = "NW",
-        //            ConcManual = "N",
-        //            proceso = "Notas de Venta",
-        //            TotalBoleta = TotalBoleta,
-        //            NumReq = 0,
-        //            CodVenWeb = "5",
-        //            CodLugarDesp = CodLugarDesp
-        //        };
-        //        #endregion
-
-        //        List<ParametrosModels> para = ParametrosDAO.BuscarParametros();
-
-        //        if (para[0].Aprobador == 1)
-        //        {
-        //            NVC.EstadoNP = "P";
-        //        }
-        //        else
-        //        {
-        //            NVC.EstadoNP = "A";
-        //        }
-
-        //        if (para[0].Aprobador == 1)
-        //        {
-        //            List<NotadeVentaCabeceraModels> NVSoft = NotaDeVentaDAO.EditarNV(NVC);
-        //            ViewBag.NVnum = NVC.NVNumero;
-        //            numSoft = NVC.NVNumero;
-        //        }
-        //        else
-        //        {
-        //            List<NotadeVentaCabeceraModels> NVSoft = NotaDeVentaDAO.InsertarNvSoftland(NVC);
-        //            ViewBag.NVnum = NVSoft[0].NVNumero;
-        //            numSoft = NVSoft[0].NVNumero;
-        //        }
-
-
-        //        //EMail
-        //        VerificationEmail(NVNumero,NomCon);
-        //        //return Json(NV);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw(ex);
-        //    }
-
-        //    return Json(new { ID = id, NVNUM = numSoft });
-
-        //}
-
+        
         [HttpPost, ValidateInput(false)]
         public JsonResult AgregarNV(NotadeVentaCabeceraModels cabecera, List<ProductoAgregadoModel> productos)
         {
@@ -642,9 +335,7 @@ namespace NotaVenta.Controllers
                 ParametrosModels para = ObtieneParametros();
 
                 bool insertaDisofi = true;
-                bool insertaSoftland = !para.EnvioObligatorioAprobador;
-
-                //cabecera = new NotadeVentaCabeceraModels();
+                bool insertaSoftland = para.EnvioObligatorioAprobador;
 
                 cabecera.NVNumero = cabecera.NVNumero;
                 cabecera.nvFem = cabecera.nvFem;
@@ -765,6 +456,8 @@ namespace NotaVenta.Controllers
 
                 RespuestaNotaVentaModel respuestaNotaVenta = controlDisofi().AgregarNV(baseDatosUsuario(), insertaDisofi, insertaSoftland, cabecera);
 
+                cabecera.Id = respuestaNotaVenta.IdNotaVenta;
+
                 if ((insertaDisofi && respuestaNotaVenta.VerificadorDisofi) ||
                     (!insertaDisofi && !respuestaNotaVenta.VerificadorDisofi))
                 {
@@ -884,7 +577,7 @@ namespace NotaVenta.Controllers
 
 
                     List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), new ClientesModels { CodAux = cabecera.CodAux });
-                    List<ClientesModels> vendedores = controlDisofi().GetVendedores(baseDatosUsuario(), new ClientesModels { VenCod = cabecera.VenCod });
+                    List<VendedorModels> vendedores = controlDisofi().GetVendedores(baseDatosUsuario(), new VendedorModels { VenCod = cabecera.VenCod });
                     List<ClientesModels> contacto = controlDisofi().GetContacto(baseDatosUsuario(), new ClientesModels { CodAux = cabecera.CodAux });
 
 
@@ -912,14 +605,14 @@ namespace NotaVenta.Controllers
                     {
                         if (vendedores != null && vendedores.Count > 0)
                         {
-                            if (vendedores[0].EMail != null && vendedores[0].EMail != "")
+                            if (vendedores[0].Email != null && vendedores[0].Email != "")
                             {
-                                paraEmail.Add(vendedores[0].EMail);
+                                paraEmail.Add(vendedores[0].Email);
                             }
                         }
                     }
 
-                    //EnviarEmail(cabecera.NVNumero, vendedores[0].EMail, paraEmail);
+                    EnviarEmail(cabecera.NVNumero,cabecera.Id, vendedores[0].Email,vendedores[0].Contrasena, paraEmail);
                 }
                 catch (Exception ex)
                 {
@@ -936,66 +629,64 @@ namespace NotaVenta.Controllers
 
         }
 
-        //[NonAction]
-        //public void EnviarEmail(int nvnumero, string de, List<string> para)
-        //{
-        //    var clavecorreo = "";
+        [NonAction]
+        public void EnviarEmail(int nvnumero,int Id, string de, string clavecorreo, List<string> para)
+        {
+            string subject = string.Format("Cotizacion {0}", nvnumero);
 
-        //    string subject = string.Format("Cotizacion {0}", nvnumero);
-
-        //    string from = de;
-        //    string displayName = System.Configuration.ConfigurationManager.AppSettings.Get("Remitente");
-        //    string password = clavecorreo;
-        //    string host = System.Configuration.ConfigurationManager.AppSettings.Get("Host");
-        //    int port = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("Port"));
-        //    bool enableSs1 = Boolean.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("EnableSsl"));
-        //    bool useDefaultCredentials = Boolean.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("UseDefaultCredentials"));
+            string from = de;
+            string displayName = System.Configuration.ConfigurationManager.AppSettings.Get("Remitente");
+            string password = clavecorreo;
+            string host = System.Configuration.ConfigurationManager.AppSettings.Get("Host");
+            int port = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("Port"));
+            bool enableSs1 = Boolean.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("EnableSsl"));
+            bool useDefaultCredentials = Boolean.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("UseDefaultCredentials"));
 
 
-        //    var fromEmail = new MailAddress(from, displayName);
+            var fromEmail = new MailAddress(from, displayName);
 
-        //    var smtp = new SmtpClient
-        //    {
-        //        Host = host,
-        //        Port = port,
-        //        EnableSsl = enableSs1,
-        //        DeliveryMethod = SmtpDeliveryMethod.Network,
-        //        UseDefaultCredentials = useDefaultCredentials,
-        //        Credentials = new NetworkCredential(fromEmail.Address, password)
-        //    };
+            var smtp = new SmtpClient
+            {
+                Host = host,
+                Port = port,
+                EnableSsl = enableSs1,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = useDefaultCredentials,
+                Credentials = new NetworkCredential(fromEmail.Address, password)
+            };
 
 
-        //    NotadeVentaCabeceraModels NVentaCabecera = new NotadeVentaCabeceraModels
-        //    {
-        //        NVNumero = nvnumero
-        //    };
-        //    List<NotadeVentaCabeceraModels> NVentaCabeceras = controlDisofi().BuscarNVPorNumero(NVentaCabecera);
+            NotadeVentaCabeceraModels NVentaCabecera = new NotadeVentaCabeceraModels
+            {
+                NVNumero = nvnumero
+            };
+            List<NotadeVentaCabeceraModels> NVentaCabeceras = controlDisofi().BuscarNVPorNumero(Id,baseDatosUsuario());
 
-        //    List<NotaDeVentaDetalleModels> NVentaDetalles = controlDisofi().BuscarNVDETALLEPorNumero(NVentaCabecera);
+            List<NotaDeVentaDetalleModels> NVentaDetalles = controlDisofi().BuscarNVDETALLEPorNumero(Id,baseDatosUsuario());
 
-        //    ClientesModels cliente = new ClientesModels
-        //    {
-        //        CodAux = NVentaCabeceras[0].CodAux,
-        //    };
-        //    List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), cliente);
+            ClientesModels cliente = new ClientesModels
+            {
+                CodAux = NVentaCabeceras[0].CodAux,
+            };
+            List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), cliente);
 
-        //    MailMessage mail = new MailMessage
-        //    {
-        //        IsBodyHtml = true
-        //    };
-        //    mail.AlternateViews.Add(GetEmbeddedImage(NVentaCabeceras, NVentaDetalles, clientes));
-        //    mail.From = new MailAddress(from);
+            MailMessage mail = new MailMessage
+            {
+                IsBodyHtml = true
+            };
+            mail.AlternateViews.Add(GetEmbeddedImage(NVentaCabeceras, NVentaDetalles, clientes));
+            mail.From = new MailAddress(from);
 
-        //    foreach (string item in para)
-        //    {
-        //        mail.To.Add(item);
-        //    }
+            foreach (string item in para)
+            {
+                mail.To.Add(item);
+            }
 
-        //    if (mail != null)
-        //    {
-        //        smtp.Send(mail);
-        //    }
-        //}
+            if (mail != null)
+            {
+                smtp.Send(mail);
+            }
+        }
 
         [HttpPost, ValidateInput(false)]
         public JsonResult BuscarDireccionDespacho(string CodAux)
@@ -1034,6 +725,7 @@ namespace NotaVenta.Controllers
         [HttpPost]
         public JsonResult ObtieneProductosPorListaPrecio(string ListaPrecio)
         {
+            
             List<ProductosModels> pro = controlDisofi().ListarProducto(ListaPrecio, baseDatosUsuario());
 
             return NotaVenta.UTIL.JsonResultResponse.ObtenerResponse<List<ProductosModels>>(pro);
@@ -1046,8 +738,6 @@ namespace NotaVenta.Controllers
 
             return Json(pro);
         }
-
-
 
         [HttpPost]
         public JsonResult ProductSearch(string CodProd, string CodLista)
@@ -1084,7 +774,6 @@ namespace NotaVenta.Controllers
 
             return Json(t.ToString());
         }
-
 
         public ProductoAgregadoModel CalcularFilaFunction(decimal precioUnitario, decimal cantidad, List<DescuentoProductoAgregadoModel> descuentos, decimal porcentajeAtributoDescuento)
         {
@@ -1155,9 +844,6 @@ namespace NotaVenta.Controllers
         {
             return Json(CalcularFilaFunction(precioUnitario, cantidad, descuentos, porcentajeAtributoDescuento));
         }
-
-
-
 
         [HttpPost]
         public JsonResult CalcularProductosAgregados(List<ProductoAgregadoModel> productos, List<DescuentoProductoAgregadoModel> descuentos, decimal porcentajeAtributoDescuento)

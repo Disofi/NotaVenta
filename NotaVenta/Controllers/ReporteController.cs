@@ -166,16 +166,16 @@ namespace NotaVenta.Controllers
 
                 var IdAprobador = SessionVariables.SESSION_DATOS_USUARIO.IdUsuario;
 
-                List<ClientesModels> vendedores = controlDisofi().GetVendedores(baseDatosUsuario(), new ClientesModels { VenCod = cabecera.VenCod });
+                List<VendedorModels> vendedores = controlDisofi().GetVendedores(baseDatosUsuario(), new VendedorModels { VenCod = cabecera.VenCod });
                 List<AprobadorModels> aprobador = controlDisofi().GetAprobador(IdAprobador);
 
                 if (para.EnvioMailVendedor)
                 {
                     if (vendedores != null && vendedores.Count > 0)
                     {
-                        if (vendedores[0].EMail != null && vendedores[0].EMail != "")
+                        if (vendedores[0].Email != null && vendedores[0].Email != "")
                         {
-                            paraEmail.Add(vendedores[0].EMail);
+                            paraEmail.Add(vendedores[0].Email);
                         }
                     }
                 }
@@ -255,59 +255,6 @@ namespace NotaVenta.Controllers
             }
         }
 
-        //private MailMessage GetMailWithImg(int nvnumero, string vendCodi)
-        //{
-        //    var de = "";
-        //    var clavecorreo = "";
-        //    //Correo aprobador
-
-        //    IEnumerable<_NotaDeVentaDetalleModels> datosAprobador = controlDisofi().DatosCorreoAprobador(vendCodi);
-        //    foreach (_NotaDeVentaDetalleModels ot in datosAprobador)
-        //    {
-        //        de = ot.EmailVend;
-        //        clavecorreo = ot.PassCorreo;
-        //    }
-
-        //    string from = de;
-        //    string subject = string.Format("Aprobación de Cotización {0}", nvnumero);
-
-        //    NotadeVentaCabeceraModels NVentaCabecera = new NotadeVentaCabeceraModels
-        //    {
-        //        NVNumero = nvnumero
-        //    };
-        //    List<NotadeVentaCabeceraModels> NVentaCabeceras = controlDisofi().BuscarNVPorNumero(NVentaCabecera);
-
-        //    List<NotaDeVentaDetalleModels> NVentaDetalles = controlDisofi().BuscarNVDETALLEPorNumero(NVentaCabecera);
-
-        //    List<NotadeVentaCabeceraModels> NVsoft = controlDisofi().BuscarNVNum(NVentaCabecera);
-
-        //    ClientesModels Vendedor = new ClientesModels
-        //    {
-        //        VenCod = NVentaCabeceras[0].VenCod
-        //    };
-
-        //    List<ClientesModels> vendedores = controlDisofi().GetVendedores(baseDatosUsuario(), Vendedor);
-
-        //    MailMessage mail = new MailMessage
-        //    {
-        //        IsBodyHtml = true
-        //    };
-
-        //    mail.AlternateViews.Add(GetEmbeddedImage(NVentaCabeceras, NVentaDetalles, vendedores, NVsoft));
-        //    mail.From = new MailAddress(from);
-
-        //    if (vendedores != null)
-        //    {
-        //        mail.To.Add(vendedores[0].EMail);
-        //        mail.Subject = subject;
-        //        return mail;
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //}
-
         private AlternateView GetEmbeddedImage(List<NotadeVentaCabeceraModels> NVentaCabeceras,
         List<NotaDeVentaDetalleModels> NVentaDetalles, List<ClientesModels> Clientes)
         {
@@ -316,19 +263,19 @@ namespace NotaVenta.Controllers
             string htmlBody = String.Format(
             "<html><body>" +
             "<img src='~/Image/logo.png' />" +
-            "<H1> COTIZACIÓN </H1>" +
-            @"<H4> Nº de Cotización: " + NVentaCabeceras[0].NVNumero + @" </H4>" +
-            @"<H4> Fecha Pedido: " + NVentaCabeceras[0].nvFem == null ? "" : ((DateTime)NVentaCabeceras[0].nvFem).ToShortDateString() + @" </H4>" +
+            "<H1> APROBACIÓN DE COTIZACIÓN </H1>" +
+            @"<H4> Nº de Cotización Interno: " + NVentaCabeceras[0].Id + @" </H4>" +
+            @"<H4> Nº de Softland: " + NVentaCabeceras[0].NVNumero + @" </H4>" +
+            @"<H4> Fecha Pedido: " + (NVentaCabeceras[0].nvFem == null ? "" : ((DateTime)NVentaCabeceras[0].nvFem).ToShortDateString()) + @" </H4>" +
             @"<H4> Cliente: " + NVentaCabeceras[0].NomAux + @" </H4>" +
             @"<H4> Dirección: " + Clientes[0].DirAux + @" </H4>" +
-            @"<H4> Fecha Entrega: " + NVentaCabeceras[0].nvFeEnt == null ? "" : ((DateTime)NVentaCabeceras[0].nvFeEnt).ToShortDateString() + @" </H4>" +
+            @"<H4> Fecha Entrega: " + (NVentaCabeceras[0].nvFeEnt == null ? "" : ((DateTime)NVentaCabeceras[0].nvFeEnt).ToShortDateString()) + @" </H4>" +
             @"<H4> Observaciones: " + NVentaCabeceras[0].nvObser + @" </H4>" +
             @"<H4> Vendedor: " + SessionVariables.SESSION_DATOS_USUARIO.VenDes.ToString() + @" </H4>" +
             @"<table border = ""1"" >" +
             @"<tr>" +
             @"<td>ID</td>" +
             @"<th nowrap=""nowrap"">Codigo Producto</th>" +
-            //@"<th>Imagen</th>" +
             @"<th>Descripcion</th>" +
             @"<th>Cantidad</th>" +
             @"<th>Precio</th>" +
@@ -354,15 +301,15 @@ namespace NotaVenta.Controllers
                            @"<td>" + nvd.CodProd + @"</td>" +
                            @"<td>" + nvd.DesProd + @"</td>" +
                            @"<td style='text-align: right;'>" + nvd.nvCant + @"</td>" +
-                           @"<td style='text-align: right;'>" + nvd.nvPrecio + @"</td>" +
-                           @"<td style='text-align: right;'>" + nvd.nvSubTotal + @"</td>" +
-                           @"<td style='text-align: right;'>" + Iva + @"</td>" +
-                           @"<td style='text-align: right;'>" + precioConIVa + @"</td>" +
+                           @"<td style='text-align: right;'>" + "$ " + nvd.nvPrecio.ToString("N0") + @"</td>" +
+                           @"<td style='text-align: right;'>" + "$ " + nvd.nvSubTotal.ToString("N0") + @"</td>" +
+                           @"<td style='text-align: right;'>" + "$ " + Iva.ToString("N0") + @"</td>" +
+                           @"<td style='text-align: right;'>" + "$ " + precioConIVa.ToString("N0") + @"</td>" +
                            @"</tr>";
             }
-            htmlBody += @"<tr><th style='text-align: right;' colspan =" + 7 + @">Sub Total</th><td style='text-align: right;'>" + subtotal + @"</td></tr>" +
-                        @"<tr><th style='text-align: right;' colspan =" + 7 + @">Total Iva</th><td style='text-align: right;'>" + ivaux + @"</td></tr>" +
-                        @"<tr><th style='text-align: right;' colspan =" + 7 + @">Total</th><td style='text-align: right;'>" + NVentaCabeceras[0].TotalBoleta + @"</td></tr>";
+            htmlBody += @"<tr><th style='text-align: right;' colspan =" + 7 + @">Sub Total</th><td style='text-align: right;'>" + "$ " + subtotal.ToString("N0") + @"</td></tr>" +
+                        @"<tr><th style='text-align: right;' colspan =" + 7 + @">Total Iva</th><td style='text-align: right;'>" + "$ " + ivaux.ToString("N0") + @"</td></tr>" +
+                        @"<tr><th style='text-align: right;' colspan =" + 7 + @">Total</th><td style='text-align: right;'>" + "$ " + NVentaCabeceras[0].TotalBoleta.ToString("N0") + @"</td></tr>";
             htmlBody += @" </body></html>";
 
             AlternateView alternateView = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
