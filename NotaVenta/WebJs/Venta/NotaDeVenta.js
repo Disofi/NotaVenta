@@ -1003,7 +1003,7 @@ function agregarnotadeventa() {
     }
 
     $.ajax({
-        url: "AgregarNV",
+        url: urlAgregarNotaVenta,
         type: "POST",
         data: dataNotaVenta,
         success: function (result) {
@@ -1162,11 +1162,11 @@ function agregarnotadeventa() {
         };
 
         //console.log(data);
-        if (CorreoCliente == "" || CorreoCliente == null) {
-            alert("Cliente no tiene Correo Asignado");
-            var url = $("#NV").val(); location.href = url;
-        }
-        else {
+        //if (CorreoCliente == "" || CorreoCliente == null) {
+        //    alert("Cliente no tiene Correo Asignado");
+        //    var url = $("#NV").val(); location.href = url;
+        //}
+        //else {
             $.ajax({
                 url: url,
                 type: "POST",
@@ -1183,4 +1183,4 @@ function agregarnotadeventa() {
             });
         }
     }
-}
+//}

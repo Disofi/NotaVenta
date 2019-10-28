@@ -62,6 +62,7 @@
     <Compile Include="Models\UsuariosModels.cs" />
     <Compile Include="Models\UsuariosTiposModels.cs" />
     <Compile Include="Models\VendedoresSoftlandModels.cs" />
+    <Compile Include="Models\VendedorModels.cs" />
     <Compile Include="Objetos\CreditoModel.cs" />
     <Compile Include="Objetos\NotaDeVentaDetalleModels.cs" />
     <Compile Include="Objetos\ObjetoLogin.cs" />

@@ -9,7 +9,7 @@ namespace DAL
 {
     public class DataSource
     {
-        public static string coneccionPrimaria = (ConfigurationManager.ConnectionStrings["Conexion"].ConnectionString);
+        public static string coneccionPrimaria = (ConfigurationManager.ConnectionStrings["ConexionAst"].ConnectionString);
         public static bool cache;
 
         public static void SetParametros(string conn1)

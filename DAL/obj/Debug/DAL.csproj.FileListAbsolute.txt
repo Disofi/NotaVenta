@@ -27,3 +27,4 @@ C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\DAL\bin\Debug\DAL.pdb
 C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\DAL\obj\Debug\DAL.csproj.CopyComplete
 C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\DAL\obj\Debug\DAL.dll
 C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\DAL\obj\Debug\DAL.pdb
+C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
