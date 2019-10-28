@@ -53,6 +53,7 @@
     ParametrosModels parametros = ViewBag.Parametros;
 
     double PorcentajeAtributoDescuento = Convert.ToDouble(ViewBag.ValorAtributo);
+    VendedoresSoftlandModels vendedorCliente = ((VendedoresSoftlandModels)ViewBag.VendedorCliente);
 }
 
 
@@ -128,12 +129,13 @@
                                         <input type="text" name="nombreCliente" id="nombreCliente" class="form-control" value="@codigo - @nombre" readonly="readonly" tabindex="-1" />
                                         <input type="hidden" name="txtcliente" id="txtcliente" value="@codigo" readonly="readonly" />
                                     </td>
-                                    <td nowrap="nowrap">Vendedor</td>
+                                    <td nowrap="nowrap">Vendedor Cliente</td>
                                     <td>
-                                        <input type="text" value="@VenDes" name="txtnomvendedor" class="form-control" id="txtnomvendedor" readonly="readonly" tabindex="-1" />
-                                        <input type="hidden" name="txtvendedor" id="txtvendedor" value="@VenCodigo" readonly="readonly" />
-                                        <input type="hidden" name="txtid" id="txtid" value="@id" readonly="readonly" />
-                                        <input type="hidden" name="txtCorreoCliente" id="txtCorreoCliente" value="@ViewBag.CorreoCliente" readonly="readonly" />
+                                        @vendedorCliente.VenDes
+                                    </td>
+                                    <td nowrap="nowrap">Atendido Por</td>
+                                    <td>
+                                        @VenDes
                                     </td>
                                 </tr>
                                 <tr class="highlight">

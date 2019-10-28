@@ -1455,6 +1455,24 @@ namespace BLL
             }
         }
 
+        public VendedoresSoftlandModels ObtenerVendedorCliente(string CodAux, string baseDatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_ObtenerVendedorCliente", new System.Collections.Hashtable()
+                {
+                    { "pv_CodAux", CodAux},
+                    { "pv_BaseDatos", baseDatos},
+                });
+                return UTIL.Mapper.BindData<VendedoresSoftlandModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
         public List<NotadeVentaCabeceraModels> RechazarNotaVenta(NotadeVentaCabeceraModels nw)
         {
             try

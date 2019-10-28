@@ -330,6 +330,11 @@ namespace BLL
             return _Control.ObtenerCredito(CodAux, baseDatos);
         }
 
+        public VendedoresSoftlandModels ObtenerVendedorCliente(string CodAux, string baseDatos)
+        {
+            return _Control.ObtenerVendedorCliente(CodAux, baseDatos);
+        }
+
         public List<NotadeVentaCabeceraModels> RechazarNP(NotadeVentaCabeceraModels nw)
         {
             return _Control.RechazarNotaVenta(nw);
