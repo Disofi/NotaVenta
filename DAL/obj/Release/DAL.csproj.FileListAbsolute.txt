@@ -11,3 +11,8 @@ C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\DAL\obj\Release\DAL.csprojAssemblyRe
 C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\DAL\obj\Release\DAL.csproj.CopyComplete
 C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\DAL\obj\Release\DAL.dll
 C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\DAL\obj\Release\DAL.pdb
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\DAL\bin\Release\DAL.dll
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\DAL\bin\Release\DAL.pdb
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\DAL\obj\Release\DAL.csproj.CopyComplete
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\DAL\obj\Release\DAL.dll
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\DAL\obj\Release\DAL.pdb

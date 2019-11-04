@@ -33,3 +33,46 @@ function checkRut() {
     //Pasamos al campo el valor formateado
     document.getElementById("RutCli").value = sRut.toUpperCase();
 }
+
+function PreNotaVenta (_aCodAux, _aNomAux) {
+    var CodAuxi = _aCodAux;
+    var urlNotaVenta = $("#urlNotaVenta").val();
+    $.ajax({
+        type: "POST",
+        url: "PreNotadeVenta",
+        data: { CodAux: _aCodAux, NomAux: _aNomAux },
+        async: true,
+        success: function (data) {
+            if (data == -1) {
+                $("#AgregarCorreo").click();
+
+                $("#btnAgregarCorreo").click(function () {
+                    var Email = $("#AddCorreo").val();
+                    if (Email == '') {
+                        alert("Debe ingresar Correo");
+                    }
+                    else {
+                        $.ajax({
+                            type: "POST",
+                            url: "AgregarCorreo",
+                            data: { _Email: Email, _CodAux: CodAuxi },
+                            async: true,
+                            success: function (data) {
+                                if (data == 1) {
+                                    alert("Ficha Cliente Actualizada");
+                                    location.reload();
+                                }
+                                if (data == -666) {
+                                    alert("Debe Ingresar formato de Correo");
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+            if (data == 1) {
+                window.location = urlNotaVenta;
+            }
+        }
+    });
+}

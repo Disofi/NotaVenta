@@ -1489,5 +1489,24 @@ namespace BLL
                 return null;
             }
         }
+
+        public List<ClientesModels> ActualizarCorreoCliente(ClientesModels cli, string basedatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_AgregarCorreoCli", new System.Collections.Hashtable()
+                {
+                    { "CodAux", cli.CodAux},
+                    { "EMail", cli.EMail},
+                    { "pv_BaseDatos", basedatos}
+                });
+                return UTIL.Mapper.BindDataList<ClientesModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
     }
 }

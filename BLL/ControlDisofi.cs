@@ -339,5 +339,10 @@ namespace BLL
         {
             return _Control.RechazarNotaVenta(nw);
         }
+
+        public List<ClientesModels> ActualizarCorreoCliente(ClientesModels cli, string basedatos)
+        {
+            return _Control.ActualizarCorreoCliente(cli, basedatos);
+        }
     }
 }
