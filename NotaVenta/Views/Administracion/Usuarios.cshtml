@@ -3,6 +3,12 @@
     ViewBag.Title = "Usuarios";
     List<UsuariosModels> listarusuarios = ViewBag.usuarios;
     string[] idUsuarios = new string[listarusuarios.Count];
+
+    List<SelectListItem> empresas = ViewBag.Empresas;
+    if (empresas == null)
+    {
+        empresas = new List<SelectListItem>();
+    }
 }
 <link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
 <script src="~/WebJs/Administracion/Usuarios.js"></script>
@@ -30,11 +36,15 @@ grid.Column(columnName: "IdUsuario", header: "Usuario", format: @<text>@item.Usu
 grid.Column(columnName: "TipoUsuario", header: "TipoUsuario", format: @<text>@item.tipoUsuario</text>),
 grid.Column(columnName: "Correo", header: "Correo", format: @<text>@item.email</text>),
 grid.Column(columnName: "Nombre", header: "Nombre", format: @<text>@item.Nombre</text>),
-grid.Column(columnName: "CodigoVendedor", header: "Codigo Vendedor", format: @<text>@item.VenCod</text>),
 grid.Column(columnName: "Editar", header: "Editar", format: @<button class="btn btn-warning btn-m" data-toggle="modal" data-target="#modalEditarUsuario" onclick="ObtenerDatosUsuario(@item.id)">
-<span class="fas fa-pencil-alt fa-fw"></span></button>),
+            <span class="fas fa-pencil-alt fa-fw"></span>
+        </button>),
+grid.Column(columnName: "Empresa", header: "Empresa", format: @<button class="btn btn-warning btn-m" data-toggle="modal" data-target="#modalEmpresasUsuario" onclick="obtenerEmpresasUsuario(@item.id)">
+            Empresas
+        </button>),
 grid.Column(columnName: "Eliminar", header: "Eliminar", format: @<button class="btn btn-@Html.Raw(item.Estado == 1 ? "danger":"success")" type="button" tooltip="@Html.Raw(item.Estado == 1 ? "Deshabilitar":"Habilitar")"
-onclick="EliminarUsuario(@item.id,@item.Estado, @Html.Raw(item.Estado == 1 ? "false":"true"))">@Html.Raw(item.Estado == 1 ? "Deshabilitar" : "Habilitar")
+                                                                         onclick="EliminarUsuario(@item.id,@item.Estado, @Html.Raw(item.Estado == 1 ? "false":"true"))">
+            @Html.Raw(item.Estado == 1 ? "Deshabilitar" : "Habilitar")
         </button>)))
         </div>
     </div>
@@ -82,18 +92,18 @@ onclick="EliminarUsuario(@item.id,@item.Estado, @Html.Raw(item.Estado == 1 ? "fa
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3  col-xs-12">Seleccione CodVendedor</label>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                                @Html.DropDownList("CodVenSoft", (IEnumerable<SelectListItem>)ViewBag.VenCodSoft, "Seleccione...", new { @class = "form-control", @ID = "CodVendSoft", @Name = "CodVendSoft" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-2  col-xs-12"><b>Seleccione Empresa: </b></label>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                                @Html.DropDownList("ListaBaseDatos", (IEnumerable<SelectListItem>)ViewBag.BaseDatos, "Seleccione...", new { @class = "form-control", @ID = "ListaBaseDatos", @Name = "ListaBaseDatos" })
-                            </div>
-                        </div>
+                        @*<div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3  col-xs-12">Seleccione CodVendedor</label>
+                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                    @Html.DropDownList("CodVenSoft", (IEnumerable<SelectListItem>)ViewBag.VenCodSoft, "Seleccione...", new { @class = "form-control", @ID = "CodVendSoft", @Name = "CodVendSoft" })
+                                </div>
+                            </div>*@
+                        @*<div class="form-group">
+                                <label class="control-label col-md-3 col-sm-2  col-xs-12"><b>Seleccione Empresa: </b></label>
+                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                    @Html.DropDownList("ListaBaseDatos", (IEnumerable<SelectListItem>)ViewBag.BaseDatos, "Seleccione...", new { @class = "form-control", @ID = "ListaBaseDatos", @Name = "ListaBaseDatos" })
+                                </div>
+                            </div>*@
                         <div class="ln_solid"></div>
                         <div class="form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
@@ -151,12 +161,12 @@ onclick="EliminarUsuario(@item.id,@item.Estado, @Html.Raw(item.Estado == 1 ? "fa
                                 @Html.DropDownList("Perfil", (IEnumerable<SelectListItem>)ViewBag.Perfil, "Seleccione...", new { @class = "form-control", @ID = "PerfilMod", @Name = "Perfil" })
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-2  col-xs-12"><b>Seleccione CodVendedor: </b></label>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                                @Html.DropDownList("CodVenSoft", (IEnumerable<SelectListItem>)ViewBag.VenCodSoft, "Seleccione...", new { @class = "form-control", @ID = "CodVendSoftMod", @Name = "CodVendSoft" })
-                            </div>
-                        </div>
+                        @*<div class="form-group">
+                                <label class="control-label col-md-3 col-sm-2  col-xs-12"><b>Seleccione CodVendedor: </b></label>
+                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                    @Html.DropDownList("CodVenSoft", (IEnumerable<SelectListItem>)ViewBag.VenCodSoft, "Seleccione...", new { @class = "form-control", @ID = "CodVendSoftMod", @Name = "CodVendSoft" })
+                                </div>
+                            </div>*@
                         <div class="ln_solid"></div>
                         <div class="form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
@@ -169,6 +179,66 @@ onclick="EliminarUsuario(@item.id,@item.Estado, @Html.Raw(item.Estado == 1 ? "fa
             </div>
             <div class="modal-footer">
                 <button type="button" id="btnCerrarModal" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEmpresasUsuario">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Cuadrilla</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive form-inline">
+                    <input id="modalEmpresasUsuarioId" type="hidden" class="form-control" />
+                    <table class="table table-profile">
+                        <tbody>
+                            <tr class="highlight">
+                                <td>
+                                    <select id="modalEmpresasUsuarioEmpresa" class="form-control">
+                                        <option value="-1">Seleccione Empresa</option>
+                                        @for (int y = 0; y < empresas.Count; y++)
+                                        {
+                                            <option value="@empresas[y].Value">@empresas[y].Text</option>
+                                        }
+                                    </select>
+                                </td>
+                                <td>
+                                    <select id="modalEmpresasUsuarioVendedor" class="form-control">
+                                        <option value="-1">Seleccione Vendedor</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input id="modalEmpresasUsuarioAgregarFila" class="btn btn-primary" type="button"
+                                           onclick="modalEmpresasUsuarioAgregarFilaClick()" value="Agregar" />
+                                </td>
+                            </tr>
+                            <tr class="highlight">
+                                <td colspan="3">
+                                    <div class="table-responsive form-inline">
+                                        <table id="modalEmpresasUsuarioDatos" class="table table-condensed table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th style=" width: 40% !important">Empresa</th>
+                                                    <th style=" width: 40% !important">vendedor</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a id="modalEmpresasUsuarioAgregar" href="javascript:;" class="btn btn-success">Guardar</a>
+                <a id="modalEmpresasUsuarioCerrar" href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
             </div>
         </div>
     </div>

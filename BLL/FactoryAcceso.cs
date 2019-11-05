@@ -1099,6 +1099,61 @@ namespace BLL
             }
         }
 
+        public RespuestaModel eliminaTodosUsuarioEmpresa(int idUsuario)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_DELALL_UsuarioEmpresa", new System.Collections.Hashtable()
+                {
+                    { "pi_IdUsuario", idUsuario},
+                });
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public RespuestaModel validaExisteUsuarioEmpresa(string venCod, int idEmpresa)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_ValidaExisteUsuarioEmpresa", new System.Collections.Hashtable()
+                {
+                    { "pv_VenCod", venCod},
+                    { "pi_IdEmpresa", idEmpresa},
+                });
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+        
+        public RespuestaModel insertaUsuarioEmpresa(int idUsuario, int idEmpresa, string venCod)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_INS_UsuarioEmpresa", new System.Collections.Hashtable()
+                {
+                    { "pi_IdUsuario", idUsuario},
+                    { "pi_IdEmpresa", idEmpresa},
+                    { "pv_VenCod", venCod},
+                });
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+
         public List<UsuariosModels> BuscarUsuario(UsuariosModels usuario, string basedatos)
         {
             try
@@ -1486,6 +1541,25 @@ namespace BLL
                     {"nvId", nw.Id}
                 });
                 return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public List<ClientesModels> ActualizarCorreoCliente(ClientesModels cli, string basedatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_AgregarCorreoCli", new System.Collections.Hashtable()
+                {
+                    { "CodAux", cli.CodAux},
+                    { "EMail", cli.EMail},
+                    { "pv_BaseDatos", basedatos}
+                });
+                return UTIL.Mapper.BindDataList<ClientesModels>(data);
             }
             catch (Exception ex)
             {

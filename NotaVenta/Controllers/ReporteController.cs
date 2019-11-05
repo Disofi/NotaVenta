@@ -154,12 +154,12 @@ namespace NotaVenta.Controllers
             NotadeVentaCabeceraModels notaVenta = new NotadeVentaCabeceraModels();
 
             ParametrosModels para = ObtieneParametros();
-            NotadeVentaCabeceraModels cabecera = controlDisofi().GetCab(_nvId);
-
+            
             notaVenta.Id = _nvId;
 
             List<NotadeVentaCabeceraModels> proceso = controlDisofi().actualizaEstado(notaVenta, baseDatosUsuario());
 
+            NotadeVentaCabeceraModels cabecera = controlDisofi().GetCab(_nvId);
             try
             {
                 List<string> paraEmail = new List<string>();
@@ -188,7 +188,7 @@ namespace NotaVenta.Controllers
                 return null;
             }
 
-            return Json(new { nvNum = proceso[0].NVNumero });
+            return Json(new { nvNum = proceso[0].NVNumero });  
         }
 
         [HttpPost]

@@ -1,4 +1,0 @@
-C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\BaseDatos\bin\Release\BaseDatos.dll
-C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\BaseDatos\bin\Release\BaseDatos.pdb
-C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\BaseDatos\obj\Release\BaseDatos.dll
-C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\BaseDatos\obj\Release\BaseDatos.pdb

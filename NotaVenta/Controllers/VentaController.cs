@@ -67,14 +67,49 @@ namespace NotaVenta.Controllers
         }
 
         [Autorizacion(PERFILES.SUPER_ADMINISTRADOR, PERFILES.VENDEDOR)]
-        public ActionResult PreNotadeVenta(string CodAux, string NomAux)
+        public JsonResult PreNotadeVenta(string CodAux, string NomAux)
         {
             NotadeVentaCabeceraModels notadeVentaCabeceraModels = new NotadeVentaCabeceraModels();
             notadeVentaCabeceraModels.CodAux = CodAux;
             notadeVentaCabeceraModels.NomAux = NomAux;
-
             SessionVariables.SESSION_NOTA_VENTA_CABECERA_MODEL = notadeVentaCabeceraModels;
-            return Redirect("NotaDeVenta");
+
+
+            NotadeVentaCabeceraModels NVC = SessionVariables.SESSION_NOTA_VENTA_CABECERA_MODEL;
+            NVC.NVNumero = 0;
+            NVC.NumOC = "";
+            NVC.NumReq = 0;
+            var validador = 0;
+
+            ClientesModels cliente = new ClientesModels
+            {
+                CodAux = NVC.CodAux
+            };
+
+            List<ClientesModels> contactoCorreos = controlDisofi().GetContacto(baseDatosUsuario(), cliente);
+            List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), cliente);
+
+            if (contactoCorreos != null && contactoCorreos.Count > 0 && contactoCorreos[0].EMail != "")
+            {
+                ViewBag.CorreoCliente = contactoCorreos[0].EMail;
+                validador = 1;
+                return Json(validador);
+            }
+            else
+            {
+                if (clientes != null && clientes.Count > 0 && clientes[0].EMail != "")
+                {
+                    ViewBag.CorreoCliente = clientes[0].EMail;
+                    validador = 1;
+                    return Json(validador);
+                }
+                else
+                {
+                    validador = -1;
+                    return Json(validador);
+                }
+
+            }
         }
 
         [Autorizacion(PERFILES.SUPER_ADMINISTRADOR, PERFILES.VENDEDOR)]
@@ -97,7 +132,7 @@ namespace NotaVenta.Controllers
             {
                 CodAux = NVC.CodAux
             };
-
+            //la lista de precios ,,.....dale...nada
             ClientesModels cm = controlDisofi().ObtenerAtributoDescuento(baseDatosUsuario(), cliente.CodAux, parametros.AtributoSoftlandDescuentoCliente);
             cliente.ValorAtributo = cm.ValorAtributo;
 
@@ -121,6 +156,8 @@ namespace NotaVenta.Controllers
                     
                 }
             }
+
+            
             
             ViewBag.Credito = credito;
             ViewBag.CodAux = NVC.CodAux;
@@ -137,11 +174,6 @@ namespace NotaVenta.Controllers
                 if (clientes != null && clientes.Count > 0 && clientes[0].EMail != "")
                 {
                     ViewBag.CorreoCliente = clientes[0].EMail;
-                }
-                else
-                {
-                    TempData["Mensaje"] = "CLIENTE SELECCIONADO NO CUENTA CON CORREO NI CONTACTOS. <br>";
-                    return RedirectToAction("MisClientes", "Venta");
                 }
 
             }
@@ -211,8 +243,14 @@ namespace NotaVenta.Controllers
             //List<ListaDePrecioModels> ListDePrecios = new List<ListaDePrecioModels>();
 
             List<ListaDePrecioModels> ListDePrecios = controlDisofi().listarListaDePrecio(baseDatosUsuario(), ListPrecio);
-            
-            ViewBag.lista = ListDePrecios;
+            if (parametros.ManejaListaPrecios)
+            {
+                ViewBag.lista = ListDePrecios;
+            }
+            else
+            {
+                ViewBag.lista = new List<ListaDePrecioModels>();
+            }
 
             //Se listan los centros de costos
             List<CentrodeCostoModels> lcc = controlDisofi().ListarCentroCosto(baseDatosUsuario());
@@ -352,14 +390,23 @@ namespace NotaVenta.Controllers
                 cabecera.CodAux = cabecera.CodAux;
                 cabecera.VenCod = SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.VenCod;
                 cabecera.CodMon = "01"; //PESO CHILENO
-                cabecera.CodLista = (cabecera.CodLista == null || cabecera.CodLista == "") ? "SIN LISTA" : cabecera.NomCon;
+
+                if (para.ManejaListaPrecios)
+                {
+                    cabecera.CodLista = (cabecera.CodLista == null || cabecera.CodLista == "" || cabecera.CodLista == "-1") ? null : cabecera.CodLista;
+                }
+                else
+                {
+                    cabecera.CodLista = null;
+                }
+
                 cabecera.nvObser = cabecera.nvObser;
                 //cabecera.nvCanalNV = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa;
                 cabecera.CveCod = cabecera.CveCod;
                 cabecera.NomCon = (cabecera.NomCon == null || cabecera.NomCon == "") ? "SIN COCTACTO" : cabecera.NomCon;
                 cabecera.CodiCC = cabecera.CodiCC;
                 //cabecera.CodBode = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa;
-                cabecera.nvSubTotal = para.DescuentoTotalDirectoSoftland ? cabecera.nvSubTotal : cabecera.TotalBoleta;
+                cabecera.nvSubTotal = para.DescuentoTotalDirectoSoftland ? cabecera.TotalBoleta : cabecera.nvSubTotal; 
 
                 int totalDescuento = 0;
                 if (cabecera.Descuentos != null && cabecera.Descuentos.Count > 0 && para.DescuentoTotalDirectoSoftland)
@@ -419,7 +466,7 @@ namespace NotaVenta.Controllers
                 }
 
                 cabecera.nvTotalDesc = totalDescuento;
-                cabecera.nvMonto = para.DescuentoTotalDirectoSoftland ? cabecera.nvMonto : cabecera.TotalBoleta;
+                cabecera.nvMonto = para.DescuentoTotalDirectoSoftland ? cabecera.nvSubTotal : cabecera.TotalBoleta; //cabecera.nvMonto 
                 cabecera.nvFeAprob = insertaSoftland ? (DateTime?)DateTime.Now : null;
                 cabecera.NumGuiaRes = 0;
                 cabecera.nvPorcFlete = 0;
@@ -727,7 +774,10 @@ namespace NotaVenta.Controllers
         [HttpPost]
         public JsonResult ObtieneProductosPorListaPrecio(string ListaPrecio)
         {
-            
+            if (ListaPrecio == null)
+            {
+                ListaPrecio = "-1";
+            }
             List<ProductosModels> pro = controlDisofi().ListarProducto(ListaPrecio, baseDatosUsuario());
 
             return NotaVenta.UTIL.JsonResultResponse.ObtenerResponse<List<ProductosModels>>(pro);
@@ -862,7 +912,7 @@ namespace NotaVenta.Controllers
             }
             subTotal = Convert.ToInt32(subTotal);
             impuesto = Convert.ToInt32(((subTotal * 19) / 100));
-            total = subTotal - impuesto;
+            total = subTotal + impuesto;
 
             for (int X = 0; X < descuentos.Count; X++)
             {
@@ -894,6 +944,30 @@ namespace NotaVenta.Controllers
             total = Math.Round(total);
 
             return Json(total.ToString());
+        }
+
+        [HttpPost]
+        public JsonResult AgregarCorreo(string _Email, string _CodAux)
+        {
+            var validador = 0;
+
+            if (_Email.Contains("@"))
+            {
+                ClientesModels Clientes = new ClientesModels();
+                Clientes.EMail = _Email;
+                Clientes.CodAux = _CodAux;
+                List<ClientesModels> cli = controlDisofi().ActualizarCorreoCliente(Clientes, baseDatosUsuario());
+                validador = 1;
+                return Json(validador);
+            }
+            else
+            {
+                validador = -666;
+                return Json(validador);
+            }
+            
+            
+
         }
         #endregion
 

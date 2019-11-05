@@ -40,22 +40,32 @@ namespace NotaVenta.Controllers
             }).ToList();
             ViewBag.Perfil = lPerfil;
 
-            IEnumerable<SelectListItem> lCodVenl = controlDisofi().ListarCodVendedorSoft(baseDatosUsuario()).Select(c => new SelectListItem()
-            {
-                Text = c.VenDes + " " + c.VenCod.ToString(),
-                Value = c.VenCod.ToString()
-            }).ToList();
-            ViewBag.VenCodSoft = lCodVenl;
-
-            IEnumerable<SelectListItem> lBaseDatos = controlDisofi().ListarEmpresas().Select(c => new SelectListItem()
+            IEnumerable<SelectListItem> dataEmpresas = controlDisofi().ListarEmpresas().Select(c => new SelectListItem()
             {
                 Text = c.NombreEmpresa,
                 Value = c.IdEmpresa.ToString()
             }).ToList();
-            ViewBag.BaseDatos = lBaseDatos;
+
+            ViewBag.Empresas = dataEmpresas;
+
+            //IEnumerable<SelectListItem> lCodVenl = controlDisofi().ListarCodVendedorSoft(baseDatosUsuario()).Select(c => new SelectListItem()
+            //{
+            //    Text = c.VenDes + " " + c.VenCod.ToString(),
+            //    Value = c.VenCod.ToString()
+            //}).ToList();
+            //ViewBag.VenCodSoft = lCodVenl;
+
+            //IEnumerable<SelectListItem> lBaseDatos = controlDisofi().ListarEmpresas().Select(c => new SelectListItem()
+            //{
+            //    Text = c.NombreEmpresa,
+            //    Value = c.IdEmpresa.ToString()
+            //}).ToList();
+            //ViewBag.BaseDatos = lBaseDatos;
 
             return View();
         }
+
+
 
         [Autorizacion(PERFILES.SUPER_ADMINISTRADOR, PERFILES.ADMINISTRADOR)]
         public ActionResult Clientes()
@@ -225,7 +235,7 @@ namespace NotaVenta.Controllers
             }
         }
 
-        public JsonResult EditarCliente(string _CodAux,string _Nombre,string _Rut,string _Contacto,string _Email,string _Telefono,string _Direccion)
+        public JsonResult EditarCliente(string _CodAux, string _Nombre, string _Rut, string _Contacto, string _Email, string _Telefono, string _Direccion)
         {
             if (!string.IsNullOrEmpty(_Nombre) && !string.IsNullOrEmpty(_Rut) && !string.IsNullOrEmpty(_Contacto) && !string.IsNullOrEmpty(_Email) && !string.IsNullOrEmpty(_Direccion))
             {
@@ -241,7 +251,7 @@ namespace NotaVenta.Controllers
                 };
                 if (ValidaRut.DigitoVerificador(cliente.RutAux))
                 {
-                    RespuestaModel result = controlDisofi().ActualizarCliente(cliente,baseDatosUsuario());
+                    RespuestaModel result = controlDisofi().ActualizarCliente(cliente, baseDatosUsuario());
                     return Json(result);
                 }
                 else
@@ -262,6 +272,61 @@ namespace NotaVenta.Controllers
             List<UsuariosModels> usuarios = controlDisofi().GetDatosUsuario(_IdUsuario, baseDatosUsuario());
             return Json(new { list = usuarios }, JsonRequestBehavior.AllowGet);
         }
+
+
+        public JsonResult ObtenerVendedoresEmpresa(string _IdEmpresa)
+        {
+            List<EmpresaModel> empresaModels = controlDisofi().ListarEmpresas().Where(m => m.IdEmpresa == Convert.ToInt32(_IdEmpresa)).ToList();
+
+            if (empresaModels != null && empresaModels.Count > 0)
+            {
+                List<UsuariosModels> usuarios = controlDisofi().ListarCodVendedorSoft(empresaModels[0].BaseDatos);
+
+                return Json(usuarios, JsonRequestBehavior.AllowGet); ;
+            }
+            else
+            {
+                return Json(new List<UsuariosModels>(), JsonRequestBehavior.AllowGet); ;
+            }
+        }
+        public JsonResult ObtenerEmpresasUsuario(string _IdUsuario)
+        {
+            List<UsuarioEmpresaModel> usuarios = controlDisofi().ListaUsuarioEmpresas(Convert.ToInt32(_IdUsuario));
+
+            return Json(usuarios, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult AgregarEmpresasUsuario(string _IdUsuario, List<UsuarioEmpresaModel> empresasUsuario)
+        {
+            RespuestaModel respuestaModel = new RespuestaModel();
+
+            respuestaModel = controlDisofi().eliminaTodosUsuarioEmpresa(Convert.ToInt32(_IdUsuario));
+
+            if (respuestaModel.Verificador)
+            {
+                if (empresasUsuario != null)
+                {
+                    foreach (UsuarioEmpresaModel item in empresasUsuario)
+                    {
+                        controlDisofi().insertaUsuarioEmpresa(item.IdUsuario, item.IdEmpresa, item.VenCod);
+                    }
+                }
+            }
+
+            return Json(respuestaModel, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult ValidaExisteEmpresasUsuario(string _VenCod, string _IdEmpresa)
+        {
+            RespuestaModel respuestaModel = new RespuestaModel();
+
+            respuestaModel = controlDisofi().validaExisteUsuarioEmpresa(_VenCod, Convert.ToInt32(_IdEmpresa));
+
+            return Json(respuestaModel, JsonRequestBehavior.AllowGet);
+        }
+        
 
         public JsonResult obtenerDatosClientes(string _CodAux)
         {
