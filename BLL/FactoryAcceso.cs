@@ -1200,10 +1200,8 @@ namespace BLL
                     { "Usuario", usuario.Usuario},
                     { "email", usuario.email},
                     { "tipoUsuario", usuario.tipoUsuario},
-                    { "VenCod", usuario.VenCod },
                     { "Contrasena", usuario.Password },
-                    { "Nombre", usuario.Nombre },
-                    { "BaseDatos", usuario.BaseDatos},
+                    { "Nombre", usuario.Nombre }
                 });
 
                 return UTIL.Mapper.BindData<RespuestaModel>(data);
@@ -1242,9 +1240,7 @@ namespace BLL
                     {"@Nombre",usuarios.Nombre },
                     {"@Password",usuarios.Password },
                     {"@Email",usuarios.email },
-                    {"@TipoUsuario",int.Parse(usuarios.tipoUsuario) },
-                    {"@VendCod",usuarios.VenCod },
-                    { "pv_BaseDatos", basedatos},
+                    {"@TipoUsuario",int.Parse(usuarios.tipoUsuario) }
                 });
                 return UTIL.Mapper.BindData<RespuestaModel>(data);
             }
@@ -1372,14 +1368,13 @@ namespace BLL
             }
         }
 
-        public List<UsuariosModels> GetDatosUsuario(string Id, string basedatos)
+        public List<UsuariosModels> GetDatosUsuario(string Id)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_GET_ObtenerDatosUsuario", new System.Collections.Hashtable()
                 {
-                    {"IdUsuario", int.Parse(Id) },
-                    {"pv_BaseDatos",basedatos }
+                    {"IdUsuario", int.Parse(Id) }
                 });
                 return UTIL.Mapper.BindDataList<UsuariosModels>(data);
             }
