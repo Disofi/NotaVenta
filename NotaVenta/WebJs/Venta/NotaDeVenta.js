@@ -607,9 +607,9 @@ function addRow() {
     }
 
     if (codigo === null || codigo === undefined || codigo === "" ||
-        cantidad === null || cantidad === undefined || cantidad === "" || cantidad === "0" ||
-        preciounitario === null || preciounitario === undefined || preciounitario === "" || preciounitario === "0" ||
-        descuento === null || descuento === undefined || descuento === "" || descuento === "0") {
+        cantidad === null || cantidad === undefined || cantidad === "" || ("" + cantidad) === "0" ||
+        preciounitario === null || preciounitario === undefined || preciounitario === "" || ("" + preciounitario) === "0" ||
+        descuento === null || descuento === undefined || descuento === "" || ("" + descuento) === "0") {
 
         abrirError("Error datos producto", "Favor, complete todos los campos necesarios para agregar producto");
     }
@@ -1167,20 +1167,20 @@ function agregarnotadeventa() {
         //    var url = $("#NV").val(); location.href = url;
         //}
         //else {
-            $.ajax({
-                url: url,
-                type: "POST",
-                data: data,
-                success: function (result) {
-                    confirm("Se Genero Cotizacion" + " " + NVNumero);
-                    var url1 = $("#RedirectTo").val();
-                    location.href = url1;
-                },
-                error: function (a, b, c) {
-                    console.log(a, b, c);
-                },
-                async: false
-            });
-        }
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            success: function (result) {
+                confirm("Se Genero Cotizacion" + " " + NVNumero);
+                var url1 = $("#RedirectTo").val();
+                location.href = url1;
+            },
+            error: function (a, b, c) {
+                console.log(a, b, c);
+            },
+            async: false
+        });
     }
+}
 //}
