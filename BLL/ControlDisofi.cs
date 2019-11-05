@@ -299,9 +299,9 @@ namespace BLL
             return _Control.GetAprobador(IdAprobador);
         }
 
-        public List<UsuariosModels> GetDatosUsuario(string Id, string basedatos)
+        public List<UsuariosModels> GetDatosUsuario(string Id)
         {
-            return _Control.GetDatosUsuario(Id, basedatos);
+            return _Control.GetDatosUsuario(Id);
         }
 
         public List<ClientesModels> GetDatosClientes(string CodAux, string basedatos)

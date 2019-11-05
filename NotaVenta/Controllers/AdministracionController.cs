@@ -176,9 +176,9 @@ namespace NotaVenta.Controllers
         }
 
         [HttpPost]
-        public JsonResult Addusuario(string _Usuario, string _Nombre, string _Contrasena, string _Email, string _Perfil, string _VenCod, string _BaseDatos)
+        public JsonResult Addusuario(string _Usuario, string _Nombre, string _Contrasena, string _Email, string _Perfil)
         {
-            if (!string.IsNullOrEmpty(_Usuario) && !string.IsNullOrEmpty(_Nombre) && !string.IsNullOrEmpty(_Contrasena) && !string.IsNullOrEmpty(_Perfil) && !string.IsNullOrEmpty(_VenCod) && !string.IsNullOrEmpty(_BaseDatos))
+            if (!string.IsNullOrEmpty(_Usuario) && !string.IsNullOrEmpty(_Nombre) && !string.IsNullOrEmpty(_Contrasena) && !string.IsNullOrEmpty(_Perfil))
             {
                 UsuariosModels usuario = new UsuariosModels()
                 {
@@ -186,9 +186,7 @@ namespace NotaVenta.Controllers
                     Nombre = _Nombre,
                     Password = HashMd5.GetMD5(_Contrasena),
                     email = _Email,
-                    tipoUsuario = _Perfil,
-                    VenCod = _VenCod,
-                    BaseDatos = int.Parse(_BaseDatos)
+                    tipoUsuario = _Perfil
                 };
                 RespuestaModel result = controlDisofi().AgregarUsuario(usuario);
                 return Json(result);
@@ -211,9 +209,9 @@ namespace NotaVenta.Controllers
             return (Json(result));
         }
 
-        public JsonResult EditarUsuario(int _Id, string _Usuario, string _Nombre, string _Contrasena, string _Email, string _Perfil, string _CodVend)
+        public JsonResult EditarUsuario(int _Id, string _Usuario, string _Nombre, string _Contrasena, string _Email, string _Perfil)
         {
-            if (!string.IsNullOrEmpty(_Usuario) && !string.IsNullOrEmpty(_Nombre) && !string.IsNullOrEmpty(_Contrasena) && !string.IsNullOrEmpty(_Email) && !string.IsNullOrEmpty(_Perfil) && !string.IsNullOrEmpty(_CodVend))
+            if (!string.IsNullOrEmpty(_Usuario) && !string.IsNullOrEmpty(_Nombre) && !string.IsNullOrEmpty(_Contrasena) && !string.IsNullOrEmpty(_Email) && !string.IsNullOrEmpty(_Perfil))
             {
                 UsuariosModels usuarios = new UsuariosModels()
                 {
@@ -222,8 +220,7 @@ namespace NotaVenta.Controllers
                     Nombre = _Nombre,
                     Password = HashMd5.GetMD5(_Contrasena),
                     email = _Email,
-                    tipoUsuario = _Perfil,
-                    VenCod = _CodVend
+                    tipoUsuario = _Perfil
                 };
                 RespuestaModel result = controlDisofi().EditarUsuario(usuarios);
                 return (Json(result));
@@ -269,7 +266,7 @@ namespace NotaVenta.Controllers
 
         public JsonResult ObtenerDatosUsuario(string _IdUsuario)
         {
-            List<UsuariosModels> usuarios = controlDisofi().GetDatosUsuario(_IdUsuario, baseDatosUsuario());
+            List<UsuariosModels> usuarios = controlDisofi().GetDatosUsuario(_IdUsuario);
             return Json(new { list = usuarios }, JsonRequestBehavior.AllowGet);
         }
 
