@@ -3772,3 +3772,30 @@ BEGIN
 	,		Mensaje = @lv_Mensaje
 END
 GO
+CREATE PROCEDURE SP_ValidaExisteUsuarioEmpresa
+(
+	@pv_VenCod VARCHAR(50)
+,	@pi_IdEmpresa INT
+)
+AS
+BEGIN
+	DECLARE @lb_Verificador BIT
+	DECLARE @lv_Mensaje VARCHAR(max)
+
+	SELECT	@lb_Verificador = 0
+	,		@lv_Mensaje = 'NO EXISTE'
+
+	IF EXISTS	(
+					SELECT	top 1 1
+					from	DS_UsuarioEmpresa
+					where	rtrim(ltrim(VenCod)) = rtrim(ltrim(@pv_VenCod))
+					and		IdEmpresa = @pi_IdEmpresa
+				) BEGIN
+		SELECT	@lb_Verificador = 1
+		,		@lv_Mensaje = 'EXISTE'
+	END
+
+	SELECT	Verificador = @lb_Verificador
+	,		Mensaje = @lv_Mensaje
+END
+GO
