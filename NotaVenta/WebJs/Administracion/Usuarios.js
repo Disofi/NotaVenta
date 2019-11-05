@@ -65,31 +65,49 @@ function modalEmpresasUsuarioAgregarFilaClick() {
 
     if (idEmpresa !== "-1" && idVendedor !== "-1") {
         if (vendedoresUsuario.filter(m => ("" + m.IdEmpresa) === ("" + idEmpresa)).length === 0) {
-            var item = { IdEmpresa: idEmpresa, NombreEmpresa: textoEmpresa, IdVendedor: idVendedor, NombreVendedor: textoVendedor };
+            $.ajax({
+                type: 'POST',
+                url: 'ValidaExisteEmpresasUsuario',
+                data: {
+                    _VenCod: idVendedor,
+                    _IdEmpresa: idEmpresa
+                },
+                success: function (data) {
+                    if (!data.Verificador) {
+                        var item = { IdEmpresa: idEmpresa, NombreEmpresa: textoEmpresa, IdVendedor: idVendedor, NombreVendedor: textoVendedor };
 
-            vendedoresUsuario.push(item);
+                        vendedoresUsuario.push(item);
 
-            indexCuadrilla = indexCuadrilla + 1;
+                        indexCuadrilla = indexCuadrilla + 1;
 
-            var index = indexCuadrilla;
+                        var index = indexCuadrilla;
 
-            var fila = "";
-            var fila = fila + "<tr id='modalEmpresasUsuarioDatosTR_" + index + "'>";
-            var fila = fila + "<td>";
-            var fila = fila + "" + item.NombreEmpresa;
-            var fila = fila + "</td>";
-            var fila = fila + "<td>";
-            var fila = fila + "" + item.IdVendedor;
-            var fila = fila + "</td>";
-            var fila = fila + "<td>";
-            var fila = fila + "<button id='modalEmpresasUsuarioEliminar_" + index + "' class='btn btn-red' type='button' tooltip=''";
-            var fila = fila + "onclick='___modalEmpresasUsuarioEliminar(" + item.IdEmpresa + ", " + item.IdVendedor + ", " + index + ")'>";
-            var fila = fila + "<i class='fas fa-trash'></i>";
-            var fila = fila + "</button>";
-            var fila = fila + "</td>";
-            var fila = fila + "</tr>";
+                        var fila = "";
+                        var fila = fila + "<tr id='modalEmpresasUsuarioDatosTR_" + index + "'>";
+                        var fila = fila + "<td>";
+                        var fila = fila + "" + item.NombreEmpresa;
+                        var fila = fila + "</td>";
+                        var fila = fila + "<td>";
+                        var fila = fila + "" + item.IdVendedor;
+                        var fila = fila + "</td>";
+                        var fila = fila + "<td>";
+                        var fila = fila + "<button id='modalEmpresasUsuarioEliminar_" + index + "' class='btn btn-red' type='button' tooltip=''";
+                        var fila = fila + "onclick='___modalEmpresasUsuarioEliminar(" + item.IdEmpresa + ", " + item.IdVendedor + ", " + index + ")'>";
+                        var fila = fila + "<i class='fas fa-trash'></i>";
+                        var fila = fila + "</button>";
+                        var fila = fila + "</td>";
+                        var fila = fila + "</tr>";
 
-            tbodyTabla.append(fila);
+                        tbodyTabla.append(fila);
+                    }
+                    else {
+                        abrirInformacion("Usuario Empresa", "El vendedor " + textoVendedor + " ya existe en nuestro sistema para la empresa " + textoEmpresa);
+                    }
+                }
+            });
+        }
+        else {
+            abrirInformacion("Usuario Empresa", "Usuario ya tiene un usuario asociado a esta empresa");
         }
     }
 }

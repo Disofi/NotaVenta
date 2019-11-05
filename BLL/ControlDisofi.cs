@@ -230,6 +230,13 @@ namespace BLL
         {
             return _Control.listarUsuarios();
         }
+
+
+        public RespuestaModel validaExisteUsuarioEmpresa(string venCod, int idEmpresa)
+        {
+            return _Control.validaExisteUsuarioEmpresa(venCod, idEmpresa);
+        }
+
         public RespuestaModel eliminaTodosUsuarioEmpresa(int idUsuario)
         {
             return _Control.eliminaTodosUsuarioEmpresa(idUsuario);

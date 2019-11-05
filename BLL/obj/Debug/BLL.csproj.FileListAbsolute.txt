@@ -1,48 +1,3 @@
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\Nueva carpeta\NotaVenta\BLL\bin\Debug\BLL.dll
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\Nueva carpeta\NotaVenta\BLL\bin\Debug\BLL.pdb
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\Nueva carpeta\NotaVenta\BLL\bin\Debug\DAL.dll
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\Nueva carpeta\NotaVenta\BLL\bin\Debug\UTIL.dll
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\Nueva carpeta\NotaVenta\BLL\bin\Debug\log4net.dll
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\Nueva carpeta\NotaVenta\BLL\bin\Debug\DAL.pdb
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\Nueva carpeta\NotaVenta\BLL\bin\Debug\UTIL.pdb
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\Nueva carpeta\NotaVenta\BLL\obj\Debug\BLL.csprojAssemblyReference.cache
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\Nueva carpeta\NotaVenta\BLL\obj\Debug\BLL.csproj.CopyComplete
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\Nueva carpeta\NotaVenta\BLL\obj\Debug\BLL.dll
-C:\Users\Desarrollo-PC\Desktop\Proyectos\Cosas\Proyectos\Proyectos .NET\Nueva carpeta\NotaVenta\BLL\obj\Debug\BLL.pdb
-C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\bin\Debug\BLL.dll
-C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\bin\Debug\BLL.pdb
-C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\bin\Debug\DAL.dll
-C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\bin\Debug\UTIL.dll
-C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\bin\Debug\log4net.dll
-C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\bin\Debug\DAL.pdb
-C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\bin\Debug\UTIL.pdb
-C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\obj\Debug\BLL.csprojAssemblyReference.cache
-C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\obj\Debug\BLL.csproj.CopyComplete
-C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\obj\Debug\BLL.dll
-C:\Users\Desarrollo-PC\Desktop\NOTAVENTA\NotaVenta\BLL\obj\Debug\BLL.pdb
-C:\Users\Desarrollo-PC\Desktop\DsNotaVenta\NotaVenta\BLL\bin\Debug\BLL.dll
-C:\Users\Desarrollo-PC\Desktop\DsNotaVenta\NotaVenta\BLL\bin\Debug\BLL.pdb
-C:\Users\Desarrollo-PC\Desktop\DsNotaVenta\NotaVenta\BLL\bin\Debug\DAL.dll
-C:\Users\Desarrollo-PC\Desktop\DsNotaVenta\NotaVenta\BLL\bin\Debug\UTIL.dll
-C:\Users\Desarrollo-PC\Desktop\DsNotaVenta\NotaVenta\BLL\bin\Debug\log4net.dll
-C:\Users\Desarrollo-PC\Desktop\DsNotaVenta\NotaVenta\BLL\bin\Debug\DAL.pdb
-C:\Users\Desarrollo-PC\Desktop\DsNotaVenta\NotaVenta\BLL\bin\Debug\UTIL.pdb
-C:\Users\Desarrollo-PC\Desktop\DsNotaVenta\NotaVenta\BLL\obj\Debug\BLL.csprojAssemblyReference.cache
-C:\Users\Desarrollo-PC\Desktop\DsNotaVenta\NotaVenta\BLL\obj\Debug\BLL.csproj.CopyComplete
-C:\Users\Desarrollo-PC\Desktop\DsNotaVenta\NotaVenta\BLL\obj\Debug\BLL.dll
-C:\Users\Desarrollo-PC\Desktop\DsNotaVenta\NotaVenta\BLL\obj\Debug\BLL.pdb
-C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\BLL\bin\Debug\BLL.dll
-C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\BLL\bin\Debug\BLL.pdb
-C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\BLL\bin\Debug\DAL.dll
-C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\BLL\bin\Debug\UTIL.dll
-C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\BLL\bin\Debug\log4net.dll
-C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\BLL\bin\Debug\DAL.pdb
-C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\BLL\bin\Debug\UTIL.pdb
-C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\BLL\obj\Debug\BLL.csprojAssemblyReference.cache
-C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\BLL\obj\Debug\BLL.csproj.CopyComplete
-C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\BLL\obj\Debug\BLL.dll
-C:\Users\Desarrollo-PC\Desktop\nv\NotaVenta\BLL\obj\Debug\BLL.pdb
-<<<<<<< HEAD
 D:\ProyectosYVEGA\NotaVenta\BLL\bin\Debug\BLL.dll
 D:\ProyectosYVEGA\NotaVenta\BLL\bin\Debug\BLL.pdb
 D:\ProyectosYVEGA\NotaVenta\BLL\bin\Debug\DAL.dll
@@ -55,16 +10,3 @@ D:\ProyectosYVEGA\NotaVenta\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
 D:\ProyectosYVEGA\NotaVenta\BLL\obj\Debug\BLL.csproj.CopyComplete
 D:\ProyectosYVEGA\NotaVenta\BLL\obj\Debug\BLL.dll
 D:\ProyectosYVEGA\NotaVenta\BLL\obj\Debug\BLL.pdb
-=======
-C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\bin\Debug\BLL.dll
-C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\bin\Debug\BLL.pdb
-C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\bin\Debug\DAL.dll
-C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\bin\Debug\UTIL.dll
-C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\bin\Debug\log4net.dll
-C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\bin\Debug\DAL.pdb
-C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\bin\Debug\UTIL.pdb
-C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\obj\Debug\BLL.csprojAssemblyReference.cache
-C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\obj\Debug\BLL.csproj.CopyComplete
-C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\obj\Debug\BLL.dll
-C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\obj\Debug\BLL.pdb
->>>>>>> fduran

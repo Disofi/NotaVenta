@@ -300,19 +300,33 @@ namespace NotaVenta.Controllers
         public JsonResult AgregarEmpresasUsuario(string _IdUsuario, List<UsuarioEmpresaModel> empresasUsuario)
         {
             RespuestaModel respuestaModel = new RespuestaModel();
-            
+
             respuestaModel = controlDisofi().eliminaTodosUsuarioEmpresa(Convert.ToInt32(_IdUsuario));
 
             if (respuestaModel.Verificador)
             {
-                foreach (UsuarioEmpresaModel item in empresasUsuario)
+                if (empresasUsuario != null)
                 {
-                    controlDisofi().insertaUsuarioEmpresa(item.IdUsuario, item.IdEmpresa, item.VenCod);
+                    foreach (UsuarioEmpresaModel item in empresasUsuario)
+                    {
+                        controlDisofi().insertaUsuarioEmpresa(item.IdUsuario, item.IdEmpresa, item.VenCod);
+                    }
                 }
             }
 
             return Json(respuestaModel, JsonRequestBehavior.AllowGet);
         }
+
+
+        public JsonResult ValidaExisteEmpresasUsuario(string _VenCod, string _IdEmpresa)
+        {
+            RespuestaModel respuestaModel = new RespuestaModel();
+
+            respuestaModel = controlDisofi().validaExisteUsuarioEmpresa(_VenCod, Convert.ToInt32(_IdEmpresa));
+
+            return Json(respuestaModel, JsonRequestBehavior.AllowGet);
+        }
+        
 
         public JsonResult obtenerDatosClientes(string _CodAux)
         {

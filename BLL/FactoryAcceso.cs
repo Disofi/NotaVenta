@@ -1115,6 +1115,25 @@ namespace BLL
                 return null;
             }
         }
+
+        public RespuestaModel validaExisteUsuarioEmpresa(string venCod, int idEmpresa)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_ValidaExisteUsuarioEmpresa", new System.Collections.Hashtable()
+                {
+                    { "pv_VenCod", venCod},
+                    { "pi_IdEmpresa", idEmpresa},
+                });
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+        
         public RespuestaModel insertaUsuarioEmpresa(int idUsuario, int idEmpresa, string venCod)
         {
             try
@@ -1133,10 +1152,9 @@ namespace BLL
                 return null;
             }
         }
-        
 
 
-        public List<UsuariosModels> BuscarUsuario(UsuariosModels usuario)
+        public List<UsuariosModels> BuscarUsuario(UsuariosModels usuario, string basedatos)
         {
             try
             {
