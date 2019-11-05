@@ -331,6 +331,7 @@ namespace NotaVenta.Controllers
             return Json(new { list = clientes }, JsonRequestBehavior.AllowGet);
         }
 
+
         #region"--- Web Methods ---"
 
 
