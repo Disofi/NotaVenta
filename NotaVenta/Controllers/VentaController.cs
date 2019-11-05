@@ -132,7 +132,7 @@ namespace NotaVenta.Controllers
             {
                 CodAux = NVC.CodAux
             };
-
+            //la lista de precios ,,.....dale...nada
             ClientesModels cm = controlDisofi().ObtenerAtributoDescuento(baseDatosUsuario(), cliente.CodAux, parametros.AtributoSoftlandDescuentoCliente);
             cliente.ValorAtributo = cm.ValorAtributo;
 
@@ -156,6 +156,8 @@ namespace NotaVenta.Controllers
                     
                 }
             }
+
+            
             
             ViewBag.Credito = credito;
             ViewBag.CodAux = NVC.CodAux;
@@ -241,8 +243,14 @@ namespace NotaVenta.Controllers
             //List<ListaDePrecioModels> ListDePrecios = new List<ListaDePrecioModels>();
 
             List<ListaDePrecioModels> ListDePrecios = controlDisofi().listarListaDePrecio(baseDatosUsuario(), ListPrecio);
-            
-            ViewBag.lista = ListDePrecios;
+            if (parametros.ManejaListaPrecios)
+            {
+                ViewBag.lista = ListDePrecios;
+            }
+            else
+            {
+                ViewBag.lista = new List<ListaDePrecioModels>();
+            }
 
             //Se listan los centros de costos
             List<CentrodeCostoModels> lcc = controlDisofi().ListarCentroCosto(baseDatosUsuario());
@@ -385,7 +393,7 @@ namespace NotaVenta.Controllers
 
                 if (para.ManejaListaPrecios)
                 {
-                    cabecera.CodLista = (cabecera.CodLista == null || cabecera.CodLista == "") ? "SIN LISTA" : cabecera.CodLista;
+                    cabecera.CodLista = (cabecera.CodLista == null || cabecera.CodLista == "" || cabecera.CodLista == "-1") ? null : cabecera.CodLista;
                 }
                 else
                 {
@@ -766,7 +774,10 @@ namespace NotaVenta.Controllers
         [HttpPost]
         public JsonResult ObtieneProductosPorListaPrecio(string ListaPrecio)
         {
-            
+            if (ListaPrecio == null)
+            {
+                ListaPrecio = "-1";
+            }
             List<ProductosModels> pro = controlDisofi().ListarProducto(ListaPrecio, baseDatosUsuario());
 
             return NotaVenta.UTIL.JsonResultResponse.ObtenerResponse<List<ProductosModels>>(pro);

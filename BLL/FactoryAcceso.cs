@@ -1097,6 +1097,43 @@ namespace BLL
             }
         }
 
+        public RespuestaModel eliminaTodosUsuarioEmpresa(int idUsuario)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_DELALL_UsuarioEmpresa", new System.Collections.Hashtable()
+                {
+                    { "pi_IdUsuario", idUsuario},
+                });
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+        public RespuestaModel insertaUsuarioEmpresa(int idUsuario, int idEmpresa, string venCod)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_INS_UsuarioEmpresa", new System.Collections.Hashtable()
+                {
+                    { "pi_IdUsuario", idUsuario},
+                    { "pi_IdEmpresa", idEmpresa},
+                    { "pv_VenCod", venCod},
+                });
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+        
+
+
         public List<UsuariosModels> BuscarUsuario(UsuariosModels usuario)
         {
             try

@@ -230,6 +230,14 @@ namespace BLL
         {
             return _Control.listarUsuarios();
         }
+        public RespuestaModel eliminaTodosUsuarioEmpresa(int idUsuario)
+        {
+            return _Control.eliminaTodosUsuarioEmpresa(idUsuario);
+        }
+        public RespuestaModel insertaUsuarioEmpresa(int idUsuario, int idEmpresa, string venCod)
+        {
+            return _Control.insertaUsuarioEmpresa(idUsuario, idEmpresa, venCod);
+        }
 
         public List<UsuariosModels> BuscarUsuario(UsuariosModels usuario)
         {

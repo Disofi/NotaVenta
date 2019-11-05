@@ -12,5 +12,6 @@ namespace UTIL.Models
         public string NombreEmpresa { get; set; }
         public string BaseDatos { get; set; }
         public string VenCod { get; set; }
+        public int tipoUsuario { get; set; }
     }
 }
