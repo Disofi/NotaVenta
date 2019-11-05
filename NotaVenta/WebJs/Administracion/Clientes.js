@@ -4,6 +4,21 @@
         bAutoWidth: true,
         autoWidth: true 
     }); 
+
+    $("#ddlEmpresas").change(function () {
+        var idEmpresa = $("#ddlEmpresas").val();
+        $.ajax({
+            url: "CambiarEmpresaCliente",
+            type: "POST",
+            data: {
+                _IdEmpresa: idEmpresa
+            },
+            async: true,
+            success: function (data) {
+                location.reload();
+            }
+        });
+    });
 });
 
 function ObtenerDatosCliente(CodAux) {
