@@ -350,5 +350,10 @@ namespace NotaVenta.Controllers
             }
 
         }
+
+        public JsonResult ObtenerSaldo()
+        {
+            return Json(1, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -8,6 +8,7 @@
 <script src="~/WebJs/Reporte/FacturasPendientes.js"></script>
 
 <div id="content" class="content">
+    <input type="hidden" id="urlTablaSaldos" value="@Url.Action("ObtenerSaldo", "Reporte")" />
     <h1 class="page-header">@ViewBag.Message <small></small></h1>
     <div class="panel panel-inverse width-full">
         <div class="panel-heading">
@@ -44,47 +45,47 @@
                             {
                                 for (int i = 0; i < doc.Count; i++)
                                 {
-                                        <tr>
-                                            <td>@doc[i].Id</td>
-                                            <td>@doc[i].NomAux</td>
-                                            <td>@doc[i].RutAux</td>
-                                            <td>@doc[i].nvFem.ToShortDateString()</td>
-                                            <th>@doc[i].nvFeEnt.ToShortDateString()</th>
-                                            @if (@doc[i].CodLista == null)
+                                    <tr>
+                                        <td>@doc[i].Id</td>
+                                        <td>@doc[i].NomAux</td>
+                                        <td>@doc[i].RutAux</td>
+                                        <td>@doc[i].nvFem.ToShortDateString()</td>
+                                        <th>@doc[i].nvFeEnt.ToShortDateString()</th>
+                                        @if (@doc[i].CodLista == null)
+                                        {
+                                            <td>0</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@doc[i].CodLista</td>
+                                        }
+                                        @if (@doc[i].NomCon == null)
+                                        {
+                                            <td>0</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@doc[i].NomCon</td>
+                                        }
+                                        <td>$@double.Parse(doc[i].nvSubTotal.ToString()).ToString("N0")</td>
+                                        <td>$@double.Parse(doc[i].TotalBoleta.ToString()).ToString("N0")</td>
+                                        <td>@doc[i].EstadoNP</td>
+                                        <td>@double.Parse(doc[i].Saldo.ToString()).ToString("N0")</td>
+                                        <td>
+                                            @if (doc[i].EstadoNP == "P")
                                             {
-                                                <td>0</td>
+                                                <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id,'@doc[i].RutAux')"><img src="~/Content/Image/zoom.png" /></button>
+                                                <button class="btn btn-warning btn-xs"><img src="~/Content/Image/ok.png" onclick="AprobarNotaVenta(@doc[i].Id)"></button>
+                                                <button class="btn btn-warning btn-xs"><img src="~/Content/Image/delete.png" onclick="RechazarNotaVenta(@doc[i].Id,@doc[i].NVNumero)"></button>
                                             }
                                             else
                                             {
-                                                <td>@doc[i].CodLista</td>
+                                                <button class="btn btn-warning btn-m" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id)"><img src="~/Content/Image/zoom.png" /></button>
+                                                <a>&nbsp;</a>
                                             }
-                                            @if (@doc[i].NomCon == null)
-                                            {
-                                                <td>0</td>
-                                            }
-                                            else
-                                            {
-                                                <td>@doc[i].NomCon</td>
-                                            }
-                                            <td>$@double.Parse(doc[i].nvSubTotal.ToString()).ToString("N0")</td>
-                                            <td>$@double.Parse(doc[i].TotalBoleta.ToString()).ToString("N0")</td>
-                                            <td>@doc[i].EstadoNP</td>
-                                            <td>@double.Parse(doc[i].Saldo.ToString()).ToString("N0")</td>
-                                            <td>
-                                                @if (doc[i].EstadoNP == "P")
-                                                {
-                                                    <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id)"><img src="~/Content/Image/zoom.png" /></button>
-                                                    <button class="btn btn-warning btn-xs" ><img src="~/Content/Image/ok.png" onclick="AprobarNotaVenta(@doc[i].Id)"></button>
-                                                    <button class="btn btn-warning btn-xs"><img src="~/Content/Image/delete.png" onclick="RechazarNotaVenta(@doc[i].Id,@doc[i].NVNumero)"></button>
-                                                }
-                                                else
-                                                {
-                                                    <button class="btn btn-warning btn-m" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id)"><img src="~/Content/Image/zoom.png" /></button>
-                                                    <a>&nbsp;</a>
-                                                }
 
-                                            </td>
-                                        </tr>
+                                        </td>
+                                    </tr>
                                 }
                             }
                         }

@@ -457,31 +457,19 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE procedure [dbo].[DS_GET_ObtenerDatosUsuario]
-@IdUsuario int,
-@pv_BaseDatos varchar (100)
+@IdUsuario int
 AS
-DECLARE @query varchar (max)
-
-SELECT @query = ''
-
-SELECT @query = @query + '
 	SELECT 
 	id = u.ID,
 	Usuario = u.Usuario,
 	Nombre = u.Nombre,
 	email = u.email,
 	tipoId = u.tipoUsuario,
-	VenCod = due.VenCod,
-	tipoUsuario = dut.tipoUsuario,
-	VenDes = c.VenDes
+	tipoUsuario = dut.tipoUsuario
 	FROM DS_Usuarios u 
 	JOIN dbo.DS_UsuariosTipos dut ON u.tipoUsuario = dut.id
 	JOIN dbo.DS_UsuarioEmpresa due ON due.IdUsuario = u.ID
-	JOIN ['+@pv_BaseDatos+'].softland.cwtvend c ON c.VenCod COLLATE Modern_Spanish_CI_AS = due.VenCod
-	WHERE u.ID = ' + CONVERT(VARCHAR(20), @IdUsuario) + '
-'
-
-EXEC (@query)
+	WHERE u.ID = @IdUsuario	
 GO
 /****** Object:  StoredProcedure [dbo].[DS_GetAprobador]    Script Date: 05-11-2019 11:46:10 ******/
 SET ANSI_NULLS ON
@@ -611,36 +599,23 @@ CREATE PROCEDURE [dbo].[DS_SET_EditarUsuario]
 @Nombre varchar (100),
 @Password varchar (max),
 @Email varchar (150),
-@TipoUsuario int,
-@VendCod varchar (15),
-@pv_BaseDatos varchar(100)
+@TipoUsuario int
 AS
-DECLARE @Existe int
-SET @Existe	= (select count(sub_a.idUsuario) from ds_usuarioEmpresa sub_a inner join ds_empresa sub_b on sub_a.idempresa = sub_b.id where sub_b.basedatos = @pv_BaseDatos and sub_a.VenCod = @VendCod)
-IF(@Existe = 0)
 BEGIN
 UPDATE dbo.DS_Usuarios
 SET
-    --ID - column value is auto-generated
-    dbo.DS_Usuarios.Usuario = @Usuario, -- varchar
-    dbo.DS_Usuarios.Contrasena = @Password, -- varchar
-    dbo.DS_Usuarios.Cliente = '', -- varchar
-    dbo.DS_Usuarios.CCosto = '', -- varchar
-    dbo.DS_Usuarios.email = @Email, -- varchar
-    dbo.DS_Usuarios.tipoUsuario = @TipoUsuario, -- int
-    --dbo.DS_Usuarios.VenCod = @VendCod, -- nchar
-    dbo.DS_Usuarios.Nombre = @Nombre, -- varchar
-    dbo.DS_Usuarios.ContrasenaCorreo = '', -- varchar
-    dbo.DS_Usuarios.Estado = 1 -- int
+    dbo.DS_Usuarios.Usuario = @Usuario,
+    dbo.DS_Usuarios.Contrasena = @Password,
+    dbo.DS_Usuarios.Cliente = '',
+    dbo.DS_Usuarios.CCosto = '',
+    dbo.DS_Usuarios.email = @Email,
+    dbo.DS_Usuarios.tipoUsuario = @TipoUsuario,
+    dbo.DS_Usuarios.Nombre = @Nombre,
+    dbo.DS_Usuarios.Estado = 1
 	WHERE dbo.DS_Usuarios.ID = @IdUsuario
 
 	SELECT Verificador = cast(1 as bit),
 	Mensaje = 'Usuario Modificado'
-END
-ELSE
-BEGIN
-SELECT Verificador = cast(0 AS bit),
-Mensaje = 'Codigo de Vendedor Ya Existe'
 END
 GO
 /****** Object:  StoredProcedure [dbo].[FR_ActualizarCliente]    Script Date: 05-11-2019 11:46:10 ******/
@@ -1438,34 +1413,20 @@ CREATE PROCEDURE [dbo].[FR_AgregarUsuario]
 	@email	varchar(50),
 	@Contrasena varchar(150),
 	@tipoUsuario	varchar(50),
-	@venCod NCHAR(10),
-	@Nombre varchar (100),
-	@BaseDatos int
- AS
+	@Nombre varchar (100)
+AS
+
 DECLARE @CantVenCod int
 DECLARE @IdUsuario int
-SET @CantVenCod	= (SELECT count(*) AS cantidad FROM dbo.DS_UsuarioEmpresa due JOIN dbo.DS_Usuarios du ON due.IdUsuario=du.ID WHERE due.VenCod = @venCod AND du.Estado = 1)
+
+SET @CantVenCod	= (SELECT count(*) AS cantidad FROM dbo.DS_Usuarios du WHERE Usuario = @Usuario AND du.Estado = 1)
+
 if(@CantVenCod = 0)
 BEGIN
 	INSERT INTO [dbo].[DS_Usuarios] ([Usuario],[Contrasena],[email],[tipoUsuario],[Nombre],[Estado])
 		VALUES(@Usuario,(@Contrasena), @email, @tipoUsuario, @Nombre,1)
 	 
 SET @IdUsuario = (SELECT SCOPE_IDENTITY() AS [SCOPE_IDENTITY])	
-
-	INSERT dbo.DS_UsuarioEmpresa
-	(
-	    --Id - column value is auto-generated
-	    IdUsuario,
-	    IdEmpresa,
-	    VenCod
-	)
-	VALUES
-	(
-	    -- Id - int
-	    @IdUsuario, -- IdUsuario - int
-	    @BaseDatos, -- IdEmpresa - int
-	    @venCod -- VenCod - nchar
-	)
 
 		SELECT Verificador = cast(1 AS bit),
 		Mensaje = 'Usuario Creado'
@@ -1810,11 +1771,25 @@ GO
 CREATE PROCEDURE [dbo].[FR_EliminarUsuario]  
 @Id int  
 AS  
+DECLARE @Estado int
+SET @Estado	= (SELECT Estado FROM dbo.DS_Usuarios du WHERE du.ID = @Id)
+IF(@Estado = 1)
+BEGIN
+
 	UPDATE dbo.DS_Usuarios SET dbo.DS_Usuarios.Estado = 0   
 	WHERE dbo.DS_Usuarios.ID = @Id  
 
 	SELECT	Verificador = Cast(1 as bit)
-	,		Mensaje = 'Se elimina usuario'   
+	,		Mensaje = 'Se Deshabilito usuario'   
+END
+ELSE
+BEGIN
+	UPDATE dbo.DS_Usuarios SET dbo.DS_Usuarios.Estado = 1   
+	WHERE dbo.DS_Usuarios.ID = @Id  
+
+	SELECT	Verificador = Cast(1 as bit)
+	,		Mensaje = 'Se Habilito usuario'
+END
 GO
 /****** Object:  StoredProcedure [dbo].[FR_ListaProductos]    Script Date: 05-11-2019 11:46:10 ******/
 SET ANSI_NULLS ON
@@ -3769,33 +3744,6 @@ BEGIN
 	
 	SELECT	Id = @li_Id
 	,		Verificador = @lb_Verificador
-	,		Mensaje = @lv_Mensaje
-END
-GO
-CREATE PROCEDURE SP_ValidaExisteUsuarioEmpresa
-(
-	@pv_VenCod VARCHAR(50)
-,	@pi_IdEmpresa INT
-)
-AS
-BEGIN
-	DECLARE @lb_Verificador BIT
-	DECLARE @lv_Mensaje VARCHAR(max)
-
-	SELECT	@lb_Verificador = 0
-	,		@lv_Mensaje = 'NO EXISTE'
-
-	IF EXISTS	(
-					SELECT	top 1 1
-					from	DS_UsuarioEmpresa
-					where	rtrim(ltrim(VenCod)) = rtrim(ltrim(@pv_VenCod))
-					and		IdEmpresa = @pi_IdEmpresa
-				) BEGIN
-		SELECT	@lb_Verificador = 1
-		,		@lv_Mensaje = 'EXISTE'
-	END
-
-	SELECT	Verificador = @lb_Verificador
 	,		Mensaje = @lv_Mensaje
 END
 GO
