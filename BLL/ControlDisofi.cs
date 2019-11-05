@@ -12,9 +12,9 @@ namespace BLL
     {
         private FactoryAcceso _Control = new FactoryAcceso();
 
-        public List<_NotaDeVentaDetalleModels> DatosCorreoVend(int NvNUmero)
+        public List<_NotaDeVentaDetalleModels> DatosCorreoVend(int NvNUmero, string basedatos)
         {
-            return _Control.DatosCorreoVend(NvNUmero);
+            return _Control.DatosCorreoVend(NvNUmero, basedatos);
         }
 
         public List<_NotaDeVentaDetalleModels> DatosCorreoAprobador(string VendCod)
@@ -22,9 +22,9 @@ namespace BLL
             return _Control.DatosCorreoAprobador(VendCod);
         }
 
-        public bool ActualizaCorreo(_UsuariosModels Usuario)
+        public bool ActualizaCorreo(_UsuariosModels Usuario, string basedatos)
         {
-            return _Control.ActualizaCorreo(Usuario);
+            return _Control.ActualizaCorreo(Usuario, basedatos);
         }
 
         public List<ObjetoMenu> MenuUsuario(int idUsuario)
@@ -230,6 +230,13 @@ namespace BLL
         {
             return _Control.listarUsuarios();
         }
+
+
+        public RespuestaModel validaExisteUsuarioEmpresa(string venCod, int idEmpresa)
+        {
+            return _Control.validaExisteUsuarioEmpresa(venCod, idEmpresa);
+        }
+
         public RespuestaModel eliminaTodosUsuarioEmpresa(int idUsuario)
         {
             return _Control.eliminaTodosUsuarioEmpresa(idUsuario);
@@ -239,9 +246,9 @@ namespace BLL
             return _Control.insertaUsuarioEmpresa(idUsuario, idEmpresa, venCod);
         }
 
-        public List<UsuariosModels> BuscarUsuario(UsuariosModels usuario)
+        public List<UsuariosModels> BuscarUsuario(UsuariosModels usuario, string basedatos)
         {
-            return _Control.BuscarUsuario(usuario);
+            return _Control.BuscarUsuario(usuario, basedatos);
         }
 
         public RespuestaModel ActualizarUsuario(UsuariosModels usuario)
@@ -259,9 +266,9 @@ namespace BLL
             return _Control.EliminarUsuario(usuarios);
         }
 
-        public RespuestaModel EditarUsuario(UsuariosModels usuarios)
+        public RespuestaModel EditarUsuario(UsuariosModels usuarios, string basedatos)
         {
-            return _Control.EditarUsuario(usuarios);
+            return _Control.EditarUsuario(usuarios, basedatos);
         }
 
         public List<UsuariosTiposModels> listarTipo()

@@ -15,15 +15,16 @@ namespace BLL
     {
         #region anterior
 
-        public List<_NotaDeVentaDetalleModels> DatosCorreoVend(int NvNUmero)
+        public List<_NotaDeVentaDetalleModels> DatosCorreoVend(int NvNUmero, string basedatos)
         {
             var DatosUser = new List<_NotaDeVentaDetalleModels>();
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GET_DatosCorreoVend", new System.Collections.Hashtable()
-                                                                                            {
-                                                                                                {"NvNumero", NvNUmero}
-                                                                                            });
+                {
+                    { "NvNumero", NvNUmero},
+                    { "pv_BaseDatos", basedatos},
+                });
                 if (data.Rows.Count > 0)
                 {
                     for (var i = 0; i < data.Rows.Count; i++)
@@ -89,16 +90,17 @@ namespace BLL
             return DatosUser;
         }
 
-        public bool ActualizaCorreo(_UsuariosModels Usuario)
+        public bool ActualizaCorreo(_UsuariosModels Usuario, string basedatos)
         {
             bool respuesta = false;
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_SET_ActualizaCorreo", new System.Collections.Hashtable()
-                                                                                            {
-                                                                {"VendCod", Usuario.VenCod.Trim()},
-                                                                {"Email", Usuario.email},
-                                                                {"Contrasena", Usuario.Password}
+                {
+                    { "VendCod", Usuario.VenCod.Trim()},
+                    { "Email", Usuario.email},
+                    { "Contrasena", Usuario.Password},
+                    { "pv_BaseDatos", basedatos},
                 });
                 if (data.Rows.Count > 0)
                 {
@@ -1113,6 +1115,25 @@ namespace BLL
                 return null;
             }
         }
+
+        public RespuestaModel validaExisteUsuarioEmpresa(string venCod, int idEmpresa)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_ValidaExisteUsuarioEmpresa", new System.Collections.Hashtable()
+                {
+                    { "pv_VenCod", venCod},
+                    { "pi_IdEmpresa", idEmpresa},
+                });
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+        
         public RespuestaModel insertaUsuarioEmpresa(int idUsuario, int idEmpresa, string venCod)
         {
             try
@@ -1131,16 +1152,16 @@ namespace BLL
                 return null;
             }
         }
-        
 
 
-        public List<UsuariosModels> BuscarUsuario(UsuariosModels usuario)
+        public List<UsuariosModels> BuscarUsuario(UsuariosModels usuario, string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_BuscarUsuarios", new System.Collections.Hashtable()
                 {
                     { "id", usuario.id},
+                    { "pv_BaseDatos", basedatos},
                 });
                 return UTIL.Mapper.BindDataList<UsuariosModels>(data);
             }
@@ -1208,7 +1229,7 @@ namespace BLL
             }
         }
 
-        public RespuestaModel EditarUsuario(UsuariosModels usuarios)
+        public RespuestaModel EditarUsuario(UsuariosModels usuarios, string basedatos)
         {
             try
             {

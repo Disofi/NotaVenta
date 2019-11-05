@@ -163,7 +163,7 @@ namespace NotaVenta.Controllers
         {
             UsuariosModels Usuario = new UsuariosModels();
             Usuario.id = idUsuario;
-            List<UsuariosModels> busuario = controlDisofi().BuscarUsuario(Usuario);
+            List<UsuariosModels> busuario = controlDisofi().BuscarUsuario(Usuario, baseDatosUsuario());
             ViewBag.buscarusuarios = busuario;
 
             List<UsuariosTiposModels> ltipo = controlDisofi().listarTipo();
@@ -222,7 +222,7 @@ namespace NotaVenta.Controllers
                     email = _Email,
                     tipoUsuario = _Perfil
                 };
-                RespuestaModel result = controlDisofi().EditarUsuario(usuarios);
+                RespuestaModel result = controlDisofi().EditarUsuario(usuarios, baseDatosUsuario());
                 return (Json(result));
             }
             else
@@ -297,19 +297,33 @@ namespace NotaVenta.Controllers
         public JsonResult AgregarEmpresasUsuario(string _IdUsuario, List<UsuarioEmpresaModel> empresasUsuario)
         {
             RespuestaModel respuestaModel = new RespuestaModel();
-            
+
             respuestaModel = controlDisofi().eliminaTodosUsuarioEmpresa(Convert.ToInt32(_IdUsuario));
 
             if (respuestaModel.Verificador)
             {
-                foreach (UsuarioEmpresaModel item in empresasUsuario)
+                if (empresasUsuario != null)
                 {
-                    controlDisofi().insertaUsuarioEmpresa(item.IdUsuario, item.IdEmpresa, item.VenCod);
+                    foreach (UsuarioEmpresaModel item in empresasUsuario)
+                    {
+                        controlDisofi().insertaUsuarioEmpresa(item.IdUsuario, item.IdEmpresa, item.VenCod);
+                    }
                 }
             }
 
             return Json(respuestaModel, JsonRequestBehavior.AllowGet);
         }
+
+
+        public JsonResult ValidaExisteEmpresasUsuario(string _VenCod, string _IdEmpresa)
+        {
+            RespuestaModel respuestaModel = new RespuestaModel();
+
+            respuestaModel = controlDisofi().validaExisteUsuarioEmpresa(_VenCod, Convert.ToInt32(_IdEmpresa));
+
+            return Json(respuestaModel, JsonRequestBehavior.AllowGet);
+        }
+        
 
         public JsonResult obtenerDatosClientes(string _CodAux)
         {
@@ -333,7 +347,7 @@ namespace NotaVenta.Controllers
 
             RespuestaModel result = controlDisofi().ActualizarUsuario(Usuario);
 
-            List<UsuariosModels> busuario = controlDisofi().BuscarUsuario(Usuario);
+            List<UsuariosModels> busuario = controlDisofi().BuscarUsuario(Usuario, baseDatosUsuario());
             ViewBag.buscarusuarios = busuario;
 
             List<UsuariosTiposModels> ltipo = controlDisofi().listarTipo();

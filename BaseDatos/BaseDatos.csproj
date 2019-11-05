@@ -45,10 +45,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Otros\scriptNotaVenta_20191028_1023.sql" />
     <Content Include="Otros\ScriptBD_20191021_1658.sql" />
     <Content Include="Otros\ScriptParametros.sql" />
     <Content Include="Otros\scriptNotaVenta.sql" />
     <Content Include="Otros\Inserts.sql" />
+    <Content Include="Otros\script_20191105_1147.sql" />
     <Content Include="SP\DS_AgregarCorreoCli.sql" />
     <Content Include="SP\RRA_ActualizaEstadoNW.sql" />
     <Content Include="SP\FR_ObtenerAtributoDescuentoCliente.sql" />
