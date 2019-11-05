@@ -53,6 +53,7 @@
     ParametrosModels parametros = ViewBag.Parametros;
 
     double PorcentajeAtributoDescuento = Convert.ToDouble(ViewBag.ValorAtributo);
+    VendedoresSoftlandModels vendedorCliente = ((VendedoresSoftlandModels)ViewBag.VendedorCliente);
 }
 
 
@@ -128,12 +129,13 @@
                                         <input type="text" name="nombreCliente" id="nombreCliente" class="form-control" value="@codigo - @nombre" readonly="readonly" tabindex="-1" />
                                         <input type="hidden" name="txtcliente" id="txtcliente" value="@codigo" readonly="readonly" />
                                     </td>
-                                    <td nowrap="nowrap">Vendedor</td>
+                                    <td nowrap="nowrap">Vendedor Cliente</td>
                                     <td>
-                                        <input type="text" value="@VenDes" name="txtnomvendedor" class="form-control" id="txtnomvendedor" readonly="readonly" tabindex="-1" />
-                                        <input type="hidden" name="txtvendedor" id="txtvendedor" value="@VenCodigo" readonly="readonly" />
-                                        <input type="hidden" name="txtid" id="txtid" value="@id" readonly="readonly" />
-                                        <input type="hidden" name="txtCorreoCliente" id="txtCorreoCliente" value="@ViewBag.CorreoCliente" readonly="readonly" />
+                                        @vendedorCliente.VenDes
+                                    </td>
+                                    <td nowrap="nowrap">Atendido Por</td>
+                                    <td>
+                                        @VenDes
                                     </td>
                                 </tr>
                                 <tr class="highlight">
@@ -178,18 +180,21 @@
                                             }
                                         </select>
                                     </td>
-                                    <td nowrap="nowrap">Lista de Precio</td>
-                                    <td>
-                                        <select name="cbxlista" class="form-control" id="cbxlista" tabindex="7">
-                                            <option selected value=""> -- Seleccione Lista De Precio -- </option>
-                                            @{
-                                                for (int i = 0; i < listap.Count; i++)
-                                                {
-                                                    <option value="@listap[i].Codlista" selected> @listap[i].DesLista </option>
+                                    @if (parametros.ManejaListaPrecios)
+                                    {
+                                        <td nowrap="nowrap">Lista de Precio</td>
+                                        <td>
+                                            <select name="cbxlista" class="form-control" id="cbxlista" tabindex="7">
+                                                <option selected value="-1"> -- Seleccione Lista De Precio -- </option>
+                                                @{
+                                                    for (int i = 0; i < listap.Count; i++)
+                                                    {
+                                                        <option value="@listap[i].Codlista" selected> @listap[i].DesLista </option>
+                                                    }
                                                 }
-                                            }
-                                        </select>
-                                    </td>
+                                            </select>
+                                        </td>
+                                    }
                                 </tr>
                                 <tr class="highlight">
                                     <td nowrap="nowrap">Fecha Pedido</td>
@@ -288,7 +293,7 @@
                     <table id="user" class="table table-condensed table-bordered">
                         <thead>
                             <tr>
-                                <th>Cod. Rap.</th>
+                                <th style="display: none">Cod. Rap.</th>
                                 <th style=" width: 450px !important">Descripcion/Codigo</th>
                                 <th>Cant.</th>
                                 @if (parametros.MuestraStockProducto)
@@ -312,7 +317,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><a href="javascript:;" id="txtIngresoCodigoRapido" data-type="text" data-pk="1" data-title="Cod Rap"></a></td>
+                                <td style="display: none"><a href="javascript:;" id="txtIngresoCodigoRapido" data-type="text" data-pk="1" data-title="Cod Rap"></a></td>
                                 <!--<td><a href="javascript:;" id="txtIngresoDescripcionCodigo" data-type="text" data-pk="2" data-title="Descripcion / Codigo"></a></td>-->
                                 <td data-select2-id="277"><a href="javascript:;" id="txtIngresoDescripcionCodigo" data-type="select2" data-pk="2" data-value="BS" data-title="Seleccione Producto" class="editable editable-click" style=""></a></td>
                                 <td style="text-align: right"><a href="javascript:;" id="txtIngresoCantidad" data-type="text" data-pk="3" data-title="Cantidad">1</a></td>
@@ -479,9 +484,9 @@
 <div id="divAlertaOkGeneracionNV" style="display: none" class="alert alert-success" role="alert">
     <h4 class="alert-heading">Nota de Venta Generada</h4>
     <p>Nota de venta a sido generada con exito <label id="divAlertaOkGeneracionNVPendiente">(enviado a aprobacion)</label></p>
-    <div id="divAlertaOkGeneracionNVSoftland">
-        <p>N° Nota de venta (Softland): <label id="divAlertaOkGeneracionNVIdSoftland"></label></p>
-    </div>
+    @*<div id="divAlertaOkGeneracionNVSoftland">
+            <p>N° Nota de venta (Softland): <label id="divAlertaOkGeneracionNVIdSoftland"></label></p>
+        </div>*@
     <div id="divAlertaOkGeneracionNVInterno">
         <p>N° Nota de venta (Interno): <label id="divAlertaOkGeneracionNVIdInterno"></label></p>
     </div>

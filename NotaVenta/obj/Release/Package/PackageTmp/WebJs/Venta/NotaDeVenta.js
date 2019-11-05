@@ -460,7 +460,7 @@ function cbxlistaChange() {
                 });
         },
         error: function (response) {
-            alert("Este Producto no se encuentra en esta lista de Precio");
+            //alert("Este Producto no se encuentra en esta lista de Precio");
         },
         failure: function (response) {
             alert(response.responseText);
@@ -904,7 +904,6 @@ function agregarnotadeventa() {
     var nvFem = $('#txtfechapedido').val();
     var nvFeEnt = $('#txtfechaentrega').val();
     var CodAux = $('#txtcliente').val();
-    var VenCod = $('#txtvendedor').val();
     var CodLista = $('#cbxlista').val();
     var nvObser = $('#txtobservacion').val();
     var CveCod = $('#cbxconven').val();
@@ -912,9 +911,6 @@ function agregarnotadeventa() {
     var nvSubTotal = $('#txttotal').val();
     var nvMonto = $('#txttotalfinal').val();
     var nvNetoAfecto = $('#txttotal').val();
-
-    var Usuario = $('#txtnomvendedor').val();
-    var UsuarioGeneraDocto = $('#txtnomvendedor').val();
 
     var FechaHoraCreacion = $('#txtfechapedido').val();
     var TotalBoleta = $('#txttotalfinal').val();
@@ -943,7 +939,7 @@ function agregarnotadeventa() {
         NumOC: 0,
         nvFeEnt: nvFeEnt,
         CodAux: CodAux,
-        VenCod: VenCod,
+        //VenCod: aaaaaaaaaaaaaaaaaaa,
         //CodMon: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         CodLista: CodLista,
         nvObser: nvObser,
@@ -982,8 +978,8 @@ function agregarnotadeventa() {
         //RetiradoPor: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //CheckeoPorAlarmaVtas: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //EnMantencion: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
-        Usuario: Usuario,
-        UsuarioGeneraDocto: UsuarioGeneraDocto,
+        //Usuario: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        //UsuarioGeneraDocto: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         FechaHoraCreacion: FechaHoraCreacion,
         //Sistema: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //ConcManual: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
@@ -1121,7 +1117,6 @@ function agregarnotadeventa() {
         var nvFem = $('#txtfechapedido').val();
         var nvFeEnt = $('#txtfechaentrega').val();
         var CodAux = $('#txtcliente').val();
-        var VenCod = $('#txtvendedor').val();
         var CodLista = $('#cbxlista').val();
         var nvObser = $('#txtobservacion').val();
         var CveCod = $('#cbxconven').val();
@@ -1129,9 +1124,6 @@ function agregarnotadeventa() {
         var nvSubTotal = $('#txttotal').val();
         var nvMonto = $('#txttotalfinal').val();
         var nvNetoAfecto = $('#txttotal').val();
-
-        var Usuario = $('#txtnomvendedor').val();
-        var UsuarioGeneraDocto = $('#txtnomvendedor').val();
 
         var FechaHoraCreacion = $('#txtfechapedido').val();
         var TotalBoleta = $('#txttotalfinal').val();
@@ -1152,7 +1144,7 @@ function agregarnotadeventa() {
             nvFem: nvFem,
             nvFeEnt: nvFeEnt,
             CodAux: CodAux,
-            VenCod: VenCod,
+            //VenCod: VenCod,
             CodLista: CodLista,
             nvObser: nvObser,
             CveCod: CveCod,

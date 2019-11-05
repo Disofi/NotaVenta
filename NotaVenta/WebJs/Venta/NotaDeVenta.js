@@ -460,7 +460,7 @@ function cbxlistaChange() {
                 });
         },
         error: function (response) {
-            alert("Este Producto no se encuentra en esta lista de Precio");
+            //alert("Este Producto no se encuentra en esta lista de Precio");
         },
         failure: function (response) {
             alert(response.responseText);

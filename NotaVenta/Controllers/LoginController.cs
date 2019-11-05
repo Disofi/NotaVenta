@@ -67,6 +67,24 @@ namespace NotaVenta.Controllers
                 if (resultado != null)
                 {
                     List<UsuarioEmpresaModel> empresas = controlDisofi().ListaUsuarioEmpresas(resultado.IdUsuario);
+
+                    if (resultado.TipoUsuario == 1)
+                    {
+                        validador = 2;
+                        resultado.VenDes = resultado.Nombre;
+                        SessionVariables.SESSION_DATOS_USUARIO = resultado;
+
+                        UsuarioEmpresaModel ue = new UsuarioEmpresaModel();
+                        ue.IdUsuario = resultado.IdUsuario;
+                        ue.IdEmpresa = 1;
+                        ue.NombreEmpresa = "Sin Empresa";
+                        ue.BaseDatos = "SIN_BD";
+                        SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel = ue;
+
+
+                        return Json(new { Validador = validador, empresas = empresas, DatosUsuario = resultado });
+                    }
+
                     if (empresas.Count > 0)
                     {
                         if (empresas.Count == 1)
