@@ -3,6 +3,10 @@
     ViewBag.Title = "Clientes";
     List<ClientesModels> listarclientes = ViewBag.clientes;
     string[] idcliente = new string[listarclientes.Count];
+
+
+    List<EmpresaModel> empresas = ViewBag.empresas;
+    EmpresaModel empresaSeleccionada = ViewBag.empresaSeleccionada;
 }
 
 <link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
@@ -19,16 +23,33 @@
             </div>
         </div>
         <div class="table-responsive">
-            @{
-                var grid = new WebGrid(ViewBag.clientes, canPage: false);
-            }
-            @grid.GetHtml(
-            htmlAttributes: new { id = "tblCliente" },
-            tableStyle: "table",
-            columns:
-            grid.Columns(
-grid.Column(columnName: "Nombre", header: "Codigo", format: @<text>@item.CodAux</text>),
-grid.Column(columnName: "Nombre", header: "Nombre", format: @<text>@item.NomAux</text>),
+            <div class="row">
+                <div class="col-lg-3">
+                </div>
+                <div class="col-lg-6">
+                    Empresa
+                    <select id="ddlEmpresas" class="form-control">
+                        <option value="-1">Seleccione empresa</option>
+                        @for (int x = 0; x < empresas.Count; x++)
+                        {
+                            <option value="@empresas[x].IdEmpresa" @Html.Raw(empresaSeleccionada == null ? "" : empresaSeleccionada.IdEmpresa == empresas[x].IdEmpresa ? "selected" : "")>@empresas[x].NombreEmpresa</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-3">
+                </div>
+            </div>
+            <div class="row">
+                @{
+                    var grid = new WebGrid(ViewBag.clientes, canPage: false);
+                }
+                @grid.GetHtml(
+                htmlAttributes: new { id = "tblCliente" },
+                tableStyle: "table",
+                columns:
+                grid.Columns(
+    grid.Column(columnName: "Nombre", header: "Codigo", format: @<text>@item.CodAux</text>),
+  grid.Column(columnName: "Nombre", header: "Nombre", format: @<text>@item.NomAux</text>),
 grid.Column(columnName: "Direccion", header: "Direccion", format: @<text>@item.DirAux</text>),
 grid.Column(columnName: "Direccion", header: "Contacto", format: @<text>@item.NomCon</text>),
 grid.Column(columnName: "Telefono", header: "Telefono", format: @<text>@item.FonCon</text>),
@@ -36,6 +57,7 @@ grid.Column(columnName: "Editar", header: "Editar", format: @<button class="btn 
     <span class="fas fa-pencil-alt fa-fw"></span>
 </button>)
 ))
+            </div>
         </div>
     </div>
 </div>

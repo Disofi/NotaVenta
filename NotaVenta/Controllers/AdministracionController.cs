@@ -71,7 +71,17 @@ namespace NotaVenta.Controllers
         public ActionResult Clientes()
         {
             List<ClientesModels> ListClientes = new List<ClientesModels>();
-            var listClientes = controlDisofi().listarClientes(baseDatosUsuario());
+
+            List<EmpresaModel> empresas = controlDisofi().ListarEmpresas();
+            ViewBag.empresas = empresas;
+
+            EmpresaModel empresaModel = SessionVariables.SESSION_CLIENTE_BASE_DATOS;
+            ViewBag.empresaSeleccionada = empresaModel;
+            List<ClientesModels> listClientes = null;
+            if (empresaModel != null)
+            {
+                listClientes = controlDisofi().listarClientes(empresaModel.BaseDatos);
+            }
 
             if (listClientes != null)
             {
@@ -200,6 +210,15 @@ namespace NotaVenta.Controllers
 
 
 
+        public JsonResult CambiarEmpresaCliente(int _IdEmpresa)
+        {
+            EmpresaModel result = controlDisofi().ListarEmpresas().Where(m => m.IdEmpresa == _IdEmpresa).First();
+
+            SessionVariables.SESSION_CLIENTE_BASE_DATOS = result;
+
+            return (Json(new RespuestaModel() { Verificador = true }));
+        }
+
         public JsonResult EliminarUsuario(int _Id)
         {
             UsuariosModels usuarios = new UsuariosModels();
@@ -323,7 +342,7 @@ namespace NotaVenta.Controllers
 
             return Json(respuestaModel, JsonRequestBehavior.AllowGet);
         }
-        
+
 
         public JsonResult obtenerDatosClientes(string _CodAux)
         {

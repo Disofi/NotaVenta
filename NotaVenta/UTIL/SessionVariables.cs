@@ -27,6 +27,12 @@ namespace NotaVenta.UTIL
             set { HttpContext.Current.Session["FERTG54YHTR"] = value; }
         }
 
+        public static EmpresaModel SESSION_CLIENTE_BASE_DATOS
+        {
+            get { return (EmpresaModel)HttpContext.Current.Session["DFVNVUIRHGBOVTHFOGIBHDFOIVGBFD"]; }
+            set { HttpContext.Current.Session["DFVNVUIRHGBOVTHFOGIBHDFOIVGBFD"] = value; }
+        }
+
         public static NotadeVentaCabeceraModels SESSION_NOTA_VENTA_CABECERA_MODEL
         {
             get { return (NotadeVentaCabeceraModels)HttpContext.Current.Session["4RTG54Y65EY"]; }
