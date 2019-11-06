@@ -149,16 +149,16 @@ namespace NotaVenta.Controllers
                     credito.Saldo = credito.Credito - credito.Deuda;
 
                     if (credito.Credito == 0)
-                        {
-                            TempData["Mensaje"] = "CLIENTE NO TIENE CREDITO. <br>";
-                            return RedirectToAction("MisClientes", "Venta");
-                        }
-                    
+                    {
+                        TempData["Mensaje"] = "CLIENTE NO TIENE CREDITO. <br>";
+                        return RedirectToAction("MisClientes", "Venta");
+                    }
+
                 }
             }
 
-            
-            
+
+
             ViewBag.Credito = credito;
             ViewBag.CodAux = NVC.CodAux;
 
@@ -255,6 +255,9 @@ namespace NotaVenta.Controllers
             //Se listan los centros de costos
             List<CentrodeCostoModels> lcc = controlDisofi().ListarCentroCosto(baseDatosUsuario());
             ViewBag.cc = lcc;
+
+            List<CanalVentaModels> dataCanalVenta = controlDisofi().ListarCanalVenta(baseDatosUsuario());
+            ViewBag.canalVentas = dataCanalVenta;
 
             IEnumerable<SelectListItem> clientesCiudad = controlDisofi().ObtenerCiudad(baseDatosUsuario()).Select(c => new SelectListItem()
             {
@@ -366,7 +369,7 @@ namespace NotaVenta.Controllers
 
 
         #region"--- Web Métodos ---"
-        
+
         [HttpPost, ValidateInput(false)]
         public JsonResult AgregarNV(NotadeVentaCabeceraModels cabecera, List<ProductoAgregadoModel> productos)
         {
@@ -375,7 +378,7 @@ namespace NotaVenta.Controllers
                 ParametrosModels para = ObtieneParametros();
 
                 bool insertaDisofi = true;
-                bool insertaSoftland = para.EnvioObligatorioAprobador;
+                bool insertaSoftland = !para.EnvioObligatorioAprobador;
 
                 cabecera.NVNumero = cabecera.NVNumero;
                 cabecera.nvFem = cabecera.nvFem;
@@ -401,12 +404,12 @@ namespace NotaVenta.Controllers
                 }
 
                 cabecera.nvObser = cabecera.nvObser;
-                //cabecera.nvCanalNV = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa;
-                cabecera.CveCod = cabecera.CveCod;
+                cabecera.nvCanalNV = cabecera.nvCanalNV == "-1" ? null : cabecera.nvCanalNV;
+                cabecera.CveCod = cabecera.CveCod == "-1" ? null : cabecera.CveCod;
                 cabecera.NomCon = (cabecera.NomCon == null || cabecera.NomCon == "") ? "SIN COCTACTO" : cabecera.NomCon;
-                cabecera.CodiCC = cabecera.CodiCC;
+                cabecera.CodiCC = cabecera.CodiCC == "-1" ? null : cabecera.CodiCC;
                 //cabecera.CodBode = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa;
-                cabecera.nvSubTotal = para.DescuentoTotalDirectoSoftland ? cabecera.TotalBoleta : cabecera.nvSubTotal; 
+                cabecera.nvSubTotal = para.DescuentoTotalDirectoSoftland ? cabecera.TotalBoleta : cabecera.nvSubTotal;
 
                 int totalDescuento = 0;
                 if (cabecera.Descuentos != null && cabecera.Descuentos.Count > 0 && para.DescuentoTotalDirectoSoftland)
@@ -477,7 +480,7 @@ namespace NotaVenta.Controllers
                 cabecera.nvNetoExento = 0;
                 cabecera.nvNetoAfecto = para.DescuentoTotalDirectoSoftland ? cabecera.nvNetoAfecto : cabecera.TotalBoleta;
                 cabecera.ConcAuto = "N";
-                cabecera.CodLugarDesp = cabecera.CodLugarDesp;
+                cabecera.CodLugarDesp = cabecera.CodLugarDesp == "-1" ? null : cabecera.CodLugarDesp;
                 cabecera.SolicitadoPor = null;
                 cabecera.DespachadoPor = null;
                 cabecera.Patente = null;
@@ -661,7 +664,7 @@ namespace NotaVenta.Controllers
                         }
                     }
 
-                    EnviarEmail(cabecera.NVNumero,cabecera.Id, vendedores[0].Email,vendedores[0].Contrasena, paraEmail);
+                    EnviarEmail(cabecera.NVNumero, cabecera.Id, vendedores[0].Email, vendedores[0].Contrasena, paraEmail);
                 }
                 catch (Exception ex)
                 {
@@ -679,7 +682,7 @@ namespace NotaVenta.Controllers
         }
 
         [NonAction]
-        public void EnviarEmail(int nvnumero,int Id, string de, string clavecorreo, List<string> para)
+        public void EnviarEmail(int nvnumero, int Id, string de, string clavecorreo, List<string> para)
         {
             string subject = string.Format("Cotizacion {0}", nvnumero);
 
@@ -709,9 +712,9 @@ namespace NotaVenta.Controllers
             {
                 NVNumero = nvnumero
             };
-            List<NotadeVentaCabeceraModels> NVentaCabeceras = controlDisofi().BuscarNVPorNumero(Id,baseDatosUsuario());
+            List<NotadeVentaCabeceraModels> NVentaCabeceras = controlDisofi().BuscarNVPorNumero(Id, baseDatosUsuario());
 
-            List<NotaDeVentaDetalleModels> NVentaDetalles = controlDisofi().BuscarNVDETALLEPorNumero(Id,baseDatosUsuario());
+            List<NotaDeVentaDetalleModels> NVentaDetalles = controlDisofi().BuscarNVDETALLEPorNumero(Id, baseDatosUsuario());
 
             ClientesModels cliente = new ClientesModels
             {
@@ -857,28 +860,30 @@ namespace NotaVenta.Controllers
                 }
             }
 
-            decimal subTotal = 0;
-            decimal total = 0;
-
-            subTotal = _precioUnitario * _cantidad;
-
-            total = subTotal;
+            decimal precioUnitarioConDescuento = _precioUnitario;
 
             for (int x = 0; x < _descuentos.Count; x++)
             {
                 if (_descuentos[x].Porcentaje != 0)
                 {
-                    decimal valorDescuento = Convert.ToInt32((total * (_descuentos[x].Porcentaje / 100)));
+                    decimal valorDescuento = Convert.ToInt32((precioUnitarioConDescuento * (_descuentos[x].Porcentaje / 100)));
                     _descuentos[x].Valor = valorDescuento;
-                    total = total - valorDescuento;
+                    precioUnitarioConDescuento = precioUnitarioConDescuento - valorDescuento;
                 }
             }
             decimal valorAtributoDescuento = 0;
             if (porcentajeAtributoDescuento > 0)
             {
-                valorAtributoDescuento = (total * (porcentajeAtributoDescuento / 100));
-                total = total - valorAtributoDescuento;
+                valorAtributoDescuento = (precioUnitarioConDescuento * (porcentajeAtributoDescuento / 100));
+                precioUnitarioConDescuento = precioUnitarioConDescuento - valorAtributoDescuento;
             }
+
+            decimal subTotal = 0;
+            decimal total = 0;
+
+            subTotal = precioUnitarioConDescuento * _cantidad;
+
+            total = subTotal;
 
             return new ProductoAgregadoModel()
             {
@@ -965,8 +970,8 @@ namespace NotaVenta.Controllers
                 validador = -666;
                 return Json(validador);
             }
-            
-            
+
+
 
         }
         #endregion

@@ -37,6 +37,11 @@ namespace BLL
             return _Control.ListarCentroCosto(basedatos);
         }
 
+        public List<CanalVentaModels> ListarCanalVenta(string basedatos)
+        {
+            return _Control.ListarCanalVenta(basedatos);
+        }
+
         public List<ClientesModels> GetClientes(string basedatos, ClientesModels cliente = null)
         {
             return _Control.GetClientes(basedatos, cliente);

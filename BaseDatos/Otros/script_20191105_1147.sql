@@ -3747,3 +3747,22 @@ BEGIN
 	,		Mensaje = @lv_Mensaje
 END
 GO
+
+CREATE PROCEDURE SP_ObtenerCanalVenta
+(
+	@pv_BaseDatos varchar (100)
+)
+AS
+BEGIN
+	declare @query varchar(max)
+
+	select @query = ''
+
+	select @query = @query + '
+	SELECT	*
+	FROM	[' + @pv_BaseDatos + '].[softland].[cwtcana]
+	'
+
+	EXEC (@query)
+END
+GO

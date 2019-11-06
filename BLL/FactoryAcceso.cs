@@ -179,6 +179,23 @@ namespace BLL
                 return null;
             }
         }
+        public List<CanalVentaModels> ListarCanalVenta(string basedatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_ObtenerCanalVenta", new System.Collections.Hashtable()
+                {
+                    { "pv_BaseDatos", basedatos},
+                });
+
+                return UTIL.Mapper.BindDataList<CanalVentaModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
 
 
         public List<ClientesModels> GetClientes(string basedatos, ClientesModels cliente = null)
