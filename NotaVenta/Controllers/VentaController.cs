@@ -300,9 +300,9 @@ namespace NotaVenta.Controllers
 
             string htmlBody = String.Format(
             "<html><body>" +
-            "<img src='~/Image/logo.png' />" +
-            "<H1> COTIZACIÓN </H1>" +
-            @"<H4> Nº de Cotización: " + NVentaCabeceras[0].Id + @" </H4>" +
+            //"<img src='~/Image/logo.png' />" +
+            "<H1> NOTA DE PEDIDO </H1>" +
+            @"<H4> Nº de Pedido: " + NVentaCabeceras[0].Id + @" </H4>" +
             @"<H4> Fecha Pedido: " + (NVentaCabeceras[0].nvFem == null ? "" : ((DateTime)NVentaCabeceras[0].nvFem).ToShortDateString()) + @" </H4>" +
             @"<H4> Cliente: " + NVentaCabeceras[0].NomAux + @" </H4>" +
             @"<H4> Dirección: " + Clientes[0].DirAux + @" </H4>" +
@@ -684,7 +684,7 @@ namespace NotaVenta.Controllers
         [NonAction]
         public void EnviarEmail(int nvnumero, int Id, string de, string clavecorreo, List<string> para)
         {
-            string subject = string.Format("Cotizacion {0}", nvnumero);
+            string subject = string.Format("Nota de Pedido {0}", nvnumero);
 
             string from = de;
             string displayName = System.Configuration.ConfigurationManager.AppSettings.Get("Remitente");

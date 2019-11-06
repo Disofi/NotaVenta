@@ -8,4 +8,3 @@ C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\bin\Debug\UTIL.dll
 C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\bin\Debug\UTIL.pdb
 C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\obj\Debug\UTIL.dll
 C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\obj\Debug\UTIL.pdb
-C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\obj\Debug\UTIL.csprojAssemblyReference.cache
