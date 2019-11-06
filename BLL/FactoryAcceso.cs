@@ -179,6 +179,23 @@ namespace BLL
                 return null;
             }
         }
+        public List<CanalVentaModels> ListarCanalVenta(string basedatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_ObtenerCanalVenta", new System.Collections.Hashtable()
+                {
+                    { "pv_BaseDatos", basedatos},
+                });
+
+                return UTIL.Mapper.BindDataList<CanalVentaModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
 
 
         public List<ClientesModels> GetClientes(string basedatos, ClientesModels cliente = null)
@@ -852,7 +869,8 @@ namespace BLL
                     { "pb_ManejaDescuentoTotalDocumento", parametro.ManejaDescuentoTotalDocumento},
                     { "pi_CantidadDescuentosTotalDocumento", parametro.CantidadDescuentosTotalDocumento},
                     { "pi_CantidadLineas", parametro.CantidadLineas},
-                    { "pb_ManejaLineaCredito", parametro.ManejaLineaCredito},
+                    { "pb_ManejaLineaCreditoVendedor", parametro.ManejaLineaCreditoVendedor},
+                    { "pb_ManejaLineaCreditoAprobador", parametro.ManejaLineaCreditoAprobador},
                     { "pb_ManejaCanalVenta", parametro.ManejaCanalVenta},
                     { "pb_CreacionNotaVentaUsuariosBloqueados", parametro.CreacionNotaVentaUsuariosBloqueados},
                     { "pb_CreacionNotaVentaUsuariosInactivos", parametro.CreacionNotaVentaUsuariosInactivos},

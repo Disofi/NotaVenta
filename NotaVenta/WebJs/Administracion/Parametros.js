@@ -55,7 +55,8 @@
                     cambiarValorSwitcher("ManejaDescuentoTotalDocumento", response.ManejaDescuentoTotalDocumento);
                     $("#CantidadDescuentosTotalDocumento").val(response.CantidadDescuentosTotalDocumento);
                     $("#CantidadLineas").val(response.CantidadLineas);
-                    cambiarValorSwitcher("ManejaLineaCredito", response.ManejaLineaCredito);
+                    cambiarValorSwitcher("ManejaLineaCreditoVendedor", response.ManejaLineaCreditoVendedor);
+                    cambiarValorSwitcher("ManejaLineaCreditoAprobador", response.ManejaLineaCreditoAprobador);
                     cambiarValorSwitcher("ManejaCanalVenta", response.ManejaCanalVenta);
                     cambiarValorSwitcher("CreacionNotaVentaUsuariosBloqueados", response.CreacionNotaVentaUsuariosBloqueados);
                     cambiarValorSwitcher("CreacionNotaVentaUsuariosInactivos", response.CreacionNotaVentaUsuariosInactivos);
@@ -152,7 +153,8 @@ function GuardarParametros() {
     var ManejaDescuentoTotalDocumento = estaHabilitadoSwitcher("ManejaDescuentoTotalDocumento");
     var CantidadDescuentosTotalDocumento = $("#CantidadDescuentosTotalDocumento").val();
     var CantidadLineas = $("#CantidadLineas").val();
-    var ManejaLineaCredito = estaHabilitadoSwitcher("ManejaLineaCredito");
+    var ManejaLineaCreditoVendedor = estaHabilitadoSwitcher("ManejaLineaCreditoVendedor");
+    var ManejaLineaCreditoAprobador = estaHabilitadoSwitcher("ManejaLineaCreditoAprobador");
     var ManejaCanalVenta = estaHabilitadoSwitcher("ManejaCanalVenta");
     var CreacionNotaVentaUsuariosBloqueados = estaHabilitadoSwitcher("CreacionNotaVentaUsuariosBloqueados");
     var CreacionNotaVentaUsuariosInactivos = estaHabilitadoSwitcher("CreacionNotaVentaUsuariosInactivos");
@@ -192,7 +194,8 @@ function GuardarParametros() {
         ManejaDescuentoTotalDocumento: ManejaDescuentoTotalDocumento,
         CantidadDescuentosTotalDocumento: CantidadDescuentosTotalDocumento,
         CantidadLineas: CantidadLineas,
-        ManejaLineaCredito: ManejaLineaCredito,
+        ManejaLineaCreditoVendedor: ManejaLineaCreditoVendedor,
+        ManejaLineaCreditoAprobador: ManejaLineaCreditoAprobador,
         ManejaCanalVenta: ManejaCanalVenta,
         CreacionNotaVentaUsuariosBloqueados: CreacionNotaVentaUsuariosBloqueados,
         CreacionNotaVentaUsuariosInactivos: CreacionNotaVentaUsuariosInactivos,
