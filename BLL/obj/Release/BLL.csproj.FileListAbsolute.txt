@@ -1,0 +1,11 @@
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\bin\Release\BLL.dll
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\bin\Release\BLL.pdb
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\bin\Release\DAL.dll
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\bin\Release\UTIL.dll
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\bin\Release\log4net.dll
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\bin\Release\DAL.pdb
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\bin\Release\UTIL.pdb
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\obj\Release\BLL.csprojAssemblyReference.cache
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\obj\Release\BLL.csproj.CopyComplete
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\obj\Release\BLL.dll
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\obj\Release\BLL.pdb

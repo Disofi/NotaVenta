@@ -25,6 +25,10 @@ namespace NotaVenta.Controllers
         [Autorizacion(PERFILES.SUPER_ADMINISTRADOR, PERFILES.ADMINISTRADOR, PERFILES.APROBADOR)]
         public ActionResult FacturasPendientes()
         {
+            ParametrosModels parametros = ObtieneParametros();
+
+            ViewBag.Parametros = parametros;
+
             List<NotadeVentaCabeceraModels> doc = new List<NotadeVentaCabeceraModels>();
             var docPendientes = controlDisofi().listarDocPendientes(baseDatosUsuario());
 
@@ -198,7 +202,7 @@ namespace NotaVenta.Controllers
             notaventa.Id = _nvId;
             List<NotadeVentaCabeceraModels> proceso = controlDisofi().RechazarNP(notaventa);
 
-            return Json(new { nvNum = _nvNum });
+            return Json(new { nvNum = _nvId });
         }
 
         [NonAction]
