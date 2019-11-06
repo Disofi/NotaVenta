@@ -77,9 +77,9 @@
                                         <td>
                                             @if (doc[i].EstadoNP == "P")
                                             {
-                                                <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id,'@doc[i].RutAux')"><img src="~/Content/Image/zoom.png" /></button>
-                                                <button class="btn btn-warning btn-xs"><img src="~/Content/Image/ok.png" onclick="AprobarNotaVenta(@doc[i].Id)"></button>
-                                                <button class="btn btn-warning btn-xs"><img src="~/Content/Image/delete.png" onclick="RechazarNotaVenta(@doc[i].Id,@doc[i].NVNumero)"></button>
+                                                <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id,'@doc[i].RutAux')">@*<img src="~/Content/Image/zoom.png" />*@Detalle</button>
+                                                <button class="btn btn-warning btn-xs"><a@*img src="~/Content/Image/ok.png"*@ onclick="AprobarNotaVenta(@doc[i].Id)">Aprobar</button>
+                                                <button class="btn btn-warning btn-xs"><a@*img src="~/Content/Image/delete.png"*@ onclick="RechazarNotaVenta(@doc[i].Id,@doc[i].NVNumero)">Rechazar</button>
                                             }
                                             else
                                             {
