@@ -312,6 +312,8 @@
                     </div>
                 </div>
                 <div class="panel-body">
+                    <input id="hfPrecioUnitarioConDescuento" type="hidden" value="" />
+                    <input id="hfSubTotalConDescuento" type="hidden" value="" />
                     <table id="user" class="table table-condensed table-bordered table-responsive ">
                         <thead>
                             <tr>
@@ -419,25 +421,6 @@
                         <div class="table-responsive">
                             <table id="user" class="table table-condensed table-bordered">
                                 <tbody>
-                                    <tr>
-                                        <td class="tg-0lax">
-                                            <input type="hidden" id="contador_registros" name="contador_registros" value=@numero1>
-                                            <b><span> Sub-Total Neto</span></b>
-                                        </td>
-                                        <td style="text-align: right" class="tg-0lax">
-                                            <h4><label id="lbtotal">0</label></h4>
-                                            <input type="hidden" id="txttotal" name="txttotal" value=@total1>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="tg-0lax">
-                                            <b><span> Impuesto</span></b>
-                                        </td>
-                                        <td style="text-align: right" class="tg-0lax">
-                                            <h4><label id="lbimpuesto">0</label></h4>
-                                            <input type="hidden" id="txtimpuesto" name="txtimpuesto" value=@impuesto>
-                                        </td>
-                                    </tr>
                                     <tr style="display: none" id="trDescuento1">
                                         <td class="tg-0lax">
                                             <b><span> Descuento N°1</span></b>
@@ -484,6 +467,25 @@
                                     </tr>
                                     <tr>
                                         <td class="tg-0lax">
+                                            <input type="hidden" id="contador_registros" name="contador_registros" value=@numero1>
+                                            <b><span> Sub-Total Neto</span></b>
+                                        </td>
+                                        <td style="text-align: right" class="tg-0lax">
+                                            <h4><label id="lbtotal">0</label></h4>
+                                            <input type="hidden" id="txttotal" name="txttotal" value=@total1>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tg-0lax">
+                                            <b><span> Impuesto</span></b>
+                                        </td>
+                                        <td style="text-align: right" class="tg-0lax">
+                                            <h4><label id="lbimpuesto">0</label></h4>
+                                            <input type="hidden" id="txtimpuesto" name="txtimpuesto" value=@impuesto>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tg-0lax">
                                             <b><span> Total Final</span></b>
                                         </td>
                                         <td style="text-align: right" class="tg-0lax">
@@ -505,9 +507,38 @@
 </div>
 <div id="divAlertaOkGeneracionNV" style="display: none" class="alert alert-success" role="alert">
     <h4 class="alert-heading">Nota de Pedido Generada</h4>
-    <p>Nota de pedido a sido generada con exito <label id="divAlertaOkGeneracionNVPendiente">(enviado a aprobacion)</label></p>
-    <div id="divAlertaOkGeneracionNVInterno">
-        <p>N° Nota de Pedido (Interno): <label id="divAlertaOkGeneracionNVIdInterno"></label></p>
+    <p>Nota(s) de pedido generada(s) con exito <label id="divAlertaOkGeneracionNVPendiente">(enviado a aprobacion)</label></p>
+    <div class="row" id="divAlertaOkGeneracionNVInterno">
+        <div class="col-lg-8">
+        </div>
+        <div class="col-lg-8">
+            <div class="panel panel-inverse" data-sortable-id="ui-widget-2">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Notas de pedido creadas</h4>
+                    <div class="panel-heading-btn">
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>-->
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>-->
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>-->
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>-->
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <input id="hfPrecioUnitarioConDescuento" type="hidden" value="" />
+                    <input id="hfSubTotalConDescuento" type="hidden" value="" />
+                    <table id="tblResultadoAgregarNV" class="table table-condensed table-bordered">
+                        <thead>
+                            <tr>
+                                <th>N° Nota Pedido Interno</th>
+                                <th>N° Nota Pedido Softland</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+        </div>
     </div>
     <hr>
     <p class="mb-0">Para volver a generar una nueva nota de pedido, presione <a href="javascript:location.reload()">aqui</a>.</p>

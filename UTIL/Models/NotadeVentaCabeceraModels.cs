@@ -19,7 +19,8 @@ namespace UTIL.Models
         public string DescCC { get; set; }
         public int stocklista { get; set; }
         public List<DescuentoProductoAgregadoModel> Descuentos { get; set; }
-
+        public double nvSubTotalConDescuento { get; set; }
+        
         #endregion
 
         #region Campos SOFTLAND
