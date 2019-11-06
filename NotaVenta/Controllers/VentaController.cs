@@ -141,7 +141,7 @@ namespace NotaVenta.Controllers
             ViewBag.VendedorCliente = vendedorCliente;
             CreditoModel credito = controlDisofi().ObtenerCredito(cliente.CodAux, baseDatosUsuario());
 
-            if (parametros.ManejaLineaCredito)
+            if (parametros.ManejaLineaCreditoVendedor)
             {
                 if (credito != null)
                 {

@@ -89,7 +89,8 @@
     <input type="hidden" id="ManejaTallaColor" value="@parametros.ManejaTallaColor.ToString()" />
     <input type="hidden" id="ManejaDescuentoTotalDocumento" value="@parametros.ManejaDescuentoTotalDocumento.ToString()" />
     <input type="hidden" id="CantidadDescuentosTotalDocumento" value="@parametros.CantidadDescuentosTotalDocumento" />
-    <input type="hidden" id="ManejaLineaCredito" value="@parametros.ManejaLineaCredito.ToString()" />
+    <input type="hidden" id="ManejaLineaCreditoVendedor" value="@parametros.ManejaLineaCreditoVendedor.ToString()" />
+    <input type="hidden" id="ManejaLineaCreditoAprobador" value="@parametros.ManejaLineaCreditoAprobador.ToString()" />
     <input type="hidden" id="ManejaCanalVenta" value="@parametros.ManejaCanalVenta.ToString()" />
     <input type="hidden" id="PermiteModificacionCondicionVenta" value="@parametros.PermiteModificacionCondicionVenta.ToString()" />
     <input type="hidden" id="AtributoSoftlandDescuentoCliente" value="@parametros.AtributoSoftlandDescuentoCliente" />
@@ -236,7 +237,7 @@
                                         </select>
                                     </td>
                                 </tr>
-                                @if (parametros.ManejaLineaCredito)
+                                @if (parametros.ManejaLineaCreditoVendedor)
                                 {
                                     <tr class="highlight">
                                         <td>Credito</td>
