@@ -547,18 +547,17 @@ function CalcularProductosAgregados() {
             type: "POST",
             data: { productos: dataPost, descuentos: descuentos, porcentajeAtributoDescuento: porcentajeAtributoDescuento },
             success: function (result) {
-                var subTotal = result.SubTotal;
                 var impuesto = result.Impuesto;
                 descuentos = result.descuentos;
                 var total = result.Total;
 
-                totales.subTotal = subTotal;
-                totales.subTotalConDescuento = result.SubTotalConDescuento
+                totales.subTotal = result.SubTotal;
+                totales.subTotalConDescuento = result.SubTotalConDescuento;
                 totales.impuesto = impuesto;
                 totales.total = total;
                 totales.descuentos = descuentos;
 
-                $('#lbtotal').text(subTotal);
+                $('#lbtotal').text(result.SubTotalConDescuento);
                 $('#lbimpuesto').text(impuesto);
                 $('#lbtotalfinal').text(total);
             },
@@ -1019,15 +1018,26 @@ function agregarnotadeventa() {
         data: dataNotaVenta,
         success: function (result) {
             if (result.EstadoNP === "P") {
-                $("#divAlertaOkGeneracionNVPendiente").html(result.NVNumero);
+                $("#divAlertaOkGeneracionNVPendiente").fadeIn();
             }
-            if (result.NVNumero > 0) {
-                $("#divAlertaOkGeneracionNVSoftland").fadeIn();
-                $("#divAlertaOkGeneracionNVIdSoftland").html(result.NVNumero);
+            else {
+                $("#divAlertaOkGeneracionNVPendiente").fadeOut();
             }
-            if (result.IdNotaVenta > 0) {
-                $("#divAlertaOkGeneracionNVInterno").fadeIn();
-                $("#divAlertaOkGeneracionNVIdInterno").html(result.IdNotaVenta);
+            var tblFinal = $("#tblResultadoAgregarNV tbody");
+            for (i = 0; i < result.length; i++) {
+                var idInterno = result[i].IdNotaVenta;
+                var idSoftland = result[i].NVNumero;
+
+                if (idInterno <= 0) {
+                    idInterno = "Sin registros";
+                }
+                if (idSoftland <= 0) {
+                    idSoftland = "Sin registros";
+                }
+
+                var fila = "<tr><td>" + idInterno + "</td><td>" + idSoftland + "</td></tr>";
+
+                tblFinal.append(fila);
             }
 
             $("#divFormulacioCompletoIngresoDatos").fadeOut();

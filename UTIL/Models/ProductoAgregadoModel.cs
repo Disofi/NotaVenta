@@ -16,6 +16,7 @@ namespace UTIL.Models
         public decimal Stock { get; set; }
         public string UnidadMedida { get; set; }
         public List<DescuentoProductoAgregadoModel> Descuentos { get; set; }
+        public decimal DescuentoAtributo { get; set; }
         public decimal SubTotal { get; set; }
         public decimal SubTotalConDescuento { get; set; }
         public decimal Total { get; set; }
