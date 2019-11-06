@@ -409,7 +409,7 @@ namespace NotaVenta.Controllers
                 cabecera.NomCon = (cabecera.NomCon == null || cabecera.NomCon == "") ? "SIN COCTACTO" : cabecera.NomCon;
                 cabecera.CodiCC = cabecera.CodiCC == "-1" ? null : cabecera.CodiCC;
                 //cabecera.CodBode = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa;
-                cabecera.nvSubTotal = para.DescuentoTotalDirectoSoftland ? cabecera.TotalBoleta : cabecera.nvSubTotal;
+                cabecera.nvSubTotal = para.DescuentoTotalDirectoSoftland ? cabecera.nvSubTotal : cabecera.nvSubTotalConDescuento;
 
                 int totalDescuento = 0;
                 if (cabecera.Descuentos != null && cabecera.Descuentos.Count > 0 && para.DescuentoTotalDirectoSoftland)
@@ -532,9 +532,9 @@ namespace NotaVenta.Controllers
                             detalle.nvFecCompr = DateTime.Now;
                             detalle.CodProd = productos[x].Codigo;
                             detalle.nvCant = Convert.ToDouble(productos[x].Cantidad);
-                            detalle.nvPrecio = Convert.ToDouble(productos[x].PrecioUnitario);
+                            detalle.nvPrecio = para.DescuentoLineaDirectoSoftland ? Convert.ToDouble(productos[x].PrecioUnitario) : Convert.ToDouble(productos[x].PrecioUnitarioConDescuento);
                             detalle.nvEquiv = 1;
-                            detalle.nvSubTotal = para.DescuentoLineaDirectoSoftland ? Convert.ToDouble(productos[x].SubTotal) : Convert.ToDouble(productos[x].Total);
+                            detalle.nvSubTotal = para.DescuentoLineaDirectoSoftland ? Convert.ToDouble(productos[x].SubTotal) : Convert.ToDouble(productos[x].SubTotalConDescuento);
                             totalDescuento = 0;
                             if (productos[x].Descuentos != null && productos[x].Descuentos.Count > 0 && para.DescuentoLineaDirectoSoftland)
                             {
@@ -879,18 +879,22 @@ namespace NotaVenta.Controllers
             }
 
             decimal subTotal = 0;
+            decimal subTotalConDescuento = 0;
             decimal total = 0;
 
-            subTotal = precioUnitarioConDescuento * _cantidad;
+            subTotal = precioUnitario * _cantidad;
+            subTotalConDescuento = precioUnitarioConDescuento * _cantidad;
 
-            total = subTotal;
+            total = subTotalConDescuento;
 
             return new ProductoAgregadoModel()
             {
                 PrecioUnitario = _precioUnitario,
+                PrecioUnitarioConDescuento = precioUnitarioConDescuento,
                 Cantidad = _cantidad,
                 Descuentos = _descuentos,
                 SubTotal = subTotal,
+                SubTotalConDescuento = subTotalConDescuento,
                 ValorDescuentoAtributo = valorAtributoDescuento,
                 Total = total
             };
@@ -907,30 +911,35 @@ namespace NotaVenta.Controllers
         {
             if (descuentos == null) { descuentos = new List<DescuentoProductoAgregadoModel>(); }
             decimal subTotal = 0;
-            decimal impuesto = 0;
-            decimal total = 0;
+            decimal subTotalConDescuento = 0;
 
             foreach (ProductoAgregadoModel item in productos)
             {
                 ProductoAgregadoModel producto = CalcularFilaFunction(item.PrecioUnitario, item.Cantidad, item.Descuentos, porcentajeAtributoDescuento);
                 subTotal = subTotal + producto.Total;
+                subTotalConDescuento = subTotal;
             }
-            subTotal = Convert.ToInt32(subTotal);
-            impuesto = Convert.ToInt32(((subTotal * 19) / 100));
-            total = subTotal + impuesto;
 
             for (int X = 0; X < descuentos.Count; X++)
             {
-                decimal valorDescuento = Convert.ToInt32(((total * descuentos[X].Porcentaje) / 100));
+                decimal valorDescuento = Convert.ToInt32(((subTotal * descuentos[X].Porcentaje) / 100));
                 descuentos[X].Valor = valorDescuento;
-                total = total - Convert.ToInt32(valorDescuento);
+                subTotal = subTotal - Convert.ToInt32(valorDescuento);
             }
+
+            decimal impuesto = 0;
+            decimal total = 0;
+
+            subTotal = Convert.ToInt32(subTotal);
+            impuesto = Convert.ToInt32(((subTotal * 19) / 100));
+            total = subTotal + impuesto;
 
             return Json(new
             {
                 Productos = productos,
                 descuentos = descuentos,
                 SubTotal = Convert.ToInt32(subTotal),
+                SubTotalConDescuento = subTotalConDescuento,
                 Impuesto = Convert.ToInt32(impuesto),
                 Total = Convert.ToInt32(total)
             });

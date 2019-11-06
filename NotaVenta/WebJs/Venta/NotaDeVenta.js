@@ -234,7 +234,7 @@ var handleEditableFormAjaxCall = function () {
             if (settings.data.name === "txtIngresoCantidad") {
                 if (/^([0-9])*$/.test(settings.data.value)) {
                     if (parseFloat(settings.data.value) > 0) {
-                        if (parametros.ControlaStockProducto) {
+                        if (parametros.ControlaStockProducto && parametros.MuestraStockProducto) {
                             var stock = parseFloat(objetosEditable.stock.getValor());
                             var cantidad = parseFloat(settings.data.value);
 
@@ -454,7 +454,7 @@ function cbxlistaChange() {
                     textoVacio: "Busqueda de Producto",
                     fuenteDatos: productos.map(m => { return { id: m.busqueda, text: m.busqueda } }),
                     select2: {
-                        width: '100%',
+                        width: '300',
                         placeholder: 'Seleccione Productos',
                         allowClear: true
                     }
@@ -520,6 +520,9 @@ function CalcularFila(precioUnitario, cantidad, descuentos, porcentajeAtributoDe
             descuentosAgregadosProducto = result.Descuentos;
             var valorDescuentoAtributo = result.ValorDescuentoAtributo;
 
+            $("#hfSubTotalConDescuento").val(result.SubTotalConDescuento);
+            $("#hfPrecioUnitarioConDescuento").val(result.PrecioUnitarioConDescuento);
+
             objetosEditable.valorAtributoDescuento.setValor(parseInt(valorDescuentoAtributo));
             objetosEditable.subTotal.setValor(parseInt(subTotal));
             objetosEditable.total.setValor(parseInt(total));
@@ -550,6 +553,7 @@ function CalcularProductosAgregados() {
                 var total = result.Total;
 
                 totales.subTotal = subTotal;
+                totales.subTotalConDescuento = result.SubTotalConDescuento
                 totales.impuesto = impuesto;
                 totales.total = total;
                 totales.descuentos = descuentos;
@@ -593,8 +597,10 @@ function addRow() {
     var stock = objetosEditable.stock.getValor();
     var medida = objetosEditable.unidadDeMedida.getValor();
     var preciounitario = objetosEditable.neto.getValor();
+    var precioUnitarioConDescuento = $("#hfPrecioUnitarioConDescuento").val();
     var porcentajeAtributoDescuento = objetosEditable.valorAtributoDescuento.getValor();
-    var subtotal = objetosEditable.subTotal.getValor();
+    var subTotal = objetosEditable.subTotal.getValor();
+    var subTotalConDescuento = $("#hfSubTotalConDescuento").val();
     var descuento = descuentosAgregadosProducto;
     var total = objetosEditable.total.getValor();
     var talla = verTallaColorTalla;
@@ -630,11 +636,11 @@ function addRow() {
             + '<td style="text-align: right"><span id="lblCantidad_' + contador + '">' + cantidad + '</td>'
             + '<td style="' + (parametros.MuestraUnidadMedidaProducto ? '' : 'display: none') + '"><span id="lblMedida_' + contador + '">' + medida + '</td>'
             + '<td style="text-align: right"><span id="lblPrecioUnitario_' + contador + '">' + preciounitario + '</td>'
-            + '<td style="text-align: right"><span id="lblSubTotal_' + contador + '">' + subtotal + '</td>'
+            + '<td style="text-align: right"><span id="lblSubTotal_' + contador + '">' + subTotal + '</td>'
             + '<td style="' + (PorcentajeAtributoDescuento > 0 ? '' : 'display: none') + '"><span id="lblAtributoDescuento_' + contador + '">' + porcentajeAtributoDescuento + '</td>'
             + (descuento.length === 0 ? '<td style="text-align: right"><span id="lblDescuento_' + contador + '">0</td>' :
                 descuento.length === 1 ?
-                    '<td style="text-align: right"><span id="lblDescuento_' + contador + '">' + descuento[0].Porcentaje + '</td>' :
+                    '<td style="text-align: right"><span id="lblDescuento_' + contador + '">' + descuento[0].Porcentaje + '%' + '</td>' :
                     '<td><a class="editable editable-click editable-empty" id="verDescuentos_' + contador + '" onclick="verDescuentos(' + contador + ')">Ver Descuentos</a></td>')
             + '<td style="text-align: right"><span id="lblTotal_' + contador + '">' + total + '</td>'
             + '<td><a id="thproductolist' + contador + '" href="#divCodigo" onclick="eliminarFilas(' + contador + ');"><img src="../Content/Image/delete.png" /></a></td>'
@@ -651,12 +657,14 @@ function addRow() {
             Color: color,
             contador: contador,
             PrecioUnitario: preciounitario,
+            PrecioUnitarioConDescuento: precioUnitarioConDescuento,
             Cantidad: cantidad,
             Stock: stock,
             UnidadMedida: medida,
             Descuentos: descuento,
             DescuentoAtributo: PorcentajeAtributoDescuento,
-            SubTotal: subtotal,
+            SubTotal: subTotal,
+            SubTotalConDescuento: subTotalConDescuento,
             Total: total
         };
 
@@ -700,7 +708,7 @@ function verDescuentos(contador) {
             + 'Descuento N°' + (i + 1)
             + '</td>'
             + '<td style="text-align: right">'
-            + producto.Descuentos[i].Porcentaje
+            + producto.Descuentos[i].Porcentaje + '%'
             + '</td>'
             + '</tr>';
     }
@@ -951,6 +959,7 @@ function agregarnotadeventa() {
         CodiCC: CodiCC,
         //CodBode: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         nvSubTotal: totales.subTotal,
+        nvSubTotalConDescuento: totales.subTotalConDescuento,
         //nvPorcDesc01: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //nvDescto01: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //nvPorcDesc02: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,

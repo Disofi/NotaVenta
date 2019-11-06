@@ -312,6 +312,8 @@
                     </div>
                 </div>
                 <div class="panel-body">
+                    <input id="hfPrecioUnitarioConDescuento" type="hidden" value="" />
+                    <input id="hfSubTotalConDescuento" type="hidden" value="" />
                     <table id="user" class="table table-condensed table-bordered">
                         <thead>
                             <tr>
@@ -419,25 +421,6 @@
                         <div class="table-responsive">
                             <table id="user" class="table table-condensed table-bordered">
                                 <tbody>
-                                    <tr>
-                                        <td class="tg-0lax">
-                                            <input type="hidden" id="contador_registros" name="contador_registros" value=@numero1>
-                                            <b><span> Sub-Total Neto</span></b>
-                                        </td>
-                                        <td style="text-align: right" class="tg-0lax">
-                                            <h4><label id="lbtotal">0</label></h4>
-                                            <input type="hidden" id="txttotal" name="txttotal" value=@total1>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="tg-0lax">
-                                            <b><span> Impuesto</span></b>
-                                        </td>
-                                        <td style="text-align: right" class="tg-0lax">
-                                            <h4><label id="lbimpuesto">0</label></h4>
-                                            <input type="hidden" id="txtimpuesto" name="txtimpuesto" value=@impuesto>
-                                        </td>
-                                    </tr>
                                     <tr style="display: none" id="trDescuento1">
                                         <td class="tg-0lax">
                                             <b><span> Descuento N°1</span></b>
@@ -480,6 +463,25 @@
                                         </td>
                                         <td style="text-align: right" class="tg-0lax">
                                             <input class="form-control" type="text" id="txtDescuentoTotal5" value="0" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tg-0lax">
+                                            <input type="hidden" id="contador_registros" name="contador_registros" value=@numero1>
+                                            <b><span> Sub-Total Neto</span></b>
+                                        </td>
+                                        <td style="text-align: right" class="tg-0lax">
+                                            <h4><label id="lbtotal">0</label></h4>
+                                            <input type="hidden" id="txttotal" name="txttotal" value=@total1>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tg-0lax">
+                                            <b><span> Impuesto</span></b>
+                                        </td>
+                                        <td style="text-align: right" class="tg-0lax">
+                                            <h4><label id="lbimpuesto">0</label></h4>
+                                            <input type="hidden" id="txtimpuesto" name="txtimpuesto" value=@impuesto>
                                         </td>
                                     </tr>
                                     <tr>
