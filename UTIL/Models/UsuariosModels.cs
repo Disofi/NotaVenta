@@ -23,5 +23,7 @@ namespace UTIL.Models
 
         public int BaseDatos { get; set; }
 
+        public string ContrasenaCorreo { get; set; }
+
     }
 }

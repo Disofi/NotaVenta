@@ -568,7 +568,7 @@ CREATE PROCEDURE [dbo].[Ds_RechazarNP]
 AS
 UPDATE dbo.DS_NotasVenta
 SET
-    dbo.DS_NotasVenta.EstadoNP	= 'R',dbo.DS_NotasVenta.nvEstado = 'R' WHERE dbo.DS_NotasVenta.Id = @nvId
+    dbo.DS_NotasVenta.EstadoNP	= 'R',dbo.DS_NotasVenta.nvEstado = 'R', dbo.DS_NotasVenta.nvObser = 'Rechazada' WHERE dbo.DS_NotasVenta.Id = @nvId
 GO
 /****** Object:  StoredProcedure [dbo].[DS_SET_ActualizaCorreo]    Script Date: 05-11-2019 11:46:10 ******/
 SET ANSI_NULLS ON
@@ -1413,18 +1413,16 @@ CREATE PROCEDURE [dbo].[FR_AgregarUsuario]
 	@email	varchar(50),
 	@Contrasena varchar(150),
 	@tipoUsuario	varchar(50),
-	@Nombre varchar (100)
-AS
-
+	@Nombre varchar (100),
+	@ContrasenaCorreo varchar(100)
+ AS
 DECLARE @CantVenCod int
 DECLARE @IdUsuario int
-
 SET @CantVenCod	= (SELECT count(*) AS cantidad FROM dbo.DS_Usuarios du WHERE Usuario = @Usuario AND du.Estado = 1)
-
 if(@CantVenCod = 0)
 BEGIN
-	INSERT INTO [dbo].[DS_Usuarios] ([Usuario],[Contrasena],[email],[tipoUsuario],[Nombre],[Estado])
-		VALUES(@Usuario,(@Contrasena), @email, @tipoUsuario, @Nombre,1)
+	INSERT INTO [dbo].[DS_Usuarios] ([Usuario],[Contrasena],[email],[tipoUsuario],[Nombre],[ContrasenaCorreo],[Estado])
+		VALUES(@Usuario,(@Contrasena), @email, @tipoUsuario, @Nombre,@ContrasenaCorreo,1)
 	 
 SET @IdUsuario = (SELECT SCOPE_IDENTITY() AS [SCOPE_IDENTITY])	
 
@@ -2111,6 +2109,7 @@ CREATE procedure [dbo].[FR_ListarDocumentosAprobados]
 	a.nvNetoAfecto, 
 	a.TotalBoleta, 
 	a.EstadoNP, 
+	a.nvSubTotal,
 	ISNULL(a.RutSolicitante,0) as RutSolicitante
 	from [dbo].[DS_NotasVenta] a
 	inner join ['+@pv_BaseDatos+'].[softland].[cwtauxi] clientes on  clientes.CodAux collate Modern_Spanish_CI_AS = a.CodAux 
@@ -2126,34 +2125,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE procedure [dbo].[FR_ListarDocumentosPendientes]
-@pv_BaseDatos varchar(100)
+	@pv_BaseDatos varchar(100)
 	AS
---	DECLARE @Saldo Float
---	DECLARE @SaldoFacPend Float
---	DECLARE @SaldoDoctoContab Float
-
-
-
---SELECT @SaldoFacPend = (SUM(movim.MovDebe)-SUM(movim.MovHaber))  FROM [KUPPEL].[Softland].[cwmovim] AS movim
---			LEFT JOIN [KUPPEL].[Softland].[cwcpbte] pbte ON pbte.CpbAno=movim.CpbAno AND pbte.cpbNum=movim.CpbNum
---			LEFT JOIN [KUPPEL].[Softland].[cwpctas] ctas ON ctas.PCCODI=movim.PctCod
---			LEFT JOIN [KUPPEL].[Softland].[cwtauxi] auxi ON auxi.CodAux=movim.CodAux
---			LEFT JOIN [KUPPEL].[Softland].[iw_gsaen] gsaen ON gsaen.folio=movim.MovNumDocRef
---			WHERE pbte.CpbEst='V' AND ctas.PCCODI in ('1-1-03','1-1-16') AND movim.CpbAno = YEAR(GETDATE()) AND movim.codaux=@Codaux
-
---SELECT @SaldoDoctoContab = (Sum(movin.movdebe) - sum(movin.movhaber))
---			FROM [KUPPEL].[Softland].[cwmovim] movin 
---			LEFT JOIN [KUPPEL].[Softland].cwcpbte pbte on pbte.cpbano = movin.cpbano and pbte.cpbnum = movin.cpbnum
---			LEFT JOIN [KUPPEL].[Softland].cwtauxi auxi on movin.CodAux = auxi.CodAux
---			WHERE pbte.cpbest = 'V' AND movin.codaux=@codaux group by movin.codaux
---			Having ((Sum(movin.movdebe) - sum(movin.movhaber)) <> 0) and max(auxi.nomaux) is not null and max(movin.CpbAno) = 2015
---			order by max(auxi.nomaux),DATEPART (week,max(movin.MovFv)) ASC
-
---SET @Saldo	 = @SaldoFacPend - @SaldoDoctoContab
-
-
-
-
 	DECLARE @query varchar (max)
 	SELECT @query = ''
 	SELECT @query = @query + '
@@ -2195,7 +2168,6 @@ CREATE procedure [dbo].[FR_ListarDocumentosPendientes]
 	left join [dbo].[DS_NotasVentaDetalle] c on a.Id = c.IdNotaVenta
 	where a.EstadoNP = ''P''
 '
-
 exec (@query)
 
 --[FR_ListarDocumentosPendientes] 'transporte'
@@ -2222,6 +2194,7 @@ create procedure [dbo].[FR_ListarDocumentosRechazadas]
 	a.nvNetoAfecto, 
 	a.TotalBoleta, 
 	a.EstadoNP, 
+	A.nvSubTotal,
 	ISNULL(a.RutSolicitante,0) as RutSolicitante
 	from [dbo].[DS_NotasVenta] a
 	inner join ['+@pv_BaseDatos+'].[softland].[cwtauxi] clientes on  clientes.CodAux collate Modern_Spanish_CI_AS = a.CodAux 
@@ -3085,7 +3058,7 @@ GO
 /*-- Modificaciones		:														*/
 /*------------------------------------------------------------------------------*/
 CREATE PROCEDURE [dbo].[JS_ListarMisClientes]
-	@cod nchar(10)
+    @cod nchar(10)
 ,	@ID int
 ,	@pv_BaseDatos varchar(100)
 AS
@@ -3112,12 +3085,9 @@ BEGIN
 			ON (c.CodAux = a.CodAux) 
 		INNER JOIN ['+@pv_BaseDatos+'].softland.cwtvend B 
 			ON (b.VenCod = a.VenCod) 
-		INNER JOIN [dbo].[DS_UsuarioEmpresa] D 
-			ON (b.VenCod collate Modern_Spanish_CI_AS = d.VenCod) 
 		LEFT JOIN ['+@pv_BaseDatos+'].softland.cwtcvcl as vcl 
 			ON vcl.CodAux = A.CodAux
-	WHERE	D.VenCod = ''' + @cod + '''
-	and		D.IdUsuario = ' + CONVERT(VARCHAR(20), @ID ) + '
+	WHERE	b.VenCod = ''' + @cod + '''
 	AND		C.Bloqueado	<> ''S''
 	'
 
