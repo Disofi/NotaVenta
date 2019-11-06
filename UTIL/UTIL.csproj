@@ -55,6 +55,7 @@
     <Compile Include="Models\NotaDeVentaDetalleModels.cs" />
     <Compile Include="Models\ParametrosModels.cs" />
     <Compile Include="Models\DescuentoProductoAgregadoModel.cs" />
+    <Compile Include="Models\CabeceraModel.cs" />
     <Compile Include="Models\ProductoAgregadoModel.cs" />
     <Compile Include="Models\TallaColorProductoModels.cs" />
     <Compile Include="Models\ProductosModels.cs" />
