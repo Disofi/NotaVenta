@@ -60,7 +60,9 @@ namespace UTIL.Models
         //- CONTROLAR CANTIDAD DE LINEAS DE NP POR IMPRESION DE DOCUMENTO
         public int CantidadLineas { get; set; }
         //- LINEA DE CREDITO -> VISUALIZACIÓN //	- CONTROL CREACION NOTA DE VENTA	
-        public bool ManejaLineaCredito { get; set; }
+        public bool ManejaLineaCreditoVendedor { get; set; }
+        //- LINEA DE CREDITO -> VISUALIZACIÓN //	- CONTROL CREACION NOTA DE VENTA	
+        public bool ManejaLineaCreditoAprobador { get; set; }
         //- CLIENTE OCUPA CANAL DE VENTA SI/NO
         public bool ManejaCanalVenta { get; set; }
         //- CREACION NOTA DE VENTA CON USUARIOS BLOQUEADOS.

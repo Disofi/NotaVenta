@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Mapper.cs" />
     <Compile Include="Models\AprobadorModels.cs" />
+    <Compile Include="Models\CanalVentaModels.cs" />
     <Compile Include="Models\CentrodeCostoModels.cs" />
     <Compile Include="Models\ClientesModels.cs" />
     <Compile Include="Models\CondicionVentasModels.cs" />

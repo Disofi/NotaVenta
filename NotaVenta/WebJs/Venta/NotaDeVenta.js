@@ -63,7 +63,8 @@ $(document).ready(function () {
         /**/ManejaTallaColor: ($("#ManejaTallaColor").val().toLowerCase() === "true"),
         /**/ManejaDescuentoTotalDocumento: ($("#ManejaDescuentoTotalDocumento").val().toLowerCase() === "true"),
         /**/CantidadDescuentosTotalDocumento: parseInt($("#CantidadDescuentosTotalDocumento").val()),
-        /**/ManejaLineaCredito: ($("#ManejaLineaCredito").val().toLowerCase() === "true"),
+        /**/ManejaLineaCreditoVendedor: ($("#ManejaLineaCreditoVendedor").val().toLowerCase() === "true"),
+        /**/ManejaLineaCreditoAprobador: ($("#ManejaLineaCreditoAprobador").val().toLowerCase() === "true"),
         ManejaCanalVenta: ($("#ManejaCanalVenta").val().toLowerCase() === "true"),
         PermiteModificacionCondicionVenta: ($("#PermiteModificacionCondicionVenta").val().toLowerCase() === "true"),
         /**/AtributoSoftlandDescuentoCliente: $("#AtributoSoftlandDescuentoCliente").val(),
@@ -453,7 +454,7 @@ function cbxlistaChange() {
                     textoVacio: "Busqueda de Producto",
                     fuenteDatos: productos.map(m => { return { id: m.busqueda, text: m.busqueda } }),
                     select2: {
-                        width: 'resolve',
+                        width: '100%',
                         placeholder: 'Seleccione Productos',
                         allowClear: true
                     }
@@ -915,6 +916,7 @@ function agregarnotadeventa() {
     var FechaHoraCreacion = $('#txtfechapedido').val();
     var TotalBoleta = $('#txttotalfinal').val();
     var id = $('#txtid').val();
+    var canalVenta = $("#ddlCanalVenta").val();
     var CodLugarDesp = '';
     if (validespa == 'No Tiene Dirección Asociado') {
     }
@@ -943,7 +945,7 @@ function agregarnotadeventa() {
         //CodMon: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         CodLista: CodLista,
         nvObser: nvObser,
-        //nvCanalNV: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        nvCanalNV: canalVenta,
         CveCod: CveCod,
         NomCon: contacto,
         CodiCC: CodiCC,

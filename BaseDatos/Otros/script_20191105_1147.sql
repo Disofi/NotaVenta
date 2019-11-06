@@ -179,7 +179,8 @@ CREATE TABLE [dbo].[DS_Parametros](
 	[ManejaDescuentoTotalDocumento] [bit] NULL,
 	[CantidadDescuentosTotalDocumento] [int] NULL,
 	[CantidadLineas] [int] NULL,
-	[ManejaLineaCredito] [bit] NULL,
+	[ManejaLineaCreditoVendedor] [bit] NULL,
+	[ManejaLineaCreditoAprobador] [bit] NULL,
 	[ManejaCanalVenta] [bit] NULL,
 	[CreacionNotaVentaUsuariosBloqueados] [bit] NULL,
 	[CreacionNotaVentaUsuariosInactivos] [bit] NULL,
@@ -297,11 +298,11 @@ SET IDENTITY_INSERT [dbo].[DS_Empresa] OFF
 GO
 SET IDENTITY_INSERT [dbo].[DS_Parametros] ON 
 GO
-INSERT [dbo].[DS_Parametros] ([Id], [IdEmpresa], [MultiEmpresa], [ManejaAdministrador], [ManejaAprobador], [ListaClientesVendedor], [ListaClientesTodos], [ValidaReglasNegocio], [ManejaListaPrecios], [EditaPrecioProducto], [MuestraCondicionVentaCliente], [MuestraCondicionVentaTodos], [EditaDescuentoProducto], [MaximoDescuentoProducto], [CantidadDescuentosProducto], [MuestraStockProducto], [StockProductoEsMasivo], [StockProductoEsBodega], [StockProductoCodigoBodega], [ControlaStockProducto], [EnvioMailCliente], [EnvioMailVendedor], [EnvioMailContacto], [EnvioObligatorioAprobador], [ManejaTallaColor], [ManejaDescuentoTotalDocumento], [CantidadDescuentosTotalDocumento], [CantidadLineas], [ManejaLineaCredito], [ManejaCanalVenta], [CreacionNotaVentaUsuariosBloqueados], [CreacionNotaVentaUsuariosInactivos], [PermiteModificacionCondicionVenta], [AtributoSoftlandDescuentoCliente], [PermiteCrearDireccion], [CrearClienteConDV], [MuestraUnidadMedidaProducto], [DescuentoLineaDirectoSoftland], [DescuentoTotalDirectoSoftland]) VALUES (1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, CAST(20.00 AS Decimal(18, 2)), 5, 1, 1, 0, N'', 1, 1, 1, 1, 0, 0, 1, 5, 30, 0, 1, 0, 0, 0, N'', 1, 0, 0, 0, 0)
+INSERT [dbo].[DS_Parametros] ([Id], [IdEmpresa], [MultiEmpresa], [ManejaAdministrador], [ManejaAprobador], [ListaClientesVendedor], [ListaClientesTodos], [ValidaReglasNegocio], [ManejaListaPrecios], [EditaPrecioProducto], [MuestraCondicionVentaCliente], [MuestraCondicionVentaTodos], [EditaDescuentoProducto], [MaximoDescuentoProducto], [CantidadDescuentosProducto], [MuestraStockProducto], [StockProductoEsMasivo], [StockProductoEsBodega], [StockProductoCodigoBodega], [ControlaStockProducto], [EnvioMailCliente], [EnvioMailVendedor], [EnvioMailContacto], [EnvioObligatorioAprobador], [ManejaTallaColor], [ManejaDescuentoTotalDocumento], [CantidadDescuentosTotalDocumento], [CantidadLineas], [ManejaLineaCreditoVendedor], [ManejaLineaCreditoAprobador], [ManejaCanalVenta], [CreacionNotaVentaUsuariosBloqueados], [CreacionNotaVentaUsuariosInactivos], [PermiteModificacionCondicionVenta], [AtributoSoftlandDescuentoCliente], [PermiteCrearDireccion], [CrearClienteConDV], [MuestraUnidadMedidaProducto], [DescuentoLineaDirectoSoftland], [DescuentoTotalDirectoSoftland]) VALUES (1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, CAST(20.00 AS Decimal(18, 2)), 5, 1, 1, 0, N'', 1, 1, 1, 1, 0, 0, 1, 5, 30, 0, 0, 1, 0, 0, 0, N'', 1, 0, 0, 0, 0)
 GO
-INSERT [dbo].[DS_Parametros] ([Id], [IdEmpresa], [MultiEmpresa], [ManejaAdministrador], [ManejaAprobador], [ListaClientesVendedor], [ListaClientesTodos], [ValidaReglasNegocio], [ManejaListaPrecios], [EditaPrecioProducto], [MuestraCondicionVentaCliente], [MuestraCondicionVentaTodos], [EditaDescuentoProducto], [MaximoDescuentoProducto], [CantidadDescuentosProducto], [MuestraStockProducto], [StockProductoEsMasivo], [StockProductoEsBodega], [StockProductoCodigoBodega], [ControlaStockProducto], [EnvioMailCliente], [EnvioMailVendedor], [EnvioMailContacto], [EnvioObligatorioAprobador], [ManejaTallaColor], [ManejaDescuentoTotalDocumento], [CantidadDescuentosTotalDocumento], [CantidadLineas], [ManejaLineaCredito], [ManejaCanalVenta], [CreacionNotaVentaUsuariosBloqueados], [CreacionNotaVentaUsuariosInactivos], [PermiteModificacionCondicionVenta], [AtributoSoftlandDescuentoCliente], [PermiteCrearDireccion], [CrearClienteConDV], [MuestraUnidadMedidaProducto], [DescuentoLineaDirectoSoftland], [DescuentoTotalDirectoSoftland]) VALUES (2, 2, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, CAST(50.00 AS Decimal(18, 2)), 5, 1, 1, 0, N'', 1, 1, 1, 1, 0, 0, 1, 5, 30, 1, 1, 0, 0, 0, N'', 1, 0, 0, 0, 0)
+INSERT [dbo].[DS_Parametros] ([Id], [IdEmpresa], [MultiEmpresa], [ManejaAdministrador], [ManejaAprobador], [ListaClientesVendedor], [ListaClientesTodos], [ValidaReglasNegocio], [ManejaListaPrecios], [EditaPrecioProducto], [MuestraCondicionVentaCliente], [MuestraCondicionVentaTodos], [EditaDescuentoProducto], [MaximoDescuentoProducto], [CantidadDescuentosProducto], [MuestraStockProducto], [StockProductoEsMasivo], [StockProductoEsBodega], [StockProductoCodigoBodega], [ControlaStockProducto], [EnvioMailCliente], [EnvioMailVendedor], [EnvioMailContacto], [EnvioObligatorioAprobador], [ManejaTallaColor], [ManejaDescuentoTotalDocumento], [CantidadDescuentosTotalDocumento], [CantidadLineas], [ManejaLineaCreditoVendedor], [ManejaLineaCreditoAprobador], [ManejaCanalVenta], [CreacionNotaVentaUsuariosBloqueados], [CreacionNotaVentaUsuariosInactivos], [PermiteModificacionCondicionVenta], [AtributoSoftlandDescuentoCliente], [PermiteCrearDireccion], [CrearClienteConDV], [MuestraUnidadMedidaProducto], [DescuentoLineaDirectoSoftland], [DescuentoTotalDirectoSoftland]) VALUES (2, 2, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, CAST(50.00 AS Decimal(18, 2)), 5, 1, 1, 0, N'', 1, 1, 1, 1, 0, 0, 1, 5, 30, 1, 1, 1, 0, 0, 0, N'', 1, 0, 0, 0, 0)
 GO
-INSERT [dbo].[DS_Parametros] ([Id], [IdEmpresa], [MultiEmpresa], [ManejaAdministrador], [ManejaAprobador], [ListaClientesVendedor], [ListaClientesTodos], [ValidaReglasNegocio], [ManejaListaPrecios], [EditaPrecioProducto], [MuestraCondicionVentaCliente], [MuestraCondicionVentaTodos], [EditaDescuentoProducto], [MaximoDescuentoProducto], [CantidadDescuentosProducto], [MuestraStockProducto], [StockProductoEsMasivo], [StockProductoEsBodega], [StockProductoCodigoBodega], [ControlaStockProducto], [EnvioMailCliente], [EnvioMailVendedor], [EnvioMailContacto], [EnvioObligatorioAprobador], [ManejaTallaColor], [ManejaDescuentoTotalDocumento], [CantidadDescuentosTotalDocumento], [CantidadLineas], [ManejaLineaCredito], [ManejaCanalVenta], [CreacionNotaVentaUsuariosBloqueados], [CreacionNotaVentaUsuariosInactivos], [PermiteModificacionCondicionVenta], [AtributoSoftlandDescuentoCliente], [PermiteCrearDireccion], [CrearClienteConDV], [MuestraUnidadMedidaProducto], [DescuentoLineaDirectoSoftland], [DescuentoTotalDirectoSoftland]) VALUES (3, 3, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, CAST(10.00 AS Decimal(18, 2)), 1, 1, 1, 0, N'', 1, 1, 1, 1, 0, 0, 1, 1, 30, 0, 1, 0, 0, 0, N'', 1, 0, 0, 0, 0)
+INSERT [dbo].[DS_Parametros] ([Id], [IdEmpresa], [MultiEmpresa], [ManejaAdministrador], [ManejaAprobador], [ListaClientesVendedor], [ListaClientesTodos], [ValidaReglasNegocio], [ManejaListaPrecios], [EditaPrecioProducto], [MuestraCondicionVentaCliente], [MuestraCondicionVentaTodos], [EditaDescuentoProducto], [MaximoDescuentoProducto], [CantidadDescuentosProducto], [MuestraStockProducto], [StockProductoEsMasivo], [StockProductoEsBodega], [StockProductoCodigoBodega], [ControlaStockProducto], [EnvioMailCliente], [EnvioMailVendedor], [EnvioMailContacto], [EnvioObligatorioAprobador], [ManejaTallaColor], [ManejaDescuentoTotalDocumento], [CantidadDescuentosTotalDocumento], [CantidadLineas], [ManejaLineaCreditoVendedor], [ManejaLineaCreditoAprobador], [ManejaCanalVenta], [CreacionNotaVentaUsuariosBloqueados], [CreacionNotaVentaUsuariosInactivos], [PermiteModificacionCondicionVenta], [AtributoSoftlandDescuentoCliente], [PermiteCrearDireccion], [CrearClienteConDV], [MuestraUnidadMedidaProducto], [DescuentoLineaDirectoSoftland], [DescuentoTotalDirectoSoftland]) VALUES (3, 3, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, CAST(10.00 AS Decimal(18, 2)), 1, 1, 1, 0, N'', 1, 1, 1, 1, 0, 0, 1, 1, 30, 0, 0, 1, 0, 0, 0, N'', 1, 0, 0, 0, 0)
 GO
 SET IDENTITY_INSERT [dbo].[DS_Parametros] OFF
 GO
@@ -2661,7 +2662,8 @@ CREATE procedure [dbo].[FR_ModificarParametrosUsuarios]
 ,	@pb_ManejaDescuentoTotalDocumento BIT 
 ,	@pi_CantidadDescuentosTotalDocumento INT
 ,	@pi_CantidadLineas INT
-,	@pb_ManejaLineaCredito BIT 
+,	@pb_ManejaLineaCreditoVendedor BIT 
+,	@pb_ManejaLineaCreditoAprobador BIT 
 ,	@pb_ManejaCanalVenta BIT 
 ,	@pb_CreacionNotaVentaUsuariosBloqueados BIT 
 ,	@pb_CreacionNotaVentaUsuariosInactivos BIT 
@@ -2702,7 +2704,8 @@ begin
 	,		ManejaDescuentoTotalDocumento = @pb_ManejaDescuentoTotalDocumento
 	,		CantidadDescuentosTotalDocumento = @pi_CantidadDescuentosTotalDocumento
 	,		CantidadLineas = @pi_CantidadLineas
-	,		ManejaLineaCredito = @pb_ManejaLineaCredito
+	,		ManejaLineaCreditoVendedor = @pb_ManejaLineaCreditoVendedor
+	,		ManejaLineaCreditoAprobador = @pb_ManejaLineaCreditoAprobador
 	,		ManejaCanalVenta = @pb_ManejaCanalVenta
 	,		CreacionNotaVentaUsuariosBloqueados = @pb_CreacionNotaVentaUsuariosBloqueados
 	,		CreacionNotaVentaUsuariosInactivos = @pb_CreacionNotaVentaUsuariosInactivos
@@ -3598,7 +3601,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[SP_GetCodVendedor]
+create PROCEDURE [dbo].[SP_GetCodVendedor]
 @pv_BaseDatos varchar(100)
 AS
 DECLARE @query varchar (max)
@@ -3606,9 +3609,15 @@ DECLARE @query varchar (max)
 SELECT @query = ''
 
 SELECT @query = @query + '
-	SELECT c.VenCod,
-	c.VenDes 
-	FROM ['+@pv_BaseDatos+'].softland.cwtvend c 
+	select	VenCod
+	,		VenDes
+	from	(
+				select	VenCod
+				,		VenDes
+				,		esnumero = isnumeric(vencod)
+				FROM	['+@pv_BaseDatos+'].softland.cwtvend
+			) a
+	order by esnumero desc, (case when esnumero = 1 then convert(int, vencod) else 999999999 end) asc
 '
 
 EXEC (@query)
@@ -3745,5 +3754,24 @@ BEGIN
 	SELECT	Id = @li_Id
 	,		Verificador = @lb_Verificador
 	,		Mensaje = @lv_Mensaje
+END
+GO
+
+CREATE PROCEDURE SP_ObtenerCanalVenta
+(
+	@pv_BaseDatos varchar (100)
+)
+AS
+BEGIN
+	declare @query varchar(max)
+
+	select @query = ''
+
+	select @query = @query + '
+	SELECT	*
+	FROM	[' + @pv_BaseDatos + '].[softland].[cwtcana]
+	'
+
+	EXEC (@query)
 END
 GO
