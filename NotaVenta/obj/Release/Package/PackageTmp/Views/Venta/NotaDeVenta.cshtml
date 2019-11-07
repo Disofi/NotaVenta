@@ -21,7 +21,7 @@
         Response.Redirect(URL);
     }
 
-    ViewBag.Title = "Nota De Venta";
+    ViewBag.Title = "Nota De Pedido";
     string anterior = ViewBag.Anterior;
     string NomAux = ViewBag.NomAux;
     string CodAux = ViewBag.CodAux;
@@ -34,6 +34,9 @@
     List<ClientesModels> listcontacto = ViewBag.contactos;
     List<ListaDePrecioModels> listap = ViewBag.lista;
     List<CentrodeCostoModels> cc = ViewBag.cc;
+    CentrodeCostoModels ccDefecto = cc.Where(m => Convert.ToString(m.DescCC).ToLower().Contains("santiago")).FirstOrDefault();
+    List<CanalVentaModels> canalVentas = ViewBag.canalVentas;
+
     List<DireccionDespachoModels> direc = ViewBag.direccion;
     string fechaactual = DateTime.Now.ToString("yyyy-MM-dd");
     DateTime dia = DateTime.Now;
@@ -68,7 +71,7 @@
 <link href="~/Content/assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
 <!-- ================== END PAGE CSS STYLE ================== -->
 <!-- begin page-header -->
-<h1 class="page-header">Nota de Venta <small>Creacion nota de venta</small></h1>
+<h1 class="page-header">Nota de Pedido</h1>
 <!-- end page-header -->
 <!-- begin row -->
 <div class="row" id="divFormulacioCompletoIngresoDatos">
@@ -86,7 +89,8 @@
     <input type="hidden" id="ManejaTallaColor" value="@parametros.ManejaTallaColor.ToString()" />
     <input type="hidden" id="ManejaDescuentoTotalDocumento" value="@parametros.ManejaDescuentoTotalDocumento.ToString()" />
     <input type="hidden" id="CantidadDescuentosTotalDocumento" value="@parametros.CantidadDescuentosTotalDocumento" />
-    <input type="hidden" id="ManejaLineaCredito" value="@parametros.ManejaLineaCredito.ToString()" />
+    <input type="hidden" id="ManejaLineaCreditoVendedor" value="@parametros.ManejaLineaCreditoVendedor.ToString()" />
+    <input type="hidden" id="ManejaLineaCreditoAprobador" value="@parametros.ManejaLineaCreditoAprobador.ToString()" />
     <input type="hidden" id="ManejaCanalVenta" value="@parametros.ManejaCanalVenta.ToString()" />
     <input type="hidden" id="PermiteModificacionCondicionVenta" value="@parametros.PermiteModificacionCondicionVenta.ToString()" />
     <input type="hidden" id="AtributoSoftlandDescuentoCliente" value="@parametros.AtributoSoftlandDescuentoCliente" />
@@ -171,7 +175,7 @@
                                     <td nowrap="nowrap">Cond. Venta</td>
                                     <td>
                                         <select @Html.Raw(parametros.PermiteModificacionCondicionVenta ? "" : "disabled") name="cbxconven" id="cbxconven" class="form-control" tabindex="4">
-                                            <option selected value="00"> -- Seleccione Cond. Vta -- </option>
+                                            <option selected value="-1"> -- Seleccione Cond. Vta -- </option>
                                             @{
                                                 for (int i = 0; i < condicion.Count; i++)
                                                 {
@@ -201,6 +205,21 @@
                                     <td><input type="date" class="form-control" name="txtfechapedido" value="@fechaactual" id="txtfechapedido" readonly="readonly" /></td>
                                     <td nowrap="nowrap">Fecha Entrega</td>
                                     <td><input type="date" class="form-control" name="txtfechaentrega" min=@fechamin value=@fechamin id="txtfechaentrega" /></td>
+                                    @if (parametros.ManejaCanalVenta)
+                                    {
+                                        <td nowrap="nowrap">Canal Venta</td>
+                                        <td>
+                                            <select name="ddlCanalVenta" id="ddlCanalVenta" class="form-control" tabindex="4">
+                                                <option selected value="-1"> -- Seleccione Canal de Venta -- </option>
+                                                @{
+                                                    for (int i = 0; i < canalVentas.Count; i++)
+                                                    {
+                                                        <option selected value="@canalVentas[i].CanCod"> @canalVentas[i].CanDes </option>
+                                                    }
+                                                }
+                                            </select>
+                                        </td>
+                                    }
                                 </tr>
                                 <tr class="highlight">
                                     <td nowrap="nowrap">Observaci&oacute;n</td>
@@ -208,26 +227,29 @@
                                     <td nowrap="nowrap">Centro de Costo</td>
                                     <td>
                                         <select class="form-control" name="cbxccosto" id="cbxccosto" tabindex="9">
-                                            <option selected value="00"> -- Seleccione Centro de Costo -- </option>
+                                            <option selected value="-1"> -- Seleccione Centro de Costo -- </option>
                                             @{
                                                 for (int i = 0; i < cc.Count; i++)
                                                 {
-                                                    <option selected value="@cc[i].CodiCC"> @cc[i].DescCC </option>
+                                                    <option @Html.Raw(ccDefecto == null ? "" : (cc[i].CodiCC == ccDefecto.CodiCC) ? "selected" : "") value="@cc[i].CodiCC"> @cc[i].DescCC</option>
                                                 }
                                             }
                                         </select>
                                     </td>
                                 </tr>
-                                <tr class="highlight">
-                                    <td>Credito</td>
-                                    <td>
-                                        <label id="lblDeudaVencida">@credito.Credito</label>
-                                    </td>
-                                    <td>Disponible</td>
-                                    <td>
-                                        <label id="lblDeudaTotal">@credito.Saldo</label>
-                                    </td>
-                                </tr>
+                                @if (parametros.ManejaLineaCreditoVendedor)
+                                {
+                                    <tr class="highlight">
+                                        <td>Credito</td>
+                                        <td>
+                                            <label id="lblDeudaVencida">@credito.Credito</label>
+                                        </td>
+                                        <td>Disponible</td>
+                                        <td>
+                                            <label id="lblDeudaTotal">@credito.Saldo</label>
+                                        </td>
+                                    </tr>
+                                }
                                 <tr>
                                     <td>Dirección de Despacho</td>
                                     <td colspan="5">
@@ -239,7 +261,7 @@
                                                         if (vdirec == 1)
                                                         {
                                                             <select class="form-control" name="cbxDireccion" id="cbxDireccion" tabindex="9">
-                                                                <option selected value="00"> -- Seleccione Dirección de Despacho -- </option>
+                                                                <option selected value="-1"> -- Seleccione Dirección de Despacho -- </option>
                                                                 @{
                                                                     for (int i = 0; i < direc.Count; i++)
                                                                     {
@@ -290,7 +312,9 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <table id="user" class="table table-condensed table-bordered">
+                    <input id="hfPrecioUnitarioConDescuento" type="hidden" value="" />
+                    <input id="hfSubTotalConDescuento" type="hidden" value="" />
+                    <table id="user" class="table table-condensed table-bordered table-responsive ">
                         <thead>
                             <tr>
                                 <th style="display: none">Cod. Rap.</th>
@@ -397,25 +421,6 @@
                         <div class="table-responsive">
                             <table id="user" class="table table-condensed table-bordered">
                                 <tbody>
-                                    <tr>
-                                        <td class="tg-0lax">
-                                            <input type="hidden" id="contador_registros" name="contador_registros" value=@numero1>
-                                            <b><span> Sub-Total Neto</span></b>
-                                        </td>
-                                        <td style="text-align: right" class="tg-0lax">
-                                            <h4><label id="lbtotal">0</label></h4>
-                                            <input type="hidden" id="txttotal" name="txttotal" value=@total1>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="tg-0lax">
-                                            <b><span> Impuesto</span></b>
-                                        </td>
-                                        <td style="text-align: right" class="tg-0lax">
-                                            <h4><label id="lbimpuesto">0</label></h4>
-                                            <input type="hidden" id="txtimpuesto" name="txtimpuesto" value=@impuesto>
-                                        </td>
-                                    </tr>
                                     <tr style="display: none" id="trDescuento1">
                                         <td class="tg-0lax">
                                             <b><span> Descuento N°1</span></b>
@@ -462,6 +467,25 @@
                                     </tr>
                                     <tr>
                                         <td class="tg-0lax">
+                                            <input type="hidden" id="contador_registros" name="contador_registros" value=@numero1>
+                                            <b><span> Sub-Total Neto</span></b>
+                                        </td>
+                                        <td style="text-align: right" class="tg-0lax">
+                                            <h4><label id="lbtotal">0</label></h4>
+                                            <input type="hidden" id="txttotal" name="txttotal" value=@total1>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tg-0lax">
+                                            <b><span> Impuesto</span></b>
+                                        </td>
+                                        <td style="text-align: right" class="tg-0lax">
+                                            <h4><label id="lbimpuesto">0</label></h4>
+                                            <input type="hidden" id="txtimpuesto" name="txtimpuesto" value=@impuesto>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tg-0lax">
                                             <b><span> Total Final</span></b>
                                         </td>
                                         <td style="text-align: right" class="tg-0lax">
@@ -474,7 +498,7 @@
                         </div>
                     </div>
                     <div class="row text-center">
-                        <input class="btn btn-primary" id="btnCot" type="submit" value="Genera Cotización" onclick="agregarnotadeventa();">
+                        <input class="btn btn-primary" id="btnCot" type="submit" value="Genera Pedido" onclick="agregarnotadeventa();">
                     </div>
                 </div>
             </div>
@@ -482,16 +506,40 @@
     </div>
 </div>
 <div id="divAlertaOkGeneracionNV" style="display: none" class="alert alert-success" role="alert">
-    <h4 class="alert-heading">Nota de Venta Generada</h4>
-    <p>Nota de venta a sido generada con exito <label id="divAlertaOkGeneracionNVPendiente">(enviado a aprobacion)</label></p>
-    @*<div id="divAlertaOkGeneracionNVSoftland">
-            <p>N° Nota de venta (Softland): <label id="divAlertaOkGeneracionNVIdSoftland"></label></p>
-        </div>*@
-    <div id="divAlertaOkGeneracionNVInterno">
-        <p>N° Nota de venta (Interno): <label id="divAlertaOkGeneracionNVIdInterno"></label></p>
+    <h4 class="alert-heading">Nota de Pedido Generada</h4>
+    <p>Nota(s) de pedido generada(s) con exito <label id="divAlertaOkGeneracionNVPendiente">(enviado a aprobacion)</label></p>
+    <div class="row" id="divAlertaOkGeneracionNVInterno">
+        <div class="col-lg-8">
+        </div>
+        <div class="col-lg-8">
+            <div class="panel panel-inverse" data-sortable-id="ui-widget-2">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Notas de pedido creadas</h4>
+                    <div class="panel-heading-btn">
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>-->
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>-->
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>-->
+                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>-->
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table id="tblResultadoAgregarNV" class="table table-condensed table-bordered">
+                        <thead>
+                            <tr>
+                                <th>N° Nota Pedido Interno</th>
+                                <th>N° Nota Pedido Softland</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+        </div>
     </div>
     <hr>
-    <p class="mb-0">Para volver a generar una nueva nota de venta, presione <a href="javascript:location.reload()">aqui</a>.</p>
+    <p class="mb-0">Para volver a generar una nueva nota de pedido, presione <a href="javascript:location.reload()">aqui</a>.</p>
 </div>
 <a id="aModalTallaColor" style="display: none" href="#modalTallaColor" class="btn btn-sm btn-success" data-toggle="modal">Talla Color</a>
 <div class="modal fade" id="modalTallaColor">

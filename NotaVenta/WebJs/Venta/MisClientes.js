@@ -70,6 +70,9 @@ function PreNotaVenta (_aCodAux, _aNomAux) {
                     }
                 });
             }
+            if (data == -999) {
+                alert("Cliente no Cuenta con Credito");
+            }
             if (data == 1) {
                 window.location = urlNotaVenta;
             }

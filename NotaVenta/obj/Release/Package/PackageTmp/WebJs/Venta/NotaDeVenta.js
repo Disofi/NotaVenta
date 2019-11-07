@@ -63,7 +63,8 @@ $(document).ready(function () {
         /**/ManejaTallaColor: ($("#ManejaTallaColor").val().toLowerCase() === "true"),
         /**/ManejaDescuentoTotalDocumento: ($("#ManejaDescuentoTotalDocumento").val().toLowerCase() === "true"),
         /**/CantidadDescuentosTotalDocumento: parseInt($("#CantidadDescuentosTotalDocumento").val()),
-        /**/ManejaLineaCredito: ($("#ManejaLineaCredito").val().toLowerCase() === "true"),
+        /**/ManejaLineaCreditoVendedor: ($("#ManejaLineaCreditoVendedor").val().toLowerCase() === "true"),
+        /**/ManejaLineaCreditoAprobador: ($("#ManejaLineaCreditoAprobador").val().toLowerCase() === "true"),
         ManejaCanalVenta: ($("#ManejaCanalVenta").val().toLowerCase() === "true"),
         PermiteModificacionCondicionVenta: ($("#PermiteModificacionCondicionVenta").val().toLowerCase() === "true"),
         /**/AtributoSoftlandDescuentoCliente: $("#AtributoSoftlandDescuentoCliente").val(),
@@ -233,7 +234,7 @@ var handleEditableFormAjaxCall = function () {
             if (settings.data.name === "txtIngresoCantidad") {
                 if (/^([0-9])*$/.test(settings.data.value)) {
                     if (parseFloat(settings.data.value) > 0) {
-                        if (parametros.ControlaStockProducto) {
+                        if (parametros.ControlaStockProducto && parametros.MuestraStockProducto) {
                             var stock = parseFloat(objetosEditable.stock.getValor());
                             var cantidad = parseFloat(settings.data.value);
 
@@ -453,7 +454,7 @@ function cbxlistaChange() {
                     textoVacio: "Busqueda de Producto",
                     fuenteDatos: productos.map(m => { return { id: m.busqueda, text: m.busqueda } }),
                     select2: {
-                        width: 'resolve',
+                        width: '300',
                         placeholder: 'Seleccione Productos',
                         allowClear: true
                     }
@@ -519,6 +520,9 @@ function CalcularFila(precioUnitario, cantidad, descuentos, porcentajeAtributoDe
             descuentosAgregadosProducto = result.Descuentos;
             var valorDescuentoAtributo = result.ValorDescuentoAtributo;
 
+            $("#hfSubTotalConDescuento").val(result.SubTotalConDescuento);
+            $("#hfPrecioUnitarioConDescuento").val(result.PrecioUnitarioConDescuento);
+
             objetosEditable.valorAtributoDescuento.setValor(parseInt(valorDescuentoAtributo));
             objetosEditable.subTotal.setValor(parseInt(subTotal));
             objetosEditable.total.setValor(parseInt(total));
@@ -543,17 +547,17 @@ function CalcularProductosAgregados() {
             type: "POST",
             data: { productos: dataPost, descuentos: descuentos, porcentajeAtributoDescuento: porcentajeAtributoDescuento },
             success: function (result) {
-                var subTotal = result.SubTotal;
                 var impuesto = result.Impuesto;
                 descuentos = result.descuentos;
                 var total = result.Total;
 
-                totales.subTotal = subTotal;
+                totales.subTotal = result.SubTotal;
+                totales.subTotalConDescuento = result.SubTotalConDescuento;
                 totales.impuesto = impuesto;
                 totales.total = total;
                 totales.descuentos = descuentos;
 
-                $('#lbtotal').text(subTotal);
+                $('#lbtotal').text(result.SubTotalConDescuento);
                 $('#lbimpuesto').text(impuesto);
                 $('#lbtotalfinal').text(total);
             },
@@ -592,8 +596,10 @@ function addRow() {
     var stock = objetosEditable.stock.getValor();
     var medida = objetosEditable.unidadDeMedida.getValor();
     var preciounitario = objetosEditable.neto.getValor();
+    var precioUnitarioConDescuento = $("#hfPrecioUnitarioConDescuento").val();
     var porcentajeAtributoDescuento = objetosEditable.valorAtributoDescuento.getValor();
-    var subtotal = objetosEditable.subTotal.getValor();
+    var subTotal = objetosEditable.subTotal.getValor();
+    var subTotalConDescuento = $("#hfSubTotalConDescuento").val();
     var descuento = descuentosAgregadosProducto;
     var total = objetosEditable.total.getValor();
     var talla = verTallaColorTalla;
@@ -629,11 +635,11 @@ function addRow() {
             + '<td style="text-align: right"><span id="lblCantidad_' + contador + '">' + cantidad + '</td>'
             + '<td style="' + (parametros.MuestraUnidadMedidaProducto ? '' : 'display: none') + '"><span id="lblMedida_' + contador + '">' + medida + '</td>'
             + '<td style="text-align: right"><span id="lblPrecioUnitario_' + contador + '">' + preciounitario + '</td>'
-            + '<td style="text-align: right"><span id="lblSubTotal_' + contador + '">' + subtotal + '</td>'
+            + '<td style="text-align: right"><span id="lblSubTotal_' + contador + '">' + subTotal + '</td>'
             + '<td style="' + (PorcentajeAtributoDescuento > 0 ? '' : 'display: none') + '"><span id="lblAtributoDescuento_' + contador + '">' + porcentajeAtributoDescuento + '</td>'
             + (descuento.length === 0 ? '<td style="text-align: right"><span id="lblDescuento_' + contador + '">0</td>' :
                 descuento.length === 1 ?
-                    '<td style="text-align: right"><span id="lblDescuento_' + contador + '">' + descuento[0].Porcentaje + '</td>' :
+                    '<td style="text-align: right"><span id="lblDescuento_' + contador + '">' + descuento[0].Porcentaje + '%' + '</td>' :
                     '<td><a class="editable editable-click editable-empty" id="verDescuentos_' + contador + '" onclick="verDescuentos(' + contador + ')">Ver Descuentos</a></td>')
             + '<td style="text-align: right"><span id="lblTotal_' + contador + '">' + total + '</td>'
             + '<td><a id="thproductolist' + contador + '" href="#divCodigo" onclick="eliminarFilas(' + contador + ');"><img src="../Content/Image/delete.png" /></a></td>'
@@ -650,12 +656,14 @@ function addRow() {
             Color: color,
             contador: contador,
             PrecioUnitario: preciounitario,
+            PrecioUnitarioConDescuento: precioUnitarioConDescuento,
             Cantidad: cantidad,
             Stock: stock,
             UnidadMedida: medida,
             Descuentos: descuento,
             DescuentoAtributo: PorcentajeAtributoDescuento,
-            SubTotal: subtotal,
+            SubTotal: subTotal,
+            SubTotalConDescuento: subTotalConDescuento,
             Total: total
         };
 
@@ -699,7 +707,7 @@ function verDescuentos(contador) {
             + 'Descuento N°' + (i + 1)
             + '</td>'
             + '<td style="text-align: right">'
-            + producto.Descuentos[i].Porcentaje
+            + producto.Descuentos[i].Porcentaje + '%'
             + '</td>'
             + '</tr>';
     }
@@ -915,6 +923,7 @@ function agregarnotadeventa() {
     var FechaHoraCreacion = $('#txtfechapedido').val();
     var TotalBoleta = $('#txttotalfinal').val();
     var id = $('#txtid').val();
+    var canalVenta = $("#ddlCanalVenta").val();
     var CodLugarDesp = '';
     if (validespa == 'No Tiene Dirección Asociado') {
     }
@@ -943,12 +952,13 @@ function agregarnotadeventa() {
         //CodMon: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         CodLista: CodLista,
         nvObser: nvObser,
-        //nvCanalNV: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+        nvCanalNV: canalVenta,
         CveCod: CveCod,
         NomCon: contacto,
         CodiCC: CodiCC,
         //CodBode: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         nvSubTotal: totales.subTotal,
+        nvSubTotalConDescuento: totales.subTotalConDescuento,
         //nvPorcDesc01: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //nvDescto01: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
         //nvPorcDesc02: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
@@ -1008,15 +1018,26 @@ function agregarnotadeventa() {
         data: dataNotaVenta,
         success: function (result) {
             if (result.EstadoNP === "P") {
-                $("#divAlertaOkGeneracionNVPendiente").html(result.NVNumero);
+                $("#divAlertaOkGeneracionNVPendiente").fadeIn();
             }
-            if (result.NVNumero > 0) {
-                $("#divAlertaOkGeneracionNVSoftland").fadeIn();
-                $("#divAlertaOkGeneracionNVIdSoftland").html(result.NVNumero);
+            else {
+                $("#divAlertaOkGeneracionNVPendiente").fadeOut();
             }
-            if (result.IdNotaVenta > 0) {
-                $("#divAlertaOkGeneracionNVInterno").fadeIn();
-                $("#divAlertaOkGeneracionNVIdInterno").html(result.IdNotaVenta);
+            var tblFinal = $("#tblResultadoAgregarNV tbody");
+            for (i = 0; i < result.length; i++) {
+                var idInterno = result[i].IdNotaVenta;
+                var idSoftland = result[i].NVNumero;
+
+                if (idInterno <= 0) {
+                    idInterno = "Sin registros";
+                }
+                if (idSoftland <= 0) {
+                    idSoftland = "Sin registros";
+                }
+
+                var fila = "<tr><td>" + idInterno + "</td><td>" + idSoftland + "</td></tr>";
+
+                tblFinal.append(fila);
             }
 
             $("#divFormulacioCompletoIngresoDatos").fadeOut();

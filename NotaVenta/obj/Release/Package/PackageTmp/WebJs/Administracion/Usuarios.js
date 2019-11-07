@@ -190,31 +190,41 @@ function EliminarUsuario(id,estado) {
 
 
 function AgregarUsuario() {
+    var ContrasenaCorreo = $("#txtContrasenaCorreo").val();
+    var ValidaContrasenaCorreo = $("#txtValidaContCorreo").val();
     var Usuario = $('#txtUsuario').val();
     var Nombre = $('#txtNombre').val();
     var Contrasena = $('#txtContrasena').val();
     var Email = $('#txtEmail').val();
     var Perfil = $('#Perfil').val();
-    $.ajax({
-        type: 'POST',
-        url: 'Addusuario',
-        data: { _Usuario: Usuario, _Nombre: Nombre, _Contrasena: Contrasena, _Email: Email, _Perfil: Perfil},
-        async: true,
-        success: function (data) {
-            if (data == -666) {
-                alert("Debe Completar Campos Obligatorios");
-            }
-            if (data.Verificador) {
-                alert(data.Mensaje);
-                location.reload();
-            }
-            if (data.Verificador == false) {
-                alert(data.Mensaje);
-            }
+
+    if (ContrasenaCorreo == ValidaContrasenaCorreo) {
+        $.ajax({
+            type: 'POST',
+            url: 'Addusuario',
+            data: { _Usuario: Usuario, _Nombre: Nombre, _Contrasena: Contrasena, _Email: Email, _Perfil: Perfil, _ContrasenaCorreo: ContrasenaCorreo },
+            async: true,
+            success: function (data) {
+                if (data == -666) {
+                    alert("Debe Completar Campos Obligatorios");
+                }
+                if (data.Verificador) {
+                    alert(data.Mensaje);
+                    location.reload();
+                }
+                if (data.Verificador == false) {
+                    alert(data.Mensaje);
+                }
 
 
-        }
-    });
+            }
+        });
+    }
+    else {
+        alert("Contraseña de Correo no Coinciden");
+    }
+
+    
 }
 
 function ObtenerDatosUsuario(id) {

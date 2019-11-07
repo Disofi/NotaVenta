@@ -350,17 +350,6 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
-                                                <div class="row">
-                                                    <div class="col-lg-4">Maneja Linea Credito</div>
-                                                    <div class="col-lg-8">
-                                                        <div class="switcher">
-                                                            <input type="checkbox" switcher name="ManejaLineaCredito" id="ManejaLineaCredito" @Html.Raw(parametros.ManejaLineaCredito ? "checked" : "")>
-                                                            <label for="ManejaLineaCredito"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
                                         </tr>
                                         <tr>
                                             <td>
@@ -476,9 +465,31 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">Maneja Linea Credito Vendedor</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="ManejaLineaCreditoVendedor" id="ManejaLineaCreditoVendedor" @Html.Raw(parametros.ManejaLineaCreditoVendedor ? "checked" : "")>
+                                                            <label for="ManejaLineaCreditoVendedor"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">Maneja Linea Credito Aprobador</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="ManejaLineaCreditoAprobador" id="ManejaLineaCreditoAprobador" @Html.Raw(parametros.ManejaLineaCreditoAprobador ? "checked" : "")>
+                                                            <label for="ManejaLineaCreditoAprobador"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td colspan="3">
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         <input type="button" id="btnGuardarParametro" class="btn btn-primary" value="Guardar" />

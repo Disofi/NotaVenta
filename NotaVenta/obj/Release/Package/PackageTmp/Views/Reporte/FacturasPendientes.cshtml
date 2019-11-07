@@ -3,12 +3,15 @@
 @{
     ViewBag.Title = "Facturas Pendientes";
     List<NotadeVentaCabeceraModels> doc = ViewBag.doc;
+    ParametrosModels parametros = ViewBag.Parametros;
 }
 <link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
 <script src="~/WebJs/Reporte/FacturasPendientes.js"></script>
 
 <div id="content" class="content">
     <input type="hidden" id="urlTablaSaldos" value="@Url.Action("ObtenerSaldo", "Reporte")" />
+    <input type="hidden" id="ControlaStockProducto" value="@parametros.ControlaStockProducto.ToString()" />
+    <input type="hidden" id="MuestraUnidadMedidaProducto" value="@parametros.MuestraUnidadMedidaProducto.ToString()" />
     <h1 class="page-header">@ViewBag.Message <small></small></h1>
     <div class="panel panel-inverse width-full">
         <div class="panel-heading">
@@ -74,9 +77,9 @@
                                         <td>
                                             @if (doc[i].EstadoNP == "P")
                                             {
-                                                <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id,'@doc[i].RutAux')"><img src="~/Content/Image/zoom.png" /></button>
-                                                <button class="btn btn-warning btn-xs"><img src="~/Content/Image/ok.png" onclick="AprobarNotaVenta(@doc[i].Id)"></button>
-                                                <button class="btn btn-warning btn-xs"><img src="~/Content/Image/delete.png" onclick="RechazarNotaVenta(@doc[i].Id,@doc[i].NVNumero)"></button>
+                                                <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id,'@doc[i].RutAux')">@*<img src="~/Content/Image/zoom.png" />*@Detalle</button>
+                                                <button class="btn btn-warning btn-xs"><a@*img src="~/Content/Image/ok.png"*@ onclick="AprobarNotaVenta(@doc[i].Id)">Aprobar</button>
+                                                <button class="btn btn-warning btn-xs"><a@*img src="~/Content/Image/delete.png"*@ onclick="RechazarNotaVenta(@doc[i].Id,@doc[i].NVNumero)">Rechazar</button>
                                             }
                                             else
                                             {

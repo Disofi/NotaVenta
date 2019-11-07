@@ -1561,19 +1561,18 @@ begin
 select 
 a.nvLinea,
 a.CodProd, 
-b.DesProd, 
+tp.DesProd, 
 a.nvCant, 
 a.CodUMed, 
 a.nvPrecio, 
-a.nvSubTotal, 
+a.nvSubTotal,
 ROUND(a.nvDPorcDesc01,0) as nvDPorcDesc01, 
 a.nvTotLinea,
 Stock = (select  Sum (CASE WHEN TipoBod = ''D'' THEN Ingresos - Egresos ELSE 0 END)  * 1 AS StockDisponible     
-FROM  ['+@pv_BaseDatos+'].softland.IW_vsnpMovimStockTipoBod WITH (INDEX(IW_GMOVI_BodPro)) 
+FROM  ['+@pv_BaseDatos+'].[softland].[IW_vsnpMovimStockTipoBod] WITH (INDEX(IW_GMOVI_BodPro)) 
 WHERE   Fecha <= '+CONVERT(varchar(10),getdate(),103)+'  and CodProd = tp.CodProd GROUP BY CodProd)
 from [dbo].[DS_NotasVentaDetalle] a
-inner join ['+@pv_BaseDatos+'].[softland].[iw_tprod] b on b.CodProd collate Modern_Spanish_CI_AS = a.CodProd 
-LEFT JOIN ['+@pv_BaseDatos+'].[softland].[iw_tprod] AS tp on a.CodProd = tp.CodProd collate SQL_Latin1_General_CP1_CI_AS
+inner JOIN ['+@pv_BaseDatos+'].[softland].[iw_tprod] AS tp on a.CodProd collate Modern_Spanish_CI_AS = tp.CodProd 
 where a.IdNotaVenta = '+convert(varchar(100),@nvId)+'
 order by a.nvLinea
 end
@@ -2125,13 +2124,8 @@ CREATE procedure [dbo].[FR_ListarDocumentosPendientes]
 				case	when
 	(select  Sum (CASE WHEN TipoBod = ''D'' THEN Ingresos - Egresos ELSE 0 END)  * 1 AS StockDisponible 
 	FROM  ['+@pv_BaseDatos+'].softland.IW_vsnpMovimStockTipoBod WITH (INDEX(IW_GMOVI_BodPro)) 
-	WHERE Fecha <= getdate() and CodProd = tp.CodProd 
-	GROUP BY CodProd) < c.nvCant then 1
-	when
-	(select  Sum (CASE WHEN TipoBod = ''D'' THEN Ingresos - Egresos ELSE 0 END)  * 1 AS StockDisponible 
-	FROM  ['+@pv_BaseDatos+'].softland.IW_vsnpMovimStockTipoBod WITH (INDEX(IW_GMOVI_BodPro)) 
 	WHERE Fecha <= getdate()  and CodProd = tp.CodProd 
-	GROUP BY CodProd)>= c.nvCant then 0 end ), 0) as stocklista,
+	GROUP BY CodProd)>= c.nvCant then 0 else 1 end ), 0) as stocklista,
 	a.NVNumero,
 	a.Id,
 	clientes.[NomAux],

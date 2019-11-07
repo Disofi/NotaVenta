@@ -1,4 +1,10 @@
-﻿$(document).ready(function () {
+﻿var parametros = {};
+
+$(document).ready(function () {
+    parametros = {
+        ControlaStockProducto: ($("#ControlaStockProducto").val().toLowerCase() === "true"),
+        MuestraUnidadMedidaProducto: ($("#MuestraUnidadMedidaProducto").val().toLowerCase() === "true")
+    };
 });
 
 function aprobarNW(nvnumero) {
@@ -37,8 +43,19 @@ function DetalleNotaPedido(nvId) {
                 var tableDetalle = $("#tblDetalleNotaPedidoDetalle");
 
                 $.each(data.Cabecera, function (index, value) {
-                    var htmlCabecera = "<tr><th>N&ordm; Int.</th>" +
+                    if (value.Usuario == null) {
+                        value.Usuario = 'Vendedor';
+                    }
+                    if (value.CodLista == null) {
+                        value.CodLista = 'Sin Lista de Precio';
+                    }
+                    if (value.DesLista == null) {
+                        value.DesLista = '';
+                    }
+                    var htmlCabecera = "<tr><th>N&ordm; Softland.</th>" +
                         "<td>" + value.NVNumero + "</td>" +
+                        "<th nowrap='nowrap'>N&ordm; Int.</th>" +
+                        "<td>" + nvId + "</td>" +
                         "<th nowrap='nowrap'>Vendedor</th>" +
                         "<td>" + value.VenCod + "-" + value.Usuario + "</td></tr>" +
                         "<tr><th nowrap='nowrap'>Cond. Venta</th>" +
@@ -67,7 +84,11 @@ function DetalleNotaPedido(nvId) {
                 htmlDetalle = htmlDetalle + "<th>Detalle Producto</th>";
                 htmlDetalle = htmlDetalle + "<th>Cantidad</th>";
                 htmlDetalle = htmlDetalle + "<th>Stock</th>";
-                htmlDetalle = htmlDetalle + "<th>U.Medida</th>";
+
+                if (parametros.MuestraUnidadMedidaProducto) {
+                    htmlDetalle = htmlDetalle + "<th>U.Medida</th>";
+                }
+
                 htmlDetalle = htmlDetalle + "<th>Precio</th>";
                 htmlDetalle = htmlDetalle + "<th>Sub Total</th>";
                 htmlDetalle = htmlDetalle + "<th>Desc.%</th>";
@@ -77,18 +98,26 @@ function DetalleNotaPedido(nvId) {
 
                 $.each(data.Detalle, function (index, value) {
                     htmlDetalle = "";
-                    if (value.Stock < value.nvCant) {
-                        htmlDetalle = htmlDetalle + "<tr style='background-color: red; color: white'>";
+                    if (parametros.ControlaStockProducto) {
+                        if (value.Stock < value.nvCant) {
+                            htmlDetalle = htmlDetalle + "<tr style='background-color: red; color: white'>";
+                        }
+                        else {
+                            htmlDetalle = htmlDetalle + "<tr>";
+                        }
                     }
-                    else {
-                        htmlDetalle = htmlDetalle + "<tr>";
-                    }
+                    htmlDetalle = htmlDetalle + "<tr>";
+
                     htmlDetalle = htmlDetalle + "<td>" + value.nvLinea + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.CodProd + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.DesProd + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.nvCant + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.Stock + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.CodUMed + "</td>";
+
+                    if (parametros.MuestraUnidadMedidaProducto) {
+                        htmlDetalle = htmlDetalle + "<td>" + value.CodUMed + "</td>";
+                    }
+
                     htmlDetalle = htmlDetalle + "<td>" + value.nvPrecio + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.nvSubTotal + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.nvDPorcDesc01 + "</td>";

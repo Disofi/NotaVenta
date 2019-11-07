@@ -69,11 +69,12 @@ namespace NotaVenta.Controllers
         [Autorizacion(PERFILES.SUPER_ADMINISTRADOR, PERFILES.VENDEDOR)]
         public JsonResult PreNotadeVenta(string CodAux, string NomAux)
         {
+            ParametrosModels parametros = ObtieneParametros();
             NotadeVentaCabeceraModels notadeVentaCabeceraModels = new NotadeVentaCabeceraModels();
             notadeVentaCabeceraModels.CodAux = CodAux;
             notadeVentaCabeceraModels.NomAux = NomAux;
             SessionVariables.SESSION_NOTA_VENTA_CABECERA_MODEL = notadeVentaCabeceraModels;
-
+            
 
             NotadeVentaCabeceraModels NVC = SessionVariables.SESSION_NOTA_VENTA_CABECERA_MODEL;
             NVC.NVNumero = 0;
@@ -85,9 +86,31 @@ namespace NotaVenta.Controllers
             {
                 CodAux = NVC.CodAux
             };
-
             List<ClientesModels> contactoCorreos = controlDisofi().GetContacto(baseDatosUsuario(), cliente);
             List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), cliente);
+
+            CreditoModel credito = controlDisofi().ObtenerCredito(cliente.CodAux, baseDatosUsuario());
+
+            if (parametros.ManejaLineaCreditoVendedor)
+            {
+                if (credito != null)
+                {
+                    credito.Deuda = credito.Debe - credito.Haber;
+                    credito.Saldo = credito.Credito - credito.Deuda;
+
+                    if (credito.Credito == 0)
+                    {
+                        validador = -999;
+                        return Json(validador);
+                    }
+                    else
+                    {
+                        validador = 1;
+                        return Json(validador);
+                    }
+
+                }
+            }
 
             if (contactoCorreos != null && contactoCorreos.Count > 0 && contactoCorreos[0].EMail != "")
             {
@@ -108,7 +131,6 @@ namespace NotaVenta.Controllers
                     validador = -1;
                     return Json(validador);
                 }
-
             }
         }
 
@@ -132,7 +154,7 @@ namespace NotaVenta.Controllers
             {
                 CodAux = NVC.CodAux
             };
-            //la lista de precios ,,.....dale...nada
+            
             ClientesModels cm = controlDisofi().ObtenerAtributoDescuento(baseDatosUsuario(), cliente.CodAux, parametros.AtributoSoftlandDescuentoCliente);
             cliente.ValorAtributo = cm.ValorAtributo;
 
@@ -141,21 +163,21 @@ namespace NotaVenta.Controllers
             ViewBag.VendedorCliente = vendedorCliente;
             CreditoModel credito = controlDisofi().ObtenerCredito(cliente.CodAux, baseDatosUsuario());
 
-            if (parametros.ManejaLineaCreditoVendedor)
-            {
-                if (credito != null)
-                {
-                    credito.Deuda = credito.Debe - credito.Haber;
-                    credito.Saldo = credito.Credito - credito.Deuda;
+            //if (parametros.ManejaLineaCreditoVendedor)
+            //{
+            //    if (credito != null)
+            //    {
+            //        credito.Deuda = credito.Debe - credito.Haber;
+            //        credito.Saldo = credito.Credito - credito.Deuda;
 
-                    if (credito.Credito == 0)
-                    {
-                        TempData["Mensaje"] = "CLIENTE NO TIENE CREDITO. <br>";
-                        return RedirectToAction("MisClientes", "Venta");
-                    }
+            //        if (credito.Credito == 0)
+            //        {
+            //            TempData["Mensaje"] = "CLIENTE NO TIENE CREDITO. <br>";
+            //            return RedirectToAction("MisClientes", "Venta");
+            //        }
 
-                }
-            }
+            //    }
+            //}
 
 
 

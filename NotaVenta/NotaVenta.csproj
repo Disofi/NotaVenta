@@ -678,6 +678,7 @@
     <Content Include="Content\assets\img\version\laravel.jpg" />
     <Content Include="Content\assets\img\version\reactjs.jpg" />
     <Content Include="Content\assets\img\version\vuejs.jpg" />
+    <Content Include="Content\assets\js\pace.min.js" />
     <Content Include="Content\assets\js\app.min.js" />
     <Content Include="Content\assets\js\demo\calendar.demo.js" />
     <Content Include="Content\assets\js\demo\calendar.demo.min.js" />

@@ -12,6 +12,7 @@
 }
 <link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
 <script src="~/WebJs/Administracion/Usuarios.js"></script>
+
 <div id="content" class="content">
     <h1 class="page-header">@ViewBag.Message <small></small></h1>
     <div class="panel panel-inverse table-responsive">
@@ -26,7 +27,7 @@
                 var grid = new WebGrid(ViewBag.usuarios, canPage: false);
             }
             @grid.GetHtml(
-            htmlAttributes: new { id = "tblUsuario" },
+            htmlAttributes: new { id = "dataTable" },
             tableStyle: "table",
             columns:
             grid.Columns(
@@ -81,6 +82,12 @@ grid.Column(columnName: "Eliminar", header: "Eliminar", format: @<button class="
                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
                             <input type="email" required="required" class="form-control" id="txtEmail" name="txtEmail" placeholder="Email">
                             @*<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>*@
+                        </div>
+
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <input type="password" required="required" class="form-control" id="txtContrasenaCorreo" name="txtContrasenaCorreo" placeholder="Contraseña Correo">
+                            <br />
+                            <input type="password" required="required" class="form-control" id="txtValidaContCorreo" name="txtValidaContCorreo" placeholder="Valida Contraseña">
                         </div>
 
                         <div class="form-group">
@@ -170,7 +177,7 @@ grid.Column(columnName: "Eliminar", header: "Eliminar", format: @<button class="
 </div>
 
 <div class="modal fade" id="modalEmpresasUsuario">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Asociar Empresa</h4>

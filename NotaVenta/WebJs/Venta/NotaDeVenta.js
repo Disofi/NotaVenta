@@ -74,7 +74,7 @@ $(document).ready(function () {
 
     PorcentajeAtributoDescuento = parseFloat($("#PorcentajeAtributoDescuento").val());
 
-    console.log(parametros);
+    //console.log(parametros);
 
     precioProducto = 0;
     productos = [];
