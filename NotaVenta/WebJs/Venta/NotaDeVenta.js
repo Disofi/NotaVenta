@@ -1,5 +1,6 @@
 ﻿var objetosEditable = {};
-
+var caracterSeparadorMiles = ".";
+var caracterDecimal = ",";
 var parametros = {};
 
 
@@ -557,9 +558,9 @@ function CalcularProductosAgregados() {
                 totales.total = total;
                 totales.descuentos = descuentos;
 
-                $('#lbtotal').text(result.SubTotalConDescuento);
-                $('#lbimpuesto').text(impuesto);
-                $('#lbtotalfinal').text(total);
+                $('#lbtotal').text(agregarSeparadorMiles(result.SubTotalConDescuento, caracterSeparadorMiles, caracterDecimal));
+                $('#lbimpuesto').text(agregarSeparadorMiles(impuesto, caracterSeparadorMiles, caracterDecimal));
+                $('#lbtotalfinal').text(agregarSeparadorMiles(total, caracterSeparadorMiles, caracterDecimal));
             },
             error: function (a, b, c) {
                 console.log(a, b, c);
@@ -632,16 +633,16 @@ function addRow() {
             + '<td><span id="lblDescripcion_' + contador + '">' + descripcion + '</td>'
             + '<td style="' + (parametros.ManejaTallaColor ? '' : 'display: none') + '"><span id="lblTalla_' + contador + '">' + talla + '</td>'
             + '<td style="' + (parametros.ManejaTallaColor ? '' : 'display: none') + '"><span id="lblColor_' + contador + '">' + color + '</td>'
-            + '<td style="text-align: right"><span id="lblCantidad_' + contador + '">' + cantidad + '</td>'
+            + '<td style="text-align: right"><span id="lblCantidad_' + contador + '">' + agregarSeparadorMiles(cantidad, caracterSeparadorMiles, caracterDecimal) + '</td>'
             + '<td style="' + (parametros.MuestraUnidadMedidaProducto ? '' : 'display: none') + '"><span id="lblMedida_' + contador + '">' + medida + '</td>'
-            + '<td style="text-align: right"><span id="lblPrecioUnitario_' + contador + '">' + preciounitario + '</td>'
-            + '<td style="text-align: right"><span id="lblSubTotal_' + contador + '">' + subTotal + '</td>'
-            + '<td style="' + (PorcentajeAtributoDescuento > 0 ? '' : 'display: none') + '"><span id="lblAtributoDescuento_' + contador + '">' + porcentajeAtributoDescuento + '</td>'
+            + '<td style="text-align: right"><span id="lblPrecioUnitario_' + contador + '">' + agregarSeparadorMiles(preciounitario, caracterSeparadorMiles, caracterDecimal) + '</td>'
+            + '<td style="text-align: right"><span id="lblSubTotal_' + contador + '">' + agregarSeparadorMiles(subTotal, caracterSeparadorMiles, caracterDecimal) + '</td>'
+            + '<td style="' + (PorcentajeAtributoDescuento > 0 ? '' : 'display: none') + '"><span id="lblAtributoDescuento_' + contador + '">' + agregarSeparadorMiles(porcentajeAtributoDescuento, caracterSeparadorMiles, caracterDecimal) + '</td>'
             + (descuento.length === 0 ? '<td style="text-align: right"><span id="lblDescuento_' + contador + '">0</td>' :
                 descuento.length === 1 ?
-                    '<td style="text-align: right"><span id="lblDescuento_' + contador + '">' + descuento[0].Porcentaje + '%' + '</td>' :
+                    '<td style="text-align: right"><span id="lblDescuento_' + contador + '">' + agregarSeparadorMiles(descuento[0].Porcentaje, caracterSeparadorMiles, caracterDecimal) + '%' + '</td>' :
                     '<td><a class="editable editable-click editable-empty" id="verDescuentos_' + contador + '" onclick="verDescuentos(' + contador + ')">Ver Descuentos</a></td>')
-            + '<td style="text-align: right"><span id="lblTotal_' + contador + '">' + total + '</td>'
+            + '<td style="text-align: right"><span id="lblTotal_' + contador + '">' + agregarSeparadorMiles(total, caracterSeparadorMiles, caracterDecimal) + '</td>'
             + '<td><a id="thproductolist' + contador + '" href="#divCodigo" onclick="eliminarFilas(' + contador + ');"><img src="../Content/Image/delete.png" /></a></td>'
             + '</tr>';
 
