@@ -881,6 +881,7 @@ namespace BLL
                     { "pb_MuestraUnidadMedidaProducto", parametro.MuestraUnidadMedidaProducto},
                     { "pb_DescuentoLineaDirectoSoftland", parametro.DescuentoLineaDirectoSoftland},
                     { "pb_DescuentoTotalDirectoSoftland", parametro.DescuentoTotalDirectoSoftland},
+                    { "pb_CambioVendedorCliente", parametro.CambioVendedorCliente},
                 });
                 return UTIL.Mapper.BindData<RespuestaModel>(data);
             }
