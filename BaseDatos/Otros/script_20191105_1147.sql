@@ -3753,3 +3753,52 @@ BEGIN
 	,		Mensaje = @lv_Mensaje
 END
 GO
+USE [DSNotaVenta]
+GO
+/****** Object:  StoredProcedure [dbo].[DS_AddCliente]    Script Date: 13-11-2019 12:17:56 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[DS_AddCliente]
+@CodAux varchar (15),
+@NomAux varchar(60),
+@RutAux varchar (20),
+@FonAux1 varchar (15),
+@Email varchar (250),
+@GirAux varchar (3),
+@DirAux varchar (250),
+@pv_BaseDatos varchar (100),
+@EmailDte varchar (150),
+@VenCod varchar (25)
+AS
+	DECLARE @query varchar (max)
+	SELECT @query = ''
+	SELECT @query = '
+
+	DECLARE @existe int 
+
+	SET @existe = (SELECT count(*) FROM ['+@pv_BaseDatos+'].softland.cwtauxi where CodAux = '''+@CodAux+''')
+	if(@existe = 0)
+	BEGIN
+	INSERT INTO ['+@pv_BaseDatos+'].softland.cwtauxi (Codaux,NomAux,RutAux,ActAux,GirAux,FonAux1,ClaCli,ClaPro,ClaEmp,ClaSoc,ClaDis,ClaOtr,Bloqueado,Email,eMailDTE) values
+	('''+@CodAux+''','''+@NomAux+''','''+@RutAux+''',''S'','''+@GirAux+''','''+@FonAux1+''',''S'',''N'',''N'',''N'',''N'',''N'',''N'','''+@Email+''','''+@EmailDte+''');
+	
+	INSERT INTO ['+@pv_BaseDatos+'].softland.cwtauxd (CodAxD,NomDch,DirDch) VALUES
+	('''+@CodAux+''','''+@DirAux+''','''+@DirAux+''');
+	
+	INSERT INTO ['+@pv_BaseDatos+'].softland.cwtauxven (CodAux,VenCod,Usuario) values
+	('''+@CodAux+''','''+@VenCod+''','''+@NomAux+''')
+
+		SELECT Verificador = cast(1 AS bit),
+		Mensaje = ''Cliente Creado''
+	END
+	else
+	BEGIN
+		SELECT Verificador = cast(0 AS bit),
+		Mensaje = ''Cliente ya Existe''
+	END
+	'
+	EXEC (@query)
+END
+GO

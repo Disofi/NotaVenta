@@ -1581,5 +1581,32 @@ namespace BLL
                 return null;
             }
         }
+
+        public RespuestaModel AgregarCliente(ClientesModels cliente,string basedatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_AddCliente", new System.Collections.Hashtable()
+                {
+                    { "CodAux", cliente.CodAux },
+                    { "NomAux", cliente.NomAux },
+                    { "RutAux", cliente.RutAux },
+                    { "FonAux1", cliente.FonAux1 },
+                    { "Email", cliente.EMail },
+                    { "GirAux", cliente.GirCod },
+                    { "DirAux", cliente.DirAux },
+                    { "pv_BaseDatos", basedatos },
+                    { "EmailDte", cliente.EmailDte},
+                    { "VenCod", cliente.VenCod}
+                });
+
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
     }
 }

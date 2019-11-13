@@ -86,5 +86,7 @@ namespace UTIL.Models
         public bool DescuentoLineaDirectoSoftland { get; set; }
         //PARA FABRICA DEBEN IR LOS PRECIOS CON LOS DESCUENTOS A SOFTLAND
         public bool DescuentoTotalDirectoSoftland { get; set; }
+
+        public bool AgregaCliente { get; set; }
     }
 }

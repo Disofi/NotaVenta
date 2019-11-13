@@ -18,7 +18,6 @@ namespace NotaVenta.Controllers
     {
         #region Vistas
 
-        // GET: Venta
         public ActionResult Index()
         {
             return View();
@@ -28,7 +27,7 @@ namespace NotaVenta.Controllers
         public ActionResult MisClientes()
         {
             UsuariosModels usr = new UsuariosModels();
-
+            ParametrosModels parametros = ObtieneParametros();
             List<ClientesModels> lclientes = new List<ClientesModels>();
 
             usr.VenCod = codigoVendedorUsuario().Trim();
@@ -39,7 +38,7 @@ namespace NotaVenta.Controllers
             {
                 lclientes = misClientes;
             }
-
+            ViewBag.parametros = parametros;
             ViewBag.clientes = lclientes;
 
             IEnumerable<SelectListItem> clientesGiro = controlDisofi().ObtenerGiro(baseDatosUsuario()).Select(c => new SelectListItem()
@@ -388,7 +387,47 @@ namespace NotaVenta.Controllers
             List<ClientesModels> nv = controlDisofi().AgregarContacto(cli);
         }
 
-
+        [HttpPost]
+        public JsonResult AgregarCliente(string NomAux, string RutAux, string FonAux1,string Email, string GirAux, string DirAux, string EmailDte)
+        {
+            ParametrosModels parametros = ObtieneParametros();
+            if (!string.IsNullOrEmpty(NomAux) && !string.IsNullOrEmpty(RutAux) && !string.IsNullOrEmpty(FonAux1) && !string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(GirAux) && !string.IsNullOrEmpty(DirAux) && !string.IsNullOrEmpty(EmailDte))
+            {
+                if (Email.Contains("@") && EmailDte.Contains("@"))
+                {
+                    ClientesModels Cliente = new ClientesModels();
+                    if (parametros.CrearClienteConDV)
+                    {
+                        Cliente.CodAux = RutAux.Replace("-", "").Replace(".", "");
+                    }
+                    else
+                    {
+                        Cliente.CodAux = (RutAux.Replace("-", "").Replace(".", "").Substring(0, RutAux.Length - 1));
+                    }
+                    Cliente.NomAux = NomAux;
+                    Cliente.RutAux = RutAux;
+                    Cliente.FonAux1 = FonAux1;
+                    Cliente.EMail = Email;
+                    Cliente.GirCod = GirAux;
+                    Cliente.DirAux = DirAux;
+                    Cliente.EmailDte = EmailDte;
+                    Cliente.VenCod = SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.VenCod;
+                    RespuestaModel result = controlDisofi().AgregarCliente(Cliente, baseDatosUsuario());
+                    return Json(result);
+                }
+                else
+                {
+                    var result = -1;
+                    return Json(result);
+                }
+                
+            }
+            else
+            {
+                var result = -666;
+                return Json(result);
+            }
+        }
 
         #region"--- Web Métodos ---"
 
@@ -903,6 +942,8 @@ namespace NotaVenta.Controllers
 
         }
         #endregion
+
+
 
         private RespuestaNotaVentaModel creacionCabeceraDetalleNotaVenta(
             NotadeVentaCabeceraModels cabecera,

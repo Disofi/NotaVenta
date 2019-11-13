@@ -79,3 +79,43 @@ function PreNotaVenta (_aCodAux, _aNomAux) {
         }
     });
 }
+
+function AgregarCliente() {
+    var nomaux = $("#NombreCli").val();
+    var rutaux = $("#RutCli").val();
+    var fonaux1 = $("#TelefonoCli").val();
+    var email = $("#EmailMod").val();
+    var giraux = $("#GirAux").val();
+    var diraux = $("#DireccioCli").val();
+    var emaildte = $("#EmailDteMod").val();
+    $.ajax({
+        type: "POST",
+        url: "AgregarCliente",
+        data: {
+            NomAux: nomaux,
+            RutAux: rutaux,
+            FonAux1: fonaux1,
+            Email: email,
+            GirAux: giraux,
+            DirAux: diraux,
+            EmailDte: emaildte
+        },
+        async: true,
+        success: function (data) {
+            if (data == -666) {
+                alert("Debe Completar Campos Obligatorios");
+            }
+            if (data == -1) {
+                alert("Mal Formato de Correo");
+            }
+            if (data.Verificador == 1) {
+                alert(data.Mensaje);
+                location.reload();
+            }
+            if (data.Verificador == 0) {
+                alert(data.Mensaje);
+            }
+        }
+
+    });
+}

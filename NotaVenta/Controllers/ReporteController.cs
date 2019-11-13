@@ -22,7 +22,7 @@ namespace NotaVenta.Controllers
             return null;
         }
 
-        [Autorizacion(PERFILES.SUPER_ADMINISTRADOR, PERFILES.ADMINISTRADOR, PERFILES.APROBADOR)]
+        [Autorizacion(PERFILES.SUPER_ADMINISTRADOR, PERFILES.ADMINISTRADOR, PERFILES.APROBADOR, PERFILES.VENDEDOR)]
         public ActionResult FacturasPendientes()
         {
             ParametrosModels parametros = ObtieneParametros();
@@ -42,7 +42,7 @@ namespace NotaVenta.Controllers
             return View();
         }
 
-        [Autorizacion(PERFILES.SUPER_ADMINISTRADOR, PERFILES.ADMINISTRADOR, PERFILES.APROBADOR)]
+        [Autorizacion(PERFILES.SUPER_ADMINISTRADOR, PERFILES.ADMINISTRADOR, PERFILES.APROBADOR, PERFILES.VENDEDOR)]
         public ActionResult FacturasRechazadas()
         {
             List<NotadeVentaCabeceraModels> doc = new List<NotadeVentaCabeceraModels>();
@@ -96,7 +96,7 @@ namespace NotaVenta.Controllers
             return Json(new { Cabecera = NVCL, Detalle = NVDL, Mensaje = ViewBag.mensaje, NVNumero = ViewBag.NVnum }, JsonRequestBehavior.AllowGet);
         }
 
-        [Autorizacion(PERFILES.SUPER_ADMINISTRADOR, PERFILES.ADMINISTRADOR, PERFILES.APROBADOR)]
+        [Autorizacion(PERFILES.SUPER_ADMINISTRADOR, PERFILES.ADMINISTRADOR, PERFILES.APROBADOR, PERFILES.VENDEDOR)]
         public ActionResult FacturasAprobadas()
         {
             List<NotadeVentaCabeceraModels> doc = new List<NotadeVentaCabeceraModels>();
