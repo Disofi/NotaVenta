@@ -31,5 +31,7 @@ namespace UTIL.Models
         public string Usuario { get; set; }
         public double ValorAtributo { get; set; }
 
+        public string EmailDte { get; set; }
+
     }
 }

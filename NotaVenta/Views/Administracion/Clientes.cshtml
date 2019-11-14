@@ -7,6 +7,7 @@
 
     List<EmpresaModel> empresas = ViewBag.empresas;
     EmpresaModel empresaSeleccionada = ViewBag.empresaSeleccionada;
+    ParametrosModels parametros = ViewBag.parametros;
 }
 
 <link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
@@ -23,23 +24,38 @@
             </div>
         </div>
         <div class="table-responsive">
-            <div class="row">
-                <div class="col-lg-3">
-                </div>
-                <div class="col-lg-6">
-                    Empresa
-                    <select id="ddlEmpresas" class="form-control">
-                        <option value="-1">Seleccione empresa</option>
-                        @for (int x = 0; x < empresas.Count; x++)
-                        {
-                            <option value="@empresas[x].IdEmpresa" @Html.Raw(empresaSeleccionada == null ? "" : empresaSeleccionada.IdEmpresa == empresas[x].IdEmpresa ? "selected" : "")>@empresas[x].NombreEmpresa</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-lg-3">
-                </div>
+            @*@if (parametros.CrearClienteConDV)
+            {
+            <div class="float-right">
+                <br />
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AgregarUsuario">Agregar Usuario</button>
+                <br />
+                <br />
             </div>
-            <div class="row">
+            }*@
+        <div class="row">
+            <div class="col-lg-3">
+            </div>
+            <div class="col-lg-6">
+                <div class="float-left">
+                    <br />
+                    <b><label class="col-1">Empresa:</label></b>
+                    <br />
+                </div>
+                <br />
+                <select id="ddlEmpresas" class="form-control col-6">
+                    <option value="-1">Seleccione empresa</option>
+                    @for (int x = 0; x < empresas.Count; x++)
+                    {
+                        <option value="@empresas[x].IdEmpresa" @Html.Raw(empresaSeleccionada == null ? "" : empresaSeleccionada.IdEmpresa == empresas[x].IdEmpresa ? "selected" : "")>@empresas[x].NombreEmpresa</option>
+                    }
+                </select>
+                <br />
+            </div>
+            <div class="col-lg-3">
+            </div>
+        </div>
+            <div class="row table-responsive">
                 @{
                     var grid = new WebGrid(ViewBag.clientes, canPage: false);
                 }
@@ -49,13 +65,13 @@
                 columns:
                 grid.Columns(
     grid.Column(columnName: "Nombre", header: "Codigo", format: @<text>@item.CodAux</text>),
-  grid.Column(columnName: "Nombre", header: "Nombre", format: @<text>@item.NomAux</text>),
+grid.Column(columnName: "Nombre", header: "Nombre", format: @<text>@item.NomAux</text>),
 grid.Column(columnName: "Direccion", header: "Direccion", format: @<text>@item.DirAux</text>),
 grid.Column(columnName: "Direccion", header: "Contacto", format: @<text>@item.NomCon</text>),
 grid.Column(columnName: "Telefono", header: "Telefono", format: @<text>@item.FonCon</text>),
 grid.Column(columnName: "Editar", header: "Editar", format: @<button class="btn btn-warning btn-m" data-toggle="modal" data-target="#modalEditarCliente" onclick="ObtenerDatosCliente(@item.CodAux)">
-    <span class="fas fa-pencil-alt fa-fw"></span>
-</button>)
+            <span class="fas fa-pencil-alt fa-fw"></span>
+        </button>)
 ))
             </div>
         </div>

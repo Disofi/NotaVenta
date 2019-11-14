@@ -1565,19 +1565,18 @@ begin
 select 
 a.nvLinea,
 a.CodProd, 
-b.DesProd, 
+tp.DesProd, 
 a.nvCant, 
 a.CodUMed, 
 a.nvPrecio, 
-a.nvSubTotal, 
+a.nvSubTotal,
 ROUND(a.nvDPorcDesc01,0) as nvDPorcDesc01, 
 a.nvTotLinea,
 Stock = (select  Sum (CASE WHEN TipoBod = ''D'' THEN Ingresos - Egresos ELSE 0 END)  * 1 AS StockDisponible     
-FROM  ['+@pv_BaseDatos+'].softland.IW_vsnpMovimStockTipoBod WITH (INDEX(IW_GMOVI_BodPro)) 
+FROM  ['+@pv_BaseDatos+'].[softland].[IW_vsnpMovimStockTipoBod] WITH (INDEX(IW_GMOVI_BodPro)) 
 WHERE   Fecha <= '+CONVERT(varchar(10),getdate(),103)+'  and CodProd = tp.CodProd GROUP BY CodProd)
 from [dbo].[DS_NotasVentaDetalle] a
-inner join ['+@pv_BaseDatos+'].[softland].[iw_tprod] b on b.CodProd collate Modern_Spanish_CI_AS = a.CodProd 
-LEFT JOIN ['+@pv_BaseDatos+'].[softland].[iw_tprod] AS tp on a.CodProd = tp.CodProd collate SQL_Latin1_General_CP1_CI_AS
+inner JOIN ['+@pv_BaseDatos+'].[softland].[iw_tprod] AS tp on a.CodProd collate Modern_Spanish_CI_AS = tp.CodProd 
 where a.IdNotaVenta = '+convert(varchar(100),@nvId)+'
 order by a.nvLinea
 end
@@ -2129,13 +2128,8 @@ CREATE procedure [dbo].[FR_ListarDocumentosPendientes]
 				case	when
 	(select  Sum (CASE WHEN TipoBod = ''D'' THEN Ingresos - Egresos ELSE 0 END)  * 1 AS StockDisponible 
 	FROM  ['+@pv_BaseDatos+'].softland.IW_vsnpMovimStockTipoBod WITH (INDEX(IW_GMOVI_BodPro)) 
-	WHERE Fecha <= getdate() and CodProd = tp.CodProd 
-	GROUP BY CodProd) < c.nvCant then 1
-	when
-	(select  Sum (CASE WHEN TipoBod = ''D'' THEN Ingresos - Egresos ELSE 0 END)  * 1 AS StockDisponible 
-	FROM  ['+@pv_BaseDatos+'].softland.IW_vsnpMovimStockTipoBod WITH (INDEX(IW_GMOVI_BodPro)) 
 	WHERE Fecha <= getdate()  and CodProd = tp.CodProd 
-	GROUP BY CodProd)>= c.nvCant then 0 end ), 0) as stocklista,
+	GROUP BY CodProd)>= c.nvCant then 0 else 1 end ), 0) as stocklista,
 	a.NVNumero,
 	a.Id,
 	clientes.[NomAux],
@@ -2525,7 +2519,7 @@ begin
 	SET @tableHTML = 
 	
 		N'<H1>Nota de Venta</H1>' + 
-		N'<H4>Nº Int: '+@NVNumeroc+'</H4>'+ 
+		N'<H4>Nï¿½ Int: '+@NVNumeroc+'</H4>'+ 
 		N'<H4>Cliente: ' + @cliente +'</H4>'+
 		N'<H4>Direccion: '+ @Direccion +'</H4>'+
 		N'<H4>Fecha Pedido: ' + @fpedido +'</H4>'+
@@ -3200,7 +3194,7 @@ CREATE Procedure [dbo].[JS_ListarNVDETALLENM]
 		DECLARE @query varchar(max)
 		SELECT @query = ''
 -- ==========================================================================================
------------------Lista detalle  nota de venta según NVNumero-------------------------
+-----------------Lista detalle  nota de venta segï¿½n NVNumero-------------------------
 -- ==========================================================================================
 		SELECT @query = @query + '
 			SELECT
@@ -3239,7 +3233,7 @@ CREATE Procedure [dbo].[JS_ListarNVNM] --25 'transporte'
 		DECLARE @query varchar(max)
 		SELECT @query = ''
 -- ==========================================================================================
------------------Lista la cabecera de la nota de venta según NVNumero-------------------------
+-----------------Lista la cabecera de la nota de venta segï¿½n NVNumero-------------------------
 -- ==========================================================================================
 		SELECT @query = @query + '
 			SELECT
@@ -3763,6 +3757,55 @@ BEGIN
 	
 	SELECT	Verificador = @lb_Verificador
 	,		Mensaje = @lv_Mensaje
+END
+GO
+USE [DSNotaVenta]
+GO
+/****** Object:  StoredProcedure [dbo].[DS_AddCliente]    Script Date: 13-11-2019 12:17:56 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[DS_AddCliente]
+@CodAux varchar (15),
+@NomAux varchar(60),
+@RutAux varchar (20),
+@FonAux1 varchar (15),
+@Email varchar (250),
+@GirAux varchar (3),
+@DirAux varchar (250),
+@pv_BaseDatos varchar (100),
+@EmailDte varchar (150),
+@VenCod varchar (25)
+AS
+	DECLARE @query varchar (max)
+	SELECT @query = ''
+	SELECT @query = '
+
+	DECLARE @existe int 
+
+	SET @existe = (SELECT count(*) FROM ['+@pv_BaseDatos+'].softland.cwtauxi where CodAux = '''+@CodAux+''')
+	if(@existe = 0)
+	BEGIN
+	INSERT INTO ['+@pv_BaseDatos+'].softland.cwtauxi (Codaux,NomAux,RutAux,ActAux,GirAux,FonAux1,ClaCli,ClaPro,ClaEmp,ClaSoc,ClaDis,ClaOtr,Bloqueado,Email,eMailDTE) values
+	('''+@CodAux+''','''+@NomAux+''','''+@RutAux+''',''S'','''+@GirAux+''','''+@FonAux1+''',''S'',''N'',''N'',''N'',''N'',''N'',''N'','''+@Email+''','''+@EmailDte+''');
+	
+	INSERT INTO ['+@pv_BaseDatos+'].softland.cwtauxd (CodAxD,NomDch,DirDch) VALUES
+	('''+@CodAux+''','''+@DirAux+''','''+@DirAux+''');
+	
+	INSERT INTO ['+@pv_BaseDatos+'].softland.cwtauxven (CodAux,VenCod,Usuario) values
+	('''+@CodAux+''','''+@VenCod+''','''+@NomAux+''')
+
+		SELECT Verificador = cast(1 AS bit),
+		Mensaje = ''Cliente Creado''
+	END
+	else
+	BEGIN
+		SELECT Verificador = cast(0 AS bit),
+		Mensaje = ''Cliente ya Existe''
+	END
+	'
+	EXEC (@query)
 END
 GO
 /*------------------------------------------------------------------------------*/
