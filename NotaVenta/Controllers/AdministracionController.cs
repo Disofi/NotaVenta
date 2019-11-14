@@ -30,8 +30,8 @@ namespace NotaVenta.Controllers
             List<UsuariosTiposModels> ltipo = controlDisofi().listarTipo();
             ViewBag.tipo = ltipo;
 
-            List<VendedoresSoftlandModels> lvendedor = controlDisofi().listarVendedoresSoftland(baseDatosUsuario());
-            ViewBag.vendedor = lvendedor;
+            //List<VendedoresSoftlandModels> lvendedor = controlDisofi().listarVendedoresSoftland(baseDatosUsuario());
+            //ViewBag.vendedor = lvendedor;
 
             IEnumerable<SelectListItem> lPerfil = controlDisofi().ListarPerfiles().Select(c => new SelectListItem()
             {
@@ -48,20 +48,6 @@ namespace NotaVenta.Controllers
 
             ViewBag.Empresas = dataEmpresas;
 
-            //IEnumerable<SelectListItem> lCodVenl = controlDisofi().ListarCodVendedorSoft(baseDatosUsuario()).Select(c => new SelectListItem()
-            //{
-            //    Text = c.VenDes + " " + c.VenCod.ToString(),
-            //    Value = c.VenCod.ToString()
-            //}).ToList();
-            //ViewBag.VenCodSoft = lCodVenl;
-
-            //IEnumerable<SelectListItem> lBaseDatos = controlDisofi().ListarEmpresas().Select(c => new SelectListItem()
-            //{
-            //    Text = c.NombreEmpresa,
-            //    Value = c.IdEmpresa.ToString()
-            //}).ToList();
-            //ViewBag.BaseDatos = lBaseDatos;
-
             return View();
         }
 
@@ -71,7 +57,8 @@ namespace NotaVenta.Controllers
         public ActionResult Clientes()
         {
             List<ClientesModels> ListClientes = new List<ClientesModels>();
-
+            ParametrosModels parametros = ObtieneParametros();
+            ViewBag.parametros = parametros;
             List<EmpresaModel> empresas = controlDisofi().ListarEmpresas();
             ViewBag.empresas = empresas;
 
@@ -167,8 +154,6 @@ namespace NotaVenta.Controllers
             }
         }
 
-
-
         public ActionResult EditUsuarios(int idUsuario)
         {
             UsuariosModels Usuario = new UsuariosModels();
@@ -208,8 +193,6 @@ namespace NotaVenta.Controllers
                 return Json(result);
             }
         }
-
-
 
         public JsonResult CambiarEmpresaCliente(int _IdEmpresa)
         {
@@ -290,7 +273,6 @@ namespace NotaVenta.Controllers
             return Json(new { list = usuarios }, JsonRequestBehavior.AllowGet);
         }
 
-
         public JsonResult ObtenerVendedoresEmpresa(string _IdEmpresa)
         {
             List<EmpresaModel> empresaModels = controlDisofi().ListarEmpresas().Where(m => m.IdEmpresa == Convert.ToInt32(_IdEmpresa)).ToList();
@@ -306,13 +288,13 @@ namespace NotaVenta.Controllers
                 return Json(new List<UsuariosModels>(), JsonRequestBehavior.AllowGet); ;
             }
         }
+
         public JsonResult ObtenerEmpresasUsuario(string _IdUsuario)
         {
             List<UsuarioEmpresaModel> usuarios = controlDisofi().ListaUsuarioEmpresas(Convert.ToInt32(_IdUsuario));
 
             return Json(usuarios, JsonRequestBehavior.AllowGet);
         }
-
 
         public JsonResult AgregarEmpresasUsuario(string _IdUsuario, List<UsuarioEmpresaModel> empresasUsuario)
         {
@@ -334,7 +316,6 @@ namespace NotaVenta.Controllers
             return Json(respuestaModel, JsonRequestBehavior.AllowGet);
         }
 
-
         public JsonResult ValidaExisteEmpresasUsuario(string _VenCod, string _IdEmpresa)
         {
             RespuestaModel respuestaModel = new RespuestaModel();
@@ -344,16 +325,13 @@ namespace NotaVenta.Controllers
             return Json(respuestaModel, JsonRequestBehavior.AllowGet);
         }
 
-
         public JsonResult obtenerDatosClientes(string _CodAux)
         {
             List<ClientesModels> clientes = controlDisofi().GetDatosClientes(_CodAux, baseDatosUsuario());
             return Json(new { list = clientes }, JsonRequestBehavior.AllowGet);
         }
 
-
         #region"--- Web Methods ---"
-
 
         [HttpPost, ValidateInput(false)]
         public ActionResult EditUsuarios(FormCollection frm)
@@ -394,39 +372,6 @@ namespace NotaVenta.Controllers
             return View();
         }
 
-        //[HttpPost, ValidateInput(false)]
-        //public ActionResult EditCliente(FormCollection frm)
-        //{
-        //    //ClientesModels cliente = new ClientesModels();
-        //    //cliente.RutAux = Request.Form["txtrut"];
-
-        //    //return View();
-        //    ClientesModels cliente = new ClientesModels();
-
-        //    cliente.CodAux = Request.Form["txtcodAux"];
-        //    cliente.RutAux = Request.Form["txtrut"];
-        //    cliente.NomAux = Request.Form["txtnombre"];
-        //    cliente.NomCon = Request.Form["txtcontacto"];
-        //    cliente.FonCon = Request.Form["txttelefono"];
-        //    cliente.DirAux = Request.Form["txtdireccion"];
-        //    cliente.EMail = Request.Form["txtemail"];
-
-        //    RespuestaModel result = controlDisofi().ActualizarCliente(cliente);
-
-        //    List<ClientesModels> bclientes = controlDisofi().BuscarClientes(cliente);
-
-        //    if (SessionVariables.SESSION_BUSCAR_CLIENTE != null)
-        //    {
-        //        SessionVariables.SESSION_BUSCAR_CLIENTE = null;
-        //        SessionVariables.SESSION_BUSCAR_CLIENTE = bclientes;
-        //    }
-        //    else
-        //    {
-        //        SessionVariables.SESSION_BUSCAR_CLIENTE = bclientes;
-        //    }
-
-        //    return View();
-        //}
 
         #endregion
     }

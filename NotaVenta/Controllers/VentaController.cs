@@ -18,7 +18,6 @@ namespace NotaVenta.Controllers
     {
         #region Vistas
 
-        // GET: Venta
         public ActionResult Index()
         {
             return View();
@@ -28,7 +27,7 @@ namespace NotaVenta.Controllers
         public ActionResult MisClientes()
         {
             UsuariosModels usr = new UsuariosModels();
-
+            ParametrosModels parametros = ObtieneParametros();
             List<ClientesModels> lclientes = new List<ClientesModels>();
 
             usr.VenCod = codigoVendedorUsuario().Trim();
@@ -39,7 +38,7 @@ namespace NotaVenta.Controllers
             {
                 lclientes = misClientes;
             }
-
+            ViewBag.parametros = parametros;
             ViewBag.clientes = lclientes;
 
             IEnumerable<SelectListItem> clientesGiro = controlDisofi().ObtenerGiro(baseDatosUsuario()).Select(c => new SelectListItem()
@@ -69,11 +68,12 @@ namespace NotaVenta.Controllers
         [Autorizacion(PERFILES.SUPER_ADMINISTRADOR, PERFILES.VENDEDOR)]
         public JsonResult PreNotadeVenta(string CodAux, string NomAux)
         {
+            ParametrosModels parametros = ObtieneParametros();
             NotadeVentaCabeceraModels notadeVentaCabeceraModels = new NotadeVentaCabeceraModels();
             notadeVentaCabeceraModels.CodAux = CodAux;
             notadeVentaCabeceraModels.NomAux = NomAux;
             SessionVariables.SESSION_NOTA_VENTA_CABECERA_MODEL = notadeVentaCabeceraModels;
-
+            
 
             NotadeVentaCabeceraModels NVC = SessionVariables.SESSION_NOTA_VENTA_CABECERA_MODEL;
             NVC.NVNumero = 0;
@@ -85,9 +85,31 @@ namespace NotaVenta.Controllers
             {
                 CodAux = NVC.CodAux
             };
-
             List<ClientesModels> contactoCorreos = controlDisofi().GetContacto(baseDatosUsuario(), cliente);
             List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), cliente);
+
+            CreditoModel credito = controlDisofi().ObtenerCredito(cliente.CodAux, baseDatosUsuario());
+
+            if (parametros.ManejaLineaCreditoVendedor)
+            {
+                if (credito != null)
+                {
+                    credito.Deuda = credito.Debe - credito.Haber;
+                    credito.Saldo = credito.Credito - credito.Deuda;
+
+                    if (credito.Credito == 0)
+                    {
+                        validador = -999;
+                        return Json(validador);
+                    }
+                    else
+                    {
+                        validador = 1;
+                        return Json(validador);
+                    }
+
+                }
+            }
 
             if (contactoCorreos != null && contactoCorreos.Count > 0 && contactoCorreos[0].EMail != "")
             {
@@ -108,7 +130,6 @@ namespace NotaVenta.Controllers
                     validador = -1;
                     return Json(validador);
                 }
-
             }
         }
 
@@ -132,7 +153,7 @@ namespace NotaVenta.Controllers
             {
                 CodAux = NVC.CodAux
             };
-            //la lista de precios ,,.....dale...nada
+            
             ClientesModels cm = controlDisofi().ObtenerAtributoDescuento(baseDatosUsuario(), cliente.CodAux, parametros.AtributoSoftlandDescuentoCliente);
             cliente.ValorAtributo = cm.ValorAtributo;
 
@@ -141,21 +162,21 @@ namespace NotaVenta.Controllers
             ViewBag.VendedorCliente = vendedorCliente;
             CreditoModel credito = controlDisofi().ObtenerCredito(cliente.CodAux, baseDatosUsuario());
 
-            if (parametros.ManejaLineaCreditoVendedor)
-            {
-                if (credito != null)
-                {
-                    credito.Deuda = credito.Debe - credito.Haber;
-                    credito.Saldo = credito.Credito - credito.Deuda;
+            //if (parametros.ManejaLineaCreditoVendedor)
+            //{
+            //    if (credito != null)
+            //    {
+            //        credito.Deuda = credito.Debe - credito.Haber;
+            //        credito.Saldo = credito.Credito - credito.Deuda;
 
-                    if (credito.Credito == 0)
-                    {
-                        TempData["Mensaje"] = "CLIENTE NO TIENE CREDITO. <br>";
-                        return RedirectToAction("MisClientes", "Venta");
-                    }
+            //        if (credito.Credito == 0)
+            //        {
+            //            TempData["Mensaje"] = "CLIENTE NO TIENE CREDITO. <br>";
+            //            return RedirectToAction("MisClientes", "Venta");
+            //        }
 
-                }
-            }
+            //    }
+            //}
 
 
 
@@ -366,7 +387,47 @@ namespace NotaVenta.Controllers
             List<ClientesModels> nv = controlDisofi().AgregarContacto(cli);
         }
 
-
+        [HttpPost]
+        public JsonResult AgregarCliente(string NomAux, string RutAux, string FonAux1,string Email, string GirAux, string DirAux, string EmailDte)
+        {
+            ParametrosModels parametros = ObtieneParametros();
+            if (!string.IsNullOrEmpty(NomAux) && !string.IsNullOrEmpty(RutAux) && !string.IsNullOrEmpty(FonAux1) && !string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(GirAux) && !string.IsNullOrEmpty(DirAux) && !string.IsNullOrEmpty(EmailDte))
+            {
+                if (Email.Contains("@") && EmailDte.Contains("@"))
+                {
+                    ClientesModels Cliente = new ClientesModels();
+                    if (parametros.CrearClienteConDV)
+                    {
+                        Cliente.CodAux = RutAux.Replace("-", "").Replace(".", "");
+                    }
+                    else
+                    {
+                        Cliente.CodAux = (RutAux.Replace("-", "").Replace(".", "").Substring(0, RutAux.Length - 1));
+                    }
+                    Cliente.NomAux = NomAux;
+                    Cliente.RutAux = RutAux;
+                    Cliente.FonAux1 = FonAux1;
+                    Cliente.EMail = Email;
+                    Cliente.GirCod = GirAux;
+                    Cliente.DirAux = DirAux;
+                    Cliente.EmailDte = EmailDte;
+                    Cliente.VenCod = SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.VenCod;
+                    RespuestaModel result = controlDisofi().AgregarCliente(Cliente, baseDatosUsuario());
+                    return Json(result);
+                }
+                else
+                {
+                    var result = -1;
+                    return Json(result);
+                }
+                
+            }
+            else
+            {
+                var result = -666;
+                return Json(result);
+            }
+        }
 
         #region"--- Web Métodos ---"
 
@@ -881,6 +942,8 @@ namespace NotaVenta.Controllers
 
         }
         #endregion
+
+
 
         private RespuestaNotaVentaModel creacionCabeceraDetalleNotaVenta(
             NotadeVentaCabeceraModels cabecera,

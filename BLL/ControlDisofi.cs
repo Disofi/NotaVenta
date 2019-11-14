@@ -364,5 +364,10 @@ namespace BLL
         {
             return _Control.ActualizarCorreoCliente(cli, basedatos);
         }
+
+        public RespuestaModel AgregarCliente (ClientesModels cliente,string basedatos)
+        {
+            return _Control.AgregarCliente(cliente, basedatos);
+        }
     }
 }
