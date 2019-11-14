@@ -48,21 +48,26 @@
             <!-- end navbar-header -->
             <!-- begin header-nav -->
             <ul class="navbar-nav navbar-right">
-               <li class="dropdown navbar-user">
+                <li class="dropdown navbar-user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                         <img src="" alt="" />
                         <h4 class="d-none d-md-inline">@NotaVenta.UTIL.SessionVariables.SESSION_DATOS_USUARIO.Nombre <small>Empresa: @NotaVenta.UTIL.SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.NombreEmpresa</small></h4> <b class="caret"></b>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        @if (NotaVenta.UTIL.SessionVariables.SESSION_EMPRESAS_USUARIO != null)
+                        @if (@NotaVenta.UTIL.SessionVariables.SESSION_DATOS_USUARIO.TipoUsuario != 1)
                         {
-                            <a id="aLayoutCambioEmpresa" href="#modalLayoutEmpresas" class="dropdown-item" data-toggle="modal">Cambiar Empresa</a>
-                            <div class="dropdown-divider"></div>
+                            if (NotaVenta.UTIL.SessionVariables.SESSION_EMPRESAS_USUARIO != null)
+                            {
+                                <a id="aLayoutCambioEmpresa" href="#modalLayoutEmpresas" class="dropdown-item" data-toggle="modal">Cambiar Empresa</a>
+                                <div class="dropdown-divider"></div>
+                            }
                         }
                         <a href="@Url.Action("LogOut", "Login")" class="dropdown-item">Cerrar Sesion</a>
                     </div>
                 </li>
             </ul>
+
+
             <!-- end header-nav -->
         </div>
         <!-- end #header -->
@@ -75,7 +80,7 @@
             </ul>
             <!-- end nav -->
         </div>
-        
+
         <!-- end #top-menu -->
         <!-- begin #content -->
         <div id="content" class="content">
