@@ -58,6 +58,7 @@
                     cambiarValorSwitcher("ManejaLineaCreditoVendedor", response.ManejaLineaCreditoVendedor);
                     cambiarValorSwitcher("ManejaLineaCreditoAprobador", response.ManejaLineaCreditoAprobador);
                     cambiarValorSwitcher("ManejaCanalVenta", response.ManejaCanalVenta);
+                    cambiarValorSwitcher("CambioVendedorCliente", response.CambioVendedorCliente);
                     cambiarValorSwitcher("CreacionNotaVentaUsuariosBloqueados", response.CreacionNotaVentaUsuariosBloqueados);
                     cambiarValorSwitcher("CreacionNotaVentaUsuariosInactivos", response.CreacionNotaVentaUsuariosInactivos);
                     cambiarValorSwitcher("PermiteModificacionCondicionVenta", response.PermiteModificacionCondicionVenta);
@@ -156,6 +157,7 @@ function GuardarParametros() {
     var ManejaLineaCreditoVendedor = estaHabilitadoSwitcher("ManejaLineaCreditoVendedor");
     var ManejaLineaCreditoAprobador = estaHabilitadoSwitcher("ManejaLineaCreditoAprobador");
     var ManejaCanalVenta = estaHabilitadoSwitcher("ManejaCanalVenta");
+    var CambioVendedorCliente = estaHabilitadoSwitcher("CambioVendedorCliente");
     var CreacionNotaVentaUsuariosBloqueados = estaHabilitadoSwitcher("CreacionNotaVentaUsuariosBloqueados");
     var CreacionNotaVentaUsuariosInactivos = estaHabilitadoSwitcher("CreacionNotaVentaUsuariosInactivos");
     var PermiteModificacionCondicionVenta = estaHabilitadoSwitcher("PermiteModificacionCondicionVenta");
@@ -197,6 +199,7 @@ function GuardarParametros() {
         ManejaLineaCreditoVendedor: ManejaLineaCreditoVendedor,
         ManejaLineaCreditoAprobador: ManejaLineaCreditoAprobador,
         ManejaCanalVenta: ManejaCanalVenta,
+        CambioVendedorCliente: CambioVendedorCliente,
         CreacionNotaVentaUsuariosBloqueados: CreacionNotaVentaUsuariosBloqueados,
         CreacionNotaVentaUsuariosInactivos: CreacionNotaVentaUsuariosInactivos,
         PermiteModificacionCondicionVenta: PermiteModificacionCondicionVenta,

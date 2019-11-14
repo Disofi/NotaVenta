@@ -176,6 +176,7 @@ CREATE TABLE [dbo].[DS_Parametros](
 	[EnvioMailContacto] [bit] NULL,
 	[EnvioObligatorioAprobador] [bit] NULL,
 	[ManejaTallaColor] [bit] NULL,
+	[CambioVendedorCliente] [bit] NULL DEFAULT(0),
 	[ManejaDescuentoTotalDocumento] [bit] NULL,
 	[CantidadDescuentosTotalDocumento] [int] NULL,
 	[CantidadLineas] [int] NULL,
@@ -1113,6 +1114,9 @@ WHERE	Id = ' + CONVERT(VARCHAR(20), @pi_IdNotaVenta) + '''
 
 	select	@pv_Mensaje = case when @lv_Mensaje is null then @pv_Mensaje else @lv_Mensaje end
 	,		@pb_Verificador = case when @lb_Verificador is null then @pb_Verificador else @lb_Verificador end
+	EXEC [dbo].[FR_ActualizaClienteVendedorSoftland]
+				@pv_BaseDatos = @pv_BaseDatos
+	,			@pi_IdNotaVenta = @pi_IdNotaVenta
 
 GO
 /****** Object:  StoredProcedure [dbo].[FR_AgregarNVDetalle]    Script Date: 05-11-2019 11:46:10 ******/
@@ -2515,7 +2519,7 @@ begin
 	SET @tableHTML = 
 	
 		N'<H1>Nota de Venta</H1>' + 
-		N'<H4>Nº Int: '+@NVNumeroc+'</H4>'+ 
+		N'<H4>Nï¿½ Int: '+@NVNumeroc+'</H4>'+ 
 		N'<H4>Cliente: ' + @cliente +'</H4>'+
 		N'<H4>Direccion: '+ @Direccion +'</H4>'+
 		N'<H4>Fecha Pedido: ' + @fpedido +'</H4>'+
@@ -2612,6 +2616,7 @@ CREATE procedure [dbo].[FR_ModificarParametrosUsuarios]
 ,	@pb_EnvioMailContacto BIT
 ,	@pb_EnvioObligatorioAprobador BIT 
 ,	@pb_ManejaTallaColor BIT 
+,	@pb_CambioVendedorCliente BIT
 ,	@pb_ManejaDescuentoTotalDocumento BIT 
 ,	@pi_CantidadDescuentosTotalDocumento INT
 ,	@pi_CantidadLineas INT
@@ -2654,6 +2659,7 @@ begin
 	,		EnvioMailContacto = @pb_EnvioMailContacto
 	,		EnvioObligatorioAprobador = @pb_EnvioObligatorioAprobador
 	,		ManejaTallaColor = @pb_ManejaTallaColor
+	,		CambioVendedorCliente = @pb_CambioVendedorCliente
 	,		ManejaDescuentoTotalDocumento = @pb_ManejaDescuentoTotalDocumento
 	,		CantidadDescuentosTotalDocumento = @pi_CantidadDescuentosTotalDocumento
 	,		CantidadLineas = @pi_CantidadLineas
@@ -3188,7 +3194,7 @@ CREATE Procedure [dbo].[JS_ListarNVDETALLENM]
 		DECLARE @query varchar(max)
 		SELECT @query = ''
 -- ==========================================================================================
------------------Lista detalle  nota de venta según NVNumero-------------------------
+-----------------Lista detalle  nota de venta segï¿½n NVNumero-------------------------
 -- ==========================================================================================
 		SELECT @query = @query + '
 			SELECT
@@ -3227,7 +3233,7 @@ CREATE Procedure [dbo].[JS_ListarNVNM] --25 'transporte'
 		DECLARE @query varchar(max)
 		SELECT @query = ''
 -- ==========================================================================================
------------------Lista la cabecera de la nota de venta según NVNumero-------------------------
+-----------------Lista la cabecera de la nota de venta segï¿½n NVNumero-------------------------
 -- ==========================================================================================
 		SELECT @query = @query + '
 			SELECT
@@ -3800,5 +3806,45 @@ AS
 	END
 	'
 	EXEC (@query)
+END
+GO
+/*------------------------------------------------------------------------------*/
+/*-- Empresa			: DISOFI												*/
+/*-- Tipo				: Procedimiento											*/
+/*-- Nombre				: [dbo].[FR_ActualizaClienteVendedorSoftland]								*/
+/*-- Detalle			:														*/
+/*-- Autor				: FDURAN												*/
+/*-- Modificaciones		:														*/
+/*------------------------------------------------------------------------------*/
+create PROCEDURE [dbo].[FR_ActualizaClienteVendedorSoftland]
+(
+	@pv_BaseDatos [varchar](100)
+,	@pi_IdNotaVenta INT = null
+)
+AS
+BEGIN
+	declare @query nvarchar(max)
+	
+	declare @lv_codaux varchar(100)
+	declare @lv_vendedor varchar(100)
+
+	IF (select top 1 a.CambioVendedorCliente from ds_parametros a inner join ds_empresa b on a.idEmpresa = b.id where b.basedatos = @pv_BaseDatos) = 1 BEGIN
+
+		select	@lv_codaux  = codaux 
+		,		@lv_vendedor = vencod
+		from	[dbo].[ds_notasventa] 
+		where	id = @pi_IdNotaVenta
+
+		SELECT @query = ''
+
+		SELECT @query = @query + '
+		--select vencod, ''' + @lv_vendedor + ''', * from [' + @pv_BaseDatos + '].[softland].[cwtauxven] a where codaux = ''' + convert(varchar(100), @lv_codaux) + '''
+		update	[' + @pv_BaseDatos + '].[softland].[cwtauxven]
+		set		vencod = ''' + @lv_vendedor + '''
+		where	codaux = ''' + convert(varchar(100), @lv_codaux) + '''
+		'
+
+		exec (@query)
+	end
 END
 GO

@@ -1,4 +1,29 @@
-﻿$(document).ready(function () {
+﻿
+function agregarSeparadorMiles(numero, caracterSeparador, caracterDecimal) {
+    caracterSeparador = caracterSeparador === undefined || caracterSeparador === null ? "," : caracterSeparador;
+
+    numero = String(numero);
+    var decimales = "";
+    if (numero.indexOf(".") !== -1) {
+        decimales = numero.substring(numero.indexOf("."));
+    }
+
+    numero = String(numero).replace(decimales, "");
+
+    decimales = decimales.replace(".", caracterDecimal);
+
+    numero = numero === '' ? numero : Number(numero).toLocaleString().replace(",", caracterSeparador);
+
+    while (numero.indexOf(",") !== -1) {
+        numero = numero.replace(",", caracterSeparador);
+    }
+
+    numero = numero + decimales;
+
+    return numero;
+}
+
+$(document).ready(function () {
     try {
         $('#dataTable').DataTable({
             language: {

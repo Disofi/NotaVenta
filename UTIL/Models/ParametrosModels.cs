@@ -88,5 +88,6 @@ namespace UTIL.Models
         public bool DescuentoTotalDirectoSoftland { get; set; }
 
         public bool AgregaCliente { get; set; }
+        public bool CambioVendedorCliente { get; set; }
     }
 }
