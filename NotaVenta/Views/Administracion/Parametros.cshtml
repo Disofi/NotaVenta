@@ -336,6 +336,17 @@
                                         <tr>
                                             <td>
                                                 <div class="row">
+                                                    <div class="col-lg-4">Cambio Vendedor de Cliente</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="CambioVendedorCliente" id="CambioVendedorCliente" @Html.Raw(parametros.CambioVendedorCliente ? "checked" : "")>
+                                                            <label for="CambioVendedorCliente"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="row">
                                                     <div class="col-lg-4">Cantidad Descuentos Total Documento</div>
                                                     <div class="col-lg-8">
                                                         <input type="text" class="form-control" id="CantidadDescuentosTotalDocumento" name="CantidadDescuentosTotalDocumento" value="@parametros.CantidadDescuentosTotalDocumento" />
