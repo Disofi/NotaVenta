@@ -1,5 +1,4 @@
 C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\bin\Release\UTIL.dll
 C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\bin\Release\UTIL.pdb
-C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\obj\Release\UTIL.csprojAssemblyReference.cache
 C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\obj\Release\UTIL.dll
 C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\obj\Release\UTIL.pdb

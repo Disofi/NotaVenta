@@ -369,5 +369,10 @@ namespace BLL
         {
             return _Control.AgregarCliente(cliente, basedatos);
         }
+
+        public List<AprobadorModels> GetAprobadorNP()
+        {
+            return _Control.GetAprobadorNP();
+        }
     }
 }

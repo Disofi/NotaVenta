@@ -1609,5 +1609,19 @@ namespace BLL
                 return null;
             }
         }
+
+        public List<AprobadorModels> GetAprobadorNP()
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_GetAprobadorNP", new System.Collections.Hashtable());
+                return UTIL.Mapper.BindDataList<AprobadorModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
     }
 }

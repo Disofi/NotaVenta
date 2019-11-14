@@ -498,6 +498,28 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">Agrega Cliente</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="AgregaCliente" id="AgregaCliente" @Html.Raw(parametros.AgregaCliente ? "checked" : "")>
+                                                            <label for="AgregaCliente"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">Envia Correo Aprobador</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="EnvioMailAprobador" id="EnvioMailAprobador" @Html.Raw(parametros.EnvioMailAprobador ? "checked" : "")>
+                                                            <label for="AgregaCliente"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td colspan="3">

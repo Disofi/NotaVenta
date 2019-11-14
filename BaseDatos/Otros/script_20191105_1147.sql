@@ -3848,3 +3848,17 @@ BEGIN
 	end
 END
 GO
+/*------------------------------------------------------------------------------*/
+/*-- Empresa			: DISOFI												*/
+/*-- Tipo				: Procedimiento											*/
+/*-- Nombre				: [dbo].[FR_ActualizaClienteVendedorSoftland]								*/
+/*-- Detalle			:														*/
+/*-- Autor				: FDURAN												*/
+/*-- Modificaciones		:														*/
+/*------------------------------------------------------------------------------*/
+CREATE PROCEDURE DS_GetAprobadorNP
+AS
+BEGIN
+SELECT * FROM dbo.DS_Usuarios du	WHERE du.tipoUsuario = 3
+END
+GO
