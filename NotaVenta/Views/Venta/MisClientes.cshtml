@@ -21,6 +21,7 @@
     }
 </style>
 <body class="contact-page">
+    <input type="hidden" id="urlTablaSaldos" value="@Url.Action("ObtenerSaldo", "Reporte")" />
     <div id="content" class="content">
         <input type="hidden" id="urlNotaVenta" value="@Url.Action("NotaDeVenta", "Venta" )" />
         <h1 class="page-header">@ViewBag.Message <small></small></h1>
@@ -75,6 +76,8 @@
                                         }
                                         <td>
                                             <a class="btn btn-default btn-xs" onclick="PreNotaVenta('@clientes[i].CodAux','@clientes[i].NomAux')" style="cursor:pointer;" />
+                                            <img src="~/Content/Image/guia.png" />
+                                            <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#modalSaldo" onclick="ObtenerSaldo('@clientes[i].RutAux')" style="cursor:pointer;" />
                                             <img src="~/Content/Image/guia.png" />
                                         </td>
                                     </tr>
@@ -149,9 +152,9 @@
                             </div>
                             <br />
                             @*<div class="col-md-6 col-sm-6 col-xs-12">
-            <label class="control-label"><b>Ciudad Cliente: </b></label>
-            @Html.DropDownList("CiuAux", (IEnumerable<SelectListItem>)ViewBag.Ciudad, "Seleccione Ciudad", new { @class = "form-control", @id = "CiuAux", @name = "CiuAux" })
-        </div>*@
+                                    <label class="control-label"><b>Ciudad Cliente: </b></label>
+                                    @Html.DropDownList("CiuAux", (IEnumerable<SelectListItem>)ViewBag.Ciudad, "Seleccione Ciudad", new { @class = "form-control", @id = "CiuAux", @name = "CiuAux" })
+                                </div>*@
                             <br />
                             <br />
                             <div class="ln_solid"></div>
@@ -171,7 +174,7 @@
             </div>
         </div>
     </div>
-         
+
 
     <a id="AgregarCorreo" style="display: none" href="#modalAddCorreo" class="btn btn-sm btn-success" data-toggle="modal">prueba</a>
     <div class="modal fade" id="modalAddCorreo">
@@ -202,6 +205,32 @@
                 <div class="modal-footer">
                     <a id="btnAgregarCorreo" href="javascript:;" class="btn btn-success">Confirmar</a>
                     <a id="CerrarAddCorreo" href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalSaldo" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Detalle Saldo Cliente</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="x_content">
+                        <div class="col-lg-push-12">
+                            <div class="table-responsive form-inline">
+                                <table id="tblSaldos" class="table table-profile"></table>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnCerrarModal" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>

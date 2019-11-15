@@ -3061,6 +3061,7 @@ BEGIN
 	,		c.NomAux
 	,		c.DirAux
 	,		c.DirNum
+	,		c.RutAux
 	,		FonAux1 = 
 			CASE	WHEN c.FonAux1 IS NOT NULL 
 						THEN c.FonAux1 
@@ -3860,5 +3861,47 @@ CREATE PROCEDURE DS_GetAprobadorNP
 AS
 BEGIN
 SELECT * FROM dbo.DS_Usuarios du	WHERE du.tipoUsuario = 3
+END
+GO
+/*------------------------------------------------------------------------------*/
+/*-- Empresa			: DISOFI												*/
+/*-- Tipo				: Procedimiento											*/
+/*-- Nombre				: [dbo].[FR_ActualizaClienteVendedorSoftland]								*/
+/*-- Detalle			:														*/
+/*-- Autor				: FDURAN												*/
+/*-- Modificaciones		:														*/
+/*------------------------------------------------------------------------------*/
+CREATE PROCEDURE DS_ObtenerSaldo
+@RutAux varchar (20),
+@pv_BaseDatos varchar (100)
+AS
+BEGIN
+DECLARE @query varchar (max)
+SELECT @query = ''
+SELECT @query = '
+declare @Periodo varchar(4)
+declare @FContabiliza varchar(10)
+
+set @Periodo = '+convert(varchar(4),getdate(),112)+'         
+set @FContabiliza ='+convert(varchar(8),getdate(),112)+'      
+
+select cwpctas.pccodi, cwpctas.pcdesc, cwtauxi.codaux, cwtauxi.RutAux, cwtauxi.nomaux, 
+min(cwmovim.movfe) as fechaemi
+, cwttdoc.desdoc, cwmovim.movnumdocref, sum(cwmovim.movdebe - cwmovim.movhaber) as Saldo
+, cwpctas.PCAUXI, cwpctas.PCCDOC,
+cwttdoc.coddoc,cwmovim.Cpbano
+
+From ['+@pv_BaseDatos+'].softland.cwcpbte inner join ['+@pv_BaseDatos+'].softland.cwmovim on ['+@pv_BaseDatos+'].softland.cwcpbte.cpbano = cwmovim.cpbano
+and cwcpbte.cpbnum = cwmovim.cpbnum inner join ['+@pv_BaseDatos+'].softland.cwtauxi on cwtauxi.codaux = cwmovim.codaux inner join ['+@pv_BaseDatos+'].softland.cwpctas on
+cwmovim.pctcod = cwpctas.pccodi left join ['+@pv_BaseDatos+'].softland.cwttdoc on cwmovim.movtipdocref = cwttdoc.coddoc 
+Where (cwcpbte.CpbAno = @Periodo) and (cwcpbte.cpbest = ''V'') and (CWCpbte.CpbFec <= @FContabiliza) and cwtauxi.RutAux = '''+@RutAux+'''
+
+Group By cwpctas.pccodi , cwpctas.pcdesc, cwtauxi.codaux, cwtauxi.RutAux, cwmovim.movnumdocref, cwtauxi.nomaux, cwttdoc.desdoc,
+cwpctas.PCAUXI, cwpctas.PCCDOC,cwttdoc.coddoc,cwmovim.Cpbano
+Having (Sum((cwmovim.movdebe - cwmovim.movhaber)) <> 0)
+order by cwpctas.pccodi, cwtauxi.codaux, cwmovim.movnumdocref, fechaemi
+
+'
+EXEC (@query)
 END
 GO

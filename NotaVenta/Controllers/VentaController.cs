@@ -1251,5 +1251,24 @@ namespace NotaVenta.Controllers
 
             return respuestaNotaVenta;
         }
+
+        [HttpPost]
+        public JsonResult ObtenerSaldo(string RutAuxiliar)
+        {
+            try
+            {
+                List<SaldosModel> Saldos = new List<SaldosModel>();
+                Saldos = controlDisofi().ObtenerSaldo(RutAuxiliar, baseDatosUsuario());
+
+                return Json(new { DetalleSaldo = Saldos }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+
+        }
     }
 }

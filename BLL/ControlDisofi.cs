@@ -374,5 +374,11 @@ namespace BLL
         {
             return _Control.GetAprobadorNP();
         }
+
+        public List<SaldosModel> ObtenerSaldo(string RutAux, string basedatos)
+        {
+            return _Control.ObtenerSaldo(RutAux, basedatos);
+        }
+
     }
 }

@@ -18,6 +18,7 @@ C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\bin\Debug\log4net.dll
 C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\bin\Debug\DAL.pdb
 C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\bin\Debug\UTIL.pdb
 C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\obj\Debug\BLL.csprojAssemblyReference.cache
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
 C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\obj\Debug\BLL.csproj.CopyComplete
 C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\obj\Debug\BLL.dll
 C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BLL\obj\Debug\BLL.pdb
