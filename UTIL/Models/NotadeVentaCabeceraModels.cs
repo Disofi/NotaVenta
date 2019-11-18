@@ -27,6 +27,7 @@ namespace UTIL.Models
 
         public int NVNumero { get; set; }
         public DateTime nvFem { get; set; }
+        public string nvFemYYYYMMDD { get { return this.nvFem == null ? null : nvFem.ToString("yyyyMMdd"); } }
         public string nvFemString { get { return this.nvFem == null ? "" : nvFem.ToString("dd/MM/yyyy"); } }
         public string nvEstado { get; set; }
         public int nvEstFact { get; set; }
@@ -36,6 +37,7 @@ namespace UTIL.Models
         public int CotNum { get; set; }
         public string NumOC { get; set; }
         public DateTime nvFeEnt { get; set; }
+        public string nvFeEntYYYYMMDD { get { return this.nvFeEnt == null ? null : nvFeEnt.ToString("yyyyMMdd"); } }
         public string nvFeEntString { get { return this.nvFeEnt == null ? "" : nvFeEnt.ToString("dd/MM/yyyy"); } }
         public string CodAux { get; set; }
         public string VenCod { get; set; }
@@ -60,6 +62,7 @@ namespace UTIL.Models
         public double nvDescto05 { get; set; }
         public double nvMonto { get; set; }
         public DateTime? nvFeAprob { get; set; }
+        public string nvFeAprobYYYYMMDD { get { return this.nvFeAprob == null ? null : ((DateTime)nvFeAprob).ToString("yyyyMMdd"); } }
         public int NumGuiaRes { get; set; }
         public double nvPorcFlete { get; set; }
         public double nvValflete { get; set; }
@@ -80,6 +83,7 @@ namespace UTIL.Models
         public string Usuario { get; set; }
         public string UsuarioGeneraDocto { get; set; }
         public DateTime? FechaHoraCreacion { get; set; }
+        public string FechaHoraCreacionYYYYMMDD { get { return this.FechaHoraCreacion == null ? null : ((DateTime)FechaHoraCreacion).ToString("yyyyMMdd"); } }
         public string Sistema { get; set; }
         public string ConcManual { get; set; }
         public string RutSolicitante { get; set; }
