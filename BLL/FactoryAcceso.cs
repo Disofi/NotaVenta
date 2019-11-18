@@ -686,6 +686,25 @@ namespace BLL
 
         }
 
+        public RespuestaNotaVentaModel AgregarImpuesto(string baseDatos, NotadeVentaCabeceraModels NV)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_INS_AgregaImpuestoNV", new System.Collections.Hashtable()
+                {
+                    /*--------------------------- CAMPOS DISOFI ---------------------------*/
+                    { "pv_BaseDatos", baseDatos},
+                    { "pv_nvNumero", NV.NVNumero},
+                    { "pi_IdNotaVenta", NV.Id},
+                });
+                return UTIL.Mapper.BindData<RespuestaNotaVentaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
         public RespuestaNotaVentaModel AgregarDetalleNV(string baseDatos, bool insertaDisofi, bool insertaSoftland, NotaDeVentaDetalleModels NVD)
         {
             try
