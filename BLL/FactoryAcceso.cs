@@ -543,7 +543,7 @@ namespace BLL
                     { "pb_InsertaDisofi", insertaDisofi},
                     { "pb_InsertaSoftland", insertaSoftland},
                     { "pi_NVNumero", NVC.NVNumero},
-                    { "pd_nvFem", NVC.nvFem},
+                    { "pd_nvFem", NVC.nvFemYYYYMMDD},
                     { "pv_nvEstado", NVC.nvEstado},
                     { "pi_nvEstFact", NVC.nvEstFact},
                     { "pi_nvEstDesp", NVC.nvEstDesp},
@@ -551,7 +551,7 @@ namespace BLL
                     { "pi_nvEstConc", NVC.nvEstConc},
                     { "pi_CotNum", NVC.CotNum},
                     { "pv_NumOC", NVC.NumOC},
-                    { "pd_nvFeEnt", NVC.nvFeEnt},
+                    { "pd_nvFeEnt", NVC.nvFeEntYYYYMMDD},
                     { "pv_CodAux", NVC.CodAux},
                     { "pv_VenCod", NVC.VenCod},
                     { "pv_CodMon", NVC.CodMon},
@@ -574,7 +574,7 @@ namespace BLL
                     { "pf_nvPorcDesc05", NVC.nvPorcDesc05},
                     { "pf_nvDescto05", NVC.nvDescto05},
                     { "pf_nvMonto", NVC.nvMonto},
-                    { "pd_nvFeAprob", NVC.nvFeAprob},
+                    { "pd_nvFeAprob", NVC.nvFeAprobYYYYMMDD},
                     { "pi_NumGuiaRes", NVC.NumGuiaRes},
                     { "pf_nvPorcFlete", NVC.nvPorcFlete},
                     { "pf_nvValflete", NVC.nvValflete},
@@ -594,7 +594,7 @@ namespace BLL
                     { "pi_EnMantencion", NVC.EnMantencion},
                     { "pv_Usuario", NVC.Usuario},
                     { "pv_UsuarioGeneraDocto", NVC.UsuarioGeneraDocto},
-                    { "pd_FechaHoraCreacion", NVC.FechaHoraCreacion},
+                    { "pd_FechaHoraCreacion", NVC.FechaHoraCreacionYYYYMMDD},
                     { "pv_Sistema", NVC.Sistema},
                     { "pv_ConcManual", NVC.ConcManual},
                     { "pv_RutSolicitante", NVC.RutSolicitante},
@@ -686,6 +686,25 @@ namespace BLL
 
         }
 
+        public RespuestaNotaVentaModel AgregarImpuesto(string baseDatos, NotadeVentaCabeceraModels NV)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_INS_AgregaImpuestoNV", new System.Collections.Hashtable()
+                {
+                    /*--------------------------- CAMPOS DISOFI ---------------------------*/
+                    { "pv_BaseDatos", baseDatos},
+                    { "pv_nvNumero", NV.NVNumero},
+                    { "pi_IdNotaVenta", NV.Id},
+                });
+                return UTIL.Mapper.BindData<RespuestaNotaVentaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
         public RespuestaNotaVentaModel AgregarDetalleNV(string baseDatos, bool insertaDisofi, bool insertaSoftland, NotaDeVentaDetalleModels NVD)
         {
             try
@@ -700,7 +719,7 @@ namespace BLL
                     { "pi_NVNumero", NVD.NVNumero},
                     { "pf_nvLinea", NVD.nvLinea},
                     { "pf_nvCorrela", NVD.nvCorrela},
-                    { "pd_nvFecCompr", NVD.nvFecCompr},
+                    { "pd_nvFecCompr", NVD.nvFecComprYYYYMMDD},
                     { "pv_CodProd", NVD.CodProd},
                     { "pf_nvCant", NVD.nvCant},
                     { "pf_nvPrecio", NVD.nvPrecio},
@@ -732,7 +751,7 @@ namespace BLL
                     { "pf_CantUVta", NVD.CantUVta},
                     { "pv_Partida", NVD.Partida},
                     { "pv_Pieza", NVD.Pieza},
-                    { "pd_FechaVencto", NVD.FechaVencto},
+                    { "pd_FechaVencto", NVD.FechaVenctoYYYYMMDD},
                     { "pf_CantidadKit", NVD.CantidadKit},
                     { "pi_MarcaWG", NVD.MarcaWG},
                     { "pf_PorcIncidenciaKit", NVD.PorcIncidenciaKit},

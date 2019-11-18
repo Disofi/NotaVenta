@@ -1013,6 +1013,8 @@ function agregarnotadeventa() {
         productos: productos
     }
 
+    activarLoadingBoton("btnCot");
+
     $.ajax({
         url: urlAgregarNotaVenta,
         type: "POST",
@@ -1043,9 +1045,11 @@ function agregarnotadeventa() {
 
             $("#divFormulacioCompletoIngresoDatos").fadeOut();
             $("#divAlertaOkGeneracionNV").fadeIn();
+            desactivarLoadingBoton("btnCot");
         },
         error: function (a, b, c) {
             console.log(a, b, c);
+            desactivarLoadingBoton("btnCot");
         },
         async: false
     });

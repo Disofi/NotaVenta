@@ -142,6 +142,11 @@ namespace BLL
             return _Control.AgregarDetalleNV(baseDatos, insertaDisofi, insertaSoftland, NVD);
         }
 
+        public RespuestaNotaVentaModel AgregarImpuesto(string baseDatos, NotadeVentaCabeceraModels NV)
+        {
+            return _Control.AgregarImpuesto(baseDatos, NV);
+        }
+
         public List<NotadeVentaCabeceraModels> BuscarNVPorNumero(int Id, string basedatos)
         {
             return _Control.BuscarNVPorNumero(Id, basedatos);
