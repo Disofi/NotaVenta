@@ -25,6 +25,7 @@ namespace UTIL.Models
         public double nvLinea { get; set; }
         public double nvCorrela { get; set; }
         public DateTime? nvFecCompr { get; set; }
+        public string nvFecComprYYYYMMDD { get { return this.nvFecCompr == null ? null : ((DateTime)nvFecCompr).ToString("yyyyMMdd"); } }
         public string CodProd { get; set; }
         public double nvCant { get; set; }
         public double nvPrecio { get; set; }
@@ -58,6 +59,7 @@ namespace UTIL.Models
         public string Partida { get; set; }
         public string Pieza { get; set; }
         public DateTime? FechaVencto { get; set; }
+        public string FechaVenctoYYYYMMDD { get { return this.FechaVencto == null ? null : ((DateTime)FechaVencto).ToString("yyyyMMdd"); } }
         public double CantidadKit { get; set; }
         public int? MarcaWG { get; set; }
         public double PorcIncidenciaKit { get; set; }

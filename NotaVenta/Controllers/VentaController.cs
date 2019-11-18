@@ -74,7 +74,7 @@ namespace NotaVenta.Controllers
             notadeVentaCabeceraModels.NomAux = NomAux;
             notadeVentaCabeceraModels.RutAux = RutAux;
             SessionVariables.SESSION_NOTA_VENTA_CABECERA_MODEL = notadeVentaCabeceraModels;
-            
+
 
             NotadeVentaCabeceraModels NVC = SessionVariables.SESSION_NOTA_VENTA_CABECERA_MODEL;
             NVC.NVNumero = 0;
@@ -155,7 +155,7 @@ namespace NotaVenta.Controllers
                 CodAux = NVC.CodAux,
                 RutAux = NVC.RutAux,
             };
-            
+
             ClientesModels cm = controlDisofi().ObtenerAtributoDescuento(baseDatosUsuario(), cliente.CodAux, parametros.AtributoSoftlandDescuentoCliente);
             cliente.ValorAtributo = cm.ValorAtributo;
 
@@ -391,7 +391,7 @@ namespace NotaVenta.Controllers
         }
 
         [HttpPost]
-        public JsonResult AgregarCliente(string NomAux, string RutAux, string FonAux1,string Email, string GirAux, string DirAux, string EmailDte)
+        public JsonResult AgregarCliente(string NomAux, string RutAux, string FonAux1, string Email, string GirAux, string DirAux, string EmailDte)
         {
             ParametrosModels parametros = ObtieneParametros();
             if (!string.IsNullOrEmpty(NomAux) && !string.IsNullOrEmpty(RutAux) && !string.IsNullOrEmpty(FonAux1) && !string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(GirAux) && !string.IsNullOrEmpty(DirAux) && !string.IsNullOrEmpty(EmailDte))
@@ -423,7 +423,7 @@ namespace NotaVenta.Controllers
                     var result = -1;
                     return Json(result);
                 }
-                
+
             }
             else
             {
@@ -1044,7 +1044,7 @@ namespace NotaVenta.Controllers
             }
 
             cabecera.nvTotalDesc = totalDescuento;
-            cabecera.nvMonto = cabecera.nvSubTotalConDescuento;
+            cabecera.nvMonto = para.DescuentoTotalDirectoSoftland ? cabecera.nvNetoAfecto : cabecera.TotalBoleta;
             cabecera.nvFeAprob = insertaSoftland ? (DateTime?)DateTime.Now : null;
             cabecera.NumGuiaRes = 0;
             cabecera.nvPorcFlete = 0;
@@ -1053,7 +1053,7 @@ namespace NotaVenta.Controllers
             cabecera.nvValEmb = 0;
             cabecera.nvEquiv = 1;
             cabecera.nvNetoExento = 0;
-            cabecera.nvNetoAfecto = para.DescuentoTotalDirectoSoftland ? cabecera.nvNetoAfecto : cabecera.TotalBoleta;
+            cabecera.nvNetoAfecto = cabecera.nvSubTotalConDescuento;
             cabecera.ConcAuto = "N";
             cabecera.CodLugarDesp = cabecera.CodLugarDesp == "-1" ? null : cabecera.CodLugarDesp;
             cabecera.SolicitadoPor = null;
@@ -1084,6 +1084,7 @@ namespace NotaVenta.Controllers
             RespuestaNotaVentaModel respuestaNotaVenta = controlDisofi().AgregarNV(baseDatosUsuario(), insertaDisofi, insertaSoftland, cabecera);
 
             cabecera.Id = respuestaNotaVenta.IdNotaVenta;
+            cabecera.NVNumero = respuestaNotaVenta.NVNumero;
 
             if ((insertaDisofi && respuestaNotaVenta.VerificadorDisofi) ||
                 (!insertaDisofi && !respuestaNotaVenta.VerificadorDisofi))
@@ -1193,7 +1194,17 @@ namespace NotaVenta.Controllers
                     }
                 }
             }
+            try
+            {
+                if (insertaSoftland)
+                {
+                    RespuestaNotaVentaModel respuesta = controlDisofi().AgregarImpuesto(baseDatosUsuario(), cabecera);
+                }
+            }
+            catch
+            {
 
+            }
             try
             {
                 List<string> paraEmail = new List<string>();
@@ -1270,7 +1281,7 @@ namespace NotaVenta.Controllers
 
                 throw;
             }
-            
+
 
         }
     }
