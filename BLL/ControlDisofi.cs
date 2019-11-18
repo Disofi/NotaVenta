@@ -369,5 +369,16 @@ namespace BLL
         {
             return _Control.AgregarCliente(cliente, basedatos);
         }
+
+        public List<AprobadorModels> GetAprobadorNP()
+        {
+            return _Control.GetAprobadorNP();
+        }
+
+        public List<SaldosModel> ObtenerSaldo(string RutAux, string basedatos)
+        {
+            return _Control.ObtenerSaldo(RutAux, basedatos);
+        }
+
     }
 }
