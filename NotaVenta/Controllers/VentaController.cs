@@ -66,12 +66,13 @@ namespace NotaVenta.Controllers
         }
 
         [Autorizacion(PERFILES.SUPER_ADMINISTRADOR, PERFILES.VENDEDOR)]
-        public JsonResult PreNotadeVenta(string CodAux, string NomAux)
+        public JsonResult PreNotadeVenta(string CodAux, string NomAux, string RutAux)
         {
             ParametrosModels parametros = ObtieneParametros();
             NotadeVentaCabeceraModels notadeVentaCabeceraModels = new NotadeVentaCabeceraModels();
             notadeVentaCabeceraModels.CodAux = CodAux;
             notadeVentaCabeceraModels.NomAux = NomAux;
+            notadeVentaCabeceraModels.RutAux = RutAux;
             SessionVariables.SESSION_NOTA_VENTA_CABECERA_MODEL = notadeVentaCabeceraModels;
             
 
@@ -151,7 +152,8 @@ namespace NotaVenta.Controllers
 
             ClientesModels cliente = new ClientesModels
             {
-                CodAux = NVC.CodAux
+                CodAux = NVC.CodAux,
+                RutAux = NVC.RutAux,
             };
             
             ClientesModels cm = controlDisofi().ObtenerAtributoDescuento(baseDatosUsuario(), cliente.CodAux, parametros.AtributoSoftlandDescuentoCliente);
@@ -182,6 +184,7 @@ namespace NotaVenta.Controllers
 
             ViewBag.Credito = credito;
             ViewBag.CodAux = NVC.CodAux;
+            ViewBag.RutAux = NVC.RutAux;
 
             List<ClientesModels> contactoCorreos = controlDisofi().GetContacto(baseDatosUsuario(), cliente);
             List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), cliente);
