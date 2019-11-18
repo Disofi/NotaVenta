@@ -91,5 +91,7 @@ namespace UTIL.Models
 
         public bool AgregaCliente { get; set; }
         public bool CambioVendedorCliente { get; set; }
+
+        public bool ManejaSaldo { get; set; }
     }
 }
