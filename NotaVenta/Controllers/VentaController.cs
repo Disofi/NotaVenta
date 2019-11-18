@@ -1044,7 +1044,7 @@ namespace NotaVenta.Controllers
             }
 
             cabecera.nvTotalDesc = totalDescuento;
-            cabecera.nvMonto = cabecera.nvSubTotalConDescuento;
+            cabecera.nvMonto = para.DescuentoTotalDirectoSoftland ? cabecera.nvNetoAfecto : cabecera.TotalBoleta;
             cabecera.nvFeAprob = insertaSoftland ? (DateTime?)DateTime.Now : null;
             cabecera.NumGuiaRes = 0;
             cabecera.nvPorcFlete = 0;
@@ -1053,7 +1053,7 @@ namespace NotaVenta.Controllers
             cabecera.nvValEmb = 0;
             cabecera.nvEquiv = 1;
             cabecera.nvNetoExento = 0;
-            cabecera.nvNetoAfecto = para.DescuentoTotalDirectoSoftland ? cabecera.nvNetoAfecto : cabecera.TotalBoleta;
+            cabecera.nvNetoAfecto = cabecera.nvSubTotalConDescuento;
             cabecera.ConcAuto = "N";
             cabecera.CodLugarDesp = cabecera.CodLugarDesp == "-1" ? null : cabecera.CodLugarDesp;
             cabecera.SolicitadoPor = null;

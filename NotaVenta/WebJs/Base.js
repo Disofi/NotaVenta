@@ -205,3 +205,32 @@ function abrirConfirmacion(titulo, mensaje, callBackOK, callBackCancel) {
         }
     }
 }
+
+var spinnerButton = function () {
+    return "<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> ";
+}
+
+
+var ____botonesLoading = [];
+
+var addBotonLoading = function (id) {
+    if (____botonesLoading.find(m => m.id === id) === undefined) {
+        ____botonesLoading.push({
+            id: id,
+            htmlOriginal: $("#" + id).html(),
+            htmlLoading: (spinnerButton() + $("#" + id).html())
+        });
+    }
+}
+
+function activarLoadingBoton(id) {
+    addBotonLoading(id);
+    $("#" + id).html(____botonesLoading.find(m => m.id === id).htmlLoading);
+    $("#" + id).attr("disabled", "disabled");
+}
+
+function desactivarLoadingBoton(id) {
+    addBotonLoading(id);
+    $("#" + id).html(____botonesLoading.find(m => m.id === id).htmlOriginal);
+    $("#" + id).removeAttr("disabled");
+}
