@@ -1,11 +1,12 @@
-C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\bin\Debug\UTIL.dll
-C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\bin\Debug\UTIL.pdb
-C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\obj\Debug\UTIL.csproj.CoreCompileInputs.cache
-C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\obj\Debug\UTIL.dll
-C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\obj\Debug\UTIL.pdb
 D:\ProyectosYVEGA\NotaVenta\UTIL\bin\Debug\UTIL.dll
 D:\ProyectosYVEGA\NotaVenta\UTIL\bin\Debug\UTIL.pdb
 D:\ProyectosYVEGA\NotaVenta\UTIL\obj\Debug\UTIL.csprojAssemblyReference.cache
 D:\ProyectosYVEGA\NotaVenta\UTIL\obj\Debug\UTIL.csproj.CoreCompileInputs.cache
 D:\ProyectosYVEGA\NotaVenta\UTIL\obj\Debug\UTIL.dll
 D:\ProyectosYVEGA\NotaVenta\UTIL\obj\Debug\UTIL.pdb
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\bin\Debug\UTIL.dll
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\bin\Debug\UTIL.pdb
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\obj\Debug\UTIL.csprojAssemblyReference.cache
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\obj\Debug\UTIL.csproj.CoreCompileInputs.cache
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\obj\Debug\UTIL.dll
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\UTIL\obj\Debug\UTIL.pdb
