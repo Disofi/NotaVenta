@@ -50,6 +50,8 @@ namespace UTIL.Models
         public bool EnvioMailCliente { get; set; }
         public bool EnvioMailVendedor { get; set; }
         public bool EnvioMailContacto { get; set; }
+
+        public bool EnvioMailAprobador { get; set; }
         //- APROBADOR SI/NO	//	- APROBADOR TODAS LAS NOTAS DE VENTA	//	- APROBADOR SEGUN REGLAS DE NEGOCIOS
         public bool EnvioObligatorioAprobador { get; set; }
         //- MANEJA TALLA/COLOR(N)  //- MANEJA PARTIDA/PIEZA(N)

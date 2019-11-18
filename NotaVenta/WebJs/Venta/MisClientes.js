@@ -34,7 +34,7 @@ function checkRut() {
     document.getElementById("RutCli").value = sRut.toUpperCase();
 }
 
-function PreNotaVenta (_aCodAux, _aNomAux) {
+function PreNotaVenta(_aCodAux, _aNomAux) {
     var CodAuxi = _aCodAux;
     var urlNotaVenta = $("#urlNotaVenta").val();
     $.ajax({
@@ -118,4 +118,63 @@ function AgregarCliente() {
         }
 
     });
+}
+
+function ObtenerSaldo(RutAux) {
+    $.ajax({
+        type: "POST",
+        url: "ObtenerSaldo",
+        data: { RutAuxiliar: RutAux },
+        async: true,
+        success: function (response) {
+            console.log(response);
+            if (response == 1) {
+                alert("Cliente sin Saldo.");
+            }
+            else {
+                $("#tblSaldos").html("");
+
+                var tblSaldos = $("#tblSaldos");
+
+                //$.each(data.Cabecera, function (index, value) {
+
+                var htmlCabecera = "";
+                var htmlDetalle = "";
+
+                htmlCabecera = htmlCabecera + "<th>Cuenta</th>";
+                htmlCabecera = htmlCabecera + "<th>Desc Cuenta</th>";
+                htmlCabecera = htmlCabecera + "<th>CodigoAux</th>";
+                htmlCabecera = htmlCabecera + "<th>RutCliente</th>";
+                htmlCabecera = htmlCabecera + "<th>Nombre</th>";
+                htmlCabecera = htmlCabecera + "<th>FecEmision</th>";
+                htmlCabecera = htmlCabecera + "<th>TipoDoc</th>";
+                htmlCabecera = htmlCabecera + "<th>NomDoc</th>";
+                htmlCabecera = htmlCabecera + "<th>Saldo</th>";
+                htmlCabecera = htmlCabecera + "<th>Cod Documento</th>";
+                htmlCabecera = htmlCabecera + "<th>Año Comprobante</th>";
+
+                    tblSaldos.append(htmlCabecera);
+
+                    $.each(response.DetalleSaldo, function (index, value) {
+                        htmlDetalle = "";
+                        htmlDetalle = htmlDetalle + "<tr>";
+                        htmlDetalle = htmlDetalle + "<td>" + value.pccodi + "</td>";
+                        htmlDetalle = htmlDetalle + "<td>" + value.pcdesc + "</td>";
+                        htmlDetalle = htmlDetalle + "<td>" + value.codaux + "</td>";
+                        htmlDetalle = htmlDetalle + "<td>" + value.RutAux + "</td>";
+                        htmlDetalle = htmlDetalle + "<td>" + value.nomaux + "</td>";
+                        htmlDetalle = htmlDetalle + "<td>" + value.fechaemiString + "</td>";
+                        htmlDetalle = htmlDetalle + "<td>" + value.desdoc + "</td>";
+                        htmlDetalle = htmlDetalle + "<td>" + value.movnumdocref+ "</td>";
+                        htmlDetalle = htmlDetalle + "<td>" + value.Saldo + "</td>";
+                        htmlDetalle = htmlDetalle + "<td>" + value.coddoc + "</td>";
+                        htmlDetalle = htmlDetalle + "<td>" + value.Cpbano + "</td>";
+                       
+                        htmlDetalle = htmlDetalle + "</tr>";
+
+                        tblSaldos.append(htmlDetalle);
+                    });
+                }
+        }
+        });
 }

@@ -172,6 +172,7 @@ namespace NotaVenta.Controllers
 
                 List<VendedorModels> vendedores = controlDisofi().GetVendedores(baseDatosUsuario(), new VendedorModels { VenCod = cabecera.VenCod });
                 List<AprobadorModels> aprobador = controlDisofi().GetAprobador(IdAprobador);
+                List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), new ClientesModels { CodAux = cabecera.CodAux });
 
                 if (para.EnvioMailVendedor)
                 {
@@ -183,8 +184,28 @@ namespace NotaVenta.Controllers
                         }
                     }
                 }
+                if (para.EnvioMailCliente)
+                {
+                    if (vendedores != null && vendedores.Count > 0)
+                    {
+                        if (clientes[0].EMail != null && clientes[0].EMail != "")
+                        {
+                            paraEmail.Add(clientes[0].EMail);
+                        }
+                    }
+                }
+                if (para.EnvioMailAprobador)
+                {
+                    if (vendedores != null && vendedores.Count > 0)
+                    {
+                        if (vendedores[0].Email != null && vendedores[0].Email != "")
+                        {
+                            paraEmail.Add(vendedores[0].Email);
+                        }
+                    }
+                }
 
-                EnviarEmail(cabecera.NVNumero, notaVenta.Id, aprobador[0].Email, aprobador[0].Contrasena, paraEmail);
+                EnviarEmail(cabecera.NVNumero, notaVenta.Id, paraEmail);
             }
             catch (Exception ex)
             {
@@ -206,13 +227,13 @@ namespace NotaVenta.Controllers
         }
 
         [NonAction]
-        public void EnviarEmail(int nvnumero, int Id, string de, string clavecorreo, List<string> para)
+        public void EnviarEmail(int nvnumero, int Id,List<string> para)
         {
             string subject = string.Format("Nota Pedido {0}", nvnumero);
 
-            string from = de;
+            string from = System.Configuration.ConfigurationManager.AppSettings.Get("Para");
             string displayName = System.Configuration.ConfigurationManager.AppSettings.Get("Remitente");
-            string password = clavecorreo;
+            string password = System.Configuration.ConfigurationManager.AppSettings.Get("ClaveCorreo");
             string host = System.Configuration.ConfigurationManager.AppSettings.Get("Host");
             int port = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("Port"));
             bool enableSs1 = Boolean.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("EnableSsl"));

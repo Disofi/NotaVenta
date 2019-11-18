@@ -68,6 +68,8 @@
                     cambiarValorSwitcher("MuestraUnidadMedidaProducto", response.MuestraUnidadMedidaProducto);
                     cambiarValorSwitcher("DescuentoLineaDirectoSoftland", response.DescuentoLineaDirectoSoftland);
                     cambiarValorSwitcher("DescuentoTotalDirectoSoftland", response.DescuentoTotalDirectoSoftland);
+                    cambiarValorSwitcher("EnvioMailAprobador", response.EnvioMailAprobador);
+                    cambiarValorSwitcher("AgregaCliente", response.AgregaCliente);
 
                     $("#divDatos").fadeIn();
                 },
@@ -167,6 +169,8 @@ function GuardarParametros() {
     var MuestraUnidadMedidaProducto = estaHabilitadoSwitcher("MuestraUnidadMedidaProducto");
     var DescuentoLineaDirectoSoftland = estaHabilitadoSwitcher("DescuentoLineaDirectoSoftland");
     var DescuentoTotalDirectoSoftland = estaHabilitadoSwitcher("DescuentoTotalDirectoSoftland");
+    var AgregaCliente = estaHabilitadoSwitcher("AgregaCliente");
+    var EnvioMailAprobador = estaHabilitadoSwitcher("EnvioMailAprobador");
 
     var datosRequest = {
         IdEmpresa: IdEmpresa,
@@ -209,6 +213,8 @@ function GuardarParametros() {
         MuestraUnidadMedidaProducto: MuestraUnidadMedidaProducto,
         DescuentoLineaDirectoSoftland: DescuentoLineaDirectoSoftland,
         DescuentoTotalDirectoSoftland: DescuentoTotalDirectoSoftland,
+        AgregaCliente: AgregaCliente,
+        EnvioMailAprobador: EnvioMailAprobador
     }
 
     $.ajax({

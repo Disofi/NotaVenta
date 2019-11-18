@@ -1609,5 +1609,38 @@ namespace BLL
                 return null;
             }
         }
+
+        public List<AprobadorModels> GetAprobadorNP()
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_GetAprobadorNP", new System.Collections.Hashtable());
+                return UTIL.Mapper.BindDataList<AprobadorModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public List<SaldosModel> ObtenerSaldo(string RutAux, string basedatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_ObtenerSaldo", new System.Collections.Hashtable()
+                {
+                    { "RutAux", RutAux},
+                    { "pv_BaseDatos", basedatos}
+                });
+                return UTIL.Mapper.BindDataList<SaldosModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
     }
 }

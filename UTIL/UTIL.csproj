@@ -73,6 +73,7 @@
     <Compile Include="Objetos\ObjetoUsuario.cs" />
     <Compile Include="Objetos\RespuestaNotaVentaModel.cs" />
     <Compile Include="Objetos\RespuestaModel.cs" />
+    <Compile Include="Objetos\SaldosModel.cs" />
     <Compile Include="Objetos\UsuariosModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validaciones\HashMd5.cs" />

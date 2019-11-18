@@ -636,13 +636,13 @@ namespace NotaVenta.Controllers
         }
 
         [NonAction]
-        public void EnviarEmail(int nvnumero, int Id, string de, string clavecorreo, List<string> para)
+        public void EnviarEmail(int nvnumero, int Id, List<string> para)
         {
             string subject = string.Format("Nota de Pedido {0}", nvnumero);
 
-            string from = de;
+            string from = System.Configuration.ConfigurationManager.AppSettings.Get("Para");
             string displayName = System.Configuration.ConfigurationManager.AppSettings.Get("Remitente");
-            string password = clavecorreo;
+            string password = System.Configuration.ConfigurationManager.AppSettings.Get("ClaveCorreo");
             string host = System.Configuration.ConfigurationManager.AppSettings.Get("Host");
             int port = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("Port"));
             bool enableSs1 = Boolean.Parse(System.Configuration.ConfigurationManager.AppSettings.Get("EnableSsl"));
@@ -1198,7 +1198,7 @@ namespace NotaVenta.Controllers
                 List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), new ClientesModels { CodAux = cabecera.CodAux });
                 List<VendedorModels> vendedores = controlDisofi().GetVendedores(baseDatosUsuario(), new VendedorModels { VenCod = cabecera.VenCod });
                 List<ClientesModels> contacto = controlDisofi().GetContacto(baseDatosUsuario(), new ClientesModels { CodAux = cabecera.CodAux });
-
+                List<AprobadorModels> aprobador = controlDisofi().GetAprobadorNP();
 
                 if (para.EnvioMailCliente)
                 {
@@ -1230,8 +1230,18 @@ namespace NotaVenta.Controllers
                         }
                     }
                 }
+                if (para.EnvioMailAprobador)
+                {
+                    if (aprobador != null && aprobador.Count > 0)
+                    {
+                        if (aprobador[0].email != null && aprobador[0].email != "")
+                        {
+                            paraEmail.Add(aprobador[0].email);
+                        }
+                    }
+                }
 
-                EnviarEmail(cabecera.NVNumero, cabecera.Id, vendedores[0].Email, vendedores[0].Contrasena, paraEmail);
+                EnviarEmail(cabecera.NVNumero, cabecera.Id, paraEmail);
             }
             catch (Exception ex)
             {
@@ -1240,6 +1250,25 @@ namespace NotaVenta.Controllers
             }
 
             return respuestaNotaVenta;
+        }
+
+        [HttpPost]
+        public JsonResult ObtenerSaldo(string RutAuxiliar)
+        {
+            try
+            {
+                List<SaldosModel> Saldos = new List<SaldosModel>();
+                Saldos = controlDisofi().ObtenerSaldo(RutAuxiliar, baseDatosUsuario());
+
+                return Json(new { DetalleSaldo = Saldos }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+
         }
     }
 }

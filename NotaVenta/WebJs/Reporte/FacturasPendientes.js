@@ -8,7 +8,6 @@ $(document).ready(function () {
 });
 
 function DetalleNotaPedido(nvId, RutAux) {
-    var urlTablaSaldos = $("#urlTablaSaldos").val();
     $.ajax({
         type: "POST",
         url: "FacturasAprobadas",
@@ -106,15 +105,6 @@ function DetalleNotaPedido(nvId, RutAux) {
                     tableDetalle.append(htmlDetalle);
                 });
             }
-            $.ajax({
-                type: "POST",
-                url: urlTablaSaldos,
-                data: { RutAuxiliar: RutAux },
-                async: true,
-                success: function (response2) {
-                    console.log(response2);
-                }
-            });
         }
     });
 }
