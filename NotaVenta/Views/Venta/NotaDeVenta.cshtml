@@ -2,18 +2,6 @@
 @using UTIL.Objetos;
 @using NotaVenta.UTIL;
 @{
-    /**/
-
-    /**/
-
-    /**/
-
-    /**/
-
-    /**/
-
-    /**/
-
 
     if (((BaseController)this.ViewContext.Controller).codigoVendedorUsuario() == null)
     {
@@ -53,6 +41,7 @@
     double impuesto = 0;
     double totalfinal = 0;
     int id = SessionVariables.SESSION_DATOS_USUARIO.IdUsuario;
+    double SaldoTotal = ViewBag.SaldoTotal;
 
     ParametrosModels parametros = ViewBag.Parametros;
 
@@ -74,11 +63,6 @@
 <!-- begin page-header -->
 <h1 class="page-header">
     Nota de Pedido
-    <small>
-        <a class="" data-toggle="modal" data-target="#modalSaldo" onclick="ObtenerSaldo('@RutAux')" style="cursor:pointer;">
-            Ver Saldos
-        </a>
-    </small>
 </h1>
 <!-- end page-header -->
 <!-- begin row -->
@@ -140,7 +124,7 @@
                                 <tr class="highlight">
                                     <td>Cod. Cliente</td>
                                     <td>
-                                        <input type="text" name="nombreCliente" id="nombreCliente" class="form-control" value="@codigo - @nombre" readonly="readonly" tabindex="-1" />
+                                        <input type="text" name="nombreCliente" id="nombreCliente" class="form-control" value="@codigo - @nombre" readonly="readonly" tabindex="-1" size="40"/>
                                         <input type="hidden" name="txtcliente" id="txtcliente" value="@codigo" readonly="readonly" />
                                     </td>
                                     <td nowrap="nowrap">Vendedor Cliente</td>
@@ -246,6 +230,15 @@
                                             }
                                         </select>
                                     </td>
+                                    @if (parametros.ManejaSaldo)
+                                    {
+                                        <td nowrap="nowrap">Saldo</td>
+                                        <td>
+                                            <input type="text" class="text-danger form-control" value="@SaldoTotal"/>
+                                            <button class="btn-primary btn" data-toggle="modal" data-target="#modalSaldo" onclick="ObtenerSaldo('@RutAux')" style="cursor:pointer;"><i class="fas fa-search"></i></button>
+                                        </td>
+                                    }
+
                                 </tr>
                                 @if (parametros.ManejaLineaCreditoVendedor)
                                 {

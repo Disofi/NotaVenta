@@ -91,12 +91,12 @@ namespace NotaVenta.Controllers
 
             CreditoModel credito = controlDisofi().ObtenerCredito(cliente.CodAux, baseDatosUsuario());
 
-            if (parametros.ManejaLineaCreditoVendedor)
+             if (parametros.ManejaLineaCreditoVendedor)
             {
                 if (credito != null)
                 {
                     credito.Deuda = credito.Debe - credito.Haber;
-                    credito.Saldo = credito.Credito - credito.Deuda;
+                    credito.Saldo = (credito.Credito + credito.Deuda);
 
                     if (credito.Credito == 0)
                     {
@@ -186,6 +186,29 @@ namespace NotaVenta.Controllers
             ViewBag.CodAux = NVC.CodAux;
             ViewBag.RutAux = NVC.RutAux;
 
+            /////
+            double MontoTotal = 0;
+            double Saldo = 0;
+            try
+            {
+                List<SaldosModel> Saldos = new List<SaldosModel>();
+                Saldos = controlDisofi().ObtenerSaldo(ViewBag.RutAux, baseDatosUsuario());
+
+                foreach (SaldosModel item in Saldos)
+                {
+                    MontoTotal = item.Saldo;
+                    Saldo = MontoTotal + Saldo;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            ViewBag.SaldoTotal = Saldo;
+            /////
+
             List<ClientesModels> contactoCorreos = controlDisofi().GetContacto(baseDatosUsuario(), cliente);
             List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), cliente);
 
@@ -201,6 +224,8 @@ namespace NotaVenta.Controllers
                 }
 
             }
+
+            
 
             ViewBag.numeronota = NVC;
 
@@ -641,7 +666,7 @@ namespace NotaVenta.Controllers
         [NonAction]
         public void EnviarEmail(int nvnumero, int Id, List<string> para)
         {
-            string subject = string.Format("Nota de Pedido {0}", nvnumero);
+            string subject = string.Format("Nota de Pedido {0}", Id);
 
             string from = System.Configuration.ConfigurationManager.AppSettings.Get("Para");
             string displayName = System.Configuration.ConfigurationManager.AppSettings.Get("Remitente");
@@ -948,12 +973,8 @@ namespace NotaVenta.Controllers
 
 
 
-        private RespuestaNotaVentaModel creacionCabeceraDetalleNotaVenta(
-            NotadeVentaCabeceraModels cabecera,
-            List<ProductoAgregadoModel> productos,
-            bool insertaDisofi,
-            bool insertaSoftland,
-            ParametrosModels para)
+        private RespuestaNotaVentaModel creacionCabeceraDetalleNotaVenta(NotadeVentaCabeceraModels cabecera,List<ProductoAgregadoModel> productos,bool insertaDisofi,
+            bool insertaSoftland,ParametrosModels para)
         {
             cabecera.NVNumero = cabecera.NVNumero;
             cabecera.nvFem = cabecera.nvFem;
@@ -1258,12 +1279,20 @@ namespace NotaVenta.Controllers
         [HttpPost]
         public JsonResult ObtenerSaldo(string RutAuxiliar)
         {
+            double MontoTotal = 0;
+            double Saldo = 0;
             try
             {
                 List<SaldosModel> Saldos = new List<SaldosModel>();
                 Saldos = controlDisofi().ObtenerSaldo(RutAuxiliar, baseDatosUsuario());
 
-                return Json(new { DetalleSaldo = Saldos }, JsonRequestBehavior.AllowGet);
+                foreach (SaldosModel item in Saldos)
+                {
+                    MontoTotal = item.Saldo;
+                    Saldo = MontoTotal + Saldo; 
+                }
+
+                return Json(new { DetalleSaldo = Saldos, SaldoTotal = MontoTotal }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {

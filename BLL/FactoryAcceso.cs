@@ -882,6 +882,9 @@ namespace BLL
                     { "pb_DescuentoLineaDirectoSoftland", parametro.DescuentoLineaDirectoSoftland},
                     { "pb_DescuentoTotalDirectoSoftland", parametro.DescuentoTotalDirectoSoftland},
                     { "pb_CambioVendedorCliente", parametro.CambioVendedorCliente},
+                    { "pb_AgregaCliente", parametro.AgregaCliente},
+                    { "pb_EnvioMailAprobador", parametro.EnvioMailAprobador},
+                    { "pb_ManejaSaldo", parametro.ManejaSaldo},
                 });
                 return UTIL.Mapper.BindData<RespuestaModel>(data);
             }

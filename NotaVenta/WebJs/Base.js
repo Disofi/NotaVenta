@@ -26,6 +26,7 @@ function agregarSeparadorMiles(numero, caracterSeparador, caracterDecimal) {
 $(document).ready(function () {
     try {
         $('#dataTable').DataTable({
+            ordering: false,
             language: {
                 "sProcessing": "Procesando...",
                 "sLengthMenu": "Mostrar _MENU_ Registros",

@@ -111,7 +111,7 @@
                                             </td>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-lg-4">ListaClientesTodos</div>
+                                                    <div class="col-lg-4">Listar todos los clientes</div>
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="ListaClientesTodos" id="ListaClientesTodos" @Html.Raw(parametros.ListaClientesTodos ? "checked" : "")>
@@ -498,6 +498,8 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                        </tr>
+                                        <tr>
                                             <td>
                                                 <div class="row">
                                                     <div class="col-lg-4">Agrega Cliente</div>
@@ -515,7 +517,18 @@
                                                     <div class="col-lg-8">
                                                         <div class="switcher">
                                                             <input type="checkbox" switcher name="EnvioMailAprobador" id="EnvioMailAprobador" @Html.Raw(parametros.EnvioMailAprobador ? "checked" : "")>
-                                                            <label for="AgregaCliente"></label>
+                                                            <label for="EnvioMailAprobador"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-lg-4">Mostrar Saldos</div>
+                                                    <div class="col-lg-8">
+                                                        <div class="switcher">
+                                                            <input type="checkbox" switcher name="ManejaSaldo" id="ManejaSaldo" @Html.Raw(parametros.ManejaSaldo ? "checked" : "")>
+                                                            <label for="ManejaSaldo"></label>
                                                         </div>
                                                     </div>
                                                 </div>
