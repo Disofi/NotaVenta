@@ -50,6 +50,7 @@
     <Content Include="Otros\ScriptParametros.sql" />
     <Content Include="Otros\scriptNotaVenta.sql" />
     <Content Include="Otros\Inserts.sql" />
+    <Content Include="Otros\script_20191119_1444.sql" />
     <Content Include="Otros\script_20191105_1147.sql" />
     <Content Include="SP\DS_AgregarCorreoCli.sql" />
     <Content Include="SP\RRA_ActualizaEstadoNW.sql" />
