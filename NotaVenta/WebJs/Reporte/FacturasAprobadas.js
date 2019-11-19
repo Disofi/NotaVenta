@@ -26,6 +26,13 @@ function aprobarNW(nvnumero) {
 }
 
 function DetalleNotaPedido(nvId) {
+    var tableCabecera = $("#tblDetalleNotaPedido");
+    var tableDetalle = $("#tblDetalleNotaPedidoDetalle");
+    var htmlDetalle = "";
+    var subtotal = 0;
+    var ivatotal = 0;
+    var totalconiva = 0;
+    var total = 0;
     $.ajax({
         type: "POST",
         url: "FacturasAprobadas",
@@ -39,9 +46,6 @@ function DetalleNotaPedido(nvId) {
                 $("#tblDetalleNotaPedido").html("");
                 $("#tblDetalleNotaPedidoDetalle").html("");
 
-                var tableCabecera = $("#tblDetalleNotaPedido");
-                var tableDetalle = $("#tblDetalleNotaPedidoDetalle");
-
                 $.each(data.Cabecera, function (index, value) {
                     if (value.Usuario == null) {
                         value.Usuario = 'Vendedor';
@@ -52,7 +56,11 @@ function DetalleNotaPedido(nvId) {
                     if (value.DesLista == null) {
                         value.DesLista = '';
                     }
-                    var htmlCabecera = "<tr><th>N&ordm; Softland.</th>" +
+                    if (value.CodiCC == null) {
+                        value.CodiCC = '-';
+                        value.DescCC = '-';
+                    }
+                        htmlCabecera = "<tr><th>N&ordm; Softland.</th>" +
                         "<td>" + value.NVNumero + "</td>" +
                         "<th nowrap='nowrap'>N&ordm; Int.</th>" +
                         "<td>" + nvId + "</td>" +
@@ -78,7 +86,7 @@ function DetalleNotaPedido(nvId) {
                     tableCabecera.append(htmlCabecera);
                 });
 
-                var htmlDetalle = "";
+                htmlDetalle = "";
                 htmlDetalle = htmlDetalle + "<th>ID</th>";
                 htmlDetalle = htmlDetalle + "<th>Codigo Producto</th>";
                 htmlDetalle = htmlDetalle + "<th>Detalle Producto</th>";
@@ -124,8 +132,29 @@ function DetalleNotaPedido(nvId) {
                     htmlDetalle = htmlDetalle + "<td>" + value.nvTotLinea + "</td>";
                     htmlDetalle = htmlDetalle + "</tr>";
 
+                    var subtotalaux = value.nvSubTotal;
+                    subtotal = subtotal * value.nvCant + subtotalaux;
+
+                    var ivaaux = (value.nvPrecio * value.nvCant) * 0.19;
+                    ivatotal = Math.round(ivatotal + ivaaux);
+
+                    var totalaux = value.nvTotLinea;
+                    total = total + totalaux;
+
                     tableDetalle.append(htmlDetalle);
                 });
+                totalconiva = Math.round(total + ivatotal);
+                var htmldetalleTotal = "";
+                htmldetalleTotal = htmldetalleTotal + "<tr><th style='text-align: right;' colspan='8'>SubTotal</th>";
+                htmldetalleTotal = htmldetalleTotal + "<td>" + subtotal + "</td>";
+                htmldetalleTotal = htmldetalleTotal + "</tr>";
+                htmldetalleTotal = htmldetalleTotal + "<tr><th style='text-align: right;' colspan='8'>Total Iva</th>";
+                htmldetalleTotal = htmldetalleTotal + "<td>" + ivatotal + "</td>";
+                htmldetalleTotal = htmldetalleTotal + "</tr>";
+                htmldetalleTotal = htmldetalleTotal + "<tr><th style='text-align: right;' colspan='8'>Venta Total</th>";
+                htmldetalleTotal = htmldetalleTotal + "<td>" + totalconiva + "</td>";
+                htmldetalleTotal = htmldetalleTotal + "</tr>";
+                tableDetalle.append(htmldetalleTotal);
             }
         }
     });
