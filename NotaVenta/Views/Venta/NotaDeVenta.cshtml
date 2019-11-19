@@ -124,7 +124,7 @@
                                 <tr class="highlight">
                                     <td>Cod. Cliente</td>
                                     <td>
-                                        <input type="text" name="nombreCliente" id="nombreCliente" class="form-control" value="@codigo - @nombre" readonly="readonly" tabindex="-1" size="40"/>
+                                        <input type="text" name="nombreCliente" id="nombreCliente" class="form-control" value="@codigo - @nombre" readonly="readonly" tabindex="-1" size="40" />
                                         <input type="hidden" name="txtcliente" id="txtcliente" value="@codigo" readonly="readonly" />
                                     </td>
                                     <td nowrap="nowrap">Vendedor Cliente</td>
@@ -234,7 +234,7 @@
                                     {
                                         <td nowrap="nowrap">Saldo</td>
                                         <td>
-                                            <input type="text" class="text-danger form-control" value="@SaldoTotal"/>
+                                            <input type="text" class="text-danger form-control" disabled value="@SaldoTotal" />
                                             <button class="btn-primary btn" data-toggle="modal" data-target="#modalSaldo" onclick="ObtenerSaldo('@RutAux')" style="cursor:pointer;"><i class="fas fa-search"></i></button>
                                         </td>
                                     }
@@ -512,33 +512,20 @@
     <h4 class="alert-heading">Nota de Pedido Generada</h4>
     <p>Nota(s) de pedido generada(s) con exito <label id="divAlertaOkGeneracionNVPendiente">(enviado a aprobacion)</label></p>
     <div class="row" id="divAlertaOkGeneracionNVInterno">
-        <div class="col-lg-8">
+        <div class="col-lg-2">
         </div>
         <div class="col-lg-8">
-            <div class="panel panel-inverse" data-sortable-id="ui-widget-2">
-                <div class="panel-heading">
-                    <h4 class="panel-title">Notas de pedido creadas</h4>
-                    <div class="panel-heading-btn">
-                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>-->
-                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>-->
-                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>-->
-                        <!--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>-->
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <table id="tblResultadoAgregarNV" class="table table-condensed table-bordered">
-                        <thead>
-                            <tr>
-                                <th>N° Nota Pedido Interno</th>
-                                <th>N° Nota Pedido Softland</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
+            <table id="tblResultadoAgregarNV" class="table table-condensed table-bordered">
+                <thead>
+                    <tr>
+                        <th>N° Nota Pedido Interno</th>
+                        <th>N° Nota Pedido Softland</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
-        <div class="col-lg-8">
+        <div class="col-lg-2">
         </div>
     </div>
     <hr>
