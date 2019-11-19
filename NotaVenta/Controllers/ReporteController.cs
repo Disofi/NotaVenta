@@ -229,7 +229,7 @@ namespace NotaVenta.Controllers
         [NonAction]
         public void EnviarEmail(int nvnumero, int Id,List<string> para)
         {
-            string subject = string.Format("Nota Pedido {0}", Id);
+            string subject = string.Format("Nota de Pedido: " + Id + " Aprobada", Id);
 
             string from = System.Configuration.ConfigurationManager.AppSettings.Get("Para");
             string displayName = System.Configuration.ConfigurationManager.AppSettings.Get("Remitente");
@@ -278,6 +278,7 @@ namespace NotaVenta.Controllers
 
             if (mail != null)
             {
+                mail.Subject = subject;
                 smtp.Send(mail);
             }
         }

@@ -664,9 +664,9 @@ namespace NotaVenta.Controllers
         }
 
         [NonAction]
-        public void EnviarEmail(int nvnumero, int Id, List<string> para)
+        public void EnviarEmail(int Id, List<string> para)
         {
-            string subject = string.Format("Nota de Pedido {0}", Id);
+            string subject = string.Format("Nota de Pedido: "+Id, Id);
 
             string from = System.Configuration.ConfigurationManager.AppSettings.Get("Para");
             string displayName = System.Configuration.ConfigurationManager.AppSettings.Get("Remitente");
@@ -690,10 +690,11 @@ namespace NotaVenta.Controllers
             };
 
 
-            NotadeVentaCabeceraModels NVentaCabecera = new NotadeVentaCabeceraModels
-            {
-                NVNumero = nvnumero
-            };
+            //NotadeVentaCabeceraModels NVentaCabecera = new NotadeVentaCabeceraModels
+            //{
+            //    NVNumero = nvnumero
+            //};
+
             List<NotadeVentaCabeceraModels> NVentaCabeceras = controlDisofi().BuscarNVPorNumero(Id, baseDatosUsuario());
 
             List<NotaDeVentaDetalleModels> NVentaDetalles = controlDisofi().BuscarNVDETALLEPorNumero(Id, baseDatosUsuario());
@@ -718,6 +719,7 @@ namespace NotaVenta.Controllers
 
             if (mail != null)
             {
+                mail.Subject = subject;
                 smtp.Send(mail);
             }
         }
@@ -1276,7 +1278,7 @@ namespace NotaVenta.Controllers
                     }
                 }
 
-                EnviarEmail(cabecera.NVNumero, cabecera.Id, paraEmail);
+                EnviarEmail(/*cabecera.NVNumero,*/ cabecera.Id, paraEmail);
             }
             catch (Exception ex)
             {
