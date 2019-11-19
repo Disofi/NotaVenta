@@ -43,8 +43,10 @@ namespace NotaVenta.Controllers
                 {
                     List<SaldosModel> Saldos = new List<SaldosModel>();
                     Saldos = controlDisofi().ObtenerSaldo(doc[i].RutAux, baseDatosUsuario());
-
-                    doc[i].Saldo = Saldos[0].Saldo;
+                    if (Saldos != null && Saldos.Count > 0)
+                    {
+                        doc[i].Saldo = Saldos[0].Saldo;
+                    }
                 }
             }
 
@@ -174,7 +176,7 @@ namespace NotaVenta.Controllers
             NotadeVentaCabeceraModels notaVenta = new NotadeVentaCabeceraModels();
 
             ParametrosModels para = ObtieneParametros();
-            
+
             notaVenta.Id = _nvId;
 
             List<NotadeVentaCabeceraModels> proceso = controlDisofi().actualizaEstado(notaVenta, baseDatosUsuario());
@@ -229,7 +231,7 @@ namespace NotaVenta.Controllers
                 return null;
             }
 
-            return Json(new { nvNum = proceso[0].NVNumero });  
+            return Json(new { nvNum = proceso[0].NVNumero });
         }
 
         [HttpPost]
@@ -243,7 +245,7 @@ namespace NotaVenta.Controllers
         }
 
         [NonAction]
-        public void EnviarEmail(int nvnumero, int Id,List<string> para)
+        public void EnviarEmail(int nvnumero, int Id, List<string> para)
         {
             string subject = string.Format("Nota de Pedido: " + Id + " Aprobada", Id);
 
@@ -278,7 +280,7 @@ namespace NotaVenta.Controllers
             };
             List<ClientesModels> clientes = controlDisofi().GetClientes(baseDatosUsuario(), cliente);
 
-            
+
 
             MailMessage mail = new MailMessage
             {
