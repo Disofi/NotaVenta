@@ -3,12 +3,19 @@
 @{
     ViewBag.Title = "Facturas Aprobadas";
     List<NotadeVentaCabeceraModels> doc = ViewBag.doc;
+    ParametrosModels parametros = ViewBag.Parametros;
 }
 
 <link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
 <script src="~/WebJs/Reporte/FacturasAprobadas.js"></script>
-
+@Html.Raw(doc.Count)
 <div id="content" class="content">
+    <input type="hidden" id="ControlaStockProducto" value="@parametros.ControlaStockProducto.ToString()" />
+    <input type="hidden" id="MuestraUnidadMedidaProducto" value="@parametros.MuestraUnidadMedidaProducto.ToString()" />
+    <input type="hidden" id="DescuentoLineaDirectoSoftland" value="@parametros.DescuentoLineaDirectoSoftland.ToString()" />
+    <input type="hidden" id="DescuentoTotalDirectoSoftland" value="@parametros.DescuentoTotalDirectoSoftland.ToString()" />
+    <input type="hidden" id="CantidadDescuentosProducto" value="@parametros.CantidadDescuentosProducto.ToString()" />
+    <input type="hidden" id="CantidadDescuentosTotalDocumento" value="@parametros.CantidadDescuentosTotalDocumento.ToString()" />
     <h1 class="page-header">@ViewBag.Message <small></small></h1>
     <div class="panel panel-inverse width-full">
         <div class="panel-heading">
@@ -41,39 +48,36 @@
                         {
                             for (int i = 0; i < doc.Count; i++)
                             {
-                                        <tr>
-                                            <td>@doc[i].Id</td>
-                                            <td>@doc[i].NomAux</td>
-                                            <td>@doc[i].RutAux</td>
-                                            <td>@doc[i].nvFem.ToShortDateString()</td>
-                                            @if (@doc[i].CodLista == null)
-                                            {
-                                                <td>0</td>
-                                            }
-                                            else
-                                            {
-                                                <td>@doc[i].CodLista</td>
-                                            }
-                                            @if (@doc[i].NomCon == null)
-                                            {
-                                                <td>0</td>
-                                            }
-                                            else
-                                            {
-                                                <td>@doc[i].NomCon</td>
-                                            }
-                                            <td>$@double.Parse(doc[i].nvSubTotal.ToString()).ToString("N0")</td>
-                                            <td>$@double.Parse(doc[i].TotalBoleta.ToString()).ToString("N0")</td>
-                                            <td>@doc[i].EstadoNP</td>
-                                            <td>@doc[i].RutSolicitante</td>
-                                            <td>
-                                                @if (doc[i].EstadoNP == "A")
-                                                {
-                                                    <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id)">@*<img src="~/Content/Image/zoom.png" />*@Detalle</button>
-                                                }
+                                <tr>
+                                    <td>@doc[i].Id</td>
+                                    <td>@doc[i].NomAux</td>
+                                    <td>@doc[i].RutAux</td>
+                                    <td>@doc[i].nvFem.ToShortDateString()</td>
+                                    @if (@doc[i].CodLista == null)
+                                    {
+                                        <td>0</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@doc[i].CodLista</td>
+                                    }
+                                    @if (@doc[i].NomCon == null)
+                                    {
+                                        <td>0</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@doc[i].NomCon</td>
+                                    }
+                                    <td>$@double.Parse(doc[i].nvSubTotal.ToString()).ToString("N0")</td>
+                                    <td>$@double.Parse(doc[i].TotalBoleta.ToString()).ToString("N0")</td>
+                                    <td>@doc[i].EstadoNP</td>
+                                    <td>@doc[i].RutSolicitante</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id)">@*<img src="~/Content/Image/zoom.png" />*@Detalle</button>
 
-                                            </td>
-                                        </tr>
+                                    </td>
+                                </tr>
                             }
                         }
                         catch (Exception)

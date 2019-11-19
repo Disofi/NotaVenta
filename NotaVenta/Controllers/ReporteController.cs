@@ -102,6 +102,10 @@ namespace NotaVenta.Controllers
             List<NotadeVentaCabeceraModels> doc = new List<NotadeVentaCabeceraModels>();
             var docAprobados = controlDisofi().listarDocAprobados(baseDatosUsuario());
 
+            ParametrosModels parametros = ObtieneParametros();
+
+            ViewBag.Parametros = parametros;
+
             if (docAprobados != null)
             {
                 doc = docAprobados;
