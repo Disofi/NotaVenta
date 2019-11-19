@@ -1894,7 +1894,7 @@ GO
 /*-- Autor    : FDURAN            */  
 /*-- Modificaciones  :              */  
 /*------------------------------------------------------------------------------*/  
-CREATE PROCEDURE [dbo].[FR_ListaProductos]  
+CREATE PROCEDURE [dbo].[FR_ListaProductos] 
 (  
  @pv_ListaProductos varchar(max)  
 , @pv_BaseDatos varchar(100)  
@@ -1904,6 +1904,19 @@ BEGIN
  declare @query varchar(max)  
   
  select @query = ''  
+
+ declare @lv_bodega varchar(50)
+
+select	top 1 
+		@lv_bodega = 
+				case	when a.stockproductoesbodega = 1 
+							then isnull(stockproductocodigobodega, '') 
+							else '' 
+				end 
+from	ds_parametros a 
+	inner join ds_empresa b 
+		on a.idempresa = b.id 
+where	b.basedatos = @pv_BaseDatos
   
  if @pv_ListaProductos is not null and rtrim(ltrim(@pv_ListaProductos)) <> '' and rtrim(ltrim(@pv_ListaProductos)) <> '-1' begin  
   select @query = @query + '  
@@ -1922,7 +1935,8 @@ BEGIN
         select  Sum (CASE WHEN TipoBod = ''D'' THEN Ingresos - Egresos ELSE 0 END) * 1 AS StockDisponible  
         FROM  [' + @pv_BaseDatos + '].[softland].IW_vsnpMovimStockTipoBod WITH (INDEX(IW_GMOVI_BodPro))   
         WHERE  Fecha <= GETDATE()    
-        and   CodProd = tp.CodProd   
+        and   CodProd = tp.CodProd   ' +
+		case when @lv_bodega = '' then '' else ' and codbode = ''' + @lv_bodega + '''' end + '
         GROUP BY CodProd  
        ), 0)--[dbo].[stock2018](tp.CodProd)    
   FROM  [' + @pv_BaseDatos + '].[softland].[iw_tprod] AS tp     
@@ -1951,11 +1965,12 @@ BEGIN
   ,   codumed = tp.CodUmed  
   ,   desumed = ISNULL(detumed.desumed,'''')  
   ,   CodLista = ''''  
-  ,   ISNULL((  
+  ,   Stock = ISNULL((  
       select  Sum (CASE WHEN TipoBod = ''D'' THEN Ingresos - Egresos ELSE 0 END) * 1 AS StockDisponible  
       FROM  [' + @pv_BaseDatos + '].[softland].IW_vsnpMovimStockTipoBod WITH (INDEX(IW_GMOVI_BodPro))   
       WHERE  Fecha <= GETDATE()  
-      and   CodProd = tp.CodProd   
+      and   CodProd = tp.CodProd   ' +
+		case when @lv_bodega = '' then '' else ' and codbode = ''' + @lv_bodega + '''' end + '
       GROUP BY CodProd  
      ), 0)--Stock = [dbo].[stock2018](tp.CodProd)    
   FROM  [' + @pv_BaseDatos + '].[softland].[iw_tprod] AS tp     
