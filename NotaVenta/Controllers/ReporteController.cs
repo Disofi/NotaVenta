@@ -37,6 +37,18 @@ namespace NotaVenta.Controllers
                 doc = docPendientes;
             }
 
+            foreach (var item in doc)
+            {
+                for (int i = 0; i < doc.Count; i++)
+                {
+                    List<SaldosModel> Saldos = new List<SaldosModel>();
+                    Saldos = controlDisofi().ObtenerSaldo(doc[i].RutAux, baseDatosUsuario());
+
+                    doc[i].Saldo = Saldos[0].Saldo;
+                }
+            }
+
+
             ViewBag.doc = doc;
 
             return View();
