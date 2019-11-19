@@ -973,8 +973,6 @@ namespace NotaVenta.Controllers
         }
         #endregion
 
-
-
         private RespuestaNotaVentaModel creacionCabeceraDetalleNotaVenta(NotadeVentaCabeceraModels cabecera,List<ProductoAgregadoModel> productos,bool insertaDisofi,
             bool insertaSoftland,ParametrosModels para)
         {
@@ -1006,7 +1004,6 @@ namespace NotaVenta.Controllers
             cabecera.CveCod = cabecera.CveCod == "-1" ? null : cabecera.CveCod;
             cabecera.NomCon = (cabecera.NomCon == null || cabecera.NomCon == "") ? "SIN COCTACTO" : cabecera.NomCon;
             cabecera.CodiCC = cabecera.CodiCC == "-1" ? null : cabecera.CodiCC;
-            //cabecera.CodBode = cabecera.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa;
             cabecera.nvSubTotal = para.DescuentoTotalDirectoSoftland ? cabecera.nvSubTotal : cabecera.nvSubTotalConDescuento;
 
             int totalDescuento = 0;

@@ -934,8 +934,6 @@ function agregarnotadeventa() {
 
     var contacto = $('#txtcontacto').val();
 
-    var CorreoCliente = $("#txtCorreoCliente").val();
-
     var cabecera = {
         Descuentos: totales.descuentos,
         NVNumero: NVNumero,
