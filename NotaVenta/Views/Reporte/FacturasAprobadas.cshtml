@@ -3,12 +3,19 @@
 @{
     ViewBag.Title = "Facturas Aprobadas";
     List<NotadeVentaCabeceraModels> doc = ViewBag.doc;
+    ParametrosModels parametros = ViewBag.Parametros;
 }
 
 <link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
 <script src="~/WebJs/Reporte/FacturasAprobadas.js"></script>
-
+@Html.Raw(doc.Count)
 <div id="content" class="content">
+    <input type="hidden" id="ControlaStockProducto" value="@parametros.ControlaStockProducto.ToString()" />
+    <input type="hidden" id="MuestraUnidadMedidaProducto" value="@parametros.MuestraUnidadMedidaProducto.ToString()" />
+    <input type="hidden" id="DescuentoLineaDirectoSoftland" value="@parametros.DescuentoLineaDirectoSoftland.ToString()" />
+    <input type="hidden" id="DescuentoTotalDirectoSoftland" value="@parametros.DescuentoTotalDirectoSoftland.ToString()" />
+    <input type="hidden" id="CantidadDescuentosProducto" value="@parametros.CantidadDescuentosProducto.ToString()" />
+    <input type="hidden" id="CantidadDescuentosTotalDocumento" value="@parametros.CantidadDescuentosTotalDocumento.ToString()" />
     <h1 class="page-header">@ViewBag.Message <small></small></h1>
     <div class="panel panel-inverse width-full">
         <div class="panel-heading">
@@ -72,8 +79,8 @@
                                                     <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id)">@*<img src="~/Content/Image/zoom.png" />*@Detalle</button>
                                                 }
 
-                                            </td>
-                                        </tr>
+                                    </td>
+                                </tr>
                             }
                         }
                         catch (Exception)

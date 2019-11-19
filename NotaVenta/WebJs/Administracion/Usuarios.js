@@ -157,14 +157,14 @@ function obtenerEmpresasUsuario(idUsuario) {
     });
 }
 
-function EliminarUsuario(id,estado) {
+function EliminarUsuario(id, estado) {
     var mensaje;
     if (estado) {
         var opcion = confirm("Desea Eliminar Usuario?");
     }
     else {
         var opcion = confirm("Desea Habilitar Usuario?");
-    }    
+    }
     if (opcion == true) {
         $.ajax({
             type: 'POST',
@@ -224,7 +224,7 @@ function AgregarUsuario() {
         alert("Contraseña de Correo no Coinciden");
     }
 
-    
+
 }
 
 function ObtenerDatosUsuario(id) {
@@ -261,7 +261,7 @@ function EditarUsuario() {
     $.ajax({
         url: "Editarusuario",
         type: "POST",
-        data: { _Id: id, _Usuario: Usuario, _Nombre: Nombre, _Contrasena: Contrasena, _Email: Email, _Perfil: Perfil},
+        data: { _Id: id, _Usuario: Usuario, _Nombre: Nombre, _Contrasena: Contrasena, _Email: Email, _Perfil: Perfil },
         async: true,
         success: function (data) {
             if (data.Verificador) {
@@ -278,3 +278,29 @@ function EditarUsuario() {
     });
 }
 
+
+
+
+
+
+
+var MensajeDisofi = [[
+    {
+        "Codigo": "ACHD010090",
+        "Descripcion": null,
+        "PrecioUnitario": 880.0,
+        "PrecioUnitarioConDescuento": 880.0,
+        "Cantidad": 1.0,
+        "Stock": 0.0,
+        "UnidadMedida": null,
+        "Descuentos": null,
+        "DescuentoAtributo": 0.0,
+        "SubTotal": 880.0,
+        "SubTotalConDescuento": 880.0, "Total": 880.0, "ValorDescuentoAtributo": 0.0, "Talla": null, "Color": null
+    }
+]
+]
+
+
+MensajeDisofi: "paso1 - paso2 - paso3 - paso4 - serializado: [[{"Codigo":"AGAM120090","Descripcion":null,"PrecioUnitario":10560.0,"PrecioUnitarioConDescuento":10560.0,"Cantidad":1.0,"Stock":0.0,"UnidadMedida":null,"Descuentos":null,"DescuentoAtributo":0.0,"SubTotal":10560.0,"SubTotalConDescuento":10560.0,"Total":10560.0,"ValorDescuentoAtributo":0.0,"Talla":null,"Color":null}]] - serializado: null - ERROR: Referencia a objeto no establecida como instancia de un objeto."
+MensajeSoftland: null

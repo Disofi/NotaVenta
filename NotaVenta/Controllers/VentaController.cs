@@ -91,7 +91,7 @@ namespace NotaVenta.Controllers
 
             CreditoModel credito = controlDisofi().ObtenerCredito(cliente.CodAux, baseDatosUsuario());
 
-             if (parametros.ManejaLineaCreditoVendedor)
+            if (parametros.ManejaLineaCreditoVendedor)
             {
                 if (credito != null)
                 {
@@ -225,7 +225,7 @@ namespace NotaVenta.Controllers
 
             }
 
-            
+
 
             ViewBag.numeronota = NVC;
 
@@ -546,6 +546,7 @@ namespace NotaVenta.Controllers
                     productosTemp = new List<ProductoAgregadoModel>();
                 }
 
+
                 List<RespuestaNotaVentaModel> listaRespuestaNotaVentaModel = new List<RespuestaNotaVentaModel>();
                 for (int i = 0; i < listaProductosNotasDeVenta.Count; i++)
                 {
@@ -555,17 +556,18 @@ namespace NotaVenta.Controllers
                         insertaDisofi,
                         insertaSoftland,
                         para);
-
+                    
                     respuestaNotaVenta.EstadoNP = cabecera.EstadoNP;
 
                     listaRespuestaNotaVentaModel.Add(respuestaNotaVenta);
                 }
 
+
                 return Json(listaRespuestaNotaVentaModel);
             }
             catch (Exception ex)
             {
-                throw (ex);
+                throw ex;
             }
 
         }
@@ -666,7 +668,7 @@ namespace NotaVenta.Controllers
         [NonAction]
         public void EnviarEmail(int Id, List<string> para)
         {
-            string subject = string.Format("Nota de Pedido: "+Id, Id);
+            string subject = string.Format("Nota de Pedido: " + Id, Id);
 
             string from = System.Configuration.ConfigurationManager.AppSettings.Get("Para");
             string displayName = System.Configuration.ConfigurationManager.AppSettings.Get("Remitente");
@@ -973,8 +975,8 @@ namespace NotaVenta.Controllers
         }
         #endregion
 
-        private RespuestaNotaVentaModel creacionCabeceraDetalleNotaVenta(NotadeVentaCabeceraModels cabecera,List<ProductoAgregadoModel> productos,bool insertaDisofi,
-            bool insertaSoftland,ParametrosModels para)
+        private RespuestaNotaVentaModel creacionCabeceraDetalleNotaVenta(NotadeVentaCabeceraModels cabecera, List<ProductoAgregadoModel> productos, bool insertaDisofi,
+            bool insertaSoftland, ParametrosModels para)
         {
             cabecera.NVNumero = cabecera.NVNumero;
             cabecera.nvFem = cabecera.nvFem;
@@ -1225,6 +1227,15 @@ namespace NotaVenta.Controllers
             {
 
             }
+
+            EnviarEmailNotaVenta(cabecera, para);
+
+            return respuestaNotaVenta;
+        }
+
+        private void EnviarEmailNotaVenta(NotadeVentaCabeceraModels cabecera, ParametrosModels para)
+        {
+
             try
             {
                 List<string> paraEmail = new List<string>();
@@ -1280,10 +1291,7 @@ namespace NotaVenta.Controllers
             catch (Exception ex)
             {
                 string error = ex.ToString();
-                return null;
             }
-
-            return respuestaNotaVenta;
         }
 
         [HttpPost]
@@ -1299,7 +1307,7 @@ namespace NotaVenta.Controllers
                 foreach (SaldosModel item in Saldos)
                 {
                     MontoTotal = item.Saldo;
-                    Saldo = MontoTotal + Saldo; 
+                    Saldo = MontoTotal + Saldo;
                 }
 
                 return Json(new { DetalleSaldo = Saldos, SaldoTotal = MontoTotal }, JsonRequestBehavior.AllowGet);
