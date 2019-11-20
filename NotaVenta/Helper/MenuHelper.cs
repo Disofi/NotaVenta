@@ -21,7 +21,7 @@ namespace NotaVenta.Helper
             {
                 var urlMenu = menu.MenuUsuario(datosUsuario.TipoUsuario).ToList();
                 menulit = menulit + "<ul class='nav'>" +
-                    "<li class='nav-header'>Menu</li>";
+                    "<li class='nav-header'></li>";
                     
                 for (var i = 0; i <= urlMenu.Count; i++)
                 {
@@ -55,7 +55,6 @@ namespace NotaVenta.Helper
                         }
                     }
                     menulit = menulit + "</ul>";
-                    //menulit = menulit + "</li>";
                 }
                 menulit = menulit + "</li></ul>";
             }

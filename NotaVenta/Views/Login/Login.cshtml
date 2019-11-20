@@ -17,8 +17,13 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <link href="~/Content/assets/css/default/app.min.css" rel="stylesheet">
     <!-- ================== END BASE CSS STYLE ================== -->
+    
 </head>
 <body class="pace-top  pace-done">
+    <input type="hidden" id="urlIndex" value="@Url.Action("Index", "Home" )" />
+    <input type="hidden" id="urlLogin" value="@Url.Action("Login", "Login" )" />
+    <input type="hidden" id="urlSeleccionaEmpresa" value="@Url.Action("SeleccionaEmpresa", "Login" )" />
+    <input type="hidden" id="urlParametros" value="@Url.Action("Parametros", "Administracion" )" />
     <div class="pace  pace-inactive">
         <div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
             <div class="pace-progress-inner"></div>
@@ -58,102 +63,90 @@
                 <!-- end login-header -->
                 <!-- begin login-content -->
                 <div class="login-content">
-                    <form action="@Url.Action("Login" , "Login" )" method="post" class="margin-bottom-0">
-                        <div class="form-group m-b-15">
-                            <input type="text" class="form-control form-control-lg" id="Nombre" name="Nombre" placeholder="Rut XXXXXXXX-X" required>
-                        </div>
-                        <div class="form-group m-b-15">
-                            <input type="password" class="form-control form-control-lg" id="Contrasena" name="Contrasena" placeholder="Contraseña" required>
-                        </div>
-                        <div class="login-buttons">
+                    @*<form action="@Url.Action("Login" , "Login" )" method="post" class="margin-bottom-0">*@
+                    <div class="form-group m-b-15">
+                        <input type="text" class="form-control form-control-lg" id="Nombre" name="Nombre" placeholder="Nombre Usuario" required>
+                    </div>
+                    <div class="form-group m-b-15">
+                        <input type="password" class="form-control form-control-lg" id="Contrasena" name="Contrasena" placeholder="Contraseña" required>
+                    </div>
+                    @*<div class="login-buttons">
                             <button type="submit" class="btn btn-success btn-block btn-lg">Sign me in</button>
-                        </div>
-                        <hr>
-                        <p class="text-center text-black mb-0">
-                            &copy; Disofi
-                        </p>
-                    </form>
+                        </div>*@
+                    <div class="login-buttons">
+                        <input type="button" id="Login" class="btn btn-success btn-block btn-lg" value="Iniciar Sesion" />
+                    </div>
+                    <hr>
+                    <p class="text-center text-black mb-0">
+                        &copy; Disofi
+                    </p>
+                    @*</form>*@
                 </div>
                 <!-- end login-content -->
             </div>
             <!-- end right-container -->
         </div>
         <!-- end login -->
-        <!-- begin theme-panel -->
-        <div class="theme-panel theme-panel-lg">
-            <a href="javascript:;" data-click="theme-panel-expand" class="theme-collapse-btn"><i class="fa fa-cog"></i></a>
-            <div class="theme-panel-content">
-                <h5>App Settings</h5>
-                <ul class="theme-list clearfix">
-                    <li><a href="javascript:;" class="bg-red" data-theme="red" data-theme-file="~/Content/assets/css/default/theme/red.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Red" data-original-title="" title="">&nbsp;</a></li>
-                    <li><a href="javascript:;" class="bg-pink" data-theme="pink" data-theme-file="~/Content/assets/css/default/theme/pink.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Pink" data-original-title="" title="">&nbsp;</a></li>
-                    <li><a href="javascript:;" class="bg-orange" data-theme="orange" data-theme-file="~/Content/assets/css/default/theme/orange.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Orange" data-original-title="" title="">&nbsp;</a></li>
-                    <li><a href="javascript:;" class="bg-yellow" data-theme="yellow" data-theme-file="~/Content/assets/css/default/theme/yellow.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Yellow" data-original-title="" title="">&nbsp;</a></li>
-                    <li><a href="javascript:;" class="bg-lime" data-theme="lime" data-theme-file="~/Content/assets/css/default/theme/lime.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Lime" data-original-title="" title="">&nbsp;</a></li>
-                    <li><a href="javascript:;" class="bg-green" data-theme="green" data-theme-file="~/Content/assets/css/default/theme/green.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Green" data-original-title="" title="">&nbsp;</a></li>
-                    <li class="active"><a href="javascript:;" class="bg-teal" data-theme="default" data-theme-file="" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Default" data-original-title="" title="">&nbsp;</a></li>
-                    <li><a href="javascript:;" class="bg-aqua" data-theme="aqua" data-theme-file="~/Content/assets/css/default/theme/aqua.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Aqua" data-original-title="" title="">&nbsp;</a></li>
-                    <li><a href="javascript:;" class="bg-blue" data-theme="blue" data-theme-file="~/Content/assets/css/default/theme/blue.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Blue" data-original-title="" title="">&nbsp;</a></li>
-                    <li><a href="javascript:;" class="bg-purple" data-theme="purple" data-theme-file="~/Content/assets/css/default/theme/purple.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Purple" data-original-title="" title="">&nbsp;</a></li>
-                    <li><a href="javascript:;" class="bg-indigo" data-theme="indigo" data-theme-file="~/Content/assets/css/default/theme/indigo.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Indigo" data-original-title="" title="">&nbsp;</a></li>
-                    <li><a href="javascript:;" class="bg-black" data-theme="black" data-theme-file="~/Content/assets/css/default/theme/black.min.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Black" data-original-title="" title="">&nbsp;</a></li>
-                </ul>
-                <div class="divider"></div>
-                <div class="row m-t-10">
-                    <div class="col-6 control-label text-inverse f-w-600">Header Fixed</div>
-                    <div class="col-6 d-flex">
-                        <div class="custom-control custom-switch ml-auto">
-                            <input type="checkbox" class="custom-control-input" name="header-fixed" id="headerFixed" value="1" checked="">
-                            <label class="custom-control-label" for="headerFixed">&nbsp;</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row m-t-10">
-                    <div class="col-6 control-label text-inverse f-w-600">Header Inverse</div>
-                    <div class="col-6 d-flex">
-                        <div class="custom-control custom-switch ml-auto">
-                            <input type="checkbox" class="custom-control-input" name="header-inverse" id="headerInverse" value="1">
-                            <label class="custom-control-label" for="headerInverse">&nbsp;</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row m-t-10">
-                    <div class="col-6 control-label text-inverse f-w-600">Sidebar Fixed</div>
-                    <div class="col-6 d-flex">
-                        <div class="custom-control custom-switch ml-auto">
-                            <input type="checkbox" class="custom-control-input" name="sidebar-fixed" id="sidebarFixed" value="1" checked="">
-                            <label class="custom-control-label" for="sidebarFixed">&nbsp;</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row m-t-10">
-                    <div class="col-6 control-label text-inverse f-w-600">Sidebar Grid</div>
-                    <div class="col-6 d-flex">
-                        <div class="custom-control custom-switch ml-auto">
-                            <input type="checkbox" class="custom-control-input" name="sidebar-grid" id="sidebarGrid" value="1">
-                            <label class="custom-control-label" for="sidebarGrid">&nbsp;</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row m-t-10">
-                    <div class="col-md-6 control-label text-inverse f-w-600">Sidebar Gradient</div>
-                    <div class="col-md-6 d-flex">
-                        <div class="custom-control custom-switch ml-auto">
-                            <input type="checkbox" class="custom-control-input" name="sidebar-gradient" id="sidebarGradient" value="1">
-                            <label class="custom-control-label" for="sidebarGradient">&nbsp;</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="divider"></div>
-            </div>
-        </div>
-        <!-- end theme-panel -->
     </div>
     <!-- end page container -->
+
+    <a id="aModalEmpresas" style="display: none" href="#modalEmpresas" class="btn btn-sm btn-success" data-toggle="modal">Agregar Direccion Despacho</a>
+    <div class="modal fade" id="modalEmpresas">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Seleccion de Empresa</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive form-inline">
+                        <table class="table table-profile">
+                            <tbody>
+                                <tr class="highlight">
+                                    <td>Empresa</td>
+                                    <td>
+                                        <select id="ddlEmpresas" class="form-control"></select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a id="modalEmpresasAgregar" href="javascript:;" class="btn btn-success">Seleccionar Empresa</a>
+                    <a id="modalEmpresasCerrar" href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a id="aModalErrorLogin" style="display: none" href="#modalErrorLogin" class="btn btn-sm btn-success" data-toggle="modal">Agregar Direccion Despacho</a>
+    <div class="modal fade" id="modalErrorLogin">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Error de Acceso</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body text-center">
+                    <h4 class="" style="color: red" id="modalErrorLoginMensaje"></h4>
+                </div>
+                <div class="modal-footer">
+                    <a id="aModalErrorLogin" href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="ModalSeleccionarBD" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <select id="BaseDatos">
+            <option value="value">text</option>
+        </select>
+        <button>Seleccionar</button>
+    </div>
     <!-- ================== BEGIN BASE JS ================== -->
     <script async="" src="https://www.google-analytics.com/analytics.js"></script>
     <script src="~/Content/assets/js/app.min.js"></script>
     <script src="~/Content/assets/js/theme/default.min.js"></script>
+    <script src="~/WebJs/Login/Login.js"></script>
     <!-- ================== END BASE JS ================== -->
 
 

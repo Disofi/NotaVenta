@@ -13,18 +13,11 @@ namespace NotaVenta.UTIL.Error
 
             switch (error)
             {
-                case ERRORES.ERROR_LOGIN_1:
-                    {
-                        return errorModel = new ErrorModel(500, "Login", "Error de usuario y/o contrasena");
-                    }
-                case ERRORES.ERROR_SESSION_TERMINADA:
-                    {
-                        return errorModel = new ErrorModel(500, "Sesion terminada", "Sesion de usuario terminada");
-                    }
-                case ERRORES.ERROR_NO_AUTORIZADO:
-                    {
-                        return errorModel = new ErrorModel(401, "No Autorizado", "Usuario no esta autorizado a ver pagina solicitada");
-                    }
+                case ERRORES.ERROR_LOGIN_1: { return errorModel = new ErrorModel(500, "Login", "Error de usuario y/o contrasena"); }
+                case ERRORES.ERROR_SESSION_TERMINADA: { return errorModel = new ErrorModel(500, "Sesion terminada", "Sesion de usuario terminada"); }
+                case ERRORES.ERROR_NO_AUTORIZADO: { return errorModel = new ErrorModel(401, "No Autorizado", "Usuario no esta autorizado a ver pagina solicitada"); }
+                case ERRORES.ERROR_SIN_EMPRESAS: { return errorModel = new ErrorModel(500, "Empresas de Usuario", "Usuario no tiene empresas asociadas"); }
+                case ERRORES.ERROR_SIN_EMPRESAS_SUPER_ADMINISTRADOR: { return errorModel = new ErrorModel(500, "Empresas Sistema", "El sistema no contiene ninguna empresa"); }
             };
 
             return errorModel;
@@ -35,6 +28,8 @@ namespace NotaVenta.UTIL.Error
             ERROR_LOGIN_1 = 1,
             ERROR_SESSION_TERMINADA = 2,
             ERROR_NO_AUTORIZADO = 3,
+            ERROR_SIN_EMPRESAS = 4,
+            ERROR_SIN_EMPRESAS_SUPER_ADMINISTRADOR = 5,
         }
     }
     public class ErrorModel

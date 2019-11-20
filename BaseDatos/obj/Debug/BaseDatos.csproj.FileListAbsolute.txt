@@ -1,10 +1,6 @@
-D:\ProyectosYVEGA\disofi-texas-hub\BaseDatos\bin\Debug\BaseDatos.dll
-D:\ProyectosYVEGA\disofi-texas-hub\BaseDatos\bin\Debug\BaseDatos.pdb
-D:\ProyectosYVEGA\disofi-texas-hub\BaseDatos\obj\Debug\BaseDatos.csproj.CoreCompileInputs.cache
-D:\ProyectosYVEGA\disofi-texas-hub\BaseDatos\obj\Debug\BaseDatos.dll
-D:\ProyectosYVEGA\disofi-texas-hub\BaseDatos\obj\Debug\BaseDatos.pdb
-D:\ProyectosYVEGA\disofi-notaventa\BaseDatos\bin\Debug\BaseDatos.dll
-D:\ProyectosYVEGA\disofi-notaventa\BaseDatos\bin\Debug\BaseDatos.pdb
-D:\ProyectosYVEGA\disofi-notaventa\BaseDatos\obj\Debug\BaseDatos.csproj.CoreCompileInputs.cache
-D:\ProyectosYVEGA\disofi-notaventa\BaseDatos\obj\Debug\BaseDatos.dll
-D:\ProyectosYVEGA\disofi-notaventa\BaseDatos\obj\Debug\BaseDatos.pdb
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BaseDatos\bin\Debug\BaseDatos.dll
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BaseDatos\bin\Debug\BaseDatos.pdb
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BaseDatos\obj\Debug\BaseDatos.csproj.CoreCompileInputs.cache
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BaseDatos\obj\Debug\BaseDatos.dll
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BaseDatos\obj\Debug\BaseDatos.pdb
+C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\BaseDatos\obj\Debug\BaseDatos.csprojAssemblyReference.cache

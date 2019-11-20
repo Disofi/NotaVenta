@@ -3,106 +3,146 @@
 @{
     ViewBag.Title = "Facturas Aprobadas";
     List<NotadeVentaCabeceraModels> doc = ViewBag.doc;
-
-    if (SessionVariables.SESSION_DATOS_USUARIO.VenCod == null)
-    {
-        var URL = System.Configuration.ConfigurationManager.AppSettings.Get("url");
-        Response.Redirect(URL);
-    }
+    ParametrosModels parametros = ViewBag.Parametros;
 }
 
 <link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
 <script src="~/WebJs/Reporte/FacturasAprobadas.js"></script>
-<input type="hidden" id="urlFacturasPendientes" value="@Url.Action("FacturasPendientes", "Reportes")" />
-<div id="ModalMap" class="wrap-body">
-    <section id="container">
-        <div class="wrap-container">
-            <div class="zerogrid">
-                <div class="row">
-                    <h1 class="t-center" style="margin: 40px 0;color: #212121;letter-spacing: 2px;font-weight: 500;">Documentos Aprobados</h1>
+@Html.Raw(doc.Count)
+<div id="content" class="content">
+    <input type="hidden" id="ControlaStockProducto" value="@parametros.ControlaStockProducto.ToString()" />
+    <input type="hidden" id="MuestraUnidadMedidaProducto" value="@parametros.MuestraUnidadMedidaProducto.ToString()" />
+    <input type="hidden" id="DescuentoLineaDirectoSoftland" value="@parametros.DescuentoLineaDirectoSoftland.ToString()" />
+    <input type="hidden" id="DescuentoTotalDirectoSoftland" value="@parametros.DescuentoTotalDirectoSoftland.ToString()" />
+    <input type="hidden" id="CantidadDescuentosProducto" value="@parametros.CantidadDescuentosProducto.ToString()" />
+    <input type="hidden" id="CantidadDescuentosTotalDocumento" value="@parametros.CantidadDescuentosTotalDocumento.ToString()" />
+    <h1 class="page-header">@ViewBag.Message <small></small></h1>
+    <div class="panel panel-inverse width-full">
+        <div class="panel-heading">
+            <h4 class="panel-title">Listado De Notas de Venta Aprobadas </h4>
+            <div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+            </div>
+        </div>
+        <div class="table-responsive">
 
-                    <div class="col-full">
-                        <div class="table-responsive2">
-                            <div class="wrap-col">
-
-                                <table id="dataTable" class="table2" cellspacing="0">
-                                    <thead>
+            <table id="dataTable" class="table" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Nº Int.</th>
+                        <th>Cliente</th>
+                        <th>RUT</th>
+                        <th>Fecha Creacion</th>
+                        <th>ListaPrecio</th>
+                        <th>Contacto</th>
+                        <th>Neto</th>
+                        <th>Valo Final</th>
+                        <th>Estado</th>
+                        <th>NV Softland</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        try
+                        {
+                            for (int i = 0; i < doc.Count; i++)
+                            {
                                         <tr>
-                                            <th>Nº Int.</th>
-                                            <th>Cliente</th>
-                                            <th>RUT</th>
-                                            <th>Fecha Creacion</th>
-                                            <th>L.P.</th>
-                                            <th>Contacto</th>
-                                            <th>Neto</th>
-                                            <th>Valo Final</th>
-                                            <th>Estado</th>
-                                            <th>NV Softland</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @{
-                                            try
+                                            <td>@doc[i].Id</td>
+                                            <td>@doc[i].NomAux</td>
+                                            <td>@doc[i].RutAux</td>
+                                            <td>@doc[i].nvFem.ToShortDateString()</td>
+                                            @if (@doc[i].CodLista == null)
                                             {
-                                                for (int i = 0; i < doc.Count; i++)
+                                                <td>0</td>
+                                            }
+                                            else
+                                            {
+                                                <td>@doc[i].CodLista</td>
+                                            }
+                                            @if (@doc[i].NomCon == null)
+                                            {
+                                                <td>0</td>
+                                            }
+                                            else
+                                            {
+                                                <td>@doc[i].NomCon</td>
+                                            }
+                                            <td>$@double.Parse(doc[i].nvSubTotal.ToString()).ToString("N0")</td>
+                                            <td>$@double.Parse(doc[i].TotalBoleta.ToString()).ToString("N0")</td>
+                                            <td>@doc[i].EstadoNP</td>
+                                            <td>@doc[i].RutSolicitante</td>
+                                            <td>
+                                                @if (doc[i].EstadoNP == "A")
                                                 {
-                                                    <tr>
-                                                        <td>@doc[i].NVNumero</td>
-                                                        <td>@doc[i].NomAux</td>
-                                                        <td>@doc[i].RutAux</td>
-                                                        <td>@doc[i].nvFem.ToShortDateString()</td>
-                                                        <td>@doc[i].CodLista</td>
-                                                        <td>@doc[i].NomCon</td>
-                                                        <td>$@double.Parse(doc[i].nvNetoAfecto.ToString()).ToString("N0")</td>
-                                                        <td>$@double.Parse(doc[i].TotalBoleta.ToString()).ToString("N0")</td>
-                                                        <td>@doc[i].EstadoNP</td>
-                                                        <td>@doc[i].RutSolicitante</td>
-                                                        <td>
-                                                            @if (doc[i].EstadoNP == "P")
-                                                            {
-                                                                <a id="iframe" href='@Url.Action("VerDetalleNV", "Reportes", new { nvNumero = @doc[i].NVNumero })'><img src="~/Image/zoom.png"></a>
-                                                                <a><img src="~/Image/ok.png" onclick="aprobarNW(@doc[i].NVNumero)"></a>
-                                                            }
-                                                            else
-                                                            {
-                                                                <a id="iframe" href='@Url.Action("VerDetalleNV", "Reportes", new { nvNumero = @doc[i].NVNumero })'><img src="~/Image/zoom.png"></a>
-                                                                <a>&nbsp;</a>
-                                                            }
-
-                                                        </td>
-                                                    </tr>
+                                                    <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id)">@*<img src="~/Content/Image/zoom.png" />*@Detalle</button>
                                                 }
-                                            }
-                                            catch (Exception)
-                                            {
-                                                <tr>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th>SIN DOCUMENTOS APROBADOS</th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                </tr>
-                                            }
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
+
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th>SIN DOCUMENTOS APROBADOS</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@*</div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+    </section>*@
+<form id="sss" name="sss" action="@Url.Action("FacturasPendientes", "Reportes")">
+    <input type="hidden" name="nvnumero" id="nvnumero" value="" />
+</form>
+@*</div>*@
+
+<div id="DetalleNotaPedido" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Detalle Nota de Pedido</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="x_content">
+                    <div class="col-lg-push-12">
+                        <div class="table-responsive form-inline">
+                            <table id="tblDetalleNotaPedido" class="table table-profile"></table>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="col-lg-push-12">
+                        <div class="table-responsive form-inline">
+                            <table id="tblDetalleNotaPedidoDetalle" class="table table-profile"></table>
                         </div>
                     </div>
                 </div>
-                <br />
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCerrarModal" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
-    </section>
-    <form id="sss" name="sss" action="@Url.Action("FacturasPendientes", "Reportes")">
-        <input type="hidden" name="nvnumero" id="nvnumero" value="" />
-    </form>
+    </div>
 </div>
-

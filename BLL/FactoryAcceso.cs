@@ -15,15 +15,16 @@ namespace BLL
     {
         #region anterior
 
-        public List<_NotaDeVentaDetalleModels> DatosCorreoVend(int NvNUmero)
+        public List<_NotaDeVentaDetalleModels> DatosCorreoVend(int NvNUmero, string basedatos)
         {
             var DatosUser = new List<_NotaDeVentaDetalleModels>();
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GET_DatosCorreoVend", new System.Collections.Hashtable()
-                                                                                            {
-                                                                                                {"NvNumero", NvNUmero}
-                                                                                            });
+                {
+                    { "NvNumero", NvNUmero},
+                    { "pv_BaseDatos", basedatos},
+                });
                 if (data.Rows.Count > 0)
                 {
                     for (var i = 0; i < data.Rows.Count; i++)
@@ -89,16 +90,17 @@ namespace BLL
             return DatosUser;
         }
 
-        public bool ActualizaCorreo(_UsuariosModels Usuario)
+        public bool ActualizaCorreo(_UsuariosModels Usuario, string basedatos)
         {
             bool respuesta = false;
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_SET_ActualizaCorreo", new System.Collections.Hashtable()
-                                                                                            {
-                                                                {"VendCod", Usuario.VenCod.Trim()},
-                                                                {"Email", Usuario.email},
-                                                                {"Contrasena", Usuario.Password}
+                {
+                    { "VendCod", Usuario.VenCod.Trim()},
+                    { "Email", Usuario.email},
+                    { "Contrasena", Usuario.Password},
+                    { "pv_BaseDatos", basedatos},
                 });
                 if (data.Rows.Count > 0)
                 {
@@ -160,12 +162,13 @@ namespace BLL
             return listadoMenu;
         }
 
-        public List<CentrodeCostoModels> listarCC()
+        public List<CentrodeCostoModels> ListarCentroCosto(string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListarCentroDeCosto", new System.Collections.Hashtable()
                 {
+                    { "pv_BaseDatos", basedatos},
                 });
 
                 return UTIL.Mapper.BindDataList<CentrodeCostoModels>(data);
@@ -176,16 +179,34 @@ namespace BLL
                 return null;
             }
         }
+        public List<CanalVentaModels> ListarCanalVenta(string basedatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_ObtenerCanalVenta", new System.Collections.Hashtable()
+                {
+                    { "pv_BaseDatos", basedatos},
+                });
+
+                return UTIL.Mapper.BindDataList<CanalVentaModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
 
 
-        public List<ClientesModels> GetClientes(ClientesModels cliente = null)
+        public List<ClientesModels> GetClientes(string basedatos, ClientesModels cliente = null)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("JS_ListarClientesCodAuxRut", new System.Collections.Hashtable()
                 {
                     { "vchrRutAux", cliente.RutAux},
-                    { "vchrCodAux", cliente.CodAux}
+                    { "vchrCodAux", cliente.CodAux},
+                    { "pv_BaseDatos", basedatos},
                 });
                 return UTIL.Mapper.BindDataList<ClientesModels>(data);
             }
@@ -196,13 +217,14 @@ namespace BLL
             }
         }
 
-        public List<ClientesModels> GetContacto(ClientesModels cliente = null)
+        public List<ClientesModels> GetContacto(string basedatos, ClientesModels cliente = null)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("JS_ListarContactos", new System.Collections.Hashtable()
                 {
-                    { "vchrCodAux", cliente.NomCon},
+                    { "vchrCodAux", cliente.CodAux},
+                    { "pv_BaseDatos", basedatos},
                 });
                 return UTIL.Mapper.BindDataList<ClientesModels>(data);
             }
@@ -231,14 +253,31 @@ namespace BLL
         }
 
 
-        public List<ClientesModels> listarClientes()
+        public List<ClientesModels> listarClientes(string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListarClientes", new System.Collections.Hashtable()
                 {
+                    {"pv_BaseDatos",basedatos}
                 });
                 return UTIL.Mapper.BindDataList<ClientesModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public List<EmpresaModel> ListarEmpresas()
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_ListaEmpresa", new System.Collections.Hashtable()
+                {
+                });
+                return UTIL.Mapper.BindDataList<EmpresaModel>(data);
             }
             catch (Exception ex)
             {
@@ -301,7 +340,7 @@ namespace BLL
 
 
         //Busca los clientes por el VenCod del Usuario//
-        public List<ClientesModels> BuscarMisClientesVenCod(UsuariosModels usuario)
+        public List<ClientesModels> BuscarMisClientesVenCod(UsuariosModels usuario, string basedatos)
         {
             try
             {
@@ -309,6 +348,7 @@ namespace BLL
                 {
                     { "cod", usuario.VenCod},
                     { "ID", usuario.id},
+                    {"pv_BaseDatos",basedatos }
                 });
                 return UTIL.Mapper.BindDataList<ClientesModels>(data);
             }
@@ -319,7 +359,7 @@ namespace BLL
             }
         }
 
-        public List<ClientesModels> BuscarContacto(ClientesModels contacto)
+        public List<ClientesModels> BuscarContacto(string basedatos, ClientesModels contacto)
         {
             try
             {
@@ -327,6 +367,8 @@ namespace BLL
                 {
                     { "CodAuc", contacto.CodAux},
                     { "NomCon", contacto.NomAux},
+                    {"pv_BaseDatos",basedatos }
+
                 });
                 return UTIL.Mapper.BindDataList<ClientesModels>(data);
             }
@@ -355,13 +397,14 @@ namespace BLL
             }
         }
 
-        public List<DireccionDespachoModels> BuscarDirecDespach(DireccionDespachoModels DirDes)
+        public List<DireccionDespachoModels> BuscarDirecDespach(DireccionDespachoModels DirDes, string baseDatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_BuscarDirecDespa", new System.Collections.Hashtable()
                 {
                     { "CodAxD", DirDes.CodAxD},
+                    { "pv_BaseDatos", baseDatos},
                 });
                 return UTIL.Mapper.BindDataList<DireccionDespachoModels>(data);
             }
@@ -372,7 +415,29 @@ namespace BLL
             }
         }
 
-        public RespuestaModel ActualizarCliente(ClientesModels cliente)
+        public RespuestaModel AgregarDireccionDespacho(DireccionDespachoModels DirDes, string baseDatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_AgregarDireccionDespacho", new System.Collections.Hashtable()
+                {
+                    { "pv_CodAux", DirDes.CodAxD},
+                    { "pv_DirDch", DirDes.DirDch},
+                    { "pv_ComDch", DirDes.ComDch},
+                    { "pv_NomDch", DirDes.NomDch},
+                    { "pv_CiuDch", DirDes.CiuDch},
+                    { "pv_BaseDatos", baseDatos},
+                });
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public RespuestaModel ActualizarCliente(ClientesModels cliente, string basedatos)
         {
             try
             {
@@ -385,7 +450,8 @@ namespace BLL
                     { "NomCon", cliente.NomCon},
                     { "FonCon", cliente.FonCon},
                     { "Email", cliente.EMail},
-                });
+                    { "pv_BaseDatos", basedatos}
+            });
                 return UTIL.Mapper.BindData<RespuestaModel>(data);
             }
             catch (Exception ex)
@@ -401,13 +467,14 @@ namespace BLL
 
 
 
-        public List<CondicionVentasModels> listarConVen(CondicionVentasModels conven)
+        public List<CondicionVentasModels> listarConVen(string baseDatos, CondicionVentasModels conven)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListarCondicionesDeVenta", new System.Collections.Hashtable()
                 {
                     { "CodAux", conven.CodAux},
+                    { "pv_BaseDatos", baseDatos},
                 });
                 return UTIL.Mapper.BindDataList<CondicionVentasModels>(data);
             }
@@ -417,13 +484,14 @@ namespace BLL
                 return null;
             }
         }
-        public List<ListaDePrecioModels> listarListaDePrecio(ListaDePrecioModels lista)
+        public List<ListaDePrecioModels> listarListaDePrecio(string baseDatos, ListaDePrecioModels lista)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListarListaDePrecio", new System.Collections.Hashtable()
                 {
                     { "CodAux", lista.CodAux},
+                    { "pv_BaseDatos", baseDatos},
                 });
                 return UTIL.Mapper.BindDataList<ListaDePrecioModels>(data);
             }
@@ -455,9 +523,6 @@ namespace BLL
 
                 validador = data.Rows[0].Field<object>("TipoUsuario");
                 DatosLogin.TipoUsuario = validador != null ? data.Rows[0].Field<int>("TipoUsuario") : -1;
-
-                validador = data.Rows[0].Field<object>("VenCod");
-                DatosLogin.VenCod = validador != null ? data.Rows[0].Field<string>("VenCod") : "NO ASIGNADO";
             }
             else
             {
@@ -467,17 +532,84 @@ namespace BLL
             return DatosLogin;
         }
 
-        public List<NotadeVentaCabeceraModels> AgregarNV(NotadeVentaCabeceraModels NVC)
+        public RespuestaNotaVentaModel AgregarNV(string baseDatos, bool insertaDisofi, bool insertaSoftland, NotadeVentaCabeceraModels NVC)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_AgregarNVCabecera", new System.Collections.Hashtable()
                 {
-                    { "NVNumero", NVC.NVNumero},
-                    { "NumOC", NVC.NumOC},
-                    { "NumReq", NVC.NumReq},
+                    { "pv_EstadoNP", NVC.EstadoNP},
+                    { "pv_BaseDatos", baseDatos},
+                    { "pb_InsertaDisofi", insertaDisofi},
+                    { "pb_InsertaSoftland", insertaSoftland},
+                    { "pi_NVNumero", NVC.NVNumero},
+                    { "pd_nvFem", NVC.nvFemYYYYMMDD},
+                    { "pv_nvEstado", NVC.nvEstado},
+                    { "pi_nvEstFact", NVC.nvEstFact},
+                    { "pi_nvEstDesp", NVC.nvEstDesp},
+                    { "pi_nvEstRese", NVC.nvEstRese},
+                    { "pi_nvEstConc", NVC.nvEstConc},
+                    { "pi_CotNum", NVC.CotNum},
+                    { "pv_NumOC", NVC.NumOC},
+                    { "pd_nvFeEnt", NVC.nvFeEntYYYYMMDD},
+                    { "pv_CodAux", NVC.CodAux},
+                    { "pv_VenCod", NVC.VenCod},
+                    { "pv_CodMon", NVC.CodMon},
+                    { "pv_CodLista", NVC.CodLista},
+                    { "pt_nvObser", NVC.nvObser},
+                    { "pv_nvCanalNV", NVC.nvCanalNV},
+                    { "pv_CveCod", NVC.CveCod},
+                    { "pv_NomCon", NVC.NomCon},
+                    { "pv_CodiCC", NVC.CodiCC},
+                    { "pv_CodBode", NVC.CodBode},
+                    { "pf_nvSubTotal", NVC.nvSubTotal},
+                    { "pf_nvPorcDesc01", NVC.nvPorcDesc01},
+                    { "pf_nvDescto01", NVC.nvDescto01},
+                    { "pf_nvPorcDesc02", NVC.nvPorcDesc02},
+                    { "pf_nvDescto02", NVC.nvDescto02},
+                    { "pf_nvPorcDesc03", NVC.nvPorcDesc03},
+                    { "pf_nvDescto03", NVC.nvDescto03},
+                    { "pf_nvPorcDesc04", NVC.nvPorcDesc04},
+                    { "pf_nvDescto04", NVC.nvDescto04},
+                    { "pf_nvPorcDesc05", NVC.nvPorcDesc05},
+                    { "pf_nvDescto05", NVC.nvDescto05},
+                    { "pf_nvMonto", NVC.nvMonto},
+                    { "pd_nvFeAprob", NVC.nvFeAprobYYYYMMDD},
+                    { "pi_NumGuiaRes", NVC.NumGuiaRes},
+                    { "pf_nvPorcFlete", NVC.nvPorcFlete},
+                    { "pf_nvValflete", NVC.nvValflete},
+                    { "pf_nvPorcEmb", NVC.nvPorcEmb},
+                    { "pf_nvValEmb", NVC.nvValEmb},
+                    { "pf_nvEquiv", NVC.nvEquiv},
+                    { "pf_nvNetoExento", NVC.nvNetoExento},
+                    { "pf_nvNetoAfecto", NVC.nvNetoAfecto},
+                    { "pf_nvTotalDesc", NVC.nvTotalDesc},
+                    { "pv_ConcAuto", NVC.ConcAuto},
+                    { "pv_CodLugarDesp", NVC.CodLugarDesp},
+                    { "pv_SolicitadoPor", NVC.SolicitadoPor},
+                    { "pv_DespachadoPor", NVC.DespachadoPor},
+                    { "pv_Patente", NVC.Patente},
+                    { "pv_RetiradoPor", NVC.RetiradoPor},
+                    { "pv_CheckeoPorAlarmaVtas", NVC.CheckeoPorAlarmaVtas},
+                    { "pi_EnMantencion", NVC.EnMantencion},
+                    { "pv_Usuario", NVC.Usuario},
+                    { "pv_UsuarioGeneraDocto", NVC.UsuarioGeneraDocto},
+                    { "pd_FechaHoraCreacion", NVC.FechaHoraCreacionYYYYMMDD},
+                    { "pv_Sistema", NVC.Sistema},
+                    { "pv_ConcManual", NVC.ConcManual},
+                    { "pv_RutSolicitante", NVC.RutSolicitante},
+                    { "pv_proceso", NVC.proceso},
+                    { "pf_TotalBoleta", NVC.TotalBoleta},
+                    { "pi_NumReq", NVC.NumReq},
+                    { "pv_CodVenWeb", NVC.CodVenWeb},
+                    { "pv_CodBodeWms", NVC.CodBodeWms},
+                    { "pv_CodLugarDocto", NVC.CodLugarDocto},
+                    { "pv_RutTransportista", NVC.RutTransportista},
+                    { "pv_Cod_Distrib", NVC.Cod_Distrib},
+                    { "pv_Nom_Distrib", NVC.Nom_Distrib},
+                    { "pi_MarcaWG", NVC.MarcaWG},
                 });
-                return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
+                return UTIL.Mapper.BindData<RespuestaNotaVentaModel>(data);
             }
             catch (Exception ex)
             {
@@ -554,50 +686,77 @@ namespace BLL
 
         }
 
-        public List<NotaDeVentaDetalleModels> DetalleNV(NotaDeVentaDetalleModels NVD)
+        public RespuestaNotaVentaModel AgregarImpuesto(string baseDatos, NotadeVentaCabeceraModels NV)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_INS_AgregaImpuestoNV", new System.Collections.Hashtable()
+                {
+                    /*--------------------------- CAMPOS DISOFI ---------------------------*/
+                    { "pv_BaseDatos", baseDatos},
+                    { "pv_nvNumero", NV.NVNumero},
+                    { "pi_IdNotaVenta", NV.Id},
+                });
+                return UTIL.Mapper.BindData<RespuestaNotaVentaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+        public RespuestaNotaVentaModel AgregarDetalleNV(string baseDatos, bool insertaDisofi, bool insertaSoftland, NotaDeVentaDetalleModels NVD)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_AgregarNVDetalle", new System.Collections.Hashtable()
                 {
-                    { "NVNumero", NVD.NVNumero},
-                    { "nvLinea", NVD.nvLinea},
-                    { "nvCorrela", NVD.nvCorrela},
-                    { "nvFecCompr", NVD.nvFecCompr},
-                    { "CodProd", NVD.CodProd},
-                    { "nvCant", NVD.nvCant},
-                    { "nvPrecio", NVD.nvPrecio},
-                    { "nvEquiv", NVD.nvEquiv},
-                    { "nvSubTotal", NVD.nvSubTotal},
-                    { "nvDPorcDesc01", NVD.nvDPorcDesc01},
-                    { "nvDDescto01", NVD.nvDDescto01},
-                    { "nvDPorcDesc02", NVD.nvDPorcDesc02},
-                    { "nvDDescto02", NVD.nvDDescto02},
-                    { "nvDPorcDesc03", NVD.nvDPorcDesc03},
-                    { "nvDDescto03", NVD.nvDDescto03},
-                    { "nvDPorcDesc04", NVD.nvDPorcDesc04},
-                    { "nvDDescto04", NVD.nvDDescto04},
-                    { "nvDPorcDesc05", NVD.nvDPorcDesc05},
-                    { "nvDDescto05", NVD.nvDDescto05},
-                    { "nvTotDesc", NVD.nvTotDesc},
-                    { "nvTotLinea", NVD.nvTotLinea},
-                    { "nvCantDesp", NVD.nvCantDesp},
-                    { "nvCantProd", NVD.nvCantProd},
-                    { "nvCantFact", NVD.nvCantFact},
-                    { "nvCantDevuelto", NVD.nvCantDevuelto},
-                    { "nvCantNC", NVD.nvCantNC},
-                    { "nvCantBoleta", NVD.nvCantBoleta},
-                    { "nvCantOC", NVD.nvCantOC},
-                    { "DetProd", NVD.DetProd},
-                    { "CheckeoMovporAlarmaVtas", NVD.CheckeoMovporAlarmaVtas},
-                    { "KIT", NVD.KIT},
-                    { "CodPromocion", NVD.CodPromocion},
-                    { "CodUMed", NVD.CodUMed},
-                    { "CantUVta", NVD.CantUVta},
-                    { "Partida", NVD.Partida},
-                    { "Pieza", NVD.Pieza},
+                    /*--------------------------- CAMPOS DISOFI ---------------------------*/
+                    { "pv_BaseDatos", baseDatos},
+                    { "pb_InsertaDisofi", insertaDisofi},
+                    { "pb_InsertaSoftland", insertaSoftland},
+                    { "pi_IdNotaVenta", NVD.IdNotaVenta},
+                    { "pi_NVNumero", NVD.NVNumero},
+                    { "pf_nvLinea", NVD.nvLinea},
+                    { "pf_nvCorrela", NVD.nvCorrela},
+                    { "pd_nvFecCompr", NVD.nvFecComprYYYYMMDD},
+                    { "pv_CodProd", NVD.CodProd},
+                    { "pf_nvCant", NVD.nvCant},
+                    { "pf_nvPrecio", NVD.nvPrecio},
+                    { "pf_nvEquiv", NVD.nvEquiv},
+                    { "pf_nvSubTotal", NVD.nvSubTotal},
+                    { "pf_nvDPorcDesc01", NVD.nvDPorcDesc01},
+                    { "pf_nvDDescto01", NVD.nvDDescto01},
+                    { "pf_nvDPorcDesc02", NVD.nvDPorcDesc02},
+                    { "pf_nvDDescto02", NVD.nvDDescto02},
+                    { "pf_nvDPorcDesc03", NVD.nvDPorcDesc03},
+                    { "pf_nvDDescto03", NVD.nvDDescto03},
+                    { "pf_nvDPorcDesc04", NVD.nvDPorcDesc04},
+                    { "pf_nvDDescto04", NVD.nvDDescto04},
+                    { "pf_nvDPorcDesc05", NVD.nvDPorcDesc05},
+                    { "pf_nvDDescto05", NVD.nvDDescto05},
+                    { "pf_nvTotDesc", NVD.nvTotDesc},
+                    { "pf_nvTotLinea", NVD.nvTotLinea},
+                    { "pf_nvCantDesp", NVD.nvCantDesp},
+                    { "pf_nvCantProd", NVD.nvCantProd},
+                    { "pf_nvCantFact", NVD.nvCantFact},
+                    { "pf_nvCantDevuelto", NVD.nvCantDevuelto},
+                    { "pf_nvCantNC", NVD.nvCantNC},
+                    { "pf_nvCantBoleta", NVD.nvCantBoleta},
+                    { "pt_DetProd", NVD.DetProd},
+                    { "pv_CheckeoMovporAlarmaVtas", NVD.CheckeoMovporAlarmaVtas},
+                    { "pv_KIT", NVD.KIT},
+                    { "pi_CodPromocion", NVD.CodPromocion},
+                    { "pv_CodUMed", NVD.CodUMed},
+                    { "pf_CantUVta", NVD.CantUVta},
+                    { "pv_Partida", NVD.Partida},
+                    { "pv_Pieza", NVD.Pieza},
+                    { "pd_FechaVencto", NVD.FechaVenctoYYYYMMDD},
+                    { "pf_CantidadKit", NVD.CantidadKit},
+                    { "pi_MarcaWG", NVD.MarcaWG},
+                    { "pf_PorcIncidenciaKit", NVD.PorcIncidenciaKit},
                 });
-                return UTIL.Mapper.BindDataList<NotaDeVentaDetalleModels>(data);
+                return UTIL.Mapper.BindData<RespuestaNotaVentaModel>(data);
             }
             catch (Exception ex)
             {
@@ -606,13 +765,14 @@ namespace BLL
             }
         }
 
-        public List<NotadeVentaCabeceraModels> BuscarNVPorNumero(NotadeVentaCabeceraModels NVC)
+        public List<NotadeVentaCabeceraModels> BuscarNVPorNumero(int Id, string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("JS_ListarNVNM", new System.Collections.Hashtable()
                 {
-                    { "intNVNumero", NVC.NVNumero},
+                    { "nvId",Id},
+                    {"pv_BaseDatos", basedatos }
                 });
                 return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
             }
@@ -642,13 +802,14 @@ namespace BLL
 
         }
 
-        public List<NotaDeVentaDetalleModels> BuscarNVDETALLEPorNumero(NotadeVentaCabeceraModels NVC)
+        public List<NotaDeVentaDetalleModels> BuscarNVDETALLEPorNumero(int Id, string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("JS_ListarNVDETALLENM", new System.Collections.Hashtable()
                 {
-                    { "intNVNumero", NVC.NVNumero},
+                    { "nvId", Id},
+                    {"pv_BaseDatos", basedatos }
                 });
                 return UTIL.Mapper.BindDataList<NotaDeVentaDetalleModels>(data);
             }
@@ -677,14 +838,15 @@ namespace BLL
             }
 
         }
-        public List<ParametrosModels> BuscarParametros()
+        public ParametrosModels BuscarParametros(int idEmpresa)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_BuscarParametrosUsuarios", new System.Collections.Hashtable()
                 {
+                    { "pi_idEmpresa", idEmpresa},
                 });
-                return UTIL.Mapper.BindDataList<ParametrosModels>(data);
+                return UTIL.Mapper.BindData<ParametrosModels>(data);
             }
             catch (Exception ex)
             {
@@ -693,15 +855,57 @@ namespace BLL
             }
         }
 
-        public List<ParametrosModels> ModificarParametros(ParametrosModels Aprobador)
+        public RespuestaModel ModificarParametros(ParametrosModels parametro)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ModificarParametrosUsuarios", new System.Collections.Hashtable()
                 {
-                    { "Aprobador", Aprobador.Aprobador},
+                    { "pi_IdEmpresa", parametro.IdEmpresa},
+                    { "pb_MultiEmpresa", parametro.MultiEmpresa},
+                    { "pb_ManejaAdministrador", parametro.ManejaAdministrador},
+                    { "pb_ManejaAprobador", parametro.ManejaAprobador},
+                    { "pb_ListaClientesVendedor", parametro.ListaClientesVendedor},
+                    { "pb_ListaClientesTodos", parametro.ListaClientesTodos},
+                    { "pb_ValidaReglasNegocio", parametro.ValidaReglasNegocio},
+                    { "pb_ManejaListaPrecios", parametro.ManejaListaPrecios},
+                    { "pb_EditaPrecioProducto", parametro.EditaPrecioProducto},
+                    { "pb_MuestraCondicionVentaCliente", parametro.MuestraCondicionVentaCliente},
+                    { "pb_MuestraCondicionVentaTodos", parametro.MuestraCondicionVentaTodos},
+                    { "pb_EditaDescuentoProducto", parametro.EditaDescuentoProducto},
+                    { "pd_MaximoDescuentoProducto", parametro.MaximoDescuentoProducto},
+                    { "pb_CantidadDescuentosProducto", parametro.CantidadDescuentosProducto},
+                    { "pb_MuestraStockProducto", parametro.MuestraStockProducto},
+                    { "pb_StockProductoEsMasivo", parametro.StockProductoEsMasivo},
+                    { "pb_StockProductoEsBodega", parametro.StockProductoEsBodega},
+                    { "pv_StockProductoCodigoBodega", parametro.StockProductoCodigoBodega},
+                    { "pb_ControlaStockProducto", parametro.ControlaStockProducto},
+                    { "pb_EnvioMailCliente", parametro.EnvioMailCliente},
+                    { "pb_EnvioMailVendedor", parametro.EnvioMailVendedor},
+                    { "pb_EnvioMailContacto", parametro.EnvioMailContacto},
+                    { "pb_EnvioObligatorioAprobador", parametro.EnvioObligatorioAprobador},
+                    { "pb_ManejaTallaColor", parametro.ManejaTallaColor},
+                    { "pb_ManejaDescuentoTotalDocumento", parametro.ManejaDescuentoTotalDocumento},
+                    { "pi_CantidadDescuentosTotalDocumento", parametro.CantidadDescuentosTotalDocumento},
+                    { "pi_CantidadLineas", parametro.CantidadLineas},
+                    { "pb_ManejaLineaCreditoVendedor", parametro.ManejaLineaCreditoVendedor},
+                    { "pb_ManejaLineaCreditoAprobador", parametro.ManejaLineaCreditoAprobador},
+                    { "pb_ManejaCanalVenta", parametro.ManejaCanalVenta},
+                    { "pb_CreacionNotaVentaUsuariosBloqueados", parametro.CreacionNotaVentaUsuariosBloqueados},
+                    { "pb_CreacionNotaVentaUsuariosInactivos", parametro.CreacionNotaVentaUsuariosInactivos},
+                    { "pb_PermiteModificacionCondicionVenta", parametro.PermiteModificacionCondicionVenta},
+                    { "pv_AtributoSoftlandDescuentoCliente", parametro.AtributoSoftlandDescuentoCliente},
+                    { "pb_PermiteCrearDireccion", parametro.PermiteCrearDireccion},
+                    { "pb_CrearClienteConDV", parametro.CrearClienteConDV},
+                    { "pb_MuestraUnidadMedidaProducto", parametro.MuestraUnidadMedidaProducto},
+                    { "pb_DescuentoLineaDirectoSoftland", parametro.DescuentoLineaDirectoSoftland},
+                    { "pb_DescuentoTotalDirectoSoftland", parametro.DescuentoTotalDirectoSoftland},
+                    { "pb_CambioVendedorCliente", parametro.CambioVendedorCliente},
+                    { "pb_AgregaCliente", parametro.AgregaCliente},
+                    { "pb_EnvioMailAprobador", parametro.EnvioMailAprobador},
+                    { "pb_ManejaSaldo", parametro.ManejaSaldo},
                 });
-                return UTIL.Mapper.BindDataList<ParametrosModels>(data);
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
             }
             catch (Exception ex)
             {
@@ -726,15 +930,33 @@ namespace BLL
                 return null;
             }
         }
-        public List<ProductosModels> ListarProducto(string ListaPrecio)
+        public List<ProductosModels> ListarProducto(string ListaPrecio, string baseDatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListaProductos", new System.Collections.Hashtable()
                 {
                     { "pv_ListaProductos", ListaPrecio},
+                    { "pv_BaseDatos", baseDatos},
                 });
                 return UTIL.Mapper.BindDataList<ProductosModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+        public List<TallaColorProductoModels> ListarTallaColorProducto(string CodProd, string baseDatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListaTallaColorProducto", new System.Collections.Hashtable()
+                {
+                    { "@pv_CodProd", CodProd},
+                    { "@pv_BaseDatos", baseDatos},
+                });
+                return UTIL.Mapper.BindDataList<TallaColorProductoModels>(data);
             }
             catch (Exception ex)
             {
@@ -761,12 +983,13 @@ namespace BLL
             }
         }
 
-        public List<NotadeVentaCabeceraModels> listarDocAprobados()
+        public List<NotadeVentaCabeceraModels> listarDocAprobados(string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListarDocumentosAprobados", new System.Collections.Hashtable()
                 {
+                    {"pv_BaseDatos",basedatos }
                 });
                 return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
             }
@@ -777,12 +1000,13 @@ namespace BLL
             }
         }
 
-        public List<NotadeVentaCabeceraModels> listarDocPendientes()
+        public List<NotadeVentaCabeceraModels> listarDocPendientes(string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListarDocumentosPendientes", new System.Collections.Hashtable()
                 {
+                    {"pv_BaseDatos",basedatos }
                 });
                 return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
             }
@@ -793,13 +1017,31 @@ namespace BLL
             }
         }
 
-        public List<NotadeVentaCabeceraModels> actualizaEstado(NotadeVentaCabeceraModels nw)
+        public List<NotadeVentaCabeceraModels> listarDocRechazadas(string basedatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListarDocumentosRechazadas", new System.Collections.Hashtable()
+                {
+                    {"pv_BaseDatos",basedatos }
+                });
+                return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public List<NotadeVentaCabeceraModels> actualizaEstado(NotadeVentaCabeceraModels nw, string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("RRA_ActualizaEstadoNW", new System.Collections.Hashtable()
                 {
-                    { "nvNumero", nw.NVNumero},
+                    { "nvId", nw.Id},
+                    { "pv_BaseDatos", basedatos}
                 });
                 return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
             }
@@ -810,13 +1052,14 @@ namespace BLL
             }
         }
 
-        public List<NotadeVentaCabeceraModels> BuscarNVC(NotadeVentaCabeceraModels nw)
+        public List<NotadeVentaCabeceraModels> BuscarNVC(NotadeVentaCabeceraModels nw, string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_BuscarNVCabecera", new System.Collections.Hashtable()
                 {
-                    { "nvNumero", nw.NVNumero},
+                    { "nvId", nw.Id},
+                    { "pv_BaseDatos", basedatos}
                 });
                 return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
             }
@@ -827,13 +1070,31 @@ namespace BLL
             }
         }
 
-        public List<NotaDeVentaDetalleModels> BuscarNVD(NotaDeVentaDetalleModels nw)
+        public NotadeVentaCabeceraModels GetCab(int nvId)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_GetCab", new System.Collections.Hashtable()
+                {
+                    {"nvId",nvId }
+                });
+                return UTIL.Mapper.BindData<NotadeVentaCabeceraModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public List<NotaDeVentaDetalleModels> BuscarNVD(NotaDeVentaDetalleModels nw, string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_BuscarNVDetalle", new System.Collections.Hashtable()
                 {
-                    { "nvNumero", nw.NVNumero},
+                    { "nvId", nw.Id},
+                    { "pv_BaseDatos", basedatos}
                 });
                 return UTIL.Mapper.BindDataList<NotaDeVentaDetalleModels>(data);
             }
@@ -879,13 +1140,69 @@ namespace BLL
             }
         }
 
-        public List<UsuariosModels> BuscarUsuario(UsuariosModels usuario)
+        public RespuestaModel eliminaTodosUsuarioEmpresa(int idUsuario)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_DELALL_UsuarioEmpresa", new System.Collections.Hashtable()
+                {
+                    { "pi_IdUsuario", idUsuario},
+                });
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public RespuestaModel validaExisteUsuarioEmpresa(string venCod, int idEmpresa)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_ValidaExisteUsuarioEmpresa", new System.Collections.Hashtable()
+                {
+                    { "pv_VenCod", venCod},
+                    { "pi_IdEmpresa", idEmpresa},
+                });
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+        
+        public RespuestaModel insertaUsuarioEmpresa(int idUsuario, int idEmpresa, string venCod)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_INS_UsuarioEmpresa", new System.Collections.Hashtable()
+                {
+                    { "pi_IdUsuario", idUsuario},
+                    { "pi_IdEmpresa", idEmpresa},
+                    { "pv_VenCod", venCod},
+                });
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+
+        public List<UsuariosModels> BuscarUsuario(UsuariosModels usuario, string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_BuscarUsuarios", new System.Collections.Hashtable()
                 {
                     { "id", usuario.id},
+                    { "pv_BaseDatos", basedatos},
                 });
                 return UTIL.Mapper.BindDataList<UsuariosModels>(data);
             }
@@ -915,7 +1232,7 @@ namespace BLL
                 throw ex;
             }
         }
-        public List<UsuariosModels> AgregarUsuario(UsuariosModels usuario)
+        public RespuestaModel AgregarUsuario(UsuariosModels usuario)
         {
             try
             {
@@ -924,11 +1241,12 @@ namespace BLL
                     { "Usuario", usuario.Usuario},
                     { "email", usuario.email},
                     { "tipoUsuario", usuario.tipoUsuario},
-                    { "VenCod", usuario.VenCod },
                     { "Contrasena", usuario.Password },
+                    { "Nombre", usuario.Nombre },
+                    { "ContrasenaCorreo", usuario.ContrasenaCorreo }
                 });
 
-                return UTIL.Mapper.BindDataList<UsuariosModels>(data);
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
             }
             catch (Exception ex)
             {
@@ -952,6 +1270,28 @@ namespace BLL
                 throw ex;
             }
         }
+
+        public RespuestaModel EditarUsuario(UsuariosModels usuarios, string basedatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_SET_EditarUsuario", new System.Collections.Hashtable()
+                {
+                    {"@IdUsuario",usuarios.id },
+                    {"@Usuario",usuarios.Usuario },
+                    {"@Nombre",usuarios.Nombre },
+                    {"@Password",usuarios.Password },
+                    {"@Email",usuarios.email },
+                    {"@TipoUsuario",int.Parse(usuarios.tipoUsuario) }
+                });
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<UsuariosTiposModels> listarTipo()
         {
             try
@@ -984,12 +1324,13 @@ namespace BLL
             }
         }
 
-        public List<VendedoresSoftlandModels> listarVendedoresSoftland()
+        public List<VendedoresSoftlandModels> listarVendedoresSoftland(string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListarVendedorSoftland2", new System.Collections.Hashtable()
                 {
+                    {"pv_BaseDatos",basedatos }
                 });
                 return UTIL.Mapper.BindDataList<VendedoresSoftlandModels>(data);
             }
@@ -1000,13 +1341,100 @@ namespace BLL
             }
         }
 
-        public List<ClientesModels> GetVendedores(ClientesModels cliente = null)
+        public List<ObjetoPerfil> ListarPerfiles()
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_ListarPefiles", new System.Collections.Hashtable()
+                {
+                });
+                return UTIL.Mapper.BindDataList<ObjetoPerfil>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public List<UsuariosModels> ListarCodVendedorSoft(string basedatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GetCodVendedor", new System.Collections.Hashtable()
+                {
+                    {"pv_BaseDatos",basedatos }
+                });
+                return UTIL.Mapper.BindDataList<UsuariosModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+
+        public List<VendedorModels> GetVendedores(string basedatos, VendedorModels cliente = null)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("JS_ListarVendorVenCod", new System.Collections.Hashtable()
                 {
                     { "VenCod", cliente.VenCod},
+                    {"pv_BaseDatos",basedatos }
+                });
+                return UTIL.Mapper.BindDataList<VendedorModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public List<AprobadorModels> GetAprobador(int IdAprobador)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_GetAprobador", new System.Collections.Hashtable()
+                {
+                    {"IdAprobador",IdAprobador }
+                });
+                return UTIL.Mapper.BindDataList<AprobadorModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public List<UsuariosModels> GetDatosUsuario(string Id)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_GET_ObtenerDatosUsuario", new System.Collections.Hashtable()
+                {
+                    {"IdUsuario", int.Parse(Id) }
+                });
+                return UTIL.Mapper.BindDataList<UsuariosModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public List<ClientesModels> GetDatosClientes(string CodAux, string basedatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_GET_ObtenerDatosCliente", new System.Collections.Hashtable()
+                {
+                    {"CodAux",CodAux },
+                    {"pv_BaseDatos",basedatos }
                 });
                 return UTIL.Mapper.BindDataList<ClientesModels>(data);
             }
@@ -1017,6 +1445,224 @@ namespace BLL
             }
         }
 
+        public List<UsuarioEmpresaModel> ListaUsuarioEmpresas(int idUsuario)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_ListaUsuarioEmpresa", new System.Collections.Hashtable()
+                {
+                    { "pi_IdUsuario", idUsuario},
+                });
+                return UTIL.Mapper.BindDataList<UsuarioEmpresaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public List<ClientesModels> ObtenerGiro(string basedatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GET_Giro", new System.Collections.Hashtable()
+                {
+                    {"pv_BaseDatos",basedatos }
+                });
+                return UTIL.Mapper.BindDataList<ClientesModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+
+        }
+
+        public List<CiudadModel> ObtenerCiudad(string baseDatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GET_Ciudad", new System.Collections.Hashtable()
+                {
+                    { "pv_BaseDatos", baseDatos},
+                });
+                return UTIL.Mapper.BindDataList<CiudadModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public ClientesModels ObtenerAtributoDescuento(string basedatos, string codaux, string textoAtributo)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ObtenerAtributoDescuentoCliente", new System.Collections.Hashtable()
+                {
+                    { "pv_CodAux", codaux},
+                    { "pv_textoAtributo", textoAtributo},
+                    { "pv_BaseDatos", basedatos},
+                });
+                return UTIL.Mapper.BindData<ClientesModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public List<ComunaModel> ObtenerComuna(string baseDatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GET_Comuna", new System.Collections.Hashtable()
+                {
+                    { "pv_BaseDatos", baseDatos},
+                });
+                return UTIL.Mapper.BindDataList<ComunaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public CreditoModel ObtenerCredito(string CodAux, string baseDatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ObtenerCredito", new System.Collections.Hashtable()
+                {
+                    { "pv_CodAux", CodAux},
+                    { "pv_BaseDatos", baseDatos},
+                });
+                return UTIL.Mapper.BindData<CreditoModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public VendedoresSoftlandModels ObtenerVendedorCliente(string CodAux, string baseDatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_ObtenerVendedorCliente", new System.Collections.Hashtable()
+                {
+                    { "pv_CodAux", CodAux},
+                    { "pv_BaseDatos", baseDatos},
+                });
+                return UTIL.Mapper.BindData<VendedoresSoftlandModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public List<NotadeVentaCabeceraModels> RechazarNotaVenta(NotadeVentaCabeceraModels nw)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("Ds_RechazarNP", new System.Collections.Hashtable()
+                {
+                    {"nvId", nw.Id}
+                });
+                return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public List<ClientesModels> ActualizarCorreoCliente(ClientesModels cli, string basedatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_AgregarCorreoCli", new System.Collections.Hashtable()
+                {
+                    { "CodAux", cli.CodAux},
+                    { "EMail", cli.EMail},
+                    { "pv_BaseDatos", basedatos}
+                });
+                return UTIL.Mapper.BindDataList<ClientesModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public RespuestaModel AgregarCliente(ClientesModels cliente,string basedatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_AddCliente", new System.Collections.Hashtable()
+                {
+                    { "CodAux", cliente.CodAux },
+                    { "NomAux", cliente.NomAux },
+                    { "RutAux", cliente.RutAux },
+                    { "FonAux1", cliente.FonAux1 },
+                    { "Email", cliente.EMail },
+                    { "GirAux", cliente.GirCod },
+                    { "DirAux", cliente.DirAux },
+                    { "pv_BaseDatos", basedatos },
+                    { "EmailDte", cliente.EmailDte},
+                    { "VenCod", cliente.VenCod}
+                });
+
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public List<AprobadorModels> GetAprobadorNP()
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_GetAprobadorNP", new System.Collections.Hashtable());
+                return UTIL.Mapper.BindDataList<AprobadorModels>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+        public List<SaldosModel> ObtenerSaldo(string RutAux, string basedatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_ObtenerSaldo", new System.Collections.Hashtable()
+                {
+                    { "RutAux", RutAux},
+                    { "pv_BaseDatos", basedatos}
+                });
+                return UTIL.Mapper.BindDataList<SaldosModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
 
     }
 }

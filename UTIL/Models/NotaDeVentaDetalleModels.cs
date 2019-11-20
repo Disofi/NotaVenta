@@ -7,25 +7,40 @@ namespace UTIL.Models
 {
     public class NotaDeVentaDetalleModels
     {
+        #region Campos DISOFI
+
+        public int Id { get; set; }
+        public int IdNotaVenta { get; set; }
+        public string DesProd { get; set; }
+        public double Stock { get; set; }
+        public double Iva { get; set; }
+        public string EmailVend { get; set; }
+        public string PassCorreo { get; set; }
+
+        #endregion
+
+        #region Campos SOFTLAND
+
         public int NVNumero { get; set; }
         public double nvLinea { get; set; }
         public double nvCorrela { get; set; }
-        public DateTime nvFecCompr { get; set; }
+        public DateTime? nvFecCompr { get; set; }
+        public string nvFecComprYYYYMMDD { get { return this.nvFecCompr == null ? null : ((DateTime)nvFecCompr).ToString("yyyyMMdd"); } }
         public string CodProd { get; set; }
         public double nvCant { get; set; }
         public double nvPrecio { get; set; }
         public double nvEquiv { get; set; }
         public double nvSubTotal { get; set; }
-        public double nvDPorcDesc01 { get; set; }
-        public double nvDDescto01 { get; set; }
-        public double nvDPorcDesc02 { get; set; }
-        public double nvDDescto02 { get; set; }
-        public double nvDPorcDesc03 { get; set; }
-        public double nvDDescto03 { get; set; }
-        public double nvDPorcDesc04 { get; set; }
-        public double nvDDescto04 { get; set; }
-        public double nvDPorcDesc05 { get; set; }
-        public double nvDDescto05 { get; set; }
+        public double? nvDPorcDesc01 { get; set; }
+        public double? nvDDescto01 { get; set; }
+        public double? nvDPorcDesc02 { get; set; }
+        public double? nvDDescto02 { get; set; }
+        public double? nvDPorcDesc03 { get; set; }
+        public double? nvDDescto03 { get; set; }
+        public double? nvDPorcDesc04 { get; set; }
+        public double? nvDDescto04 { get; set; }
+        public double? nvDPorcDesc05 { get; set; }
+        public double? nvDDescto05 { get; set; }
         public double nvTotDesc { get; set; }
         public double nvTotLinea { get; set; }
         public double nvCantDesp { get; set; }
@@ -38,22 +53,17 @@ namespace UTIL.Models
         public string DetProd { get; set; }
         public string CheckeoMovporAlarmaVtas { get; set; }
         public string KIT { get; set; }
-        public int CodPromocion { get; set; }
+        public int? CodPromocion { get; set; }
         public string CodUMed { get; set; }
         public double CantUVta { get; set; }
         public string Partida { get; set; }
         public string Pieza { get; set; }
-        public DateTime FechaVencto { get; set; }
+        public DateTime? FechaVencto { get; set; }
+        public string FechaVenctoYYYYMMDD { get { return this.FechaVencto == null ? null : ((DateTime)FechaVencto).ToString("yyyyMMdd"); } }
+        public double CantidadKit { get; set; }
+        public int? MarcaWG { get; set; }
+        public double PorcIncidenciaKit { get; set; }
 
-        public string DesProd { get; set; }
-
-        public double Stock { get; set; }
-
-        public double Iva { get; set; }
-
-        public string EmailVend { get; set; }
-
-        public string PassCorreo { get; set; }
-
+        #endregion
     }
 }

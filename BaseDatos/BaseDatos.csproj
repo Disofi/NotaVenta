@@ -45,11 +45,51 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Otros\scriptNotaVenta_20191028_1023.sql" />
+    <Content Include="Otros\ScriptBD_20191021_1658.sql" />
+    <Content Include="Otros\ScriptParametros.sql" />
+    <Content Include="Otros\scriptNotaVenta.sql" />
     <Content Include="Otros\Inserts.sql" />
-    <Content Include="SP\FR_ListaProductos.sql" />
-    <Content Include="SP\FR_EliminarUsuario.sql" />
-    <Content Include="SP\FR_ActualizarUsuario.sql" />
+    <Content Include="Otros\script_20191119_1444.sql" />
+    <Content Include="Otros\script_20191105_1147.sql" />
+    <Content Include="SP\DS_AgregarCorreoCli.sql" />
+    <Content Include="SP\RRA_ActualizaEstadoNW.sql" />
+    <Content Include="SP\FR_ObtenerAtributoDescuentoCliente.sql" />
+    <Content Include="SP\FR_AgregarNVDetalle.sql" />
+    <Content Include="SP\FR_AgregarNVCabecera.sql" />
+    <Content Include="SP\FR_AgregarNVDetalleSoftland.sql" />
+    <Content Include="SP\FR_ListarListaDePrecio.sql" />
+    <Content Include="SP\FR_ListarContactos.sql" />
+    <Content Include="SP\JS_ListarClientesCodAuxRut.sql" />
+    <Content Include="SP\FR_ListarCondicionesDeVenta.sql" />
+    <Content Include="SP\FR_ListarCentroDeCosto.sql" />
+    <Content Include="SP\JS_ListarContactos.sql" />
+    <Content Include="SP\FR_ObtenerCredito.sql" />
+    <Content Include="SP\JS_ListarVendorVenCod.sql" />
+    <Content Include="SP\FR_AgregarNVCabeceraSoftland.sql" />
+    <Content Include="SP\SP_GET_Comuna.sql" />
+    <Content Include="SP\SP_GET_Ciudad.sql" />
+    <Content Include="SP\FR_BuscarDirecDespa.sql" />
+    <Content Include="SP\DS_GET_ObtenerDatosUsuario.sql" />
+    <Content Include="SP\DS_GET_ObtenerDatosCliente.sql" />
+    <Content Include="SP\DS_SET_EditarUsuario.sql" />
+    <Content Include="SP\FR_ListarClientes.sql" />
+    <Content Include="SP\FR_ListarVendedorSoftland2.sql" />
+    <Content Include="SP\JS_ListarMisClientes.sql" />
+    <Content Include="SP\SP_GET_Giro.sql" />
+    <Content Include="SP\SP_GET_LOGIN.sql" />
+    <Content Include="SP\DS_AgregarDireccionDespacho.sql" />
+    <Content Include="SP\DS_ListarPefiles.sql" />
+    <Content Include="SP\DS_ListaEmpresa.sql" />
+    <Content Include="SP\DS_ListaUsuarioEmpresa.sql" />
+    <Content Include="SP\FR_BuscarParametrosUsuarios.sql" />
     <Content Include="SP\FR_ActualizarCliente.sql" />
+    <Content Include="SP\FR_AgregarUsuario.sql" />
+    <Content Include="SP\FR_EliminarUsuario.sql" />
+    <Content Include="SP\FR_ModificarParametrosUsuarios.sql" />
+    <Content Include="SP\FR_ListaProductos.sql" />
+    <Content Include="SP\FR_ListaTallaColorProducto.sql" />
+    <Content Include="SP\SP_GetCodVendedor.sql" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="FNC\" />

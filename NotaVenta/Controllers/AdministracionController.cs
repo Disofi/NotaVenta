@@ -1,4 +1,5 @@
 ﻿using NotaVenta.UTIL;
+using NotaVenta.UTIL.Error;
 using NotaVenta.UTIL.FilterAttributes;
 using System;
 using System.Collections.Generic;
@@ -7,8 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using UTIL.Models;
 using UTIL.Objetos;
+using UTIL.Validaciones;
 
-namespace TexasHub.Controllers
+namespace NotaVenta.Controllers
 {
     public class AdministracionController : BaseController
     {
@@ -24,14 +26,49 @@ namespace TexasHub.Controllers
         {
             List<UsuariosModels> lUsuarios = controlDisofi().listarUsuarios();
             ViewBag.usuarios = lUsuarios;
+
+            List<UsuariosTiposModels> ltipo = controlDisofi().listarTipo();
+            ViewBag.tipo = ltipo;
+
+            //List<VendedoresSoftlandModels> lvendedor = controlDisofi().listarVendedoresSoftland(baseDatosUsuario());
+            //ViewBag.vendedor = lvendedor;
+
+            IEnumerable<SelectListItem> lPerfil = controlDisofi().ListarPerfiles().Select(c => new SelectListItem()
+            {
+                Text = c.TipoUsuario,
+                Value = c.ID.ToString()
+            }).ToList();
+            ViewBag.Perfil = lPerfil;
+
+            IEnumerable<SelectListItem> dataEmpresas = controlDisofi().ListarEmpresas().Select(c => new SelectListItem()
+            {
+                Text = c.NombreEmpresa,
+                Value = c.IdEmpresa.ToString()
+            }).ToList();
+
+            ViewBag.Empresas = dataEmpresas;
+
             return View();
         }
+
+
 
         [Autorizacion(PERFILES.SUPER_ADMINISTRADOR, PERFILES.ADMINISTRADOR)]
         public ActionResult Clientes()
         {
             List<ClientesModels> ListClientes = new List<ClientesModels>();
-            var listClientes = controlDisofi().listarClientes();
+            ParametrosModels parametros = ObtieneParametros();
+            ViewBag.parametros = parametros;
+            List<EmpresaModel> empresas = controlDisofi().ListarEmpresas();
+            ViewBag.empresas = empresas;
+
+            EmpresaModel empresaModel = SessionVariables.SESSION_CLIENTE_BASE_DATOS;
+            ViewBag.empresaSeleccionada = empresaModel;
+            List<ClientesModels> listClientes = null;
+            if (empresaModel != null)
+            {
+                listClientes = controlDisofi().listarClientes(empresaModel.BaseDatos);
+            }
 
             if (listClientes != null)
             {
@@ -46,14 +83,40 @@ namespace TexasHub.Controllers
         [Autorizacion(PERFILES.SUPER_ADMINISTRADOR)]
         public ActionResult Parametros()
         {
-            List<ParametrosModels> para = controlDisofi().BuscarParametros();
+            List<EmpresaModel> empresas = controlDisofi().ListarEmpresas();
 
-            ViewBag.Parametros = para;
+            if (empresas != null && empresas.Count > 0)
+            {
+                ParametrosModels para = ObtieneParametros(empresas[0].IdEmpresa);
+
+                ViewBag.Empresas = empresas;
+                ViewBag.Parametros = para;
+            }
+            else
+            {
+                return AbrirError(Errores.ERRORES.ERROR_LOGIN_1, TipoAccionError.TIPO_ACCION_BTN.IR_LOGIN);
+            }
 
             return View();
         }
 
         #endregion
+
+
+        [HttpPost]
+        public JsonResult ObtieneParametro(int idEmpresa)
+        {
+            try
+            {
+                ParametrosModels parametro = controlDisofi().BuscarParametros(idEmpresa);
+
+                return Json(parametro);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public ActionResult EditCliente(string rutAux, string codAux)
         {
@@ -95,7 +158,7 @@ namespace TexasHub.Controllers
         {
             UsuariosModels Usuario = new UsuariosModels();
             Usuario.id = idUsuario;
-            List<UsuariosModels> busuario = controlDisofi().BuscarUsuario(Usuario);
+            List<UsuariosModels> busuario = controlDisofi().BuscarUsuario(Usuario, baseDatosUsuario());
             ViewBag.buscarusuarios = busuario;
 
             List<UsuariosTiposModels> ltipo = controlDisofi().listarTipo();
@@ -107,39 +170,37 @@ namespace TexasHub.Controllers
             return View();
         }
 
-        public ActionResult AddUsuario()
+        [HttpPost]
+        public JsonResult Addusuario(string _Usuario, string _Nombre, string _Contrasena, string _Email, string _Perfil, string _ContrasenaCorreo)
         {
-            List<UsuariosTiposModels> ltipo = controlDisofi().listarTipo();
-            ViewBag.tipo = ltipo;
-
-            List<VendedoresSoftlandModels> lvendedor = controlDisofi().listarVendedoresSoftland();
-            ViewBag.vendedor = lvendedor;
-
-            return View();
-        }
-        [HttpPost, ValidateInput(false)]
-
-        public ActionResult AddUsuario(FormCollection frm)
-        {
-            UsuariosModels Usuarios = new UsuariosModels();
-            Usuarios.Usuario = Request.Form["txtUsuario"];
-            Usuarios.email = Request.Form["txtEmail"];
-            Usuarios.tipoUsuario = Request.Form["cbxTipo"];
-            Usuarios.VenCod = Request.Form["cbxUsuarioSoftland"];
-            Usuarios.VenCod = Request.Form["cbxUsuarioSoftland"];
-            Usuarios.Password = Request.Form["txtContrasena"];
-
-            List<UsuariosModels> busuario = controlDisofi().AgregarUsuario(Usuarios);
-            if (busuario == null || busuario.Count == 0)
+            if (!string.IsNullOrEmpty(_Usuario) && !string.IsNullOrEmpty(_Nombre) && !string.IsNullOrEmpty(_Contrasena) && !string.IsNullOrEmpty(_Perfil))
             {
-                TempData["Mensaje"] = "ERROR - Usuario Creado Correctamente. <br>";
-                return RedirectToAction("AddUsuario", "Mantenedores");
+                UsuariosModels usuario = new UsuariosModels()
+                {
+                    Usuario = _Usuario,
+                    Nombre = _Nombre,
+                    Password = HashMd5.GetMD5(_Contrasena),
+                    email = _Email,
+                    tipoUsuario = _Perfil,
+                    ContrasenaCorreo = _ContrasenaCorreo
+                };
+                RespuestaModel result = controlDisofi().AgregarUsuario(usuario);
+                return Json(result);
             }
             else
             {
-                TempData["Mensaje"] = "ERROR - Codigo de vendedor Repetido. <br>";
-                return RedirectToAction("AddUsuario", "Mantenedores");
+                var result = -666;
+                return Json(result);
             }
+        }
+
+        public JsonResult CambiarEmpresaCliente(int _IdEmpresa)
+        {
+            EmpresaModel result = controlDisofi().ListarEmpresas().Where(m => m.IdEmpresa == _IdEmpresa).First();
+
+            SessionVariables.SESSION_CLIENTE_BASE_DATOS = result;
+
+            return (Json(new RespuestaModel() { Verificador = true }));
         }
 
         public JsonResult EliminarUsuario(int _Id)
@@ -151,8 +212,126 @@ namespace TexasHub.Controllers
             return (Json(result));
         }
 
-        #region"--- Web Methods ---"
+        public JsonResult EditarUsuario(int _Id, string _Usuario, string _Nombre, string _Contrasena, string _Email, string _Perfil)
+        {
+            if (!string.IsNullOrEmpty(_Usuario) && !string.IsNullOrEmpty(_Nombre) && !string.IsNullOrEmpty(_Contrasena) && !string.IsNullOrEmpty(_Email) && !string.IsNullOrEmpty(_Perfil))
+            {
+                UsuariosModels usuarios = new UsuariosModels()
+                {
+                    id = _Id,
+                    Usuario = _Usuario,
+                    Nombre = _Nombre,
+                    Password = HashMd5.GetMD5(_Contrasena),
+                    email = _Email,
+                    tipoUsuario = _Perfil
+                };
+                RespuestaModel result = controlDisofi().EditarUsuario(usuarios, baseDatosUsuario());
+                return (Json(result));
+            }
+            else
+            {
+                var result = -666;
+                return Json(result);
+            }
+        }
 
+        public JsonResult EditarCliente(string _CodAux, string _Nombre, string _Rut, string _Contacto, string _Email, string _Telefono, string _Direccion)
+        {
+            if (!string.IsNullOrEmpty(_Nombre) && !string.IsNullOrEmpty(_Rut) && !string.IsNullOrEmpty(_Contacto) && !string.IsNullOrEmpty(_Email) && !string.IsNullOrEmpty(_Direccion))
+            {
+                ClientesModels cliente = new ClientesModels()
+                {
+                    CodAux = _CodAux,
+                    NomAux = _Nombre,
+                    RutAux = _Rut,
+                    NomCon = _Contacto,
+                    EMail = _Email,
+                    FonCon = _Telefono,
+                    DirAux = _Direccion
+                };
+                if (ValidaRut.DigitoVerificador(cliente.RutAux))
+                {
+                    RespuestaModel result = controlDisofi().ActualizarCliente(cliente, baseDatosUsuario());
+                    return Json(result);
+                }
+                else
+                {
+                    var result = -999;
+                    return Json(result);
+                }
+            }
+            else
+            {
+                var result = -666;
+                return Json(result);
+            }
+        }
+
+        public JsonResult ObtenerDatosUsuario(string _IdUsuario)
+        {
+            List<UsuariosModels> usuarios = controlDisofi().GetDatosUsuario(_IdUsuario);
+            return Json(new { list = usuarios }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ObtenerVendedoresEmpresa(string _IdEmpresa)
+        {
+            List<EmpresaModel> empresaModels = controlDisofi().ListarEmpresas().Where(m => m.IdEmpresa == Convert.ToInt32(_IdEmpresa)).ToList();
+
+            if (empresaModels != null && empresaModels.Count > 0)
+            {
+                List<UsuariosModels> usuarios = controlDisofi().ListarCodVendedorSoft(empresaModels[0].BaseDatos);
+
+                return Json(usuarios, JsonRequestBehavior.AllowGet); ;
+            }
+            else
+            {
+                return Json(new List<UsuariosModels>(), JsonRequestBehavior.AllowGet); ;
+            }
+        }
+
+        public JsonResult ObtenerEmpresasUsuario(string _IdUsuario)
+        {
+            List<UsuarioEmpresaModel> usuarios = controlDisofi().ListaUsuarioEmpresas(Convert.ToInt32(_IdUsuario));
+
+            return Json(usuarios, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult AgregarEmpresasUsuario(string _IdUsuario, List<UsuarioEmpresaModel> empresasUsuario)
+        {
+            RespuestaModel respuestaModel = new RespuestaModel();
+
+            respuestaModel = controlDisofi().eliminaTodosUsuarioEmpresa(Convert.ToInt32(_IdUsuario));
+
+            if (respuestaModel.Verificador)
+            {
+                if (empresasUsuario != null)
+                {
+                    foreach (UsuarioEmpresaModel item in empresasUsuario)
+                    {
+                        controlDisofi().insertaUsuarioEmpresa(item.IdUsuario, item.IdEmpresa, item.VenCod);
+                    }
+                }
+            }
+
+            return Json(respuestaModel, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ValidaExisteEmpresasUsuario(string _VenCod, string _IdEmpresa)
+        {
+            RespuestaModel respuestaModel = new RespuestaModel();
+
+            respuestaModel = controlDisofi().validaExisteUsuarioEmpresa(_VenCod, Convert.ToInt32(_IdEmpresa));
+
+            return Json(respuestaModel, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult obtenerDatosClientes(string _CodAux)
+        {
+            List<ClientesModels> clientes = controlDisofi().GetDatosClientes(_CodAux, baseDatosUsuario());
+            return Json(new { list = clientes }, JsonRequestBehavior.AllowGet);
+        }
+
+        #region"--- Web Methods ---"
 
         [HttpPost, ValidateInput(false)]
         public ActionResult EditUsuarios(FormCollection frm)
@@ -167,7 +346,7 @@ namespace TexasHub.Controllers
 
             RespuestaModel result = controlDisofi().ActualizarUsuario(Usuario);
 
-            List<UsuariosModels> busuario = controlDisofi().BuscarUsuario(Usuario);
+            List<UsuariosModels> busuario = controlDisofi().BuscarUsuario(Usuario, baseDatosUsuario());
             ViewBag.buscarusuarios = busuario;
 
             List<UsuariosTiposModels> ltipo = controlDisofi().listarTipo();
@@ -179,28 +358,12 @@ namespace TexasHub.Controllers
             return View();
         }
 
-        [HttpPost, ValidateInput(false)]
-        public ActionResult Parametros(FormCollection frm)
+        [HttpPost]
+        public JsonResult GuardarParametro(ParametrosModels parametro)
         {
-            int numero;
-            if (Request.Form["valorRadio"].ToString() == "P")
-            {
-                numero = 0;
-            }
-            else
-            {
-                numero = 1;
-            }
-            ParametrosModels apo = new ParametrosModels();
-            apo.Aprobador = numero;
+            RespuestaModel lis = controlDisofi().ModificarParametros(parametro);
 
-            List<ParametrosModels> lis = controlDisofi().ModificarParametros(apo);
-
-            List<ParametrosModels> para = controlDisofi().BuscarParametros();
-
-            ViewBag.Parametros = para;
-
-            return View();
+            return Json(lis);
         }
 
         [HttpPost, ValidateInput(false)]
@@ -209,39 +372,6 @@ namespace TexasHub.Controllers
             return View();
         }
 
-        [HttpPost, ValidateInput(false)]
-        public ActionResult EditCliente(FormCollection frm)
-        {
-            //ClientesModels cliente = new ClientesModels();
-            //cliente.RutAux = Request.Form["txtrut"];
-
-            //return View();
-            ClientesModels cliente = new ClientesModels();
-
-            cliente.CodAux = Request.Form["txtcodAux"];
-            cliente.RutAux = Request.Form["txtrut"];
-            cliente.NomAux = Request.Form["txtnombre"];
-            cliente.NomCon = Request.Form["txtcontacto"];
-            cliente.FonCon = Request.Form["txttelefono"];
-            cliente.DirAux = Request.Form["txtdireccion"];
-            cliente.EMail = Request.Form["txtemail"];
-
-            RespuestaModel result = controlDisofi().ActualizarCliente(cliente);
-
-            List<ClientesModels> bclientes = controlDisofi().BuscarClientes(cliente);
-
-            if (SessionVariables.SESSION_BUSCAR_CLIENTE != null)
-            {
-                SessionVariables.SESSION_BUSCAR_CLIENTE = null;
-                SessionVariables.SESSION_BUSCAR_CLIENTE = bclientes;
-            }
-            else
-            {
-                SessionVariables.SESSION_BUSCAR_CLIENTE = bclientes;
-            }
-
-            return View();
-        }
 
         #endregion
     }

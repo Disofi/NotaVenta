@@ -34,7 +34,7 @@ namespace DAL
             var sqlCommand = new SqlCommand(spName);
             var adapter = new SqlDataAdapter();
             var aData = new DataTable();
-            sqlCommand.CommandTimeout = 60;
+            sqlCommand.CommandTimeout = 600;
             if (sqlParametersIn != null && sqlParametersIn.Count > 0)
             {
                 foreach (System.Collections.DictionaryEntry sqlParameter in sqlParametersIn)

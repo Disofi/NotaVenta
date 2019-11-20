@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using NotaVenta.UTIL.Error;
+using UTIL.Models;
 
 namespace NotaVenta.UTIL
 {
@@ -12,9 +13,33 @@ namespace NotaVenta.UTIL
     {
         private ControlDisofi _control = new ControlDisofi();
 
+        public string baseDatosUsuario()
+        {
+            return SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.BaseDatos;
+        }
+        public string codigoVendedorUsuario()
+        {
+            return SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.VenCod;
+        }
+        public ParametrosModels ObtieneParametros(int idEmpresa = -1)
+        {
+            if (idEmpresa == -1) { idEmpresa = SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.IdEmpresa; }
+            return controlDisofi().BuscarParametros(idEmpresa);
+        }
+
         public ControlDisofi controlDisofi()
         {
             return _control;
+        }
+
+        public JsonResult SeleccionaEmpresa(int _IdEmpresa)
+        {
+            UsuarioEmpresaModel ue = new UsuarioEmpresaModel();
+            List<UsuarioEmpresaModel> empresas = controlDisofi().ListaUsuarioEmpresas(SessionVariables.SESSION_DATOS_USUARIO.IdUsuario);
+            UsuarioEmpresaModel usuarioEmpresaModel = empresas.Where(m => m.IdEmpresa == _IdEmpresa).First();
+            SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel = usuarioEmpresaModel;
+
+            return Json(new { Validador = 1, NombreEmpresa = usuarioEmpresaModel.NombreEmpresa });
         }
 
         public ActionResult AbrirError(Errores.ERRORES codigoError, TipoAccionError.TIPO_ACCION_BTN tipoAccionBtn)
