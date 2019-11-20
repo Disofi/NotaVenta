@@ -1655,10 +1655,10 @@ a.CodUMed,
 a.nvPrecio, 
 a.nvSubTotal,
 ROUND(a.nvDPorcDesc01,0) as nvDPorcDesc01, 
-ROUND(a.nvDPorcDesc01,0) as nvDPorcDesc02, 
-ROUND(a.nvDPorcDesc01,0) as nvDPorcDesc03, 
-ROUND(a.nvDPorcDesc01,0) as nvDPorcDesc04, 
-ROUND(a.nvDPorcDesc01,0) as nvDPorcDesc05, 
+ROUND(a.nvDPorcDesc02,0) as nvDPorcDesc02, 
+ROUND(a.nvDPorcDesc03,0) as nvDPorcDesc03, 
+ROUND(a.nvDPorcDesc04,0) as nvDPorcDesc04, 
+ROUND(a.nvDPorcDesc05,0) as nvDPorcDesc05, 
 a.nvTotLinea,
 Stock = (select  Sum (CASE WHEN TipoBod = ''D'' THEN Ingresos - Egresos ELSE 0 END)  * 1 AS StockDisponible     
 FROM  ['+@pv_BaseDatos+'].[softland].[IW_vsnpMovimStockTipoBod] WITH (INDEX(IW_GMOVI_BodPro)) 
@@ -2241,13 +2241,13 @@ CREATE procedure [dbo].[FR_ListarDocumentosPendientes]
 
 	select	distinct 
 			
-			isnull
-			((
-				case	when
-	(select  Sum (CASE WHEN TipoBod = ''D'' THEN Ingresos - Egresos ELSE 0 END)  * 1 AS StockDisponible 
-	FROM  ['+@pv_BaseDatos+'].softland.IW_vsnpMovimStockTipoBod WITH (INDEX(IW_GMOVI_BodPro)) 
-	WHERE Fecha <= getdate()  and CodProd = tp.CodProd 
-	GROUP BY CodProd)>= c.nvCant then 0 else 1 end ), 0) as stocklista,
+	--		isnull
+	--		((
+	--			case	when
+	--(select  Sum (CASE WHEN TipoBod = ''D'' THEN Ingresos - Egresos ELSE 0 END)  * 1 AS StockDisponible 
+	--FROM  ['+@pv_BaseDatos+'].softland.IW_vsnpMovimStockTipoBod WITH (INDEX(IW_GMOVI_BodPro)) 
+	--WHERE Fecha <= getdate()  and CodProd = tp.CodProd 
+	--GROUP BY CodProd)>= c.nvCant then 0 else 1 end ), 0) as stocklista,
 	a.NVNumero,
 	a.Id,
 	clientes.[NomAux],
@@ -3194,7 +3194,7 @@ BEGIN
 			ON (b.VenCod = a.VenCod) 
 		LEFT JOIN ['+@pv_BaseDatos+'].softland.cwtcvcl as vcl 
 			ON vcl.CodAux = A.CodAux
-	WHERE	b.VenCod = ''' + @cod + '''
+	WHERE	b.VenCod in (''' + @cod + ''', ''OFI'')
 	AND		C.Bloqueado	<> ''S''
 	'
 
