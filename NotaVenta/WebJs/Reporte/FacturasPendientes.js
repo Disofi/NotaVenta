@@ -162,7 +162,8 @@ function DetalleNotaPedido(nvId, RutAux) {
     });
 }
 
-function AprobarNotaVenta(nvId) {
+function AprobarNotaVenta(nvId, id) {
+    activarLoadingBoton(id);
     $.ajax({
         type: "POST",
         url: "/Reporte/AprobarNotaVenta",
@@ -170,6 +171,7 @@ function AprobarNotaVenta(nvId) {
         async: true,
         success: function (data) {
             alert("Numero Nota de Venta:" + data.nvNum);
+            desactivarLoadingBoton(id);
             location.reload();
         }
     });
