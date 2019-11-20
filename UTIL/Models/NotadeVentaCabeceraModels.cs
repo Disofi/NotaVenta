@@ -20,7 +20,9 @@ namespace UTIL.Models
         public int stocklista { get; set; }
         public List<DescuentoProductoAgregadoModel> Descuentos { get; set; }
         public double nvSubTotalConDescuento { get; set; }
-        
+        public bool ErrorAprobador { get; set; }
+        public string ErrorAprobadorMensaje { get; set; }
+
         #endregion
 
         #region Campos SOFTLAND
