@@ -85,6 +85,8 @@ CREATE TABLE [dbo].[DS_NotasVenta](
 	[Cod_Distrib] [varchar](10) NULL,
 	[Nom_Distrib] [varchar](60) NULL,
 	[MarcaWG] [int] NULL,
+	[ErrorAprobador] [bit] NULL,
+	[ErrorAprobadorMensaje] varchar(max) NULL,
  CONSTRAINT [DS_NotasVenta_PK] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -897,6 +899,8 @@ CREATE PROCEDURE [dbo].[FR_AgregarNVCabecera]
 ,	@pv_Cod_Distrib [varchar](10) = NULL
 ,	@pv_Nom_Distrib [varchar](60) = NULL
 ,	@pi_MarcaWG [int] = NULL
+,	@pb_ErrorAprobador [bit] = NULL
+,	@pv_ErrorAprobadorMensaje varchar(max) = NULL
 )
 AS
 BEGIN
@@ -981,6 +985,8 @@ BEGIN
 		,	Cod_Distrib
 		,	Nom_Distrib
 		,	MarcaWG
+		,	ErrorAprobador
+		,	ErrorAprobadorMensaje
 		)
 		VALUES
 		(
@@ -1051,6 +1057,8 @@ BEGIN
 		,	@pv_Cod_Distrib
 		,	@pv_Nom_Distrib
 		,	@pi_MarcaWG
+		,	@pb_ErrorAprobador
+		,	@pv_ErrorAprobadorMensaje
 		)
 
 		SELECT	@pi_IdNotaVenta = @@identity
@@ -1617,7 +1625,9 @@ BEGIN
 		cc.DescCC,
 		nv.nvObser,
 		nv.nvSubTotal,
-		nv.TotalBoleta
+		nv.TotalBoleta,
+		nv.ErrorAprobador,
+		nv.ErrorAprobadorMensaje
 	FROM
 		[dbo].[DS_NotasVenta] nv INNER JOIN
 		['+@pv_BaseDatos+'].[softland].[cwtauxi] cliente ON (cliente.CodAux collate Modern_Spanish_CI_AS = nv.CodAux) LEFT JOIN
@@ -2217,7 +2227,9 @@ CREATE procedure [dbo].[FR_ListarDocumentosAprobados]
 	a.TotalBoleta, 
 	a.EstadoNP, 
 	a.nvSubTotal,
-	ISNULL(a.RutSolicitante,0) as RutSolicitante
+	ISNULL(a.RutSolicitante,0) as RutSolicitante,
+	a.ErrorAprobador,
+	a.ErrorAprobadorMensaje
 	from [dbo].[DS_NotasVenta] a
 	inner join ['+@pv_BaseDatos+'].[softland].[cwtauxi] clientes on  clientes.CodAux collate Modern_Spanish_CI_AS = a.CodAux 
 	where 
@@ -2261,8 +2273,10 @@ CREATE procedure [dbo].[FR_ListarDocumentosPendientes]
 	a.TotalBoleta, 
 	a.EstadoNP, 
 	a.nvSubTotal,
-	ISNULL(a.RutSolicitante,0) as RutSolicitante
+	ISNULL(a.RutSolicitante,0) as RutSolicitante,
 	--,[dbo].[func_SaldoClienteCW](a.CodAux,'''+@pv_BaseDatos+''' ) ''Saldo''
+	ErrorAprobador,
+	ErrorAprobadorMensaje
 
 	from [dbo].[DS_NotasVenta] a
 	inner join ['+ @pv_BaseDatos +'].[softland].[cwtauxi] clientes on  clientes.CodAux collate Modern_Spanish_CI_AS = a.CodAux 
@@ -2299,7 +2313,9 @@ create procedure [dbo].[FR_ListarDocumentosRechazadas]
 	a.TotalBoleta, 
 	a.EstadoNP, 
 	A.nvSubTotal,
-	ISNULL(a.RutSolicitante,0) as RutSolicitante
+	ISNULL(a.RutSolicitante,0) as RutSolicitante,
+	a.ErrorAprobador,
+	a.ErrorAprobadorMensaje
 	from [dbo].[DS_NotasVenta] a
 	inner join ['+@pv_BaseDatos+'].[softland].[cwtauxi] clientes on  clientes.CodAux collate Modern_Spanish_CI_AS = a.CodAux 
 	where 
@@ -3372,7 +3388,9 @@ CREATE Procedure [dbo].[JS_ListarNVNM] --25 'transporte'
 				cc.DescCC,
 				nv.nvObser,
 				nv.nvSubTotal,
-				nv.TotalBoleta
+				nv.TotalBoleta,
+				nv.ErrorAprobador,
+				nv.ErrorAprobadorMensaje
 			FROM
 				[dbo].[DS_NotasVenta] nv INNER JOIN
 				['+@pv_BaseDatos+'].[softland].[cwtauxi] cliente ON (cliente.CodAux collate Modern_Spanish_CI_AS = nv.CodAux) left JOIN
