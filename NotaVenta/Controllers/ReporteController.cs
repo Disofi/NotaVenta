@@ -222,6 +222,15 @@ namespace NotaVenta.Controllers
                         }
                     }
                 }
+                string[] emails = System.Configuration.ConfigurationManager.AppSettings["EmailEnvioAprobador"].Split(';');
+                foreach (string item in emails)
+                {
+                    if (item.Trim() != "")
+                    {
+                        paraEmail.Add(item);
+                    }
+                }
+
 
                 EnviarEmail(cabecera.NVNumero, notaVenta.Id, paraEmail);
             }

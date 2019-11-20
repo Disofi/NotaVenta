@@ -18,7 +18,7 @@ GO
 SET IDENTITY_INSERT [dbo].[DS_Parametros] ON 
 GO
 INSERT [dbo].[DS_Parametros] ([Id], [IdEmpresa], [MultiEmpresa], [ManejaAdministrador], [ManejaAprobador], [ListaClientesVendedor], [ListaClientesTodos], [ValidaReglasNegocio], [ManejaListaPrecios], [EditaPrecioProducto], [MuestraCondicionVentaCliente], [MuestraCondicionVentaTodos], [EditaDescuentoProducto], [MaximoDescuentoProducto], [CantidadDescuentosProducto], [MuestraStockProducto], [StockProductoEsMasivo], [StockProductoEsBodega], [StockProductoCodigoBodega], [ControlaStockProducto], [EnvioMailCliente], [EnvioMailVendedor], [EnvioMailContacto], [EnvioObligatorioAprobador], [ManejaTallaColor], [ManejaDescuentoTotalDocumento], [CantidadDescuentosTotalDocumento], [CantidadLineas], [ManejaLineaCreditoVendedor], [ManejaLineaCreditoAprobador], [ManejaCanalVenta], [CreacionNotaVentaUsuariosBloqueados], [CreacionNotaVentaUsuariosInactivos], [PermiteModificacionCondicionVenta], [AtributoSoftlandDescuentoCliente], [PermiteCrearDireccion], [CrearClienteConDV], [MuestraUnidadMedidaProducto], [DescuentoLineaDirectoSoftland], [DescuentoTotalDirectoSoftland], [CambioVendedorCliente], [AgregaCliente], [EnvioMailAprobador], [ManejaSaldo]) 
-SELECT	1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, CAST(15.00 AS Decimal(18, 2)), 1, 1, 0, 1, N'9', 0, 0, 1, 0, 1, 0, 1, 0, 30, 1, 0, 1, 0, 0, 0, N'', 1, 1, 0, 0, 0, 1, 1, 1, 1
+SELECT	1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, CAST(0.00 AS Decimal(18, 2)), 1, 1, 0, 1, N'9', 0, 0, 1, 0, 1, 0, 1, 0, 30, 1, 0, 1, 0, 0, 0, N'', 1, 1, 0, 0, 0, 1, 1, 1, 1
 GO
 SET IDENTITY_INSERT [dbo].[DS_Parametros] OFF
 GO

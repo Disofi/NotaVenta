@@ -556,7 +556,7 @@ namespace NotaVenta.Controllers
                         insertaDisofi,
                         insertaSoftland,
                         para);
-                    
+
                     respuestaNotaVenta.EstadoNP = cabecera.EstadoNP;
 
                     listaRespuestaNotaVentaModel.Add(respuestaNotaVenta);
@@ -1101,6 +1101,36 @@ namespace NotaVenta.Controllers
             cabecera.Nom_Distrib = null;
             cabecera.MarcaWG = null;
 
+            /*
+            if (cabecera.Descuentos != null)
+            {
+                for (int x = 0; x < cabecera.Descuentos.Count; x++)
+                {
+                    if (cabecera.Descuentos[x].Porcentaje > 15)
+                    {
+                        cabecera.ErrorAprobador = true;
+                        cabecera.ErrorAprobadorMensaje = "se ingreso un porcentaje mayor al 15% de descuento";
+                    }
+                }
+            }
+            */
+            if (productos != null)
+            {
+                for (int x = 0; x < productos.Count; x++)
+                {
+                    if (productos[x].Descuentos != null)
+                    {
+                        for (int y = 0; y < productos[x].Descuentos.Count; y++)
+                        {
+                            if (productos[x].Descuentos[y].Porcentaje > 15)
+                            {
+                                cabecera.ErrorAprobador = true;
+                                cabecera.ErrorAprobadorMensaje = "se ingreso un porcentaje mayor al 15% de descuento";
+                            }
+                        }
+                    }
+                }
+            }
 
 
             RespuestaNotaVentaModel respuestaNotaVenta = controlDisofi().AgregarNV(baseDatosUsuario(), insertaDisofi, insertaSoftland, cabecera);

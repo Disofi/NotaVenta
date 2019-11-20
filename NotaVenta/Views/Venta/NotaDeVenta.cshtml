@@ -218,14 +218,16 @@
                                 <tr class="highlight">
                                     <td nowrap="nowrap">Observaci&oacute;n</td>
                                     <td><textarea class="form-control" name="txtobservacion" id="txtobservacion" rows="2"> </textarea></td>
-                                    <td nowrap="nowrap">Centro de Costo</td>
+                                    <td nowrap="nowrap"><span style="display: none">Centro de Costo</span></td>
                                     <td>
-                                        <select class="form-control" name="cbxccosto" id="cbxccosto" tabindex="9">
-                                            <option selected value="-1"> -- Seleccione Centro de Costo -- </option>
+                                        <select class="form-control" name="cbxccosto" id="cbxccosto" tabindex="9" style="display: none">
                                             @{
                                                 for (int i = 0; i < cc.Count; i++)
                                                 {
-                                                    <option @Html.Raw(ccDefecto == null ? "" : (cc[i].CodiCC == ccDefecto.CodiCC) ? "selected" : "") value="@cc[i].CodiCC"> @cc[i].DescCC</option>
+                                                    if (cc[i].CodiCC.Trim() == "003")
+                                                    {
+                                                        <option @Html.Raw(ccDefecto == null ? "" : (cc[i].CodiCC == ccDefecto.CodiCC) ? "selected" : "") value="@cc[i].CodiCC"> @cc[i].DescCC</option>
+                                                    }
                                                 }
                                             }
                                         </select>
