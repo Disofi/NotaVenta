@@ -45,6 +45,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Final\Inserts.sql" />
+    <Content Include="Final\script_base.sql" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Otros\scriptNotaVenta_20191028_1023.sql" />
     <Content Include="Otros\ScriptBD_20191021_1658.sql" />
     <Content Include="Otros\ScriptParametros.sql" />
