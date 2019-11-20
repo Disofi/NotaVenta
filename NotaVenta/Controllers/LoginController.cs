@@ -32,6 +32,13 @@ namespace NotaVenta.Controllers
         public JsonResult Login(string _Nombre, string _Contrasena)
         {
             var datosUsuarios = new ObjetoUsuario();
+
+            SessionVariables.SESSION_BUSCAR_CLIENTE = null;
+            SessionVariables.SESSION_CLIENTE_BASE_DATOS = null;
+            SessionVariables.SESSION_DATOS_USUARIO = null;
+            SessionVariables.SESSION_EMPRESAS_USUARIO = null;
+            SessionVariables.SESSION_NOTA_VENTA_CABECERA_MODEL = null;
+
             var validador = 0;
             datosUsuarios.Nombre = _Nombre;
             datosUsuarios.Contrasena = _Contrasena;

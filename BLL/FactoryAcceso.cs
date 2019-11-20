@@ -608,6 +608,8 @@ namespace BLL
                     { "pv_Cod_Distrib", NVC.Cod_Distrib},
                     { "pv_Nom_Distrib", NVC.Nom_Distrib},
                     { "pi_MarcaWG", NVC.MarcaWG},
+                    { "pb_ErrorAprobador", NVC.ErrorAprobador},
+                    { "pv_ErrorAprobadorMensaje", NVC.ErrorAprobadorMensaje},
                 });
                 return UTIL.Mapper.BindData<RespuestaNotaVentaModel>(data);
             }
@@ -1174,7 +1176,7 @@ namespace BLL
                 return null;
             }
         }
-        
+
         public RespuestaModel insertaUsuarioEmpresa(int idUsuario, int idEmpresa, string venCod)
         {
             try
@@ -1605,7 +1607,7 @@ namespace BLL
             }
         }
 
-        public RespuestaModel AgregarCliente(ClientesModels cliente,string basedatos)
+        public RespuestaModel AgregarCliente(ClientesModels cliente, string basedatos)
         {
             try
             {

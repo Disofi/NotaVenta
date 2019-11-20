@@ -277,30 +277,3 @@ function EditarUsuario() {
         }
     });
 }
-
-
-
-
-
-
-
-var MensajeDisofi = [[
-    {
-        "Codigo": "ACHD010090",
-        "Descripcion": null,
-        "PrecioUnitario": 880.0,
-        "PrecioUnitarioConDescuento": 880.0,
-        "Cantidad": 1.0,
-        "Stock": 0.0,
-        "UnidadMedida": null,
-        "Descuentos": null,
-        "DescuentoAtributo": 0.0,
-        "SubTotal": 880.0,
-        "SubTotalConDescuento": 880.0, "Total": 880.0, "ValorDescuentoAtributo": 0.0, "Talla": null, "Color": null
-    }
-]
-]
-
-
-MensajeDisofi: "paso1 - paso2 - paso3 - paso4 - serializado: [[{"Codigo":"AGAM120090","Descripcion":null,"PrecioUnitario":10560.0,"PrecioUnitarioConDescuento":10560.0,"Cantidad":1.0,"Stock":0.0,"UnidadMedida":null,"Descuentos":null,"DescuentoAtributo":0.0,"SubTotal":10560.0,"SubTotalConDescuento":10560.0,"Total":10560.0,"ValorDescuentoAtributo":0.0,"Talla":null,"Color":null}]] - serializado: null - ERROR: Referencia a objeto no establecida como instancia de un objeto."
-MensajeSoftland: null
