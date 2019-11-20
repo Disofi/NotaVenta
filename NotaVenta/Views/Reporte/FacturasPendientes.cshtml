@@ -85,7 +85,7 @@
                                                 <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id,'@doc[i].RutAux')">@*<img src="~/Content/Image/zoom.png" />*@Detalle</button>
                                                 if (NotaVenta.UTIL.SessionVariables.SESSION_DATOS_USUARIO.TipoUsuario != 2)
                                                 {
-                                                    <button class="btn btn-success btn-xs" onclick="AprobarNotaVenta(@doc[i].Id)">Aprobar</button>
+                                                    <button class="btn btn-success btn-xs" id="btnAprobar_@doc[i].Id" onclick="AprobarNotaVenta(@doc[i].Id, 'btnAprobar_@doc[i].Id')">Aprobar</button>
                                                     <button class="btn btn-danger btn-xs" onclick="RechazarNotaVenta(@doc[i].Id,@doc[i].NVNumero)">Rechazar</button>
                                                 }
                                             }
@@ -155,6 +155,31 @@
                             <table id="tblDetalleNotaPedidoDetalle" class="table table-profile"></table>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCerrarModal" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalSaldo" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Detalle Saldo Cliente</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="x_content">
+                    <div class="col-lg-push-12">
+                        <div class="table-responsive form-inline">
+                            <table id="tblSaldos" class="table table-profile"></table>
+                        </div>
+                    </div>
+                    <br />
                 </div>
             </div>
             <div class="modal-footer">
