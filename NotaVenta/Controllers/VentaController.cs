@@ -430,7 +430,8 @@ namespace NotaVenta.Controllers
                     }
                     else
                     {
-                        Cliente.CodAux = (RutAux.Replace("-", "").Replace(".", "").Substring(0, RutAux.Length - 1));
+                        Cliente.CodAux = (RutAux.Replace("-", "").Replace(".", ""));
+                        Cliente.CodAux = Cliente.CodAux.Substring(0, Cliente.CodAux.Length - 1);
                     }
                     Cliente.NomAux = NomAux;
                     Cliente.RutAux = RutAux;
