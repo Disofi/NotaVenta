@@ -56,7 +56,6 @@ SET IDENTITY_INSERT [dbo].[Menu] ON
 GO
 INSERT [dbo].[Menu] ([Id_Menu], [Clase], [PieMenu], [Titulo], [Action], [Controller], [TipoUsuario], [Activo], [Orden]) 
 SELECT  1, N'fa fa-home', N'Administracion', N'Usuario', N'Usuarios', N'Administracion', 1, 1, 1 UNION ALL
-SELECT  2, N'fa fa-home', N'Administracion', N'Clientes', N'Clientes', N'Administracion', 1, 1, 2 UNION ALL
 SELECT  7, N'fa fa-home', N'Realizar Venta', N'Ventas', N'MisClientes', N'Venta', 2, 1, 1 UNION ALL
 SELECT  8, N'fa fa-home', N'Reporte', N'Notas de Venta Pendientes', N'FacturasPendientes', N'Reporte', 3, 1, 1 UNION ALL
 SELECT  9, N'fa fa-home', N'Reporte', N'Notas de Venta Aprobadas', N'FacturasAprobadas', N'Reporte', 3, 1, 2 UNION ALL
