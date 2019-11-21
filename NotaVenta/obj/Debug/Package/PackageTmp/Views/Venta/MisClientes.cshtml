@@ -1,0 +1,239 @@
+﻿@using UTIL.Models;
+@using NotaVenta.UTIL;
+@{
+    ViewBag.Title = "Mis Clientes";
+    List<ClientesModels> clientes = ViewBag.clientes;
+    //var validacion = "$0";
+    ParametrosModels parametros = ViewBag.parametros;
+    if (((BaseController)this.ViewContext.Controller).codigoVendedorUsuario() == null)
+    {
+        var URL = System.Configuration.ConfigurationManager.AppSettings.Get("url");
+        Response.Redirect(URL);
+    }
+}
+
+<link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
+<script src="~/WebJs/Venta/MisClientes.js"></script>
+<style>
+    .rojomaldito {
+        background: #E49685;
+        color: black;
+    }
+</style>
+<body class="contact-page">
+    <input type="hidden" id="urlTablaSaldos" value="@Url.Action("ObtenerSaldo", "Reporte")" />
+    <div id="content" class="content">
+        <input type="hidden" id="urlNotaVenta" value="@Url.Action("NotaDeVenta", "Venta" )" />
+        <h1 class="page-header">@ViewBag.Message <small></small></h1>
+        <div class="panel panel-inverse width-full">
+            <div class="panel-heading">
+                <h4 class="panel-title">Listado De Clientes </h4>
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                </div>
+            </div>
+            <div class="table-responsive">
+                @if (parametros.AgregaCliente)
+                {
+                    <div class="float-right">
+                        <br />
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AgregaCliente">Agregar Cliente</button>
+                        <br />
+                        <br />
+                    </div>
+                }
+                <table id="dataTable" class="table" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Cliente</th>
+                            <th>Dirección</th>
+                            <th>Telefono</th>
+                            <th>Notas</th>
+                            <th>Nota de Venta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            try
+                            {
+                                for (int i = 0; i < clientes.Count; i++)
+                                {
+                                    <tr>
+                                        <td>@clientes[i].CodAux</td>
+                                        <td>@clientes[i].NomAux</td>
+                                        <td>@clientes[i].DirAux @clientes[i].DirNum</td>
+                                        <td>@clientes[i].FonAux1</td>
+
+
+                                        @if (clientes[i].Notas == null)
+                                        {
+                                            <td>No cuenta con nota</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@clientes[i].Notas</td>
+                                        }
+                                        <td>
+                                            <a class="btn btn-default btn-xs" onclick="PreNotaVenta('@clientes[i].CodAux','@clientes[i].NomAux', '@clientes[i].RutAux')" style="cursor:pointer;" />
+                                            <img src="~/Content/Image/guia.png" />
+                                            @*<a class="btn btn-default btn-xs" data-toggle="modal" data-target="#modalSaldo" onclick="ObtenerSaldo('@clientes[i].RutAux')" style="cursor:pointer;" />
+                                            <img src="~/Content/Image/guia.png" />*@
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Este Usuario no tiene Clientes Asociados</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="AgregaCliente" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Agregar Cliente</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="x_content">
+                        <br />
+                        <div class="form-horizontal form-label-left input_mask">
+                            <input type="hidden" name="txtcodAux" id="CodAuxMod">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <label class="control-label"><b>Nombre: </b></label>
+                                <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                                <input type="text" required="required" class="form-control has-feedback-left" id="NombreCli" name="txtUsuario" placeholder="Nombre">
+                            </div>
+
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <label class="control-label"><b>Rut: </b></label>
+                                <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                                <input type="text" required="required" class="form-control has-feedback-left" id="RutCli" name="txtNombre" placeholder="Rut" oninput="checkRut(this)" maxlength="13">
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <label class="control-label"><b>Email: </b></label>
+                                <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                                <input type="email" required class="form-control" id="EmailMod" name="EmailCli" placeholder="Email">
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <label class="control-label"><b>Email Dte: </b></label>
+                                <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                                <input type="email" required class="form-control" id="EmailDteMod" name="EmailCli" placeholder="Email">
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <label class="control-label"><b>Telefono: </b></label>
+                                <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                                <input type="tel" required class="form-control" id="TelefonoCli" name="Telefono" placeholder="Telefono">
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <label class="control-label"><b>Direccion: </b></label>
+                                <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                                <input type="text" required class="form-control" id="DireccioCli" name="Direccion" placeholder="Direccion">
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <label class="control-label"><b>Giro Cliente: </b></label>
+                                @Html.DropDownList("GirAux", (IEnumerable<SelectListItem>)ViewBag.Giro, "Seleccione Giro", new { @class = "form-control", @id = "GirAux", @name = "GirAux" })
+                            </div>
+                            <br />
+                            @*<div class="col-md-6 col-sm-6 col-xs-12">
+                                    <label class="control-label"><b>Ciudad Cliente: </b></label>
+                                    @Html.DropDownList("CiuAux", (IEnumerable<SelectListItem>)ViewBag.Ciudad, "Seleccione Ciudad", new { @class = "form-control", @id = "CiuAux", @name = "CiuAux" })
+                                </div>*@
+                            <br />
+                            <br />
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                    <button class="btn btn-success" type="submit" id="AgregarCliente" onclick="AgregarCliente()">Grabar</button>
+                                    <button class="btn btn-primary" type="reset">Resetear</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnCerrarModal" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <a id="AgregarCorreo" style="display: none" href="#modalAddCorreo" class="btn btn-sm btn-success" data-toggle="modal">prueba</a>
+    <div class="modal fade" id="modalAddCorreo">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Cliente no tiene Correo Asociado</h4>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">
+                        x
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive form-inline">
+                        <table class="table ">
+                            <tbody>
+                                <tr class="highlighted">
+                                    <td>Agregar Correo:</td>
+                                    <td><input type="email" required id="AddCorreo" name="AddCorreo" class="form-control" /></td>
+                                </tr>
+                            </tbody>
+                            <tr>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a id="btnAgregarCorreo" href="javascript:;" class="btn btn-success">Confirmar</a>
+                    <a id="CerrarAddCorreo" href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalSaldo" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Detalle Saldo Cliente</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="x_content">
+                        <div class="col-lg-push-12">
+                            <div class="table-responsive form-inline">
+                                <table id="tblSaldos" class="table table-profile"></table>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnCerrarModal" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
