@@ -219,8 +219,9 @@ function ObtenerSaldo(RutAux) {
                 htmlCabecera = htmlCabecera + "<th>TipoDoc</th>";
                 htmlCabecera = htmlCabecera + "<th>NomDoc</th>";
                 htmlCabecera = htmlCabecera + "<th>Saldo</th>";
-                htmlCabecera = htmlCabecera + "<th>Cod Documento</th>";
-                htmlCabecera = htmlCabecera + "<th>Año Comprobante</th>";
+                //htmlCabecera = htmlCabecera + "<th>Cod Documento</th>";
+                //htmlCabecera = htmlCabecera + "<th>Año Comprobante</th>";
+                htmlCabecera = htmlCabecera + "<th>Dias Vencido</th>";
 
                 tblSaldos.append(htmlCabecera);
 
@@ -236,8 +237,9 @@ function ObtenerSaldo(RutAux) {
                     htmlDetalle = htmlDetalle + "<td>" + value.desdoc + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.movnumdocref + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.Saldo + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.coddoc + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.Cpbano + "</td>";
+                    //htmlDetalle = htmlDetalle + "<td>" + value.coddoc + "</td>";
+                    //htmlDetalle = htmlDetalle + "<td>" + value.Cpbano + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + value.DiasVen + "</td>";
 
                     htmlDetalle = htmlDetalle + "</tr>";
 

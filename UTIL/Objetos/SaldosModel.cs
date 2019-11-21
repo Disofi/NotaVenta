@@ -22,5 +22,20 @@ namespace UTIL.Objetos
         public string PCCDOC { get; set; }
         public string coddoc { get; set; }
         public string Cpbano { get; set; }
+
+        
+        public int DiasVen { get; set; }
+        public string movtipdocref { get; set; }
+        public string nomtdref { get; set; }
+        public DateTime cpbfec { get; set; }
+        public DateTime movfv { get; set; }
+        public string ttdcod { get; set; }
+        public string nomtd { get; set; }
+        public string cpbnum { get; set; }
+        public double movdebe { get; set; }
+        public double movhaber { get; set; }
+        public double haber { get; set; }
+        public double debe { get; set; }
+        public string NomB { get; set; }
     }
 }
