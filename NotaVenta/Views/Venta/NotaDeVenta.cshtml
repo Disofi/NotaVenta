@@ -242,6 +242,9 @@
                                 </tr>
                                 @if (parametros.ManejaLineaCreditoVendedor)
                                 {
+                                    {
+                                        credito = credito == null ? new CreditoModel() { Credito = 0, Saldo = 0 } : credito;
+                                    }
                                     <tr class="highlight">
                                         <td>Credito</td>
                                         <td>
