@@ -1663,6 +1663,10 @@ namespace BLL
             catch (Exception ex)
             {
                 string error = ex.ToString();
+                /*
+                saldo.movglosa = "ERROR: " + ex.Message;
+                return new List<SaldosModel>() { saldo };
+                */
                 return null;
             }
         }

@@ -28,7 +28,9 @@ namespace UTIL.Objetos
         public string movtipdocref { get; set; }
         public string nomtdref { get; set; }
         public DateTime cpbfec { get; set; }
+        public string cpbfecString { get { return this.cpbfec == null ? "" : cpbfec.ToString("dd/MM/yyyy"); } }
         public DateTime movfv { get; set; }
+        public string movfvString { get { return this.movfv == null ? "" : movfv.ToString("dd/MM/yyyy"); } }
         public string ttdcod { get; set; }
         public string nomtd { get; set; }
         public string cpbnum { get; set; }
@@ -37,5 +39,10 @@ namespace UTIL.Objetos
         public double haber { get; set; }
         public double debe { get; set; }
         public string NomB { get; set; }
+
+
+        public string areacod { get; set; }
+        public double? numdoc { get; set; }
+        public string movglosa { get; set; }
     }
 }
