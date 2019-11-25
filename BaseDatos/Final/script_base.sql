@@ -581,8 +581,9 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[DS_ObtenerSaldo]
+alter PROCEDURE [dbo].[DS_ObtenerSaldo]
 @RutAux varchar (20),
+@CodAux varchar (50),
 @pv_BaseDatos varchar (100)
 AS
 BEGIN
@@ -604,7 +605,7 @@ cwttdoc.coddoc,cwmovim.Cpbano
 From ['+@pv_BaseDatos+'].softland.cwcpbte inner join ['+@pv_BaseDatos+'].softland.cwmovim on ['+@pv_BaseDatos+'].softland.cwcpbte.cpbano = cwmovim.cpbano
 and cwcpbte.cpbnum = cwmovim.cpbnum inner join ['+@pv_BaseDatos+'].softland.cwtauxi on cwtauxi.codaux = cwmovim.codaux inner join ['+@pv_BaseDatos+'].softland.cwpctas on
 cwmovim.pctcod = cwpctas.pccodi left join ['+@pv_BaseDatos+'].softland.cwttdoc on cwmovim.movtipdocref = cwttdoc.coddoc 
-Where (cwcpbte.CpbAno = @Periodo) and (cwcpbte.cpbest = ''V'') and (CWCpbte.CpbFec <= @FContabiliza) and cwtauxi.RutAux = '''+@RutAux+'''
+Where (cwcpbte.CpbAno = @Periodo) and (cwcpbte.cpbest = ''V'') and (CWCpbte.CpbFec <= @FContabiliza) and cwtauxi.CodAux = '''+@CodAux+'''
 
 Group By cwpctas.pccodi , cwpctas.pcdesc, cwtauxi.codaux, cwtauxi.RutAux, cwmovim.movnumdocref, cwtauxi.nomaux, cwttdoc.desdoc,
 cwpctas.PCAUXI, cwpctas.PCCDOC,cwttdoc.coddoc,cwmovim.Cpbano
@@ -2271,6 +2272,7 @@ CREATE procedure [dbo].[FR_ListarDocumentosPendientes]
 	a.NomCon, 
 	a.nvNetoAfecto, 
 	a.TotalBoleta, 
+	a.CodAux,
 	a.EstadoNP, 
 	a.nvSubTotal,
 	ISNULL(a.RutSolicitante,0) as RutSolicitante,

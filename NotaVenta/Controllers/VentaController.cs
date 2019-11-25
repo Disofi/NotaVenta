@@ -192,7 +192,7 @@ namespace NotaVenta.Controllers
             try
             {
                 List<SaldosModel> Saldos = new List<SaldosModel>();
-                Saldos = controlDisofi().ObtenerSaldo(ViewBag.RutAux, baseDatosUsuario());
+                Saldos = controlDisofi().ObtenerSaldo(ViewBag.RutAux, ViewBag.CodAux, baseDatosUsuario());
 
                 foreach (SaldosModel item in Saldos)
                 {
@@ -1296,14 +1296,14 @@ namespace NotaVenta.Controllers
         }
 
         [HttpPost]
-        public JsonResult ObtenerSaldo(string RutAuxiliar)
+        public JsonResult ObtenerSaldo(string RutAuxiliar, string CodAux)
         {
             double MontoTotal = 0;
             double Saldo = 0;
             try
             {
                 List<SaldosModel> Saldos = new List<SaldosModel>();
-                Saldos = controlDisofi().ObtenerSaldo(RutAuxiliar, baseDatosUsuario());
+                Saldos = controlDisofi().ObtenerSaldo(RutAuxiliar, CodAux, baseDatosUsuario());
 
                 foreach (SaldosModel item in Saldos)
                 {

@@ -380,9 +380,9 @@ namespace BLL
             return _Control.GetAprobadorNP();
         }
 
-        public List<SaldosModel> ObtenerSaldo(string RutAux, string basedatos)
+        public List<SaldosModel> ObtenerSaldo(string RutAux, string CodAux, string basedatos)
         {
-            return _Control.ObtenerSaldo(RutAux, basedatos);
+            return _Control.ObtenerSaldo(RutAux, CodAux, basedatos);
         }
 
     }

@@ -1648,13 +1648,14 @@ namespace BLL
             }
         }
 
-        public List<SaldosModel> ObtenerSaldo(string RutAux, string basedatos)
+        public List<SaldosModel> ObtenerSaldo(string RutAux, string CodAux, string basedatos)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_ObtenerSaldo", new System.Collections.Hashtable()
                 {
                     { "RutAux", RutAux},
+                    { "CodAux", CodAux},
                     { "pv_BaseDatos", basedatos}
                 });
                 return UTIL.Mapper.BindDataList<SaldosModel>(data);
