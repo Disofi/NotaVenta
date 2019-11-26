@@ -192,7 +192,7 @@ namespace NotaVenta.Controllers
             try
             {
                 List<SaldosModel> Saldos = new List<SaldosModel>();
-                Saldos = controlDisofi().ObtenerSaldo(ViewBag.RutAux, baseDatosUsuario());
+                Saldos = controlDisofi().ObtenerSaldo(ViewBag.RutAux, ViewBag.CodAux, baseDatosUsuario());
 
                 foreach (SaldosModel item in Saldos)
                 {

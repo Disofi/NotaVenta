@@ -42,10 +42,14 @@ namespace NotaVenta.Controllers
                 for (int i = 0; i < doc.Count; i++)
                 {
                     List<SaldosModel> Saldos = new List<SaldosModel>();
-                    Saldos = controlDisofi().ObtenerSaldo(doc[i].RutAux, baseDatosUsuario());
+                    Saldos = controlDisofi().ObtenerSaldo(doc[i].RutAux, doc[i].CodAux, baseDatosUsuario());
                     if (Saldos != null && Saldos.Count > 0)
                     {
-                        doc[i].Saldo = Saldos[0].Saldo;
+                        doc[i].Saldo = 0;
+                        foreach (SaldosModel itemSaldo in Saldos)
+                        {
+                            doc[i].Saldo = doc[i].Saldo + itemSaldo.Saldo;
+                        }
                     }
                 }
             }

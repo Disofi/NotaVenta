@@ -237,7 +237,7 @@
                                         <td nowrap="nowrap">Saldo</td>
                                         <td>
                                             <input type="text" class="text-danger form-control" disabled value="@SaldoTotal" />
-                                            <button class="btn-primary btn" data-toggle="modal" data-target="#modalSaldo" onclick="ObtenerSaldo('@RutAux')" style="cursor:pointer;"><i class="fas fa-search"></i></button>
+                                            <button class="btn-primary btn" data-toggle="modal" data-target="#modalSaldo" onclick="ObtenerSaldo('@RutAux','@CodAux')" style="cursor:pointer;"><i class="fas fa-search"></i></button>
                                         </td>
                                     }
 
@@ -254,7 +254,7 @@
                                         </td>
                                         <td>Disponible</td>
                                         <td>
-                                            <label id="lblDeudaTotal">@credito.Saldo</label>
+                                            <label id="lblDeudaTotal">@Html.Raw(Convert.ToDouble(SaldoTotal) < 0 ? 0 : Convert.ToDouble(credito.Credito) - Convert.ToDouble(SaldoTotal))</label>
                                         </td>
                                     </tr>
                                 }
