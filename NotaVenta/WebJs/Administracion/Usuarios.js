@@ -190,8 +190,6 @@ function EliminarUsuario(id, estado) {
 
 
 function AgregarUsuario() {
-    var ContrasenaCorreo = $("#txtContrasenaCorreo").val();
-    var ValidaContrasenaCorreo = $("#txtValidaContCorreo").val();
     var Usuario = $('#txtUsuario').val();
     var Nombre = $('#txtNombre').val();
     var Contrasena = $('#txtContrasena').val();
@@ -202,7 +200,7 @@ function AgregarUsuario() {
         $.ajax({
             type: 'POST',
             url: 'Addusuario',
-            data: { _Usuario: Usuario, _Nombre: Nombre, _Contrasena: Contrasena, _Email: Email, _Perfil: Perfil, _ContrasenaCorreo: ContrasenaCorreo },
+            data: { _Usuario: Usuario, _Nombre: Nombre, _Contrasena: Contrasena, _Email: Email, _Perfil: Perfil },
             async: true,
             success: function (data) {
                 if (data == -666) {

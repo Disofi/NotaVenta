@@ -1245,7 +1245,6 @@ namespace BLL
                     { "tipoUsuario", usuario.tipoUsuario},
                     { "Contrasena", usuario.Password },
                     { "Nombre", usuario.Nombre },
-                    { "ContrasenaCorreo", usuario.ContrasenaCorreo }
                 });
 
                 return UTIL.Mapper.BindData<RespuestaModel>(data);

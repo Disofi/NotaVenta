@@ -1550,16 +1550,15 @@ CREATE PROCEDURE [dbo].[FR_AgregarUsuario]
 	@email	varchar(50),
 	@Contrasena varchar(150),
 	@tipoUsuario	varchar(50),
-	@Nombre varchar (100),
-	@ContrasenaCorreo varchar(100)
+	@Nombre varchar (100)
  AS
 DECLARE @CantVenCod int
 DECLARE @IdUsuario int
 SET @CantVenCod	= (SELECT count(*) AS cantidad FROM dbo.DS_Usuarios du WHERE Usuario = @Usuario AND du.Estado = 1)
 if(@CantVenCod = 0)
 BEGIN
-	INSERT INTO [dbo].[DS_Usuarios] ([Usuario],[Contrasena],[email],[tipoUsuario],[Nombre],[ContrasenaCorreo],[Estado])
-		VALUES(@Usuario,(@Contrasena), @email, @tipoUsuario, @Nombre,@ContrasenaCorreo,1)
+	INSERT INTO [dbo].[DS_Usuarios] ([Usuario],[Contrasena],[email],[tipoUsuario],[Nombre],[Estado])
+		VALUES(@Usuario,(@Contrasena), @email, @tipoUsuario, @Nombre,1)
 	 
 SET @IdUsuario = (SELECT SCOPE_IDENTITY() AS [SCOPE_IDENTITY])	
 
