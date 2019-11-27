@@ -192,7 +192,7 @@ function RechazarNotaVenta(nvId, nvNum) {
 
 function ObtenerSaldo(RutAux, CodAux, Nombre) {
     $("#modalSaldoSubtitulo").text(CodAux + " - " + Nombre);
-    $("#tblSaldos").html("");
+    $("#modalSaldoTblSaldos").html("");
     $.ajax({
         type: "POST",
         url: "/Venta/ObtenerSaldo",
@@ -205,7 +205,7 @@ function ObtenerSaldo(RutAux, CodAux, Nombre) {
             }
             else {
 
-                var tblSaldos = $("#tblSaldos");
+                var tblSaldos = $("#modalSaldoTblSaldos");
 
                 //$.each(data.Cabecera, function (index, value) {
 
@@ -251,8 +251,8 @@ function ObtenerSaldo(RutAux, CodAux, Nombre) {
 }
 
 function ObtenerSaldoDetalle(RutAux, CodAux, Nombre) {
-    $("#modalSaldoSubtitulo").text(CodAux + " - " + Nombre);
-    $("#tblSaldos").html("");
+    $("#modalSaldoDetalleSubtitulo").text(CodAux + " - " + Nombre);
+    $("#modalSaldoDetalleTblSaldos").html("");
     $.ajax({
         type: "POST",
         url: "/Venta/ObtenerSaldoDetalle",
@@ -265,7 +265,7 @@ function ObtenerSaldoDetalle(RutAux, CodAux, Nombre) {
             }
             else {
 
-                var tblSaldos = $("#tblSaldos");
+                var tblSaldos = $("#modalSaldoDetalleTblSaldos");
 
                 //$.each(data.Cabecera, function (index, value) {
 

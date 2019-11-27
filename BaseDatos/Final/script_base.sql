@@ -3576,9 +3576,9 @@ begin
 
 	DECLARE @query2 nvarchar(max);
 	SELECT @query2 = N'SELECT @nomCC = desccc FROM ' + @pv_BaseDatos + '.[softland].[cwtccos] where codicc = ''' + @lv_CodigoCC + '''';
-	DECLARE @ParmDefinition nvarchar(500);  
-	SET @ParmDefinition = N'@nomCC varchar(100) OUTPUT';  	
-	EXEC sp_executesql @query2, @ParmDefinition, @nomCC=@lv_NombreCC OUTPUT; 
+	DECLARE @ParmDefinition2 nvarchar(500);  
+	SET @ParmDefinition2 = N'@nomCC varchar(100) OUTPUT';  	
+	EXEC sp_executesql @query2, @ParmDefinition2, @nomCC=@lv_NombreCC OUTPUT; 
 
 	
 	update dbo.DS_NotasVenta  set EstadoNP = 'A',nvEstado = 'A', nvObser = @lv_CodigoCC + '-' + @lv_NombreCC + '-' + 'N. Int: '+@nvId+' Obs: '+@obser where dbo.DS_NotasVenta.Id = @nvId

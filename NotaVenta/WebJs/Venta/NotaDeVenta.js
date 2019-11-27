@@ -1210,7 +1210,7 @@ function agregarnotadeventa() {
 
 function ObtenerSaldo(RutAux, CodAux, Nombre) {
     $("#modalSaldoSubtitulo").text(CodAux + " - " + Nombre);
-    $("#tblSaldos").html("");
+    $("#modalSaldoTblSaldos").html("");
     $.ajax({
         type: "POST",
         url: "ObtenerSaldo",
@@ -1223,7 +1223,7 @@ function ObtenerSaldo(RutAux, CodAux, Nombre) {
             }
             else {
 
-                var tblSaldos = $("#tblSaldos");
+                var tblSaldos = $("#modalSaldoTblSaldos");
 
                 //$.each(data.Cabecera, function (index, value) {
 
@@ -1269,8 +1269,8 @@ function ObtenerSaldo(RutAux, CodAux, Nombre) {
 }
 
 function ObtenerSaldoDetalle(RutAux, CodAux, Nombre) {
-    $("#modalSaldoSubtitulo").text(CodAux + " - " + Nombre);
-    $("#tblSaldos").html("");
+    $("#modalSaldoDetalleSubtitulo").text(CodAux + " - " + Nombre);
+    $("#modalSaldoDetalleTblSaldos").html("");
     $.ajax({
         type: "POST",
         url: "ObtenerSaldoDetalle",
@@ -1283,7 +1283,7 @@ function ObtenerSaldoDetalle(RutAux, CodAux, Nombre) {
             }
             else {
 
-                var tblSaldos = $("#tblSaldos");
+                var tblSaldos = $("#modalSaldoDetalleTblSaldos");
 
                 //$.each(data.Cabecera, function (index, value) {
 
