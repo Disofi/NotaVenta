@@ -84,12 +84,6 @@ grid.Column(columnName: "Eliminar", header: "Eliminar", format: @<button class="
                             @*<span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>*@
                         </div>
 
-                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                            <input type="password" required="required" class="form-control" id="txtContrasenaCorreo" name="txtContrasenaCorreo" placeholder="Contraseña Correo">
-                            <br />
-                            <input type="password" required="required" class="form-control" id="txtValidaContCorreo" name="txtValidaContCorreo" placeholder="Valida Contraseña">
-                        </div>
-
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3  col-xs-12">Seleccione Perfil</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
@@ -153,12 +147,6 @@ grid.Column(columnName: "Eliminar", header: "Eliminar", format: @<button class="
                                 @Html.DropDownList("Perfil", (IEnumerable<SelectListItem>)ViewBag.Perfil, "Seleccione...", new { @class = "form-control", @ID = "PerfilMod", @Name = "Perfil" })
                             </div>
                         </div>
-                        @*<div class="form-group">
-                                <label class="control-label col-md-3 col-sm-2  col-xs-12"><b>Seleccione CodVendedor: </b></label>
-                                <div class="col-md-9 col-sm-9 col-xs-12">
-                                    @Html.DropDownList("CodVenSoft", (IEnumerable<SelectListItem>)ViewBag.VenCodSoft, "Seleccione...", new { @class = "form-control", @ID = "CodVendSoftMod", @Name = "CodVendSoft" })
-                                </div>
-                            </div>*@
                         <div class="ln_solid"></div>
                         <div class="form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">

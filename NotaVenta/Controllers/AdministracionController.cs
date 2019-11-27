@@ -171,7 +171,7 @@ namespace NotaVenta.Controllers
         }
 
         [HttpPost]
-        public JsonResult Addusuario(string _Usuario, string _Nombre, string _Contrasena, string _Email, string _Perfil, string _ContrasenaCorreo)
+        public JsonResult Addusuario(string _Usuario, string _Nombre, string _Contrasena, string _Email, string _Perfil)
         {
             if (!string.IsNullOrEmpty(_Usuario) && !string.IsNullOrEmpty(_Nombre) && !string.IsNullOrEmpty(_Contrasena) && !string.IsNullOrEmpty(_Perfil))
             {
@@ -181,8 +181,7 @@ namespace NotaVenta.Controllers
                     Nombre = _Nombre,
                     Password = HashMd5.GetMD5(_Contrasena),
                     email = _Email,
-                    tipoUsuario = _Perfil,
-                    ContrasenaCorreo = _ContrasenaCorreo
+                    tipoUsuario = _Perfil
                 };
                 RespuestaModel result = controlDisofi().AgregarUsuario(usuario);
                 return Json(result);
