@@ -3522,7 +3522,21 @@ begin
 	SET @ParmDefinition = N'@ultimaNvOUT int OUTPUT';  	
 	EXEC sp_executesql @query1, @ParmDefinition, @ultimaNvOUT=@ultimaNvNumero OUTPUT;  
 	
-	update dbo.DS_NotasVenta  set EstadoNP = 'A',nvEstado = 'A', nvObser = 'N. Int: '+@nvId+' Obs: '+@obser where dbo.DS_NotasVenta.Id = @nvId
+	declare @lv_CodigoCC varchar(100)
+	declare @lv_NombreCC varchar(100)
+
+	select	@lv_CodigoCC = CodiCC
+	from	DS_Notasventa
+	where	Id = @nvId
+
+	DECLARE @query2 nvarchar(max);
+	SELECT @query2 = N'SELECT @nomCC = desccc FROM ' + @pv_BaseDatos + '.[softland].[cwtccos] where codicc = ''' + @lv_CodigoCC + '''';
+	DECLARE @ParmDefinition nvarchar(500);  
+	SET @ParmDefinition = N'@nomCC varchar(100) OUTPUT';  	
+	EXEC sp_executesql @query2, @ParmDefinition, @nomCC=@lv_NombreCC OUTPUT; 
+
+	
+	update dbo.DS_NotasVenta  set EstadoNP = 'A',nvEstado = 'A', nvObser = @lv_CodigoCC + '-' + @lv_NombreCC + '-' + 'N. Int: '+@nvId+' Obs: '+@obser where dbo.DS_NotasVenta.Id = @nvId
 
 	--exec dbo.insertaNVSoftland @nvId,@pv_BaseDatos
 	
@@ -3559,7 +3573,7 @@ begin
 	
 	set @obser = (select nvObser from dbo.DS_NotasVenta where dbo.DS_NotasVenta.Id = @nvId)
 
-	UPDATE dbo.DS_NotasVenta set RutSolicitante = @ultimaNvNumero, nvObser = ' NV: '+@ultimaNvNumero+' Obs: '+@obser  where dbo.DS_NotasVenta.Id = @nvId;
+	UPDATE dbo.DS_NotasVenta set RutSolicitante = @ultimaNvNumero, nvObser = @lv_CodigoCC + '-' + @lv_NombreCC + '-' + ' NV: '+@ultimaNvNumero+' Obs: '+@obser  where dbo.DS_NotasVenta.Id = @nvId;
 
 	SELECT convert(int,@ultimaNvNumero) 'NVNumero';
 
