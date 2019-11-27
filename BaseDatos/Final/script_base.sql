@@ -2312,10 +2312,13 @@ CREATE procedure [dbo].[FR_ListarDocumentosAprobados]
 	a.EstadoNP, 
 	a.nvSubTotal,
 	ISNULL(a.RutSolicitante,0) as RutSolicitante,
+	cc.CodiCC,
+	cc.DescCC,
 	a.ErrorAprobador,
 	a.ErrorAprobadorMensaje
 	from [dbo].[DS_NotasVenta] a
 	inner join ['+@pv_BaseDatos+'].[softland].[cwtauxi] clientes on  clientes.CodAux collate Modern_Spanish_CI_AS = a.CodAux 
+	left join ['+@pv_BaseDatos+'].[softland].[cwtccos] cc ON (cc.CodiCC collate Modern_Spanish_CI_AS = a.CodiCC)
 	where 
 	a.EstadoNP = ''A''
 	order by a.Id desc
@@ -2359,7 +2362,9 @@ CREATE procedure [dbo].[FR_ListarDocumentosPendientes]
 	a.EstadoNP, 
 	a.nvSubTotal,
 	ISNULL(a.RutSolicitante,0) as RutSolicitante,
-	--,[dbo].[func_SaldoClienteCW](a.CodAux,'''+@pv_BaseDatos+''' ) ''Saldo''
+	--,[dbo].[func_SaldoClienteCW](a.CodAux,'''+@pv_BaseDatos+''' ) ''Saldo'',
+	cc.CodiCC,
+	cc.DescCC,
 	ErrorAprobador,
 	ErrorAprobadorMensaje
 
@@ -2368,6 +2373,7 @@ CREATE procedure [dbo].[FR_ListarDocumentosPendientes]
 	LEFT JOIN [dbo].[DS_NotasVentaDetalle] b on a.NVNumero = b.NVNumero
 	LEFT JOIN ['+ @pv_BaseDatos +'].[softland].[iw_tprod] AS tp on b.CodProd = tp.CodProd collate SQL_Latin1_General_CP1_CI_AS
 	left join [dbo].[DS_NotasVentaDetalle] c on a.Id = c.IdNotaVenta
+	left join ['+@pv_BaseDatos+'].[softland].[cwtccos] cc ON (cc.CodiCC collate Modern_Spanish_CI_AS = a.CodiCC)
 	where a.EstadoNP = ''P''
 	order by a.Id desc
 '
@@ -2399,10 +2405,13 @@ create procedure [dbo].[FR_ListarDocumentosRechazadas]
 	a.EstadoNP, 
 	A.nvSubTotal,
 	ISNULL(a.RutSolicitante,0) as RutSolicitante,
+	cc.CodiCC,
+	cc.DescCC,
 	a.ErrorAprobador,
 	a.ErrorAprobadorMensaje
 	from [dbo].[DS_NotasVenta] a
 	inner join ['+@pv_BaseDatos+'].[softland].[cwtauxi] clientes on  clientes.CodAux collate Modern_Spanish_CI_AS = a.CodAux 
+	left join ['+@pv_BaseDatos+'].[softland].[cwtccos] cc ON (cc.CodiCC collate Modern_Spanish_CI_AS = a.CodiCC)
 	where 
 	a.EstadoNP = ''R''
 '
