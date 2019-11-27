@@ -189,7 +189,8 @@ function RechazarNotaVenta(nvId, nvNum) {
         }
     });
 }
-function ObtenerSaldo(RutAux, CodAux) {
+function ObtenerSaldo(RutAux, CodAux, Nombre) {
+    $("#modalSaldoSubtitulo").text(CodAux + " - " + Nombre);
     $("#tblSaldos").html("");
     $.ajax({
         type: "POST",
@@ -213,18 +214,18 @@ function ObtenerSaldo(RutAux, CodAux) {
 
                 htmlCabecera = htmlCabecera + "<th>Codigo Area</th>";
                 htmlCabecera = htmlCabecera + "<th>Desc Cuenta</th>";
-                htmlCabecera = htmlCabecera + "<th>Codigo Aux</th>";
-                htmlCabecera = htmlCabecera + "<th>Nombre</th>";
+                //htmlCabecera = htmlCabecera + "<th>Codigo Aux</th>";
+                //htmlCabecera = htmlCabecera + "<th>Nombre</th>";
                 htmlCabecera = htmlCabecera + "<th>Tipo Doc</th>";
-                htmlCabecera = htmlCabecera + "<th>Numero Doc</th>";
+                htmlCabecera = htmlCabecera + "<th>N° Doc</th>";
                 htmlCabecera = htmlCabecera + "<th>Fecha Emision</th>";
-                htmlCabecera = htmlCabecera + "<th>Fecha Vencimiento</th>";
+                htmlCabecera = htmlCabecera + "<th>Fecha Vcto</th>";
                 htmlCabecera = htmlCabecera + "<th>Tipo Doc Ref</th>";
-                htmlCabecera = htmlCabecera + "<th>Numero Doc Ref</th>";
+                htmlCabecera = htmlCabecera + "<th>N° Doc Ref</th>";
                 htmlCabecera = htmlCabecera + "<th>Debe</th>";
                 htmlCabecera = htmlCabecera + "<th>Haber</th>";
                 htmlCabecera = htmlCabecera + "<th>Saldo</th>";
-                htmlCabecera = htmlCabecera + "<th>Glosa</th>";
+                //htmlCabecera = htmlCabecera + "<th>Glosa</th>";
                 htmlCabecera = htmlCabecera + "<th>Dias Vencido</th>";
 
 
@@ -236,8 +237,8 @@ function ObtenerSaldo(RutAux, CodAux) {
 
                     htmlDetalle = htmlDetalle + "<td>" + value.areacod + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.pcdesc + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.codaux + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.nomaux + "</td>";
+                    //htmlDetalle = htmlDetalle + "<td>" + value.codaux + "</td>";
+                    //htmlDetalle = htmlDetalle + "<td>" + value.nomaux + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.ttdcod + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.numdoc + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.fechaemiString + "</td>";
@@ -247,7 +248,7 @@ function ObtenerSaldo(RutAux, CodAux) {
                     htmlDetalle = htmlDetalle + "<td>" + value.movdebe + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.movhaber + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.Saldo + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.movglosa + "</td>";
+                    //htmlDetalle = htmlDetalle + "<td>" + value.movglosa + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.DiasVen + "</td>";
 
                     htmlDetalle = htmlDetalle + "</tr>";
