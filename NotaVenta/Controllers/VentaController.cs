@@ -310,8 +310,28 @@ namespace NotaVenta.Controllers
             }
 
             //Se listan los centros de costos
+            List<CentrodeCostoModels> lccFinal = new List<CentrodeCostoModels>();
             List<CentrodeCostoModels> lcc = controlDisofi().ListarCentroCosto(baseDatosUsuario());
-            ViewBag.cc = lcc;
+            for (int x = 0; x < lcc.Count; x++)
+            {
+                //01  SANTIAGO
+                //02  CONCEPCION
+                //12  TEMUCO
+                if (lcc[x].CodiCC.Trim().Equals("01"))
+                {
+                    lccFinal.Add(lcc[x]);
+                }
+                if (lcc[x].CodiCC.Trim().Equals("02"))
+                {
+                    lccFinal.Add(lcc[x]);
+                }
+                if (lcc[x].CodiCC.Trim().Equals("12"))
+                {
+                    lccFinal.Add(lcc[x]);
+                }
+            }
+
+            ViewBag.cc = lccFinal;
 
             List<CanalVentaModels> dataCanalVenta = controlDisofi().ListarCanalVenta(baseDatosUsuario());
             ViewBag.canalVentas = dataCanalVenta;
