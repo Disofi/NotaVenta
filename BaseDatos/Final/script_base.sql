@@ -591,6 +591,51 @@ AS
 BEGIN  
 DECLARE @query varchar (max)  
 SELECT @query = ''  
+SELECT @query = '
+SELECT mov.pccodi, mov.pcdesc, mov.codaux, mov.RutAux, mov.nomaux, mov.fechaemi, mov.fechaven, desdoc, mov.movnumdocref, mov.Saldo,    mov.DesArn ,    mov.AreaCod ,    
+mov.PCAUXI, mov.PCCDOC, mov.coddoc, mov.VendCod, mov.Vendedor, mov.FecEmi , mov.Debe, mov.Haber, mov.movtipdocref, mov.MovFv
+FROM
+(select cwpctas.pccodi, cwpctas.pcdesc, cwtauxi.codaux, cwtauxi.RutAux, cwtauxi.nomaux, min(cwmovim.movfe) as fechaemi, 
+''                                                    '' as fechaven, cwttdoc.desdoc, cwmovim.movnumdocref, cwmovim.movtipdocref,min(cwmovim.MovFv) as MovFv,
+sum(cwmovim.movdebe - cwmovim.movhaber) as Saldo, min(cwmovim.MovDebe) as Debe, min(cwmovim.MovHaber) as Haber, cwmovim.AreaCod, cwTAren.DesArn , cwpctas.PCAUXI, cwpctas.PCCDOC,  
+cwttdoc.coddoc, 
+''    '' As Cpbano ,  ''    '' as VendCod,''                                                                                           '' as Vendedor,
+''                                                    '' as FecEmi  
+FROM [' + @pv_BaseDatos + '].softland.cwcpbte 
+inner join [' + @pv_BaseDatos + '].softland.cwmovim on cwcpbte.cpbano = cwmovim.cpbano and cwcpbte.cpbnum = cwmovim.cpbnum 
+inner join [' + @pv_BaseDatos + '].softland.cwtauxi on cwtauxi.codaux = cwmovim.codaux 
+inner join [' + @pv_BaseDatos + '].softland.cwpctas on cwmovim.pctcod = cwpctas.pccodi 
+left join [' + @pv_BaseDatos + '].softland.cwttdoc on cwmovim.movtipdocref = cwttdoc.coddoc 
+left join [' + @pv_BaseDatos + '].softland.cwtaren on cwmovim.AreaCod = cwTAren.CodArn 
+WHERE
+	(((cwcpbte.cpbNum <> ''00000000'')  
+or (cwcpbte.cpbano = (select min(cpbano) from [' + @pv_BaseDatos + '].softland.cwcpbte) AND cwcpbte.cpbNum = ''00000000'' ))) 
+and (cwcpbte.cpbest = ''V'') 
+			and cwmovim.codaux = ''' + @CodAux + '''
+and (CWCpbte.CpbFec <= convert(datetime,CONVERT(varchar, CURRENT_TIMESTAMP),102)) 
+Group By cwpctas.pccodi , cwpctas.pcdesc, cwtauxi.codaux, cwtauxi.RutAux, cwmovim.movnumdocref, cwtauxi.nomaux, 
+cwttdoc.desdoc, cwmovim.AreaCod, cwTAren.DesArn, cwpctas.PCAUXI, cwpctas.PCCDOC,  cwttdoc.coddoc , cwmovim.movtipdocref
+Having (Sum((cwmovim.movdebe - cwmovim.movhaber)) <> 0) 
+) as mov
+'
+exec(@query)  
+END  
+go
+/****** Object:  StoredProcedure [dbo].[DS_ObtenerSaldoDetalle]    Script Date: 19-11-2019 14:45:09 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--sp_helptext DS_ObtenerSaldoDetalle
+
+create PROCEDURE [dbo].[DS_ObtenerSaldoDetalle]  
+@RutAux varchar (20),  
+@CodAux varchar (50),  
+@pv_BaseDatos varchar (100)  
+AS  
+BEGIN  
+DECLARE @query varchar (max)  
+SELECT @query = ''  
 SELECT @query = '  
   
 --Este sería el query. Saludos

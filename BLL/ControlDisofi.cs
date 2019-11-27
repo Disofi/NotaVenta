@@ -384,6 +384,10 @@ namespace BLL
         {
             return _Control.ObtenerSaldo(RutAux, CodAux, basedatos);
         }
+        public List<SaldosModel> ObtenerSaldoDetalle(string RutAux, string CodAux, string basedatos)
+        {
+            return _Control.ObtenerSaldoDetalle(RutAux, CodAux, basedatos);
+        }
 
     }
 }

@@ -78,7 +78,8 @@
                                         <td>$@double.Parse(doc[i].TotalBoleta.ToString()).ToString("N0")</td>
                                         <td>@doc[i].EstadoNP</td>
                                         <td>@double.Parse(doc[i].Saldo.ToString()).ToString("N0")
-                                        <button class="btn-primary btn-xs" data-toggle="modal" data-target="#modalSaldo" onclick="ObtenerSaldo('@doc[i].RutAux','@doc[i].CodAux', '@doc[i].NomAux')" style="cursor:pointer;"><i class="fas fa-search"></i></button></td>
+                                        <button class="btn-primary btn-xs" data-toggle="modal" data-target="#modalSaldo" onclick="ObtenerSaldo('@doc[i].RutAux','@doc[i].CodAux', '@doc[i].NomAux')" style="cursor:pointer;"><i class="fas fa-search"></i></button>
+                                        <button class="btn-primary btn-xs" data-toggle="modal" data-target="#modalSaldoDetalle" onclick="ObtenerSaldoDetalle('@doc[i].RutAux','@doc[i].CodAux', '@doc[i].NomAux')" style="cursor:pointer;"><i class="fas fa-search"></i></button></td>
                                         <td>
                                             @if (doc[i].EstadoNP == "P")
                                             {
@@ -164,6 +165,31 @@
     </div>
 </div>
 <div id="modalSaldo" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Detalle Saldo Cliente - <small id="modalSaldoSubtitulo"></small></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="x_content">
+                    <div class="col-lg-push-12">
+                        <div class="table-responsive form-inline">
+                            <table id="tblSaldos" class="table table-profile"></table>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCerrarModal" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalSaldoDetalle" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">

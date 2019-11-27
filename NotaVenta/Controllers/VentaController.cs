@@ -1349,5 +1349,32 @@ namespace NotaVenta.Controllers
 
 
         }
+
+        [HttpPost]
+        public JsonResult ObtenerSaldoDetalle(string RutAuxiliar, string CodAux)
+        {
+            double MontoTotal = 0;
+            double Saldo = 0;
+            try
+            {
+                List<SaldosModel> Saldos = new List<SaldosModel>();
+                Saldos = controlDisofi().ObtenerSaldoDetalle(RutAuxiliar, CodAux, baseDatosUsuario());
+
+                foreach (SaldosModel item in Saldos)
+                {
+                    MontoTotal = item.Saldo;
+                    Saldo = MontoTotal + Saldo;
+                }
+
+                return Json(new { DetalleSaldo = Saldos, SaldoTotal = MontoTotal }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+        }
     }
 }
