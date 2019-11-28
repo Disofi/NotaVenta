@@ -1693,5 +1693,29 @@ namespace BLL
             }
         }
 
+        public List<SaldosModel> ObtenerDocumentosSaldados(string RutAux, string CodAux, string basedatos, int cantidadDocumentos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("DS_DocumentosSaldados", new System.Collections.Hashtable()
+                {
+                    { "RutAux", RutAux},
+                    { "CodAux", CodAux},
+                    { "pv_BaseDatos", basedatos},
+                    { "cantidadDocumentos", cantidadDocumentos},
+                });
+                return UTIL.Mapper.BindDataList<SaldosModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                /*
+                saldo.movglosa = "ERROR: " + ex.Message;
+                return new List<SaldosModel>() { saldo };
+                */
+                return null;
+            }
+        }
+
     }
 }

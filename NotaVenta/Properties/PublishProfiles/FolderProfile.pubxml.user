@@ -19,10 +19,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>10/16/2019 11:08:44</publishTime>
     </File>
     <File Include="bin/BLL.dll">
-      <publishTime>11/27/2019 14:13:40</publishTime>
+      <publishTime>11/27/2019 15:50:59</publishTime>
     </File>
     <File Include="bin/BLL.pdb">
-      <publishTime>11/27/2019 14:13:40</publishTime>
+      <publishTime>11/27/2019 15:50:59</publishTime>
     </File>
     <File Include="bin/DAL.dll">
       <publishTime>11/27/2019 12:51:28</publishTime>
@@ -178,10 +178,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>10/16/2019 11:08:45</publishTime>
     </File>
     <File Include="bin/TexasHub.dll">
-      <publishTime>11/27/2019 14:13:55</publishTime>
+      <publishTime>11/27/2019 15:52:22</publishTime>
     </File>
     <File Include="bin/TexasHub.pdb">
-      <publishTime>11/27/2019 14:13:55</publishTime>
+      <publishTime>11/27/2019 15:52:22</publishTime>
     </File>
     <File Include="bin/UTIL.dll">
       <publishTime>11/27/2019 14:13:18</publishTime>
@@ -18811,13 +18811,13 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>11/20/2019 11:03:19</publishTime>
     </File>
     <File Include="Views/Reporte/FacturasAprobadas.cshtml">
-      <publishTime>11/27/2019 12:51:28</publishTime>
+      <publishTime>11/27/2019 14:43:43</publishTime>
     </File>
     <File Include="Views/Reporte/FacturasPendientes.cshtml">
-      <publishTime>11/27/2019 14:05:44</publishTime>
+      <publishTime>11/27/2019 15:49:36</publishTime>
     </File>
     <File Include="Views/Reporte/FacturasRechazadas.cshtml">
-      <publishTime>11/20/2019 11:03:19</publishTime>
+      <publishTime>11/27/2019 14:43:45</publishTime>
     </File>
     <File Include="Views/Reporte/Index.cshtml">
       <publishTime>10/16/2019 11:08:38</publishTime>
@@ -18877,7 +18877,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>11/20/2019 11:03:19</publishTime>
     </File>
     <File Include="WebJs/Reporte/FacturasPendientes.js">
-      <publishTime>11/27/2019 14:07:31</publishTime>
+      <publishTime>11/27/2019 15:49:53</publishTime>
     </File>
     <File Include="WebJs/Venta/MisClientes.js">
       <publishTime>11/27/2019 12:51:28</publishTime>

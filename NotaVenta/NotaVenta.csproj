@@ -5806,6 +5806,7 @@
     <Content Include="Content\assets\plugins\x-editable-bs4\dist\jqueryui-editable\img\loading.gif" />
     <Content Include="Content\assets\plugins\x-editable-bs4\dist\jqueryui-editable\js\jqueryui-editable.js" />
     <Content Include="Content\assets\plugins\x-editable-bs4\dist\jqueryui-editable\js\jqueryui-editable.min.js" />
+    <None Include="Content\Base.scss" />
     <Content Include="Content\Image\add.png" />
     <Content Include="Content\Image\close.png" />
     <Content Include="Content\Image\delete.png" />

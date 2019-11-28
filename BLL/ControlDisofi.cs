@@ -388,6 +388,10 @@ namespace BLL
         {
             return _Control.ObtenerSaldoDetalle(RutAux, CodAux, basedatos);
         }
+        public List<SaldosModel> ObtenerDocumentosSaldados(string RutAux, string CodAux, string basedatos, int cantidadDocumentos)
+        {
+            return _Control.ObtenerDocumentosSaldados(RutAux, CodAux, basedatos, cantidadDocumentos);
+        }
 
     }
 }

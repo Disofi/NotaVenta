@@ -1207,10 +1207,10 @@ function agregarnotadeventa() {
         });
     }
 }
-//}
 
-function ObtenerSaldo(RutAux, CodAux) {
-    $("#tblSaldos").html("");
+function ObtenerSaldo(RutAux, CodAux, Nombre) {
+    $("#modalSaldoSubtitulo").text(CodAux + " - " + Nombre);
+    $("#modalSaldoTblSaldos").html("");
     $.ajax({
         type: "POST",
         url: "ObtenerSaldo",
@@ -1223,27 +1223,88 @@ function ObtenerSaldo(RutAux, CodAux) {
             }
             else {
 
-                var tblSaldos = $("#tblSaldos");
+                var tblSaldos = $("#modalSaldoTblSaldos");
 
                 //$.each(data.Cabecera, function (index, value) {
 
                 var htmlCabecera = "";
                 var htmlDetalle = "";
 
+                htmlCabecera = htmlCabecera + "<th>Cuenta</th>";
+                htmlCabecera = htmlCabecera + "<th>Desc Cuenta</th>";
+                htmlCabecera = htmlCabecera + "<th>CodigoAux</th>";
+                htmlCabecera = htmlCabecera + "<th>RutCliente</th>";
+                htmlCabecera = htmlCabecera + "<th>Nombre</th>";
+                htmlCabecera = htmlCabecera + "<th>FecEmision</th>";
+                htmlCabecera = htmlCabecera + "<th>TipoDoc</th>";
+                htmlCabecera = htmlCabecera + "<th>NomDoc</th>";
+                htmlCabecera = htmlCabecera + "<th>Saldo</th>";
+                htmlCabecera = htmlCabecera + "<th>Cod Documento</th>";
+                htmlCabecera = htmlCabecera + "<th>Año Comprobante</th>";
+
+                tblSaldos.append(htmlCabecera);
+
+                $.each(response.DetalleSaldo, function (index, value) {
+                    htmlDetalle = "";
+                    htmlDetalle = htmlDetalle + "<tr>";
+                    htmlDetalle = htmlDetalle + "<td>" + value.pccodi + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + value.pcdesc + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + value.codaux + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + value.RutAux + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + value.nomaux + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + value.fechaemiString + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + value.desdoc + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + value.movnumdocref + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + value.Saldo + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + value.coddoc + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + value.Cpbano + "</td>";
+
+                    htmlDetalle = htmlDetalle + "</tr>";
+
+                    tblSaldos.append(htmlDetalle);
+                });
+            }
+        }
+    });
+}
+
+function ObtenerSaldoDetalle(RutAux, CodAux, Nombre) {
+    $("#modalSaldoDetalleSubtitulo").text(CodAux + " - " + Nombre);
+    $("#modalSaldoDetalleTblSaldos").html("");
+    $.ajax({
+        type: "POST",
+        url: "ObtenerSaldoDetalle",
+        data: { RutAuxiliar: RutAux, CodAux: CodAux },
+        async: true,
+        success: function (response) {
+            console.log(response);
+            if (response == 1) {
+                alert("Cliente sin Saldo.");
+            }
+            else {
+
+                var tblSaldos = $("#modalSaldoDetalleTblSaldos");
+
+                //$.each(data.Cabecera, function (index, value) {
+
+                var htmlCabecera = "";
+                var htmlDetalle = "";
+
+
                 htmlCabecera = htmlCabecera + "<th>Codigo Area</th>";
                 htmlCabecera = htmlCabecera + "<th>Desc Cuenta</th>";
-                htmlCabecera = htmlCabecera + "<th>Codigo Aux</th>";
-                htmlCabecera = htmlCabecera + "<th>Nombre</th>";
+                //htmlCabecera = htmlCabecera + "<th>Codigo Aux</th>";
+                //htmlCabecera = htmlCabecera + "<th>Nombre</th>";
                 htmlCabecera = htmlCabecera + "<th>Tipo Doc</th>";
-                htmlCabecera = htmlCabecera + "<th>Numero Doc</th>";
+                htmlCabecera = htmlCabecera + "<th>N° Doc</th>";
                 htmlCabecera = htmlCabecera + "<th>Fecha Emision</th>";
-                htmlCabecera = htmlCabecera + "<th>Fecha Vencimiento</th>";
+                htmlCabecera = htmlCabecera + "<th>Fecha Vcto</th>";
                 htmlCabecera = htmlCabecera + "<th>Tipo Doc Ref</th>";
-                htmlCabecera = htmlCabecera + "<th>Numero Doc Ref</th>";
+                htmlCabecera = htmlCabecera + "<th>N° Doc Ref</th>";
                 htmlCabecera = htmlCabecera + "<th>Debe</th>";
                 htmlCabecera = htmlCabecera + "<th>Haber</th>";
                 htmlCabecera = htmlCabecera + "<th>Saldo</th>";
-                htmlCabecera = htmlCabecera + "<th>Glosa</th>";
+                //htmlCabecera = htmlCabecera + "<th>Glosa</th>";
                 htmlCabecera = htmlCabecera + "<th>Dias Vencido</th>";
 
 
@@ -1255,18 +1316,18 @@ function ObtenerSaldo(RutAux, CodAux) {
 
                     htmlDetalle = htmlDetalle + "<td>" + value.areacod + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.pcdesc + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.codaux + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.nomaux + "</td>";
+                    //htmlDetalle = htmlDetalle + "<td>" + value.codaux + "</td>";
+                    //htmlDetalle = htmlDetalle + "<td>" + value.nomaux + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.ttdcod + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.numdoc + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.fechaemi + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.movfv + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + value.fechaemiString + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + value.movfvString + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.movtipdocref + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.movnumdocref + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.movdebe + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.movhaber + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.Saldo + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.movglosa + "</td>";
+                    //htmlDetalle = htmlDetalle + "<td>" + value.movglosa + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.DiasVen + "</td>";
 
                     htmlDetalle = htmlDetalle + "</tr>";

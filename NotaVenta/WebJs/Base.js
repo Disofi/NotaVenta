@@ -235,3 +235,13 @@ function desactivarLoadingBoton(id) {
     $("#" + id).html(____botonesLoading.find(m => m.id === id).htmlOriginal);
     $("#" + id).removeAttr("disabled");
 }
+
+function convertirFullScreenModal(id) {
+    var width100 = window.screen.width;
+    var width90 = Math.round(width100 * 0.90);
+    var width10 = Math.round(width100 - width90);
+    var width5 = Math.round(width10 / 2);
+
+    $("#" + id).find(".modal-dialog").attr("style", "width: " + width90 + "px; margin: " + width5 + "px");
+    $("#" + id + " div[class=modal-content]").attr("style", "width: " + width90 + "px");
+}

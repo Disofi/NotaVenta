@@ -593,7 +593,7 @@ DECLARE @query varchar (max)
 SELECT @query = ''  
 SELECT @query = '
 SELECT mov.pccodi, mov.pcdesc, mov.codaux, mov.RutAux, mov.nomaux, mov.fechaemi, mov.fechaven, desdoc, mov.movnumdocref, mov.Saldo,    mov.DesArn ,    mov.AreaCod ,    
-mov.PCAUXI, mov.PCCDOC, mov.coddoc, mov.VendCod, mov.Vendedor, mov.FecEmi , mov.Debe, mov.Haber, mov.movtipdocref, mov.MovFv
+mov.PCAUXI, mov.PCCDOC, mov.coddoc, mov.VendCod, mov.Vendedor, mov.FecEmi , mov.Debe, mov.Haber, mov.movtipdocref, mov.movfv
 FROM
 (select cwpctas.pccodi, cwpctas.pcdesc, cwtauxi.codaux, cwtauxi.RutAux, cwtauxi.nomaux, min(cwmovim.movfe) as fechaemi, 
 ''                                                    '' as fechaven, cwttdoc.desdoc, cwmovim.movnumdocref, cwmovim.movtipdocref,min(cwmovim.MovFv) as MovFv,
@@ -621,6 +621,87 @@ Having (Sum((cwmovim.movdebe - cwmovim.movhaber)) <> 0)
 exec(@query)  
 END  
 go
+/****** Object:  StoredProcedure [dbo].[DS_DocumentosSaldados]    Script Date: 19-11-2019 14:45:09 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--sp_helptext DS_DocumentosSaldados
+
+create PROCEDURE [dbo].[DS_DocumentosSaldados]  
+@RutAux varchar (20),  
+@CodAux varchar (50),  
+@pv_BaseDatos varchar (100),
+@cantidadDocumentos int = 1  
+AS  
+BEGIN  
+DECLARE @query varchar (max)  
+SELECT @query = ''  
+SELECT @query = '
+  
+--Este sería el query. Saludos
+select	a.areacod
+,		a.pcdesc
+,		a.codaux
+,		a.nomaux
+,		b.ttdcod
+,		b.numdoc
+,		b.movfe as fechaemi --fecha emision
+,		b.movfv --fecha vencimiento
+,		a.movtipdocref
+,		a.movnumdocref
+,		b.movdebe
+,		b.movhaber
+,		a.Saldo
+,		b.movglosa
+,		DiasVen = (DATEDIFF(day,a.MovFv,CURRENT_TIMESTAMP))
+from	(
+			SELECT top ' + convert(varchar(20), @cantidadDocumentos) + ' mov.pccodi, mov.pcdesc, mov.codaux, mov.RutAux, mov.nomaux, mov.fechaemi, mov.fechaven, desdoc, mov.movnumdocref, mov.Saldo,    mov.DesArn ,    mov.AreaCod ,    
+			mov.PCAUXI, mov.PCCDOC, mov.coddoc, mov.VendCod, mov.Vendedor, mov.FecEmi , mov.Debe, mov.Haber, mov.movtipdocref, mov.MovFv
+			FROM
+			(select cwpctas.pccodi, cwpctas.pcdesc, cwtauxi.codaux, cwtauxi.RutAux, cwtauxi.nomaux, min(cwmovim.movfe) as fechaemi, 
+			''                                                    '' as fechaven, cwttdoc.desdoc, cwmovim.movnumdocref, cwmovim.movtipdocref,min(cwmovim.MovFv) as MovFv,
+			sum(cwmovim.movdebe - cwmovim.movhaber) as Saldo, min(cwmovim.MovDebe) as Debe, min(cwmovim.MovHaber) as Haber, cwmovim.AreaCod, cwTAren.DesArn , cwpctas.PCAUXI, cwpctas.PCCDOC,  
+			cwttdoc.coddoc, 
+			''    '' As Cpbano ,  ''    '' as VendCod,''                                                                                           '' as Vendedor,
+			''                                                    '' as FecEmi  
+			FROM [' + @pv_BaseDatos + '].softland.cwcpbte 
+			inner join [' + @pv_BaseDatos + '].softland.cwmovim on cwcpbte.cpbano = cwmovim.cpbano and cwcpbte.cpbnum = cwmovim.cpbnum 
+			inner join [' + @pv_BaseDatos + '].softland.cwtauxi on cwtauxi.codaux = cwmovim.codaux 
+			inner join [' + @pv_BaseDatos + '].softland.cwpctas on cwmovim.pctcod = cwpctas.pccodi 
+			left join [' + @pv_BaseDatos + '].softland.cwttdoc on cwmovim.movtipdocref = cwttdoc.coddoc 
+			left join [' + @pv_BaseDatos + '].softland.cwtaren on cwmovim.AreaCod = cwTAren.CodArn 
+			WHERE
+
+			 (((cwcpbte.cpbNum <> ''00000000'')  
+			or (cwcpbte.cpbano = (select min(cpbano) from [' + @pv_BaseDatos + '].softland.cwcpbte) AND cwcpbte.cpbNum = ''00000000'' ))) 
+
+
+			and (cwcpbte.cpbest = ''V'') 
+
+						and cwmovim.codaux = ''' + @CodAux + '''
+			and (CWCpbte.CpbFec <= convert(datetime,CONVERT(varchar, CURRENT_TIMESTAMP),102)) 
+			Group By cwpctas.pccodi , cwpctas.pcdesc, cwtauxi.codaux, cwtauxi.RutAux, cwmovim.movnumdocref, cwtauxi.nomaux, 
+			cwttdoc.desdoc, cwmovim.AreaCod, cwTAren.DesArn, cwpctas.PCAUXI, cwpctas.PCCDOC,  cwttdoc.coddoc , cwmovim.movtipdocref
+			Having (Sum((cwmovim.movdebe - cwmovim.movhaber)) = 0) 
+			) as mov
+			order by mov.fechaemi desc
+		) a
+	left join [' + @pv_BaseDatos + '].softland.cwmovim b
+		on a.movnumdocref = b.movnumdocref 
+		and a.movtipdocref = b.movtipdocref 
+		and a.codaux = b.codaux 
+	left join [' + @pv_BaseDatos + '].softland.cwcpbte c
+		on b.CpbNum=c.CpbNum and b.CpbAno=c.CpbAno
+and a.pccodi = b.pctcod
+where	(((c.cpbNum <> ''00000000'')  
+or		(c.cpbano = (select min(cpbano) from [' + @pv_BaseDatos + '].softland.cwcpbte) AND c.cpbNum = ''00000000'' )))
+			--select * from [' + @pv_BaseDatos + '].softland.cwttdoc where rtrim(ltrim(coddoc)) = ''00''
+			--select * from [' + @pv_BaseDatos + '].softland.cwttdoc where rtrim(ltrim(coddoc)) = ''00''
+'  
+exec(@query)  
+END  
+go
 /****** Object:  StoredProcedure [dbo].[DS_ObtenerSaldoDetalle]    Script Date: 19-11-2019 14:45:09 ******/
 SET ANSI_NULLS ON
 GO
@@ -645,8 +726,8 @@ select	a.areacod
 ,		a.nomaux
 ,		b.ttdcod
 ,		b.numdoc
-,		a.fechaemi --fecha emision
-,		a.movfv --fecha vencimiento
+,		b.movfe as fechaemi --fecha emision
+,		b.movfv --fecha vencimiento
 ,		a.movtipdocref
 ,		a.movnumdocref
 ,		b.movdebe
