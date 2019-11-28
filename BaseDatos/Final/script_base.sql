@@ -1232,8 +1232,21 @@ BEGIN
 		SELECT	@VerificadorDisofi = 1
 		,		@MensajeDisofi = 'Se agrego en disofi satisfactoriamente'
 
+		declare @lv_CodigoCC varchar(100)
+		declare @lv_NombreCC varchar(100)
+
+		select	@lv_CodigoCC = CodiCC
+		from	DS_Notasventa
+		where	Id = @pi_IdNotaVenta
+
+		DECLARE @query2 nvarchar(max);
+		SELECT @query2 = N'SELECT @nomCC = desccc FROM ' + @pv_BaseDatos + '.[softland].[cwtccos] where codicc = ''' + @lv_CodigoCC + '''';
+		DECLARE @ParmDefinition2 nvarchar(500);  
+		SET @ParmDefinition2 = N'@nomCC varchar(100) OUTPUT';  	
+		EXEC sp_executesql @query2, @ParmDefinition2, @nomCC=@lv_NombreCC OUTPUT; 
+
 		UPDATE	[dbo].[DS_NotasVenta]
-		set		nvObser = ('N. Int: ' + convert(varchar(20), @pi_IdNotaVenta) + ' Obs: ' + convert(varchar(max), nvObser))
+		set		nvObser = (@lv_CodigoCC + '-' + @lv_NombreCC + '-' + 'N. Int: ' + convert(varchar(20), @pi_IdNotaVenta) + ' Obs: ' + convert(varchar(max), nvObser))
 		where	Id = @pi_IdNotaVenta
 	END
 	IF @pb_InsertaSoftland = 1 BEGIN
