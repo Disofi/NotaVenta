@@ -2,51 +2,53 @@
 @using UTIL.Objetos;
 @using NotaVenta.UTIL;
 @{
+                /**/
 
-    if (((BaseController)this.ViewContext.Controller).codigoVendedorUsuario() == null)
-    {
-        var URL = System.Configuration.ConfigurationManager.AppSettings.Get("url");
-        Response.Redirect(URL);
-    }
 
-    ViewBag.Title = "Nota De Pedido";
-    string anterior = ViewBag.Anterior;
-    string NomAux = ViewBag.NomAux;
-    string CodAux = ViewBag.CodAux;
-    string RutAux = ViewBag.RutAux;
-    string VenCodigo = ((BaseController)this.ViewContext.Controller).codigoVendedorUsuario();
-    string VenDes = SessionVariables.SESSION_DATOS_USUARIO.VenDes.ToString();
-    string user = SessionVariables.SESSION_DATOS_USUARIO.Nombre.ToString();
-    List<CondicionVentasModels> condicion = ViewBag.condicion;
-    int vcontacto = ViewBag.vcontactos;
-    int vdirec = ViewBag.vdirecc;
-    List<ClientesModels> listcontacto = ViewBag.contactos;
-    List<ListaDePrecioModels> listap = ViewBag.lista;
-    List<CentrodeCostoModels> cc = ViewBag.cc;
-    CentrodeCostoModels ccDefecto = cc.Where(m => Convert.ToString(m.DescCC).ToLower().Contains("santiago")).FirstOrDefault();
-    List<CanalVentaModels> canalVentas = ViewBag.canalVentas;
+                if (((BaseController)this.ViewContext.Controller).codigoVendedorUsuario() == null)
+                {
+                    var URL = System.Configuration.ConfigurationManager.AppSettings.Get("url");
+                    Response.Redirect(URL);
+                }
 
-    List<DireccionDespachoModels> direc = ViewBag.direccion;
-    string fechaactual = DateTime.Now.ToString("yyyy-MM-dd");
-    DateTime dia = DateTime.Now;
-    dia = dia.AddDays(1);
-    string fechamin = (DateTime.Now.Year + "-" + DateTime.Now.ToString("MM") + "-" + dia.ToString("dd")).ToString();
-    string codigo = ViewBag.codigo;
-    string nombre = ViewBag.nombre;
-    string tituloanterior = ViewBag.anterior;
-    string pageantegior = ViewBag.page;
-    CreditoModel credito = ViewBag.Credito;
-    int numero1 = 1;
-    int total1 = 0;
-    double impuesto = 0;
-    double totalfinal = 0;
-    int id = SessionVariables.SESSION_DATOS_USUARIO.IdUsuario;
-    double SaldoTotal = ViewBag.SaldoTotal;
+                ViewBag.Title = "Nota De Pedido";
+                string anterior = ViewBag.Anterior;
+                string NomAux = ViewBag.NomAux;
+                string CodAux = ViewBag.CodAux;
+                string RutAux = ViewBag.RutAux;
+                string VenCodigo = ((BaseController)this.ViewContext.Controller).codigoVendedorUsuario();
+                string VenDes = SessionVariables.SESSION_DATOS_USUARIO.VenDes.ToString();
+                string user = SessionVariables.SESSION_DATOS_USUARIO.Nombre.ToString();
+                List<CondicionVentasModels> condicion = ViewBag.condicion;
+                int vcontacto = ViewBag.vcontactos;
+                int vdirec = ViewBag.vdirecc;
+                List<ClientesModels> listcontacto = ViewBag.contactos;
+                List<ListaDePrecioModels> listap = ViewBag.lista;
+                List<CentrodeCostoModels> cc = ViewBag.cc;
+                CentrodeCostoModels ccDefecto = cc.Where(m => Convert.ToString(m.DescCC).ToLower().Contains("santiago")).FirstOrDefault();
+                List<CanalVentaModels> canalVentas = ViewBag.canalVentas;
 
-    ParametrosModels parametros = ViewBag.Parametros;
+                List<DireccionDespachoModels> direc = ViewBag.direccion;
+                string fechaactual = DateTime.Now.ToString("yyyy-MM-dd");
+                DateTime dia = DateTime.Now;
+                dia = dia.AddDays(1);
+                string fechamin = (DateTime.Now.Year + "-" + DateTime.Now.ToString("MM") + "-" + dia.ToString("dd")).ToString();
+                string codigo = ViewBag.codigo;
+                string nombre = ViewBag.nombre;
+                string tituloanterior = ViewBag.anterior;
+                string pageantegior = ViewBag.page;
+                CreditoModel credito = ViewBag.Credito;
+                int numero1 = 1;
+                int total1 = 0;
+                double impuesto = 0;
+                double totalfinal = 0;
+                int id = SessionVariables.SESSION_DATOS_USUARIO.IdUsuario;
+                double SaldoTotal = ViewBag.SaldoTotal;
 
-    double PorcentajeAtributoDescuento = Convert.ToDouble(ViewBag.ValorAtributo);
-    VendedoresSoftlandModels vendedorCliente = ((VendedoresSoftlandModels)ViewBag.VendedorCliente);
+                ParametrosModels parametros = ViewBag.Parametros;
+
+                double PorcentajeAtributoDescuento = Convert.ToDouble(ViewBag.ValorAtributo);
+                VendedoresSoftlandModels vendedorCliente = ((VendedoresSoftlandModels)ViewBag.VendedorCliente);
 }
 
 
@@ -236,6 +238,7 @@
                                         <td>
                                             <input type="text" class="text-danger form-control" disabled value="@SaldoTotal" />
                                             <button class="btn-primary btn" data-toggle="modal" data-target="#modalSaldo" onclick="ObtenerSaldo('@RutAux','@CodAux', '@nombre', '@SaldoTotal')" style="cursor:pointer;"><i class="fas fa-search"></i></button>
+                                            <button class="btn-warning btn" data-toggle="modal" data-target="#modalSaldoDetalle" onclick="ObtenerSaldoDetalle('@RutAux','@CodAux', '@nombre', '@SaldoTotal')" style="cursor:pointer;"><i class="fas fa-search"></i></button>
                                         </td>
                                     }
 
@@ -671,7 +674,7 @@
     </div>
 </div>
 <div id="modalSaldoDetalle" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg" style="margin-right: 5%; margin-left: 5%; width: 90%">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="modalSaldoDetalleTitulo">Detalle Saldo Cliente - <small id="modalSaldoDetalleSubtitulo"></small></h4>
@@ -681,12 +684,44 @@
             </div>
             <div class="modal-body">
                 <div class="x_content">
-                    <div class="col-lg-push-12">
-                        <div class="table-responsive form-inline">
-                            <table id="modalSaldoDetalleTblSaldos" class="table table-profile"></table>
+                    <div class="col-xl-12">
+                        <!-- begin nav-tabs -->
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a href="#modalSaldoDetalleSaldos" data-toggle="tab" class="nav-link active">
+                                    <span class="d-sm-none">Saldos</span>
+                                    <span class="d-sm-block d-none">Saldos</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#modalSaldoDetalleSaldados" data-toggle="tab" class="nav-link">
+                                    <span class="d-sm-none">Documentos Saldados</span>
+                                    <span class="d-sm-block d-none">Documentos Pagados</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- end nav-tabs -->
+                        <!-- begin tab-content -->
+                        <div class="tab-content">
+                            <!-- begin tab-pane -->
+                            <div class="tab-pane fade active show" id="modalSaldoDetalleSaldos">
+                                <br />
+                                <div class="table-responsive form-inline">
+                                    <table id="modalSaldoDetalleTblSaldos" class="table table-profile"></table>
+                                </div>
+                            </div>
+                            <!-- end tab-pane -->
+                            <!-- begin tab-pane -->
+                            <div class="tab-pane fade" id="modalSaldoDetalleSaldados">
+                                <br />
+                                <div class="table-responsive form-inline">
+                                    <table id="modalSaldoDetalleTblSaldosDocumentosSaldados" class="table table-profile"></table>
+                                </div>
+                            </div>
+                            <!-- end tab-pane -->
                         </div>
+                        <!-- end tab-content -->
                     </div>
-                    <br />
                 </div>
             </div>
             <div class="modal-footer">

@@ -165,6 +165,7 @@ $(document).ready(function () {
 
     cbxlistaChange();
     crearControlDescuentos();
+    convertirFullScreenModal("modalSaldoDetalle");
 });
 jQuery.moverColumna = function (table, from, to) {
     var rows = jQuery('tr', table);
@@ -1239,6 +1240,7 @@ function ObtenerSaldo(RutAux, CodAux, Nombre, Saldo) {
                 htmlCabecera = htmlCabecera + "<th>Tipo Doc</th>";
                 htmlCabecera = htmlCabecera + "<th>N° Doc</th>";
                 htmlCabecera = htmlCabecera + "<th>Fecha Emision</th>";
+                htmlCabecera = htmlCabecera + "<th>Fecha Vcto</th>";
                 htmlCabecera = htmlCabecera + "<th>Saldo</th>";
                 //htmlCabecera = htmlCabecera + "<th>Año Comprobante</th>";
 
@@ -1256,6 +1258,7 @@ function ObtenerSaldo(RutAux, CodAux, Nombre, Saldo) {
                     htmlDetalle = htmlDetalle + "<td>" + value.desdoc + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.movnumdocref + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.fechaemiString + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + value.movfvString + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.Saldo + "</td>";
                     //htmlDetalle = htmlDetalle + "<td>" + value.Cpbano + "</td>";
 
@@ -1312,7 +1315,7 @@ function ObtenerSaldoDetalle(RutAux, CodAux, Nombre, Saldo) {
                 htmlCabecera = htmlCabecera + "<th>Haber</th>";
                 htmlCabecera = htmlCabecera + "<th>Saldo</th>";
                 //htmlCabecera = htmlCabecera + "<th>Glosa</th>";
-                htmlCabecera = htmlCabecera + "<th>Dias Vencido</th>";
+                //htmlCabecera = htmlCabecera + "<th>Dias Vencido</th>";
 
 
                 tblSaldos.append(htmlCabecera);
@@ -1335,7 +1338,7 @@ function ObtenerSaldoDetalle(RutAux, CodAux, Nombre, Saldo) {
                     htmlDetalle = htmlDetalle + "<td>" + value.movhaber + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.Saldo + "</td>";
                     //htmlDetalle = htmlDetalle + "<td>" + value.movglosa + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.DiasVen + "</td>";
+                    //htmlDetalle = htmlDetalle + "<td>" + value.DiasVen + "</td>";
 
                     htmlDetalle = htmlDetalle + "</tr>";
 
@@ -1349,6 +1352,75 @@ function ObtenerSaldoDetalle(RutAux, CodAux, Nombre, Saldo) {
 
                 tblSaldos.append(htmlFooter);
             }
+        }
+    });
+    $("#modalSaldoDetalleTblSaldosDocumentosSaldados").html("");
+    $.ajax({
+        type: "POST",
+        url: "/Venta/ObtenerDocumentosSaldados",
+        data: { RutAuxiliar: RutAux, CodAux: CodAux },
+        async: true,
+        success: function (response) {
+            console.log(response);
+            var tblSaldos = $("#modalSaldoDetalleTblSaldosDocumentosSaldados");
+
+            //$.each(data.Cabecera, function (index, value) {
+
+            var htmlCabecera = "";
+            var htmlDetalle = "";
+
+
+            htmlCabecera = htmlCabecera + "<th>Codigo Area</th>";
+            htmlCabecera = htmlCabecera + "<th>Desc Cuenta</th>";
+            //htmlCabecera = htmlCabecera + "<th>Codigo Aux</th>";
+            //htmlCabecera = htmlCabecera + "<th>Nombre</th>";
+            htmlCabecera = htmlCabecera + "<th>Tipo Doc</th>";
+            htmlCabecera = htmlCabecera + "<th>N° Doc</th>";
+            htmlCabecera = htmlCabecera + "<th>Fecha Emision</th>";
+            htmlCabecera = htmlCabecera + "<th>Fecha Vcto</th>";
+            htmlCabecera = htmlCabecera + "<th>Tipo Doc Ref</th>";
+            htmlCabecera = htmlCabecera + "<th>N° Doc Ref</th>";
+            htmlCabecera = htmlCabecera + "<th>Debe</th>";
+            htmlCabecera = htmlCabecera + "<th>Haber</th>";
+            htmlCabecera = htmlCabecera + "<th>Saldo</th>";
+            //htmlCabecera = htmlCabecera + "<th>Glosa</th>";
+            //htmlCabecera = htmlCabecera + "<th>Dias Vencido</th>";
+
+
+            tblSaldos.append(htmlCabecera);
+
+            $.each(response.DetalleSaldo, function (index, value) {
+                htmlDetalle = "";
+                htmlDetalle = htmlDetalle + "<tr>";
+
+                htmlDetalle = htmlDetalle + "<td>" + value.areacod + "</td>";
+                htmlDetalle = htmlDetalle + "<td>" + value.pcdesc + "</td>";
+                //htmlDetalle = htmlDetalle + "<td>" + value.codaux + "</td>";
+                //htmlDetalle = htmlDetalle + "<td>" + value.nomaux + "</td>";
+                htmlDetalle = htmlDetalle + "<td>" + value.ttdcod + "</td>";
+                htmlDetalle = htmlDetalle + "<td>" + value.numdoc + "</td>";
+                htmlDetalle = htmlDetalle + "<td>" + value.fechaemiString + "</td>";
+                htmlDetalle = htmlDetalle + "<td>" + value.movfvString + "</td>";
+                htmlDetalle = htmlDetalle + "<td>" + value.movtipdocref + "</td>";
+                htmlDetalle = htmlDetalle + "<td>" + value.movnumdocref + "</td>";
+                htmlDetalle = htmlDetalle + "<td>" + value.movdebe + "</td>";
+                htmlDetalle = htmlDetalle + "<td>" + value.movhaber + "</td>";
+                htmlDetalle = htmlDetalle + "<td>" + value.Saldo + "</td>";
+                //htmlDetalle = htmlDetalle + "<td>" + value.movglosa + "</td>";
+                //htmlDetalle = htmlDetalle + "<td>" + value.DiasVen + "</td>";
+
+                htmlDetalle = htmlDetalle + "</tr>";
+
+                tblSaldos.append(htmlDetalle);
+            });
+            var htmlFooter = "";
+            htmlFooter = htmlFooter + "<tr>";
+            htmlFooter = htmlFooter + "<td colspan='" + ($(tblSaldos.find("tr")[0]).find("td").length - 1) + "' style='text-align: right; font-size: 18px'><b>Total</b></td>";
+            htmlFooter = htmlFooter + "<td style='font-size: 18px'><b>" + Saldo + "</b></td>";
+            htmlFooter = htmlFooter + "</tr>";
+
+            tblSaldos.append(htmlFooter);
+
         }
     });
 }
