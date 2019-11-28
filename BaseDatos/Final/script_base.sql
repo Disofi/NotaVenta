@@ -476,8 +476,8 @@ AS
 	tipoId = u.tipoUsuario,
 	tipoUsuario = dut.tipoUsuario
 	FROM DS_Usuarios u 
-	JOIN dbo.DS_UsuariosTipos dut ON u.tipoUsuario = dut.id
-	JOIN dbo.DS_UsuarioEmpresa due ON due.IdUsuario = u.ID
+	LEFT JOIN dbo.DS_UsuariosTipos dut ON u.tipoUsuario = dut.id
+	LEFT JOIN dbo.DS_UsuarioEmpresa due ON due.IdUsuario = u.ID
 	WHERE u.ID = @IdUsuario	
 GO
 /****** Object:  StoredProcedure [dbo].[DS_GetAprobador]    Script Date: 19-11-2019 14:45:09 ******/
@@ -1231,6 +1231,10 @@ BEGIN
 		
 		SELECT	@VerificadorDisofi = 1
 		,		@MensajeDisofi = 'Se agrego en disofi satisfactoriamente'
+
+		UPDATE	[dbo].[DS_NotasVenta]
+		set		nvObser = ('N. Int: ' + convert(varchar(20), @pi_IdNotaVenta) + ' Obs: ' + nvObser)
+		where	Id = @pi_IdNotaVenta
 	END
 	IF @pb_InsertaSoftland = 1 BEGIN
 		EXEC [FR_AgregarNVCabeceraSoftland]
