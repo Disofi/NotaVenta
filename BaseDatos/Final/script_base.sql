@@ -1233,7 +1233,7 @@ BEGIN
 		,		@MensajeDisofi = 'Se agrego en disofi satisfactoriamente'
 
 		UPDATE	[dbo].[DS_NotasVenta]
-		set		nvObser = ('N. Int: ' + convert(varchar(20), @pi_IdNotaVenta) + ' Obs: ' + nvObser)
+		set		nvObser = ('N. Int: ' + convert(varchar(20), @pi_IdNotaVenta) + ' Obs: ' + convert(varchar(max), nvObser))
 		where	Id = @pi_IdNotaVenta
 	END
 	IF @pb_InsertaSoftland = 1 BEGIN
