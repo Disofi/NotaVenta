@@ -1346,8 +1346,6 @@ namespace NotaVenta.Controllers
 
                 throw;
             }
-
-
         }
 
         [HttpPost]
