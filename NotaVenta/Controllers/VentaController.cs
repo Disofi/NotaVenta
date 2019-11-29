@@ -120,11 +120,19 @@ namespace NotaVenta.Controllers
             }
             else
             {
-                if (clientes != null && clientes.Count > 0 && clientes[0].EMail != "")
+                if (clientes != null && clientes.Count > 0)
                 {
-                    ViewBag.CorreoCliente = clientes[0].EMail;
-                    validador = 1;
-                    return Json(validador);
+                    if (parametros.EnvioMailCliente && Convert.ToString(clientes[0].EMail).Trim() == "")
+                    {
+                        validador = -1;
+                        return Json(validador);
+                    }
+                    else
+                    {
+                        ViewBag.CorreoCliente = clientes[0].EMail;
+                        validador = 1;
+                        return Json(validador);
+                    }
                 }
                 else
                 {
@@ -192,7 +200,7 @@ namespace NotaVenta.Controllers
             try
             {
                 List<SaldosModel> Saldos = new List<SaldosModel>();
-                Saldos = controlDisofi().ObtenerSaldo(ViewBag.RutAux, baseDatosUsuario());
+                Saldos = controlDisofi().ObtenerSaldo(ViewBag.RutAux, ViewBag.CodAux, baseDatosUsuario());
 
                 foreach (SaldosModel item in Saldos)
                 {
@@ -557,7 +565,7 @@ namespace NotaVenta.Controllers
                         insertaDisofi,
                         insertaSoftland,
                         para);
-                    
+
                     respuestaNotaVenta.EstadoNP = cabecera.EstadoNP;
 
                     listaRespuestaNotaVentaModel.Add(respuestaNotaVenta);

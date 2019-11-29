@@ -476,8 +476,8 @@ AS
 	tipoId = u.tipoUsuario,
 	tipoUsuario = dut.tipoUsuario
 	FROM DS_Usuarios u 
-	JOIN dbo.DS_UsuariosTipos dut ON u.tipoUsuario = dut.id
-	JOIN dbo.DS_UsuarioEmpresa due ON due.IdUsuario = u.ID
+	LEFT JOIN dbo.DS_UsuariosTipos dut ON u.tipoUsuario = dut.id
+	LEFT JOIN dbo.DS_UsuarioEmpresa due ON due.IdUsuario = u.ID
 	WHERE u.ID = @IdUsuario	
 GO
 /****** Object:  StoredProcedure [dbo].[DS_GetAprobador]    Script Date: 19-11-2019 14:45:09 ******/
@@ -581,36 +581,41 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[DS_ObtenerSaldo]
+create PROCEDURE [dbo].[DS_ObtenerSaldo]
 @RutAux varchar (20),
+@CodAux varchar (50),
 @pv_BaseDatos varchar (100)
 AS
 BEGIN
 DECLARE @query varchar (max)
 SELECT @query = ''
 SELECT @query = '
-declare @Periodo varchar(4)
-declare @FContabiliza varchar(10)
 
-set @Periodo = '+convert(varchar(4),getdate(),112)+'        
-set @FContabiliza ='+convert(varchar(8),getdate(),112)+'      
-
-select cwpctas.pccodi, cwpctas.pcdesc, cwtauxi.codaux, cwtauxi.RutAux, cwtauxi.nomaux, 
-min(cwmovim.movfe) as fechaemi
-, cwttdoc.desdoc, cwmovim.movnumdocref, sum(cwmovim.movdebe - cwmovim.movhaber) as Saldo
-, cwpctas.PCAUXI, cwpctas.PCCDOC,
-cwttdoc.coddoc,cwmovim.Cpbano
-
-From ['+@pv_BaseDatos+'].softland.cwcpbte inner join ['+@pv_BaseDatos+'].softland.cwmovim on ['+@pv_BaseDatos+'].softland.cwcpbte.cpbano = cwmovim.cpbano
-and cwcpbte.cpbnum = cwmovim.cpbnum inner join ['+@pv_BaseDatos+'].softland.cwtauxi on cwtauxi.codaux = cwmovim.codaux inner join ['+@pv_BaseDatos+'].softland.cwpctas on
-cwmovim.pctcod = cwpctas.pccodi left join ['+@pv_BaseDatos+'].softland.cwttdoc on cwmovim.movtipdocref = cwttdoc.coddoc 
-Where (cwcpbte.CpbAno = @Periodo) and (cwcpbte.cpbest = ''V'') and (CWCpbte.CpbFec <= @FContabiliza) and cwtauxi.RutAux = '''+@RutAux+'''
-
-Group By cwpctas.pccodi , cwpctas.pcdesc, cwtauxi.codaux, cwtauxi.RutAux, cwmovim.movnumdocref, cwtauxi.nomaux, cwttdoc.desdoc,
-cwpctas.PCAUXI, cwpctas.PCCDOC,cwttdoc.coddoc,cwmovim.Cpbano
-Having (Sum((cwmovim.movdebe - cwmovim.movhaber)) <> 0)
-order by cwpctas.pccodi, cwtauxi.codaux, cwmovim.movnumdocref, fechaemi
-
+SELECT mov.pccodi, mov.pcdesc, mov.codaux, mov.RutAux, mov.nomaux, mov.fechaemi, mov.fechaven, desdoc, mov.movnumdocref, mov.Saldo,    mov.DesArn ,    mov.AreaCod ,    
+mov.PCAUXI, mov.PCCDOC, mov.coddoc, mov.VendCod, mov.Vendedor, mov.FecEmi , mov.Debe, mov.Haber, mov.movtipdocref, mov.MovFv
+FROM
+(select cwpctas.pccodi, cwpctas.pcdesc, cwtauxi.codaux, cwtauxi.RutAux, cwtauxi.nomaux, min(cwmovim.movfe) as fechaemi, 
+''                                                    '' as fechaven, cwttdoc.desdoc, cwmovim.movnumdocref, cwmovim.movtipdocref,min(cwmovim.MovFv) as MovFv,
+sum(cwmovim.movdebe - cwmovim.movhaber) as Saldo, min(cwmovim.MovDebe) as Debe, min(cwmovim.MovHaber) as Haber, cwmovim.AreaCod, cwTAren.DesArn , cwpctas.PCAUXI, cwpctas.PCCDOC,  
+cwttdoc.coddoc, 
+''    '' As Cpbano ,  ''    '' as VendCod,''                                                                                           '' as Vendedor,
+''                                                    '' as FecEmi  
+FROM [' + @pv_BaseDatos + '].softland.cwcpbte 
+inner join [' + @pv_BaseDatos + '].softland.cwmovim on cwcpbte.cpbano = cwmovim.cpbano and cwcpbte.cpbnum = cwmovim.cpbnum 
+inner join [' + @pv_BaseDatos + '].softland.cwtauxi on cwtauxi.codaux = cwmovim.codaux 
+inner join [' + @pv_BaseDatos + '].softland.cwpctas on cwmovim.pctcod = cwpctas.pccodi 
+left join [' + @pv_BaseDatos + '].softland.cwttdoc on cwmovim.movtipdocref = cwttdoc.coddoc 
+left join [' + @pv_BaseDatos + '].softland.cwtaren on cwmovim.AreaCod = cwTAren.CodArn 
+WHERE
+	(((cwcpbte.cpbNum <> ''00000000'')  
+or (cwcpbte.cpbano = (select min(cpbano) from [' + @pv_BaseDatos + '].softland.cwcpbte) AND cwcpbte.cpbNum = ''00000000'' ))) 
+and (cwcpbte.cpbest = ''V'') 
+			and cwmovim.codaux = ''' + @CodAux + '''
+and (CWCpbte.CpbFec <= convert(datetime,CONVERT(varchar, CURRENT_TIMESTAMP),102)) 
+Group By cwpctas.pccodi , cwpctas.pcdesc, cwtauxi.codaux, cwtauxi.RutAux, cwmovim.movnumdocref, cwtauxi.nomaux, 
+cwttdoc.desdoc, cwmovim.AreaCod, cwTAren.DesArn, cwpctas.PCAUXI, cwpctas.PCCDOC,  cwttdoc.coddoc , cwmovim.movtipdocref
+Having (Sum((cwmovim.movdebe - cwmovim.movhaber)) <> 0) 
+) as mov
 '
 EXEC (@query)
 END
@@ -1065,6 +1070,10 @@ BEGIN
 		
 		SELECT	@VerificadorDisofi = 1
 		,		@MensajeDisofi = 'Se agrego en disofi satisfactoriamente'
+
+		UPDATE	[dbo].[DS_NotasVenta]
+		set		nvObser = ('N. Int: ' + convert(varchar(20), @pi_IdNotaVenta) + ' Obs: ' + convert(varchar(max), nvObser))
+		where	Id = @pi_IdNotaVenta
 	END
 	IF @pb_InsertaSoftland = 1 BEGIN
 		EXEC [FR_AgregarNVCabeceraSoftland]
@@ -1510,16 +1519,15 @@ CREATE PROCEDURE [dbo].[FR_AgregarUsuario]
 	@email	varchar(50),
 	@Contrasena varchar(150),
 	@tipoUsuario	varchar(50),
-	@Nombre varchar (100),
-	@ContrasenaCorreo varchar(100)
+	@Nombre varchar (100)
  AS
 DECLARE @CantVenCod int
 DECLARE @IdUsuario int
 SET @CantVenCod	= (SELECT count(*) AS cantidad FROM dbo.DS_Usuarios du WHERE Usuario = @Usuario AND du.Estado = 1)
 if(@CantVenCod = 0)
 BEGIN
-	INSERT INTO [dbo].[DS_Usuarios] ([Usuario],[Contrasena],[email],[tipoUsuario],[Nombre],[ContrasenaCorreo],[Estado])
-		VALUES(@Usuario,(@Contrasena), @email, @tipoUsuario, @Nombre,@ContrasenaCorreo,1)
+	INSERT INTO [dbo].[DS_Usuarios] ([Usuario],[Contrasena],[email],[tipoUsuario],[Nombre],[Estado])
+		VALUES(@Usuario,(@Contrasena), @email, @tipoUsuario, @Nombre,1)
 	 
 SET @IdUsuario = (SELECT SCOPE_IDENTITY() AS [SCOPE_IDENTITY])	
 
@@ -2271,6 +2279,7 @@ CREATE procedure [dbo].[FR_ListarDocumentosPendientes]
 	a.NomCon, 
 	a.nvNetoAfecto, 
 	a.TotalBoleta, 
+	a.CodAux,
 	a.EstadoNP, 
 	a.nvSubTotal,
 	ISNULL(a.RutSolicitante,0) as RutSolicitante,

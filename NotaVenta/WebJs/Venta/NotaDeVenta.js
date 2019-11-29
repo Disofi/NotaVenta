@@ -1209,12 +1209,12 @@ function agregarnotadeventa() {
 }
 //}
 
-function ObtenerSaldo(RutAux) {
+function ObtenerSaldo(RutAux, CodAux) {
     $("#tblSaldos").html("");
     $.ajax({
         type: "POST",
         url: "ObtenerSaldo",
-        data: { RutAuxiliar: RutAux },
+        data: { RutAuxiliar: RutAux, CodAux: CodAux },
         async: true,
         success: function (response) {
             console.log(response);
