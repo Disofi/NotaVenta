@@ -78,7 +78,7 @@
                                         <td>$@double.Parse(doc[i].TotalBoleta.ToString()).ToString("N0")</td>
                                         <td>@doc[i].EstadoNP</td>
                                         <td>@double.Parse(doc[i].Saldo.ToString()).ToString("N0")
-                                        <button class="btn-primary btn-xs" data-toggle="modal" data-target="#modalSaldo" onclick="ObtenerSaldo('@doc[i].RutAux','@doc[i].CodAux')" style="cursor:pointer;"><i class="fas fa-search"></i></button></td>
+                                        <button class="btn-primary btn-xs" data-toggle="modal" data-target="#modalSaldo" onclick="ObtenerSaldo('@doc[i].RutAux','@doc[i].CodAux', '@doc[i].NomAux','@doc[i].Saldo')" style="cursor:pointer;"><i class="fas fa-search"></i></button></td>
                                         <td>
                                             @double.Parse(doc[i].Saldo.ToString()).ToString("N0")
                                             <button class="btn-primary btn-xs" data-toggle="modal" data-target="#modalSaldo" onclick="ObtenerSaldo('@doc[i].RutAux')" style="cursor:pointer;"><i class="fas fa-search"></i></button>
@@ -171,7 +171,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Detalle Saldo Cliente</h4>
+                <h4 class="modal-title" id="modalSaldoTitulo">Detalle Saldo Cliente - <small id="modalSaldoSubtitulo"></small></h4>
                 <button type="button" class="close" data-dismiss="modal">
                     <span aria-hidden="true">×</span>
                 </button>

@@ -189,7 +189,8 @@ function RechazarNotaVenta(nvId, nvNum) {
         }
     });
 }
-function ObtenerSaldo(RutAux, CodAux) {
+function ObtenerSaldo(RutAux, CodAux, Nombre, Saldo) {
+    $("#modalSaldoSubtitulo").text(CodAux + " - " + Nombre);
     $("#tblSaldos").html("");
     $.ajax({
         type: "POST",
