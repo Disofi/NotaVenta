@@ -1072,7 +1072,7 @@ BEGIN
 		,		@MensajeDisofi = 'Se agrego en disofi satisfactoriamente'
 
 		UPDATE	[dbo].[DS_NotasVenta]
-		set		nvObser = ('N. Int: ' + convert(varchar(20), @pi_IdNotaVenta) + ' Obs: ' + convert(varchar(max), nvObser))
+		set		nvObser = ('N. Int: ' + convert(varchar(20), @pi_IdNotaVenta) + ' Obs: ' + convert(varchar(max), isnull(nvObser, '')))
 		where	Id = @pi_IdNotaVenta
 	END
 	IF @pb_InsertaSoftland = 1 BEGIN
@@ -3480,7 +3480,7 @@ begin
 	declare @obser varchar(200)
 	DECLARE @query varchar (max)
 	
-	set @obser = (select nvObser from dbo.DS_NotasVenta where dbo.DS_NotasVenta.Id = @nvId )
+	set @obser = isnull((select substring(nvObser, charindex('Obs:', nvObser) + 4, 4000) from dbo.DS_NotasVenta where dbo.DS_NotasVenta.Id = @nvId ), '')
 
 	declare @ultimaNvNumero nvarchar(100) ;
 	DECLARE @query1 nvarchar(max);
@@ -3526,7 +3526,7 @@ begin
 	CLOSE cursorNVD
 	DEALLOCATE CursorNVD	
 	
-	set @obser = (select nvObser from dbo.DS_NotasVenta where dbo.DS_NotasVenta.Id = @nvId)
+	set @obser = isnull((select substring(nvObser, charindex('Obs:', nvObser) + 4, 4000) from dbo.DS_NotasVenta where dbo.DS_NotasVenta.Id = @nvId ), '')
 
 	UPDATE dbo.DS_NotasVenta set RutSolicitante = @ultimaNvNumero, nvObser = ' NV: '+@ultimaNvNumero+' Obs: '+@obser  where dbo.DS_NotasVenta.Id = @nvId;
 
