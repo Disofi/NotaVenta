@@ -833,7 +833,7 @@ GO
 CREATE PROCEDURE [dbo].[FR_AgregarNVCabecera]
 (
 	/*--------------------------- CAMPOS DISOFI ---------------------------*/
-	@pi_IdEmpresaInterna
+	@pi_IdEmpresaInterna int
 ,	@pv_EstadoNP [varchar](1) = 'P'
 ,	@pv_BaseDatos [varchar](100)
 ,	@pb_InsertaDisofi BIT

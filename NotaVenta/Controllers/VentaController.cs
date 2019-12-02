@@ -575,6 +575,7 @@ namespace NotaVenta.Controllers
                 {
                     CabeceraModel cabeceraModel = CalcularProductosAgregadosFunction(productosTemp, cabecera.Descuentos, productosTemp[0].DescuentoAtributo);
                     NotadeVentaCabeceraModels notadeVentaCabeceraModels = cabecera;
+                    notadeVentaCabeceraModels.IdEmpresaInterna = EmpresaUsuario().IdEmpresa;
                     notadeVentaCabeceraModels.nvSubTotal = cabeceraModel.SubTotal;
                     notadeVentaCabeceraModels.nvSubTotalConDescuento = Convert.ToDouble(cabeceraModel.SubTotalConDescuento);
 
