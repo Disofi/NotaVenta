@@ -3329,7 +3329,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE Procedure [dbo].[JS_ListarNVDETALLENM]
+create Procedure [dbo].[JS_ListarNVDETALLENM]
 		@nvId INT,
 		@pv_BaseDatos varchar(100)
 		as
@@ -3350,6 +3350,15 @@ CREATE Procedure [dbo].[JS_ListarNVDETALLENM]
 				a.nvSubTotal,
 				a.NVNumero,
 				ROUND(a.nvDPorcDesc01,0) as nvDPorcDesc01,
+				ROUND(a.nvDPorcDesc02,0) as nvDPorcDesc02,
+				ROUND(a.nvDPorcDesc03,0) as nvDPorcDesc03,
+				ROUND(a.nvDPorcDesc04,0) as nvDPorcDesc04,
+				ROUND(a.nvDPorcDesc05,0) as nvDPorcDesc05,
+				ROUND(a.nvDDescto01,0) as nvDDescto01,
+				ROUND(a.nvDDescto02,0) as nvDDescto02,
+				ROUND(a.nvDDescto03,0) as nvDDescto03,
+				ROUND(a.nvDDescto04,0) as nvDDescto04,
+				ROUND(a.nvDDescto05,0) as nvDDescto05,
 				a.nvTotLinea
 			FROM
 				[dbo].[DS_NotasVentaDetalle] a INNER JOIN
