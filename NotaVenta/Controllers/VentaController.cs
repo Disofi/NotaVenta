@@ -1354,6 +1354,38 @@ namespace NotaVenta.Controllers
                     }
                 }
 
+                //if (cabecera.CodiCC.Trim().Equals("01"))
+                //{
+                //    string correoTemporal = System.Configuration.ConfigurationManager.AppSettings["CorreoSantiago"];
+                //    if (correoTemporal != null && correoTemporal != "")
+                //    {
+                //        paraEmail.Add(correoTemporal);
+                //    }
+                //}
+                //if (cabecera.CodiCC.Trim().Equals("02"))
+                //{
+                //    string correoTemporal = System.Configuration.ConfigurationManager.AppSettings["CorreoConcepcion"];
+                //    if (correoTemporal != null && correoTemporal != "")
+                //    {
+                //        paraEmail.Add(correoTemporal);
+                //    }
+                //}
+                //if (cabecera.CodiCC.Trim().Equals("12"))
+                //{
+                //    string correoTemporal = System.Configuration.ConfigurationManager.AppSettings["CorreoTemuco"];
+                //    if (correoTemporal != null && correoTemporal != "")
+                //    {
+                //        paraEmail.Add(correoTemporal);
+                //    }
+                //}
+                //{
+                //    string correoTemporal = System.Configuration.ConfigurationManager.AppSettings["CorreoSiempre"];
+                //    if (correoTemporal != null && correoTemporal != "")
+                //    {
+                //        paraEmail.Add(correoTemporal);
+                //    }
+                //}
+
                 EnviarEmail(/*cabecera.NVNumero,*/ cabecera.Id, paraEmail);
             }
             catch (Exception ex)

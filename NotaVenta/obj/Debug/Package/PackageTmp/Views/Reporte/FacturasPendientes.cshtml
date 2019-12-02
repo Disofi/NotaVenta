@@ -35,10 +35,10 @@
                         <th>Fecha Generada</th>
                         <th>Fecha Entrega</th>
                         <th>ListaPrecio</th>
-                        <th>Contacto</th>
+                        @*<th>Contacto</th>*@
                         <th>Neto</th>
                         <th>Valor Final</th>
-                        <th>CC</th>
+                        <th>C. Costo</th>
                         <th>Estado</th>
                         <th>Saldo Cliente</th>
 
@@ -67,65 +67,67 @@
                                         {
                                             <td>@doc[i].CodLista</td>
                                         }
-                                        @if (@doc[i].NomCon == null)
+                                        @*@if (@doc[i].NomCon == null)
                                         {
                                             <td>0</td>
                                         }
                                         else
                                         {
                                             <td>@doc[i].NomCon</td>
-                                        }
+                                        }*@
                                         <td>$@double.Parse(doc[i].nvSubTotal.ToString()).ToString("N0")</td>
                                         <td>$@double.Parse(doc[i].TotalBoleta.ToString()).ToString("N0")</td>
                                         <td>@doc[i].DescCC</td>
                                         <td>@doc[i].EstadoNP</td>
-                                        <td>@double.Parse(doc[i].Saldo.ToString()).ToString("N0")
-                                        <button class="btn-primary btn-xs" data-toggle="modal" data-target="#modalSaldo" onclick="ObtenerSaldo('@doc[i].RutAux','@doc[i].CodAux', '@doc[i].NomAux')" style="cursor:pointer;"><i class="fas fa-search"></i></button>
-                                        <button class="btn-primary btn-xs" data-toggle="modal" data-target="#modalSaldoDetalle" onclick="ObtenerSaldoDetalle('@doc[i].RutAux','@doc[i].CodAux', '@doc[i].NomAux')" style="cursor:pointer;"><i class="fas fa-search"></i></button></td>
                                         <td>
-                                            @if (doc[i].EstadoNP == "P")
+                                            @double.Parse(doc[i].Saldo.ToString()).ToString("N0")
+                                        <button class="btn-primary btn-xs" data-toggle="modal" data-target="#modalSaldo" onclick="ObtenerSaldo('@doc[i].RutAux','@doc[i].CodAux', '@doc[i].NomAux','@doc[i].Saldo')" style="cursor:pointer;"><i class="fas fa-search"></i></button>
+                                        <button class="btn-warning btn-xs" data-toggle="modal" data-target="#modalSaldoDetalle" onclick="ObtenerSaldoDetalle('@doc[i].RutAux','@doc[i].CodAux', '@doc[i].NomAux','@doc[i].Saldo')" style="cursor:pointer;"><i class="fas fa-search"></i></button>
+                                    </td>
+                                    <td>
+                                        @if (doc[i].EstadoNP == "P")
+                                        {
+                                            <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id,'@doc[i].RutAux')">@*<img src="~/Content/Image/zoom.png" />*@Detalle</button>
+                                            if (NotaVenta.UTIL.SessionVariables.SESSION_DATOS_USUARIO.TipoUsuario != 2)
                                             {
-                                                <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id,'@doc[i].RutAux')">@*<img src="~/Content/Image/zoom.png" />*@Detalle</button>
-                                                if (NotaVenta.UTIL.SessionVariables.SESSION_DATOS_USUARIO.TipoUsuario != 2)
-                                                {
-                                                    <button class="btn btn-success btn-xs" id="btnAprobar_@doc[i].Id" onclick="AprobarNotaVenta(@doc[i].Id, 'btnAprobar_@doc[i].Id')">Aprobar</button>
-                                                    <button class="btn btn-danger btn-xs" onclick="RechazarNotaVenta(@doc[i].Id,@doc[i].NVNumero)">Rechazar</button>
-                                                }
+                                                <button class="btn btn-success btn-xs" id="btnAprobar_@doc[i].Id" onclick="AprobarNotaVenta(@doc[i].Id, 'btnAprobar_@doc[i].Id')">Aprobar</button>
+                                                <button class="btn btn-danger btn-xs" onclick="RechazarNotaVenta(@doc[i].Id,@doc[i].NVNumero)">Rechazar</button>
                                             }
-                                            else
-                                            {
-                                                <button class="btn btn-warning btn-m" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id)"><img src="~/Content/Image/zoom.png" /></button>
-                                                <a>&nbsp;</a>
-                                            }
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-warning btn-m" data-toggle="modal" data-target="#DetalleNotaPedido" onclick="DetalleNotaPedido(@doc[i].Id)"><img src="~/Content/Image/zoom.png" /></button>
+                                            <a>&nbsp;</a>
+                                        }
 
-                                        </td>
-                                    </tr>
-                                }
+                                    </td>
+                                </tr>
                             }
                         }
-                        catch (Exception)
-                        {
-                            <tr>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th>SIN DOCUMENTOS PENDIENTES</th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        }
+                    }
+                    catch (Exception)
+                    {
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>SIN DOCUMENTOS PENDIENTES</th>
+                            @*<th></th>*@
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    }
                     }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-                @*</div>
+@*</div>
                 <br />
             </div>
         </div>
@@ -192,7 +194,7 @@
     </div>
 </div>
 <div id="modalSaldoDetalle" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg" style="margin-right: 5%; margin-left: 5%; width: 90%">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="modalSaldoDetalleTitulo">Detalle Saldo Cliente - <small id="modalSaldoDetalleSubtitulo"></small></h4>
@@ -202,17 +204,44 @@
             </div>
             <div class="modal-body">
                 <div class="x_content">
-                    <div class="col-lg-push-12">
-                        <div class="table-responsive form-inline">
-                            <table id="modalSaldoDetalleTblSaldos" class="table table-profile"></table>
+                    <div class="col-xl-12">
+                        <!-- begin nav-tabs -->
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a href="#modalSaldoDetalleSaldos" data-toggle="tab" class="nav-link active">
+                                    <span class="d-sm-none">Saldos</span>
+                                    <span class="d-sm-block d-none">Saldos</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#modalSaldoDetalleSaldados" data-toggle="tab" class="nav-link">
+                                    <span class="d-sm-none">Documentos Saldados</span>
+                                    <span class="d-sm-block d-none">Documentos Pagados</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- end nav-tabs -->
+                        <!-- begin tab-content -->
+                        <div class="tab-content">
+                            <!-- begin tab-pane -->
+                            <div class="tab-pane fade active show" id="modalSaldoDetalleSaldos">
+                                <br />
+                                <div class="table-responsive form-inline">
+                                    <table id="modalSaldoDetalleTblSaldos" class="table table-profile"></table>
+                                </div>
+                            </div>
+                            <!-- end tab-pane -->
+                            <!-- begin tab-pane -->
+                            <div class="tab-pane fade" id="modalSaldoDetalleSaldados">
+                                <br />
+                                <div class="table-responsive form-inline">
+                                    <table id="modalSaldoDetalleTblSaldosDocumentosSaldados" class="table table-profile"></table>
+                                </div>
+                            </div>
+                            <!-- end tab-pane -->
                         </div>
+                        <!-- end tab-content -->
                     </div>
-                    <div class="col-lg-push-12">
-                        <div class="table-responsive form-inline">
-                            <table id="modalSaldoDetalleTblSaldosDocumentosSaldados" class="table table-profile"></table>
-                        </div>
-                    </div>
-                    <br />
                 </div>
             </div>
             <div class="modal-footer">
