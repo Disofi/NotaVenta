@@ -994,7 +994,7 @@ GO
 CREATE PROCEDURE [dbo].[FR_AgregarNVCabecera]
 (
 	/*--------------------------- CAMPOS DISOFI ---------------------------*/
-	@pi_IdEmpresaInterna
+	@pi_IdEmpresaInterna int
 ,	@pv_EstadoNP [varchar](1) = 'P'
 ,	@pv_BaseDatos [varchar](100)
 ,	@pb_InsertaDisofi BIT
@@ -2423,6 +2423,7 @@ AS
 	a.ErrorAprobadorMensaje
 	from [dbo].[DS_NotasVenta] a
 	inner join ['+@pv_BaseDatos+'].[softland].[cwtauxi] clientes on  clientes.CodAux collate Modern_Spanish_CI_AS = a.CodAux 
+	LEFT JOIN ['+@pv_BaseDatos+'].[softland].[cwtccos] cc ON (cc.CodiCC collate Modern_Spanish_CI_AS = a.CodiCC)
 	where	a.IdEmpresaInterna = ' + convert(varchar(20), @pi_IdEmpresaInterna) + '
 	and		a.EstadoNP = ''A''
 	order by a.Id desc
@@ -2480,6 +2481,7 @@ AS
 	LEFT JOIN [dbo].[DS_NotasVentaDetalle] b on a.NVNumero = b.NVNumero
 	LEFT JOIN ['+ @pv_BaseDatos +'].[softland].[iw_tprod] AS tp on b.CodProd = tp.CodProd collate SQL_Latin1_General_CP1_CI_AS
 	left join [dbo].[DS_NotasVentaDetalle] c on a.Id = c.IdNotaVenta
+	LEFT JOIN ['+@pv_BaseDatos+'].[softland].[cwtccos] cc ON (cc.CodiCC collate Modern_Spanish_CI_AS = a.CodiCC)
 	where	a.IdEmpresaInterna = ' + convert(varchar(20), @pi_IdEmpresaInterna) + '
 	and		a.EstadoNP = ''P''
 	order by a.Id desc
@@ -2521,6 +2523,7 @@ AS
 	a.ErrorAprobadorMensaje
 	from [dbo].[DS_NotasVenta] a
 	inner join ['+@pv_BaseDatos+'].[softland].[cwtauxi] clientes on  clientes.CodAux collate Modern_Spanish_CI_AS = a.CodAux 
+	LEFT JOIN ['+@pv_BaseDatos+'].[softland].[cwtccos] cc ON (cc.CodiCC collate Modern_Spanish_CI_AS = a.CodiCC)
 	where	a.IdEmpresaInterna = ' + convert(varchar(20), @pi_IdEmpresaInterna) + '
 	and		a.EstadoNP = ''R''
 '

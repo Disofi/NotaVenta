@@ -595,6 +595,7 @@ namespace NotaVenta.Controllers
                 {
                     CabeceraModel cabeceraModel = CalcularProductosAgregadosFunction(productosTemp, cabecera.Descuentos, productosTemp[0].DescuentoAtributo);
                     NotadeVentaCabeceraModels notadeVentaCabeceraModels = cabecera;
+                    notadeVentaCabeceraModels.IdEmpresaInterna = EmpresaUsuario().IdEmpresa;
                     notadeVentaCabeceraModels.nvSubTotal = cabeceraModel.SubTotal;
                     notadeVentaCabeceraModels.nvSubTotalConDescuento = Convert.ToDouble(cabeceraModel.SubTotalConDescuento);
 
@@ -659,6 +660,7 @@ namespace NotaVenta.Controllers
                                                                    }).ToList();
 
             retorno.Id = cabeceraModels.Id;
+            retorno.IdEmpresaInterna = cabeceraModels.IdEmpresaInterna;
             retorno.EstadoNP = cabeceraModels.EstadoNP;
             retorno.Saldo = cabeceraModels.Saldo;
             retorno.NomAux = cabeceraModels.NomAux;

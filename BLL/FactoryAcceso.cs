@@ -538,6 +538,7 @@ namespace BLL
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_AgregarNVCabecera", new System.Collections.Hashtable()
                 {
+                    {"pi_IdEmpresaInterna",NVC.IdEmpresaInterna },
                     { "pv_EstadoNP", NVC.EstadoNP},
                     { "pv_BaseDatos", baseDatos},
                     { "pb_InsertaDisofi", insertaDisofi},
