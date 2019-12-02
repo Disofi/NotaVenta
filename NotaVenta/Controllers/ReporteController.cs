@@ -30,7 +30,7 @@ namespace NotaVenta.Controllers
             ViewBag.Parametros = parametros;
 
             List<NotadeVentaCabeceraModels> doc = new List<NotadeVentaCabeceraModels>();
-            var docPendientes = controlDisofi().listarDocPendientes(baseDatosUsuario());
+            var docPendientes = controlDisofi().listarDocPendientes(baseDatosUsuario(), EmpresaUsuario().IdEmpresa);
 
             if (docPendientes != null)
             {
@@ -64,7 +64,7 @@ namespace NotaVenta.Controllers
         public ActionResult FacturasRechazadas()
         {
             List<NotadeVentaCabeceraModels> doc = new List<NotadeVentaCabeceraModels>();
-            var docPendientes = controlDisofi().listarDocRechazadas(baseDatosUsuario());
+            var docPendientes = controlDisofi().listarDocRechazadas(baseDatosUsuario(), EmpresaUsuario().IdEmpresa);
 
             if (docPendientes != null)
             {
@@ -118,7 +118,7 @@ namespace NotaVenta.Controllers
         public ActionResult FacturasAprobadas()
         {
             List<NotadeVentaCabeceraModels> doc = new List<NotadeVentaCabeceraModels>();
-            var docAprobados = controlDisofi().listarDocAprobados(baseDatosUsuario());
+            var docAprobados = controlDisofi().listarDocAprobados(baseDatosUsuario(), EmpresaUsuario().IdEmpresa);
 
             ParametrosModels parametros = ObtieneParametros();
 

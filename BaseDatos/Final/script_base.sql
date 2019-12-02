@@ -18,6 +18,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[DS_NotasVenta](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[IdEmpresaInterna] [int] NOT NULL,
 	[EstadoNP] [varchar](1) NULL,
 	[NVNumero] [int] NOT NULL,
 	[nvFem] [datetime] NULL,
@@ -832,7 +833,8 @@ GO
 CREATE PROCEDURE [dbo].[FR_AgregarNVCabecera]
 (
 	/*--------------------------- CAMPOS DISOFI ---------------------------*/
-	@pv_EstadoNP [varchar](1) = 'P'
+	@pi_IdEmpresaInterna
+,	@pv_EstadoNP [varchar](1) = 'P'
 ,	@pv_BaseDatos [varchar](100)
 ,	@pb_InsertaDisofi BIT
 ,	@pb_InsertaSoftland BIT
@@ -923,7 +925,8 @@ BEGIN
 	IF @pb_InsertaDisofi = 1 BEGIN
 		INSERT INTO [dbo].[DS_NotasVenta]
 		(
-			EstadoNP
+			IdEmpresaInterna
+		,	EstadoNP
 		,	NVNumero
 		,	nvFem
 		,	nvEstado
@@ -995,7 +998,8 @@ BEGIN
 		)
 		VALUES
 		(
-			@pv_EstadoNP
+			@pi_IdEmpresaInterna
+		,	@pv_EstadoNP
 		,	@pi_NVNumero
 		,	@pd_nvFem
 		,	@pv_nvEstado
@@ -2218,8 +2222,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE procedure [dbo].[FR_ListarDocumentosAprobados]
-@pv_BaseDatos varchar (100)
-	AS
+(
+	@pv_BaseDatos varchar (100)
+,	@pi_IdEmpresaInterna int
+)
+AS
 	DECLARE @query varchar(max)
 	SELECT @query = ''
 	SELECT @query = @query + '
@@ -2240,8 +2247,8 @@ CREATE procedure [dbo].[FR_ListarDocumentosAprobados]
 	a.ErrorAprobadorMensaje
 	from [dbo].[DS_NotasVenta] a
 	inner join ['+@pv_BaseDatos+'].[softland].[cwtauxi] clientes on  clientes.CodAux collate Modern_Spanish_CI_AS = a.CodAux 
-	where 
-	a.EstadoNP = ''A''
+	where	a.IdEmpresaInterna = ' + convert(varchar(20), @pi_IdEmpresaInterna) + '
+	and		a.EstadoNP = ''A''
 	order by a.Id desc
 '
 EXEC (@query)
@@ -2253,8 +2260,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE procedure [dbo].[FR_ListarDocumentosPendientes]
-	@pv_BaseDatos varchar(100)
-	AS
+(
+	@pv_BaseDatos varchar (100)
+,	@pi_IdEmpresaInterna int
+)
+AS
 	DECLARE @query varchar (max)
 	SELECT @query = ''
 	SELECT @query = @query + '
@@ -2292,7 +2302,8 @@ CREATE procedure [dbo].[FR_ListarDocumentosPendientes]
 	LEFT JOIN [dbo].[DS_NotasVentaDetalle] b on a.NVNumero = b.NVNumero
 	LEFT JOIN ['+ @pv_BaseDatos +'].[softland].[iw_tprod] AS tp on b.CodProd = tp.CodProd collate SQL_Latin1_General_CP1_CI_AS
 	left join [dbo].[DS_NotasVentaDetalle] c on a.Id = c.IdNotaVenta
-	where a.EstadoNP = ''P''
+	where	a.IdEmpresaInterna = ' + convert(varchar(20), @pi_IdEmpresaInterna) + '
+	and		a.EstadoNP = ''P''
 	order by a.Id desc
 '
 exec (@query)
@@ -2305,8 +2316,11 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 create procedure [dbo].[FR_ListarDocumentosRechazadas]
-@pv_BaseDatos varchar (100)
-	AS
+(
+	@pv_BaseDatos varchar (100)
+,	@pi_IdEmpresaInterna int
+)
+AS
 	DECLARE @query varchar(max)
 	SELECT @query = ''
 	SELECT @query = @query + '
@@ -2327,8 +2341,8 @@ create procedure [dbo].[FR_ListarDocumentosRechazadas]
 	a.ErrorAprobadorMensaje
 	from [dbo].[DS_NotasVenta] a
 	inner join ['+@pv_BaseDatos+'].[softland].[cwtauxi] clientes on  clientes.CodAux collate Modern_Spanish_CI_AS = a.CodAux 
-	where 
-	a.EstadoNP = ''R''
+	where	a.IdEmpresaInterna = ' + convert(varchar(20), @pi_IdEmpresaInterna) + '
+	and		a.EstadoNP = ''R''
 '
 EXEC (@query)
 GO
