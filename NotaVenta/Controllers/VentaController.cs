@@ -357,6 +357,13 @@ namespace NotaVenta.Controllers
 
             char[] blanco = { ' ' };
 
+            int colspan = 7;
+
+            if (parametro.DescuentoLineaDirectoSoftland)
+            {
+                colspan = colspan + parametro.CantidadDescuentosProducto;
+            }
+
             string htmlBody = String.Format(
             "<html><body>" +
             //"<img src='~/Image/logo.png' />" +
@@ -440,9 +447,9 @@ namespace NotaVenta.Controllers
                            @"<td style='text-align: right;'>" + "$ " + precioConIVa.ToString("N0") + @"</td>" +
                            @"</tr>";
             }
-            htmlBody += @"<tr><th style='text-align: right;' colspan =" + 7 + @">Sub Total</th><td style='text-align: right;'>" + "$ " + subtotal.ToString("N0") + @"</td></tr>" +
-                        @"<tr><th style='text-align: right;' colspan =" + 7 + @">Total Iva</th><td style='text-align: right;'>" + "$ " + ivaux.ToString("N0") + @"</td></tr>" +
-                        @"<tr><th style='text-align: right;' colspan =" + 7 + @">Total</th><td style='text-align: right;'>" + "$ " + NVentaCabeceras[0].TotalBoleta.ToString("N0") + @"</td></tr>";
+            htmlBody += @"<tr><th style='text-align: right;' colspan =" + colspan + @">Sub Total</th><td style='text-align: right;'>" + "$ " + subtotal.ToString("N0") + @"</td></tr>" +
+                        @"<tr><th style='text-align: right;' colspan =" + colspan + @">Total Iva</th><td style='text-align: right;'>" + "$ " + ivaux.ToString("N0") + @"</td></tr>" +
+                        @"<tr><th style='text-align: right;' colspan =" + colspan + @">Total</th><td style='text-align: right;'>" + "$ " + NVentaCabeceras[0].TotalBoleta.ToString("N0") + @"</td></tr>";
             htmlBody += @" </body></html>";
 
             AlternateView alternateView = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
