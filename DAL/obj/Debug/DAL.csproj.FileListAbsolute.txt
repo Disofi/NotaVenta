@@ -1,10 +1,3 @@
-D:\ProyectosYVEGA\NotaVenta\DAL\bin\Debug\DAL.dll
-D:\ProyectosYVEGA\NotaVenta\DAL\bin\Debug\DAL.pdb
-D:\ProyectosYVEGA\NotaVenta\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
-D:\ProyectosYVEGA\NotaVenta\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
-D:\ProyectosYVEGA\NotaVenta\DAL\obj\Debug\DAL.csproj.CopyComplete
-D:\ProyectosYVEGA\NotaVenta\DAL\obj\Debug\DAL.dll
-D:\ProyectosYVEGA\NotaVenta\DAL\obj\Debug\DAL.pdb
 C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\DAL\bin\Debug\DAL.dll
 C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\DAL\bin\Debug\DAL.pdb
 C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
@@ -12,3 +5,10 @@ C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\DAL\obj\Debug\DAL.csproj.CopyComp
 C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\DAL\obj\Debug\DAL.dll
 C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\DAL\obj\Debug\DAL.pdb
 C:\Users\Desarrollo-PC\Desktop\nv\nv\NotaVenta\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
+D:\ProyectosYVEGA\NotaVenta\DAL\bin\Debug\DAL.dll
+D:\ProyectosYVEGA\NotaVenta\DAL\bin\Debug\DAL.pdb
+D:\ProyectosYVEGA\NotaVenta\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
+D:\ProyectosYVEGA\NotaVenta\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+D:\ProyectosYVEGA\NotaVenta\DAL\obj\Debug\DAL.csproj.CopyComplete
+D:\ProyectosYVEGA\NotaVenta\DAL\obj\Debug\DAL.dll
+D:\ProyectosYVEGA\NotaVenta\DAL\obj\Debug\DAL.pdb

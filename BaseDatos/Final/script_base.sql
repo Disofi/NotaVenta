@@ -1072,7 +1072,7 @@ BEGIN
 		,		@MensajeDisofi = 'Se agrego en disofi satisfactoriamente'
 
 		UPDATE	[dbo].[DS_NotasVenta]
-		set		nvObser = ('N. Int: ' + convert(varchar(20), @pi_IdNotaVenta) + ' Obs: ' + convert(varchar(max), nvObser))
+		set		nvObser = ('N. Int: ' + convert(varchar(20), @pi_IdNotaVenta) + ' Obs: ' + convert(varchar(max), isnull(nvObser, '')))
 		where	Id = @pi_IdNotaVenta
 	END
 	IF @pb_InsertaSoftland = 1 BEGIN
@@ -3329,7 +3329,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE Procedure [dbo].[JS_ListarNVDETALLENM]
+create Procedure [dbo].[JS_ListarNVDETALLENM]
 		@nvId INT,
 		@pv_BaseDatos varchar(100)
 		as
@@ -3350,6 +3350,15 @@ CREATE Procedure [dbo].[JS_ListarNVDETALLENM]
 				a.nvSubTotal,
 				a.NVNumero,
 				ROUND(a.nvDPorcDesc01,0) as nvDPorcDesc01,
+				ROUND(a.nvDPorcDesc02,0) as nvDPorcDesc02,
+				ROUND(a.nvDPorcDesc03,0) as nvDPorcDesc03,
+				ROUND(a.nvDPorcDesc04,0) as nvDPorcDesc04,
+				ROUND(a.nvDPorcDesc05,0) as nvDPorcDesc05,
+				ROUND(a.nvDDescto01,0) as nvDDescto01,
+				ROUND(a.nvDDescto02,0) as nvDDescto02,
+				ROUND(a.nvDDescto03,0) as nvDDescto03,
+				ROUND(a.nvDDescto04,0) as nvDDescto04,
+				ROUND(a.nvDDescto05,0) as nvDDescto05,
 				a.nvTotLinea
 			FROM
 				[dbo].[DS_NotasVentaDetalle] a INNER JOIN
@@ -3480,7 +3489,7 @@ begin
 	declare @obser varchar(200)
 	DECLARE @query varchar (max)
 	
-	set @obser = (select nvObser from dbo.DS_NotasVenta where dbo.DS_NotasVenta.Id = @nvId )
+	set @obser = isnull((select substring(nvObser, charindex('Obs:', nvObser) + 4, 4000) from dbo.DS_NotasVenta where dbo.DS_NotasVenta.Id = @nvId ), '')
 
 	declare @ultimaNvNumero nvarchar(100) ;
 	DECLARE @query1 nvarchar(max);
@@ -3526,7 +3535,7 @@ begin
 	CLOSE cursorNVD
 	DEALLOCATE CursorNVD	
 	
-	set @obser = (select nvObser from dbo.DS_NotasVenta where dbo.DS_NotasVenta.Id = @nvId)
+	set @obser = isnull((select substring(nvObser, charindex('Obs:', nvObser) + 4, 4000) from dbo.DS_NotasVenta where dbo.DS_NotasVenta.Id = @nvId ), '')
 
 	UPDATE dbo.DS_NotasVenta set RutSolicitante = @ultimaNvNumero, nvObser = ' NV: '+@ultimaNvNumero+' Obs: '+@obser  where dbo.DS_NotasVenta.Id = @nvId;
 

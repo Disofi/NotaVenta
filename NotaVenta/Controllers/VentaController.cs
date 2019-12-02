@@ -353,7 +353,16 @@ namespace NotaVenta.Controllers
         private AlternateView GetEmbeddedImage(List<NotadeVentaCabeceraModels> NVentaCabeceras,
         List<NotaDeVentaDetalleModels> NVentaDetalles, List<ClientesModels> Clientes)
         {
+            ParametrosModels parametro = ObtieneParametros();
+
             char[] blanco = { ' ' };
+
+            int colspan = 7;
+
+            if (parametro.DescuentoLineaDirectoSoftland)
+            {
+                colspan = colspan + parametro.CantidadDescuentosProducto;
+            }
 
             string htmlBody = String.Format(
             "<html><body>" +
@@ -373,8 +382,17 @@ namespace NotaVenta.Controllers
             @"<th>Descripcion</th>" +
             @"<th>Cantidad</th>" +
             @"<th>Precio</th>" +
-            @"<th>Sub-Total</th>" +
-            @"<th>Iva    </th>" +
+            @"<th>Sub-Total</th>");
+
+            if (parametro.DescuentoLineaDirectoSoftland)
+            {
+                for (int x = 0; x < parametro.CantidadDescuentosProducto; x++)
+                {
+                    htmlBody = htmlBody + @"<th>Descuento N°" + (x + 1) + "</th>";
+                }
+            }
+
+            htmlBody = htmlBody + String.Format(@"<th>Iva    </th>" +
             @"<th>Total   </th>" +
             @"</tr>");
 
@@ -385,25 +403,53 @@ namespace NotaVenta.Controllers
             double ivaux = 0;
             foreach (NotaDeVentaDetalleModels nvd in NVentaDetalles)
             {
-                double precioConIVa = Math.Round(nvd.nvSubTotal * 1.19);
-                subtotal = subtotal + nvd.nvSubTotal;
-                Iva = (precioConIVa - nvd.nvSubTotal);
+                double precioConIVa = Math.Round(nvd.nvTotLinea * 1.19);
+                subtotal = subtotal + nvd.nvTotLinea;
+                Iva = (precioConIVa - nvd.nvTotLinea);
                 ivaux = ivaux + Iva;
                 producto.CodProd = nvd.CodProd;
-                htmlBody += @"<tr>" +
+                htmlBody = htmlBody + @"<tr>" +
                            @"<td>" + nvd.nvLinea + @"</td>" +
                            @"<td>" + nvd.CodProd + @"</td>" +
                            @"<td>" + nvd.DesProd + @"</td>" +
                            @"<td style='text-align: right;'>" + nvd.nvCant + @"</td>" +
                            @"<td style='text-align: right;'>" + "$ " + nvd.nvPrecio.ToString("N0") + @"</td>" +
-                           @"<td style='text-align: right;'>" + "$ " + nvd.nvSubTotal.ToString("N0") + @"</td>" +
-                           @"<td style='text-align: right;'>" + "$ " + Iva.ToString("N0") + @"</td>" +
+                           @"<td style='text-align: right;'>" + "$ " + nvd.nvSubTotal.ToString("N0") + @"</td>";
+
+
+
+                if (parametro.DescuentoLineaDirectoSoftland)
+                {
+                    for (int x = 0; x < parametro.CantidadDescuentosProducto; x++)
+                    {
+                        switch (x)
+                        {
+                            case 0:
+                                { htmlBody = htmlBody + @"<td style='text-align: right;'>" + "$ " + nvd.nvDDescto01 + @"</td>"; }
+                                break;
+                            case 1:
+                                { htmlBody = htmlBody + @"<td style='text-align: right;'>" + "$ " + nvd.nvDDescto02 + @"</td>"; }
+                                break;
+                            case 2:
+                                { htmlBody = htmlBody + @"<td style='text-align: right;'>" + "$ " + nvd.nvDDescto03 + @"</td>"; }
+                                break;
+                            case 3:
+                                { htmlBody = htmlBody + @"<td style='text-align: right;'>" + "$ " + nvd.nvDDescto04 + @"</td>"; }
+                                break;
+                            case 4:
+                                { htmlBody = htmlBody + @"<td style='text-align: right;'>" + "$ " + nvd.nvDDescto05 + @"</td>"; }
+                                break;
+                        }
+                    }
+                }
+
+                htmlBody = htmlBody + @"<td style='text-align: right;'>" + "$ " + Iva.ToString("N0") + @"</td>" +
                            @"<td style='text-align: right;'>" + "$ " + precioConIVa.ToString("N0") + @"</td>" +
                            @"</tr>";
             }
-            htmlBody += @"<tr><th style='text-align: right;' colspan =" + 7 + @">Sub Total</th><td style='text-align: right;'>" + "$ " + subtotal.ToString("N0") + @"</td></tr>" +
-                        @"<tr><th style='text-align: right;' colspan =" + 7 + @">Total Iva</th><td style='text-align: right;'>" + "$ " + ivaux.ToString("N0") + @"</td></tr>" +
-                        @"<tr><th style='text-align: right;' colspan =" + 7 + @">Total</th><td style='text-align: right;'>" + "$ " + NVentaCabeceras[0].TotalBoleta.ToString("N0") + @"</td></tr>";
+            htmlBody += @"<tr><th style='text-align: right;' colspan =" + colspan + @">Sub Total</th><td style='text-align: right;'>" + "$ " + subtotal.ToString("N0") + @"</td></tr>" +
+                        @"<tr><th style='text-align: right;' colspan =" + colspan + @">Total Iva</th><td style='text-align: right;'>" + "$ " + ivaux.ToString("N0") + @"</td></tr>" +
+                        @"<tr><th style='text-align: right;' colspan =" + colspan + @">Total</th><td style='text-align: right;'>" + "$ " + NVentaCabeceras[0].TotalBoleta.ToString("N0") + @"</td></tr>";
             htmlBody += @" </body></html>";
 
             AlternateView alternateView = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
@@ -1304,14 +1350,14 @@ namespace NotaVenta.Controllers
         }
 
         [HttpPost]
-        public JsonResult ObtenerSaldo(string RutAuxiliar)
+        public JsonResult ObtenerSaldo(string RutAuxiliar, string CodAux)
         {
             double MontoTotal = 0;
             double Saldo = 0;
             try
             {
                 List<SaldosModel> Saldos = new List<SaldosModel>();
-                Saldos = controlDisofi().ObtenerSaldo(RutAuxiliar, baseDatosUsuario());
+                Saldos = controlDisofi().ObtenerSaldo(RutAuxiliar, CodAux, baseDatosUsuario());
 
                 foreach (SaldosModel item in Saldos)
                 {
@@ -1326,8 +1372,6 @@ namespace NotaVenta.Controllers
 
                 throw;
             }
-
-
         }
     }
 }
