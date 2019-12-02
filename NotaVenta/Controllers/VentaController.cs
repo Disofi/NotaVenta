@@ -557,6 +557,7 @@ namespace NotaVenta.Controllers
                     {
                         CabeceraModel cabeceraModel = CalcularProductosAgregadosFunction(productosTemp, cabecera.Descuentos, productosTemp[0].DescuentoAtributo);
                         NotadeVentaCabeceraModels notadeVentaCabeceraModels = cabecera;
+                        notadeVentaCabeceraModels.IdEmpresaInterna = EmpresaUsuario().IdEmpresa;
                         notadeVentaCabeceraModels.nvSubTotal = cabeceraModel.SubTotal;
                         notadeVentaCabeceraModels.nvSubTotalConDescuento = Convert.ToDouble(cabeceraModel.SubTotalConDescuento);
 
@@ -1053,6 +1054,7 @@ namespace NotaVenta.Controllers
         private RespuestaNotaVentaModel creacionCabeceraDetalleNotaVenta(NotadeVentaCabeceraModels cabecera, List<ProductoAgregadoModel> productos, bool insertaDisofi,
             bool insertaSoftland, ParametrosModels para)
         {
+            cabecera.IdEmpresaInterna = cabecera.IdEmpresaInterna;
             cabecera.NVNumero = cabecera.NVNumero;
             cabecera.nvFem = cabecera.nvFem;
             cabecera.nvEstado = insertaSoftland ? "A" : "P";

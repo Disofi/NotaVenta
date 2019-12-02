@@ -17,6 +17,10 @@ namespace NotaVenta.UTIL
         {
             return SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.BaseDatos;
         }
+        public UsuarioEmpresaModel EmpresaUsuario()
+        {
+            return SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel;
+        }
         public string codigoVendedorUsuario()
         {
             return SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.VenCod;
