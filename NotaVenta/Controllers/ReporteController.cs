@@ -371,8 +371,17 @@ namespace NotaVenta.Controllers
             @"<th>Descripcion</th>" +
             @"<th>Cantidad</th>" +
             @"<th>Precio</th>" +
-            @"<th>Sub-Total</th>" +
-            @"<th>Iva    </th>" +
+            @"<th>Sub-Total</th>");
+
+            if (parametro.DescuentoLineaDirectoSoftland)
+            {
+                for (int x = 0; x < parametro.CantidadDescuentosProducto; x++)
+                {
+                    htmlBody = htmlBody + @"<th>Descuento N°" + (x + 1) + "</th>";
+                }
+            }
+
+            htmlBody = htmlBody + String.Format(@"<th>Iva    </th>" +
             @"<th>Total   </th>" +
             @"</tr>");
 
