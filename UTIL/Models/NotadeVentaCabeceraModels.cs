@@ -10,6 +10,7 @@ namespace UTIL.Models
         #region Campos DISOFI
 
         public int Id { get; set; }
+        public int IdEmpresaInterna { get; set; }
         public string EstadoNP { get; set; }
         public double Saldo { get; set; }
         public string NomAux { get; set; }

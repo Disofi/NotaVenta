@@ -538,6 +538,7 @@ namespace BLL
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_AgregarNVCabecera", new System.Collections.Hashtable()
                 {
+                    {"pi_IdEmpresaInterna",NVC.IdEmpresaInterna },
                     { "pv_EstadoNP", NVC.EstadoNP},
                     { "pv_BaseDatos", baseDatos},
                     { "pb_InsertaDisofi", insertaDisofi},
@@ -985,13 +986,14 @@ namespace BLL
             }
         }
 
-        public List<NotadeVentaCabeceraModels> listarDocAprobados(string basedatos)
+        public List<NotadeVentaCabeceraModels> listarDocAprobados(string basedatos, int idEmpresa)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListarDocumentosAprobados", new System.Collections.Hashtable()
                 {
-                    {"pv_BaseDatos",basedatos }
+                    {"pv_BaseDatos",basedatos },
+                    {"pi_IdEmpresaInterna",idEmpresa },
                 });
                 return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
             }
@@ -1002,13 +1004,14 @@ namespace BLL
             }
         }
 
-        public List<NotadeVentaCabeceraModels> listarDocPendientes(string basedatos)
+        public List<NotadeVentaCabeceraModels> listarDocPendientes(string basedatos, int idEmpresa)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListarDocumentosPendientes", new System.Collections.Hashtable()
                 {
-                    {"pv_BaseDatos",basedatos }
+                    {"pv_BaseDatos",basedatos },
+                    {"pi_IdEmpresaInterna",idEmpresa },
                 });
                 return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
             }
@@ -1019,13 +1022,14 @@ namespace BLL
             }
         }
 
-        public List<NotadeVentaCabeceraModels> listarDocRechazadas(string basedatos)
+        public List<NotadeVentaCabeceraModels> listarDocRechazadas(string basedatos, int idEmpresa)
         {
             try
             {
                 var data = new DBConector().EjecutarProcedimientoAlmacenado("FR_ListarDocumentosRechazadas", new System.Collections.Hashtable()
                 {
-                    {"pv_BaseDatos",basedatos }
+                    {"pv_BaseDatos",basedatos },
+                    {"pi_IdEmpresaInterna",idEmpresa },
                 });
                 return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
             }
