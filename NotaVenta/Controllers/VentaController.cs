@@ -351,7 +351,7 @@ namespace NotaVenta.Controllers
         }
 
         private AlternateView GetEmbeddedImage(List<NotadeVentaCabeceraModels> NVentaCabeceras,
-        List<NotaDeVentaDetalleModels> NVentaDetalles, List<ClientesModels> Clientes)
+        List<NotaDeVentaDetalleModels> NVentaDetalles, List<ClientesModels> Clientes, string nombreEmpresa)
         {
             ParametrosModels parametro = ObtieneParametros();
 
@@ -367,7 +367,7 @@ namespace NotaVenta.Controllers
             string htmlBody = String.Format(
             "<html><body>" +
             //"<img src='~/Image/logo.png' />" +
-            "<H1> NOTA DE PEDIDO </H1>" +
+            "<H1> NOTA DE PEDIDO <small>" + nombreEmpresa + "</small></H1>" +
             @"<H4> Nº de Pedido: " + NVentaCabeceras[0].Id + @" </H4>" +
             @"<H4> Fecha Pedido: " + (NVentaCabeceras[0].nvFem == null ? "" : ((DateTime)NVentaCabeceras[0].nvFem).ToShortDateString()) + @" </H4>" +
             @"<H4> Cliente: " + NVentaCabeceras[0].NomAux + @" </H4>" +
@@ -640,6 +640,7 @@ namespace NotaVenta.Controllers
                                                                    }).ToList();
 
             retorno.Id = cabeceraModels.Id;
+            retorno.IdEmpresaInterna = cabeceraModels.IdEmpresaInterna;
             retorno.EstadoNP = cabeceraModels.EstadoNP;
             retorno.Saldo = cabeceraModels.Saldo;
             retorno.NomAux = cabeceraModels.NomAux;
@@ -725,7 +726,8 @@ namespace NotaVenta.Controllers
         [NonAction]
         public void EnviarEmail(int Id, List<string> para)
         {
-            string subject = string.Format("Nota de Pedido: " + Id, Id);
+            string nombreEmpresa = EmpresaUsuario().NombreEmpresa;
+            string subject = string.Format("Nota de Pedido (" + nombreEmpresa + "): " + Id, Id);
 
             string from = System.Configuration.ConfigurationManager.AppSettings.Get("Para");
             string displayName = System.Configuration.ConfigurationManager.AppSettings.Get("Remitente");
@@ -768,7 +770,7 @@ namespace NotaVenta.Controllers
             {
                 IsBodyHtml = true
             };
-            mail.AlternateViews.Add(GetEmbeddedImage(NVentaCabeceras, NVentaDetalles, clientes));
+            mail.AlternateViews.Add(GetEmbeddedImage(NVentaCabeceras, NVentaDetalles, clientes, nombreEmpresa));
             mail.From = new MailAddress(from);
 
             foreach (string item in para)

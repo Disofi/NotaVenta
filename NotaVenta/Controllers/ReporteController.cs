@@ -260,7 +260,8 @@ namespace NotaVenta.Controllers
         [NonAction]
         public void EnviarEmail(int nvnumero, int Id, List<string> para)
         {
-            string subject = string.Format("Nota de Pedido: " + Id + " Aprobada", Id);
+            string nombreEmpresa = EmpresaUsuario().NombreEmpresa;
+            string subject = string.Format("Nota de Pedido (" + nombreEmpresa + "): " + Id + " Aprobada", Id);
 
             string from = System.Configuration.ConfigurationManager.AppSettings.Get("Para");
             string displayName = System.Configuration.ConfigurationManager.AppSettings.Get("Remitente");
@@ -299,7 +300,7 @@ namespace NotaVenta.Controllers
             {
                 IsBodyHtml = true
             };
-            mail.AlternateViews.Add(GetEmbeddedImage(NVentaCabeceras, NVentaDetalles, clientes));
+            mail.AlternateViews.Add(GetEmbeddedImage(NVentaCabeceras, NVentaDetalles, clientes, nombreEmpresa));
             mail.From = new MailAddress(from);
 
             foreach (string item in para)
@@ -315,7 +316,7 @@ namespace NotaVenta.Controllers
         }
 
         private AlternateView GetEmbeddedImage(List<NotadeVentaCabeceraModels> NVentaCabeceras,
-        List<NotaDeVentaDetalleModels> NVentaDetalles, List<ClientesModels> Clientes)
+        List<NotaDeVentaDetalleModels> NVentaDetalles, List<ClientesModels> Clientes, string nombreEmpresa)
         {
             ParametrosModels parametro = ObtieneParametros();
 
@@ -331,7 +332,7 @@ namespace NotaVenta.Controllers
             string htmlBody = String.Format(
             "<html><body>" +
             //"<img src='~/Image/logo.png' />" +
-            "<H1> APROBACIÓN DE NOTA DE PEDIDO </H1>" +
+            "<H1> APROBACIÓN DE NOTA DE PEDIDO <small>" + nombreEmpresa + "</small></H1>" +
             @"<H4> Nº de Cotización Interno: " + NVentaCabeceras[0].Id + @" </H4>" +
             @"<H4> Nº de Softland: " + NVentaCabeceras[0].NVNumero + @" </H4>" +
             @"<H4> Fecha Pedido: " + (NVentaCabeceras[0].nvFem == null ? "" : ((DateTime)NVentaCabeceras[0].nvFem).ToShortDateString()) + @" </H4>" +
@@ -347,8 +348,17 @@ namespace NotaVenta.Controllers
             @"<th>Descripcion</th>" +
             @"<th>Cantidad</th>" +
             @"<th>Precio</th>" +
-            @"<th>Sub-Total</th>" +
-            @"<th>Iva    </th>" +
+            @"<th>Sub-Total</th>");
+
+            if (parametro.DescuentoLineaDirectoSoftland)
+            {
+                for (int x = 0; x < parametro.CantidadDescuentosProducto; x++)
+                {
+                    htmlBody = htmlBody + @"<th>Descuento N°" + (x + 1) + "</th>";
+                }
+            }
+
+            htmlBody = htmlBody + String.Format(@"<th>Iva    </th>" +
             @"<th>Total   </th>" +
             @"</tr>");
 

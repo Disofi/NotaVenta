@@ -33,6 +33,10 @@ function DetalleNotaPedido(nvId, RutAux) {
                 $("#tblDetalleNotaPedidoDetalle").html("");
 
                 $.each(data.Cabecera, function (index, value) {
+                    subtotal = value.nvSubTotal;
+                    totalconiva = value.TotalBoleta;
+                    ivatotal = totalconiva - subtotal;
+
                     var vendedor = "Sin vendedor";
                     var listaPrecio = "Sin Lista de Precio";
                     var centroCosto = "Sin centro de costo";
@@ -129,17 +133,14 @@ function DetalleNotaPedido(nvId, RutAux) {
 
 
                     var subtotalaux = value.nvSubTotal;
-                    subtotal = subtotal * value.nvCant + subtotalaux;
 
                     var ivaaux = (value.nvPrecio * value.nvCant) * 0.19;
-                    ivatotal = Math.round(ivatotal + ivaaux);
 
                     var totalaux = value.nvTotLinea;
                     total = total + totalaux;
 
                     tableDetalle.append(htmlDetalle);
                 });
-                totalconiva = Math.round(total + ivatotal);
 
                 var colspanTotales = 7;
                 if (parametros.DescuentoLineaDirectoSoftland) {
