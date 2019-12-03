@@ -640,6 +640,7 @@ namespace NotaVenta.Controllers
                                                                    }).ToList();
 
             retorno.Id = cabeceraModels.Id;
+            retorno.IdEmpresaInterna = cabeceraModels.IdEmpresaInterna;
             retorno.EstadoNP = cabeceraModels.EstadoNP;
             retorno.Saldo = cabeceraModels.Saldo;
             retorno.NomAux = cabeceraModels.NomAux;
