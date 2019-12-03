@@ -226,8 +226,8 @@ namespace NotaVenta.Controllers
                         }
                     }
                 }
-                
-                if (cabecera.CodiCC.Trim().Equals("01"))
+
+                if (cabecera.CodiCC != null && cabecera.CodiCC.Trim().Equals("01"))
                 {
                     string correoTemporal = System.Configuration.ConfigurationManager.AppSettings["CorreoSantiago"];
                     if (correoTemporal != null && correoTemporal != "")
@@ -235,7 +235,7 @@ namespace NotaVenta.Controllers
                         paraEmail.Add(correoTemporal);
                     }
                 }
-                if (cabecera.CodiCC.Trim().Equals("02"))
+                if (cabecera.CodiCC != null && cabecera.CodiCC.Trim().Equals("02"))
                 {
                     string correoTemporal = System.Configuration.ConfigurationManager.AppSettings["CorreoConcepcion"];
                     if (correoTemporal != null && correoTemporal != "")
@@ -243,7 +243,7 @@ namespace NotaVenta.Controllers
                         paraEmail.Add(correoTemporal);
                     }
                 }
-                if (cabecera.CodiCC.Trim().Equals("12"))
+                if (cabecera.CodiCC != null && cabecera.CodiCC.Trim().Equals("12"))
                 {
                     string correoTemporal = System.Configuration.ConfigurationManager.AppSettings["CorreoTemuco"];
                     if (correoTemporal != null && correoTemporal != "")
@@ -265,7 +265,7 @@ namespace NotaVenta.Controllers
             catch (Exception ex)
             {
                 string error = ex.ToString();
-                return null;
+                return Json(new { nvNum = proceso[0].NVNumero });
             }
 
             return Json(new { nvNum = proceso[0].NVNumero });
