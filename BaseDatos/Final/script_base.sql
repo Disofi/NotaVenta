@@ -592,8 +592,13 @@ DECLARE @query varchar (max)
 SELECT @query = ''
 SELECT @query = '
 
-SELECT mov.pccodi, mov.pcdesc, mov.codaux, mov.RutAux, mov.nomaux, mov.fechaemi, mov.fechaven, desdoc, mov.movnumdocref, mov.Saldo,    mov.DesArn ,    mov.AreaCod ,    
-mov.PCAUXI, mov.PCCDOC, mov.coddoc, mov.VendCod, mov.Vendedor, mov.FecEmi , mov.Debe, mov.Haber, mov.movtipdocref, mov.MovFv
+SELECT pccodi = isnull(mov.pccodi, ''''), pcdesc = isnull(mov.pcdesc, ''''), codaux = isnull(mov.codaux, ''''), 
+RutAux = isnull(mov.RutAux, ''''), 
+nomaux = isnull(mov.nomaux, ''''), mov.fechaemi, fechaven = isnull(mov.fechaven, ''''), desdoc = isnull(desdoc, ''''), 
+movnumdocref = isnull(mov.movnumdocref, 0), Saldo = isnull(mov.Saldo, 0),    DesArn = isnull(mov.DesArn, ''''),    AreaCod = isnull(mov.AreaCod, ''''),    
+PCAUXI = isnull(mov.PCAUXI, ''''), PCCDOC = isnull(mov.PCCDOC, ''''), coddoc = isnull(mov.coddoc, ''''), VendCod = isnull(mov.VendCod, ''''), 
+Vendedor = isnull(mov.Vendedor, ''''), FecEmi = isnull(mov.FecEmi, ''''), Debe = isnull(mov.Debe, 0), Haber = isnull(mov.Haber, 0), 
+movtipdocref = isnull(mov.movtipdocref, ''''), mov.MovFv
 FROM
 (select cwpctas.pccodi, cwpctas.pcdesc, cwtauxi.codaux, cwtauxi.RutAux, cwtauxi.nomaux, min(cwmovim.movfe) as fechaemi, 
 ''                                                    '' as fechaven, cwttdoc.desdoc, cwmovim.movnumdocref, cwmovim.movtipdocref,min(cwmovim.MovFv) as MovFv,
