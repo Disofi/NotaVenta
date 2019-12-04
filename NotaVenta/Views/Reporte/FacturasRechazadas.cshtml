@@ -31,7 +31,6 @@
                         <th>Valor Final</th>
                         <th>CC</th>
                         <th>Estado</th>
-                        <th>Saldo Cliente</th>
 
                         <th></th>
                     </tr>
@@ -69,7 +68,6 @@
                                             <td>$@double.Parse(doc[i].TotalBoleta.ToString()).ToString("N0")</td>
                                         <td>@doc[i].DescCC</td>
                                             <td>@doc[i].EstadoNP</td>
-                                            <td>@double.Parse(doc[i].Saldo.ToString()).ToString("N0")</td>
                                             <td>
                                                 @if (doc[i].EstadoNP == "R")
                                                 {
