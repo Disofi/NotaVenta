@@ -600,13 +600,13 @@ nomaux = isnull(mov.nomaux, ''''), mov.fechaemi, fechaven = isnull(mov.fechaven,
 movnumdocref = isnull(mov.movnumdocref, 0), Saldo = isnull(mov.Saldo, 0),    DesArn = isnull(mov.DesArn, ''''),    AreaCod = isnull(mov.AreaCod, ''''),    
 PCAUXI = isnull(mov.PCAUXI, ''''), PCCDOC = isnull(mov.PCCDOC, ''''), coddoc = isnull(mov.coddoc, ''''), VendCod = isnull(mov.VendCod, ''''), 
 Vendedor = isnull(mov.Vendedor, ''''), FecEmi = isnull(mov.FecEmi, ''''), Debe = isnull(mov.Debe, 0), Haber = isnull(mov.Haber, 0), 
-movtipdocref = isnull(mov.movtipdocref, ''''), mov.MovFv
+movtipdocref = isnull(mov.movtipdocref, ''''), mov.MovFv, mov.Cpbano
 FROM
 (select cwpctas.pccodi, cwpctas.pcdesc, cwtauxi.codaux, cwtauxi.RutAux, cwtauxi.nomaux, min(cwmovim.movfe) as fechaemi, 
 ''                                                    '' as fechaven, cwttdoc.desdoc, cwmovim.movnumdocref, cwmovim.movtipdocref,min(cwmovim.MovFv) as MovFv,
 sum(cwmovim.movdebe - cwmovim.movhaber) as Saldo, min(cwmovim.MovDebe) as Debe, min(cwmovim.MovHaber) as Haber, cwmovim.AreaCod, cwTAren.DesArn , cwpctas.PCAUXI, cwpctas.PCCDOC,  
 cwttdoc.coddoc, 
-''    '' As Cpbano ,  ''    '' as VendCod,''                                                                                           '' as Vendedor,
+max(cwmovim.Cpbano) as Cpbano,  ''    '' as VendCod,''                                                                                           '' as Vendedor,
 ''                                                    '' as FecEmi  
 FROM [' + @pv_BaseDatos + '].softland.cwcpbte 
 inner join [' + @pv_BaseDatos + '].softland.cwmovim on cwcpbte.cpbano = cwmovim.cpbano and cwcpbte.cpbnum = cwmovim.cpbnum 
