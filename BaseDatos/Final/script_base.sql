@@ -1845,6 +1845,19 @@ CREATE procedure [dbo].[FR_BuscarNVDetalle]
 AS
 DECLARE @query varchar (max)
 
+ declare @lv_bodega varchar(50)
+
+select	top 1 
+		@lv_bodega = 
+				case	when a.stockproductoesbodega = 1 
+							then isnull(stockproductocodigobodega, '') 
+							else '' 
+				end 
+from	ds_parametros a 
+	inner join ds_empresa b 
+		on a.idempresa = b.id 
+where	b.basedatos = @pv_BaseDatos
+
 SELECT @query = ''
 SELECT @query = @query + '
 begin
@@ -1862,9 +1875,14 @@ ROUND(a.nvDPorcDesc03,0) as nvDPorcDesc03,
 ROUND(a.nvDPorcDesc04,0) as nvDPorcDesc04, 
 ROUND(a.nvDPorcDesc05,0) as nvDPorcDesc05, 
 a.nvTotLinea,
-Stock = (select  Sum (CASE WHEN TipoBod = ''D'' THEN Ingresos - Egresos ELSE 0 END)  * 1 AS StockDisponible     
-FROM  ['+@pv_BaseDatos+'].[softland].[IW_vsnpMovimStockTipoBod] WITH (INDEX(IW_GMOVI_BodPro)) 
-WHERE   Fecha <= '+CONVERT(varchar(10),getdate(),103)+'  and CodProd = tp.CodProd GROUP BY CodProd)
+  Stock = ISNULL((  
+      select  Sum (CASE WHEN TipoBod = ''D'' THEN Ingresos - Egresos ELSE 0 END) * 1 AS StockDisponible  
+      FROM  [' + @pv_BaseDatos + '].[softland].IW_vsnpMovimStockTipoBod WITH (INDEX(IW_GMOVI_BodPro))   
+      WHERE  Fecha <= GETDATE()  
+      and   CodProd = tp.CodProd   ' +
+		case when @lv_bodega = '' then '' else ' and codbode = ''' + @lv_bodega + '''' end + '
+      GROUP BY CodProd  
+     ), 0)--Stock = [dbo].[stock2018](tp.CodProd)  
 from [dbo].[DS_NotasVentaDetalle] a
 inner JOIN ['+@pv_BaseDatos+'].[softland].[iw_tprod] AS tp on a.CodProd collate Modern_Spanish_CI_AS = tp.CodProd 
 where a.IdNotaVenta = '+convert(varchar(100),@nvId)+'
@@ -3397,6 +3415,16 @@ CREATE PROCEDURE [dbo].[JS_ListarMisClientes]
 ,	@pv_BaseDatos varchar(100)
 AS
 BEGIN
+	declare @lb_ClienteBloqueado BIT
+	declare @lb_ClienteInactivo BIT
+
+	SELECT	@lb_ClienteBloqueado = a.CreacionNotaVentaUsuariosBloqueados
+	,		@lb_ClienteInactivo = a.CreacionNotaVentaUsuariosInactivos
+	FROM	DS_Parametros a
+		inner join DS_Empresa b
+			on a.IdEmpresa = b.Id
+	where	BaseDatos = @pv_BaseDatos
+
 	declare @query nvarchar(max)
 	
 	select	@query = ''
@@ -3423,7 +3451,8 @@ BEGIN
 		LEFT JOIN ['+@pv_BaseDatos+'].softland.cwtcvcl as vcl 
 			ON vcl.CodAux = A.CodAux
 	WHERE	b.VenCod in (''' + @cod + ''', ''OFI'')
-	AND		C.Bloqueado	<> ''S''
+	' + CASE WHEN @lb_ClienteBloqueado = 1 THEN '' else '	AND		C.Bloqueado	<> ''S''' end + '
+	' + CASE WHEN @lb_ClienteInactivo = 1 THEN '' else '	AND		C.ActAux	<> ''N''' end + '
 	'
 
 	exec (@query)
