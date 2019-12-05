@@ -219,7 +219,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[DS_Usuarios](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
-	[Usuario] [varchar](10) NOT NULL,
+	[Usuario] [varchar](100) NOT NULL,
 	[Contrasena] [varchar](max) NULL,
 	[Cliente] [varchar](50) NULL,
 	[CCosto] [varchar](50) NULL,
