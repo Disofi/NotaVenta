@@ -1304,6 +1304,28 @@ BEGIN
 	,		@MensajeDisofi = 'No se ejecuto la insercion en disofi'
 	,		@VerificadorSoftland = 0
 	,		@MensajeDisofi = 'No se ejecuto la insercion en disofi'
+	
+	DECLARE @query1 nvarchar(max);
+	DECLARE @ParmDefinition nvarchar(500);  
+	
+	IF @pt_DetProd IS NULL BEGIN
+		SELECT @query1 = N'SELECT @DetProdOUT = convert(varchar(max), desprod) FROM ' + @pv_BaseDatos + '.[softland].[iw_tprod] WHERE CodProd = ''' + @pv_CodProd + '''';
+
+		SET @ParmDefinition = N'@DetProdOUT varchar(max) OUTPUT';  	
+
+		EXEC sp_executesql @query1, @ParmDefinition, @DetProdOUT=@pt_DetProd OUTPUT;  
+		
+		select @pt_DetProd
+	END
+	IF @pv_CodUMed IS NULL BEGIN
+		SELECT @query1 = N'SELECT @CodUMedOUT = convert(varchar(max), codumed) FROM ' + @pv_BaseDatos + '.[softland].[iw_tprod] WHERE CodProd = ''' + @pv_CodProd + '''';
+
+		SET @ParmDefinition = N'@CodUMedOUT varchar(max) OUTPUT';  	
+
+		EXEC sp_executesql @query1, @ParmDefinition, @CodUMedOUT=@pv_CodUMed OUTPUT;  
+
+		select @pv_CodUMed
+	END
 
 	IF @pb_InsertaDisofi = 1 BEGIN
 		INSERT INTO [dbo].[DS_NotasVentaDetalle]
