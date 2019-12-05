@@ -229,33 +229,45 @@ namespace NotaVenta.Controllers
 
                 if (cabecera.CodiCC != null && cabecera.CodiCC.Trim().Equals("01"))
                 {
-                    string correoTemporal = System.Configuration.ConfigurationManager.AppSettings["CorreoSantiago"];
-                    if (correoTemporal != null && correoTemporal != "")
+                    List<string> correoTemporal = System.Configuration.ConfigurationManager.AppSettings["CorreoSantiago"].Split(';').ToList();
+                    for (int x = 0; x < correoTemporal.Count; x++)
                     {
-                        paraEmail.Add(correoTemporal);
+                        if (correoTemporal[x] != null && correoTemporal[x] != "")
+                        {
+                            paraEmail.Add(correoTemporal[x]);
+                        }
                     }
                 }
                 if (cabecera.CodiCC != null && cabecera.CodiCC.Trim().Equals("02"))
                 {
-                    string correoTemporal = System.Configuration.ConfigurationManager.AppSettings["CorreoConcepcion"];
-                    if (correoTemporal != null && correoTemporal != "")
+                    List<string> correoTemporal = System.Configuration.ConfigurationManager.AppSettings["CorreoConcepcion"].Split(';').ToList();
+                    for (int x = 0; x < correoTemporal.Count; x++)
                     {
-                        paraEmail.Add(correoTemporal);
+                        if (correoTemporal[x] != null && correoTemporal[x] != "")
+                        {
+                            paraEmail.Add(correoTemporal[x]);
+                        }
                     }
                 }
                 if (cabecera.CodiCC != null && cabecera.CodiCC.Trim().Equals("12"))
                 {
-                    string correoTemporal = System.Configuration.ConfigurationManager.AppSettings["CorreoTemuco"];
-                    if (correoTemporal != null && correoTemporal != "")
+                    List<string> correoTemporal = System.Configuration.ConfigurationManager.AppSettings["CorreoTemuco"].Split(';').ToList();
+                    for (int x = 0; x < correoTemporal.Count; x++)
                     {
-                        paraEmail.Add(correoTemporal);
+                        if (correoTemporal[x] != null && correoTemporal[x] != "")
+                        {
+                            paraEmail.Add(correoTemporal[x]);
+                        }
                     }
                 }
                 {
-                    string correoTemporal = System.Configuration.ConfigurationManager.AppSettings["CorreoSiempre"];
-                    if (correoTemporal != null && correoTemporal != "")
+                    List<string> correoTemporal = System.Configuration.ConfigurationManager.AppSettings["CorreoSiempre"].Split(';').ToList();
+                    for (int x = 0; x < correoTemporal.Count; x++)
                     {
-                        paraEmail.Add(correoTemporal);
+                        if (correoTemporal[x] != null && correoTemporal[x] != "")
+                        {
+                            paraEmail.Add(correoTemporal[x]);
+                        }
                     }
                 }
 
