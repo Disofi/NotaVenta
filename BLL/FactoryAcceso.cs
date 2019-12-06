@@ -986,7 +986,7 @@ namespace BLL
             }
         }
 
-        public List<NotadeVentaCabeceraModels> listarDocAprobados(string basedatos, int idEmpresa)
+        public List<NotadeVentaCabeceraModels> listarDocAprobados(string basedatos, int idEmpresa, string codigoVendedor)
         {
             try
             {
@@ -994,6 +994,7 @@ namespace BLL
                 {
                     {"pv_BaseDatos",basedatos },
                     {"pi_IdEmpresaInterna",idEmpresa },
+                    {"pv_CodigoVendedor",codigoVendedor },
                 });
                 return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
             }
@@ -1004,7 +1005,7 @@ namespace BLL
             }
         }
 
-        public List<NotadeVentaCabeceraModels> listarDocPendientes(string basedatos, int idEmpresa)
+        public List<NotadeVentaCabeceraModels> listarDocPendientes(string basedatos, int idEmpresa, string codigoVendedor)
         {
             try
             {
@@ -1012,6 +1013,7 @@ namespace BLL
                 {
                     {"pv_BaseDatos",basedatos },
                     {"pi_IdEmpresaInterna",idEmpresa },
+                    {"pv_CodigoVendedor",codigoVendedor },
                 });
                 return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
             }
@@ -1022,7 +1024,7 @@ namespace BLL
             }
         }
 
-        public List<NotadeVentaCabeceraModels> listarDocRechazadas(string basedatos, int idEmpresa)
+        public List<NotadeVentaCabeceraModels> listarDocRechazadas(string basedatos, int idEmpresa, string codigoVendedor)
         {
             try
             {
@@ -1030,6 +1032,7 @@ namespace BLL
                 {
                     {"pv_BaseDatos",basedatos },
                     {"pi_IdEmpresaInterna",idEmpresa },
+                    {"pv_CodigoVendedor",codigoVendedor },
                 });
                 return UTIL.Mapper.BindDataList<NotadeVentaCabeceraModels>(data);
             }

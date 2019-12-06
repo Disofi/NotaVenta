@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using NotaVenta.UTIL.Error;
 using UTIL.Models;
+using UTIL.Objetos;
 
 namespace NotaVenta.UTIL
 {
@@ -24,6 +25,10 @@ namespace NotaVenta.UTIL
         public string codigoVendedorUsuario()
         {
             return SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.VenCod;
+        }
+        public ObjetoUsuario obtenerUsuario()
+        {
+            return SessionVariables.SESSION_DATOS_USUARIO;
         }
         public ParametrosModels ObtieneParametros(int idEmpresa = -1)
         {
