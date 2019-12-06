@@ -598,7 +598,7 @@ nomaux = isnull(mov.nomaux, ''''), mov.fechaemi, fechaven = isnull(mov.fechaven,
 movnumdocref = isnull(mov.movnumdocref, 0), Saldo = isnull(mov.Saldo, 0),    DesArn = isnull(mov.DesArn, ''''),    AreaCod = isnull(mov.AreaCod, ''''),    
 PCAUXI = isnull(mov.PCAUXI, ''''), PCCDOC = isnull(mov.PCCDOC, ''''), coddoc = isnull(mov.coddoc, ''''), VendCod = isnull(mov.VendCod, ''''), 
 Vendedor = isnull(mov.Vendedor, ''''), FecEmi = isnull(mov.FecEmi, ''''), Debe = isnull(mov.Debe, 0), Haber = isnull(mov.Haber, 0), 
-movtipdocref = isnull(mov.movtipdocref, ''''), mov.MovFv, mov.Cpbano
+movtipdocref = isnull(mov.movtipdocref, ''''), mov.MovFv as movfv, mov.Cpbano
 FROM
 (select cwpctas.pccodi, cwpctas.pcdesc, cwtauxi.codaux, cwtauxi.RutAux, cwtauxi.nomaux, min(cwmovim.movfe) as fechaemi, 
 ''                                                    '' as fechaven, cwttdoc.desdoc, cwmovim.movnumdocref, cwmovim.movtipdocref,min(cwmovim.MovFv) as MovFv,
