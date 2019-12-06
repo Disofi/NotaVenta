@@ -512,7 +512,7 @@ GO
 CREATE PROCEDURE [dbo].[DS_GetCab]
 @nvId int
 AS
-SELECT CodAux, VenCod, NVNumero FROM dbo.DS_NotasVenta dnv WHERE dnv.Id = @nvId
+SELECT CodAux, VenCod, NVNumero, CodiCC FROM dbo.DS_NotasVenta dnv WHERE dnv.Id = @nvId
 GO
 /****** Object:  StoredProcedure [dbo].[DS_ListaEmpresa]    Script Date: 19-11-2019 14:45:09 ******/
 SET ANSI_NULLS ON
