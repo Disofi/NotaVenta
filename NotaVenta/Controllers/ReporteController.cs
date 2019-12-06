@@ -30,7 +30,8 @@ namespace NotaVenta.Controllers
             ViewBag.Parametros = parametros;
 
             List<NotadeVentaCabeceraModels> doc = new List<NotadeVentaCabeceraModels>();
-            var docPendientes = controlDisofi().listarDocPendientes(baseDatosUsuario(), EmpresaUsuario().IdEmpresa);
+            string codigoVendedor = obtenerUsuario().TipoUsuario == Convert.ToInt32(PERFILES.APROBADOR) ? "-1" : codigoVendedorUsuario();
+            var docPendientes = controlDisofi().listarDocPendientes(baseDatosUsuario(), EmpresaUsuario().IdEmpresa, codigoVendedor);
 
             if (docPendientes != null)
             {
@@ -64,7 +65,8 @@ namespace NotaVenta.Controllers
         public ActionResult FacturasRechazadas()
         {
             List<NotadeVentaCabeceraModels> doc = new List<NotadeVentaCabeceraModels>();
-            var docPendientes = controlDisofi().listarDocRechazadas(baseDatosUsuario(), EmpresaUsuario().IdEmpresa);
+            string codigoVendedor = obtenerUsuario().TipoUsuario == Convert.ToInt32(PERFILES.APROBADOR) ? "-1" : codigoVendedorUsuario();
+            var docPendientes = controlDisofi().listarDocRechazadas(baseDatosUsuario(), EmpresaUsuario().IdEmpresa, codigoVendedor);
 
             if (docPendientes != null)
             {
@@ -118,7 +120,8 @@ namespace NotaVenta.Controllers
         public ActionResult FacturasAprobadas()
         {
             List<NotadeVentaCabeceraModels> doc = new List<NotadeVentaCabeceraModels>();
-            var docAprobados = controlDisofi().listarDocAprobados(baseDatosUsuario(), EmpresaUsuario().IdEmpresa);
+            string codigoVendedor = obtenerUsuario().TipoUsuario == Convert.ToInt32(PERFILES.APROBADOR) ? "-1" : codigoVendedorUsuario();
+            var docAprobados = controlDisofi().listarDocAprobados(baseDatosUsuario(), EmpresaUsuario().IdEmpresa, codigoVendedor);
 
             ParametrosModels parametros = ObtieneParametros();
 

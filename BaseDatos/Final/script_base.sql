@@ -1483,24 +1483,20 @@ BEGIN
 	DECLARE @query1 nvarchar(max);
 	DECLARE @ParmDefinition nvarchar(500);  
 	
-	IF @pt_DetProd IS NULL BEGIN
-		SELECT @query1 = N'SELECT @DetProdOUT = convert(varchar(max), desprod) FROM ' + @pv_BaseDatos + '.[softland].[iw_tprod] WHERE CodProd = ''' + @pv_CodProd + '''';
-
-		SET @ParmDefinition = N'@DetProdOUT varchar(max) OUTPUT';  	
-
-		EXEC sp_executesql @query1, @ParmDefinition, @DetProdOUT=@pt_DetProd OUTPUT;  
-		
-		select @pt_DetProd
-	END
-	IF @pv_CodUMed IS NULL BEGIN
-		SELECT @query1 = N'SELECT @CodUMedOUT = convert(varchar(max), codumed) FROM ' + @pv_BaseDatos + '.[softland].[iw_tprod] WHERE CodProd = ''' + @pv_CodProd + '''';
-
-		SET @ParmDefinition = N'@CodUMedOUT varchar(max) OUTPUT';  	
-
-		EXEC sp_executesql @query1, @ParmDefinition, @CodUMedOUT=@pv_CodUMed OUTPUT;  
-
-		select @pv_CodUMed
-	END
+	 IF @pt_DetProd IS NULL or @pt_DetProd = '' BEGIN  
+	  SELECT @query1 = N'SELECT @DetProdOUT = convert(varchar(max), desprod) FROM ' + @pv_BaseDatos + '.[softland].[iw_tprod] WHERE CodProd = ''' + @pv_CodProd + '''';  
+  
+	  SET @ParmDefinition = N'@DetProdOUT varchar(max) OUTPUT';     
+  
+	  EXEC sp_executesql @query1, @ParmDefinition, @DetProdOUT=@pt_DetProd OUTPUT;    
+	 END  
+	 IF @pv_CodUMed IS NULL or @pv_CodUMed = '' BEGIN  
+	  SELECT @query1 = N'SELECT @CodUMedOUT = convert(varchar(max), codumed) FROM ' + @pv_BaseDatos + '.[softland].[iw_tprod] WHERE CodProd = ''' + @pv_CodProd + '''';  
+  
+	  SET @ParmDefinition = N'@CodUMedOUT varchar(max) OUTPUT';     
+  
+	  EXEC sp_executesql @query1, @ParmDefinition, @CodUMedOUT=@pv_CodUMed OUTPUT;    
+	 END  
 
 	IF @pb_InsertaDisofi = 1 BEGIN
 		INSERT INTO [dbo].[DS_NotasVentaDetalle]
@@ -2445,6 +2441,7 @@ CREATE procedure [dbo].[FR_ListarDocumentosAprobados]
 (
 	@pv_BaseDatos varchar (100)
 ,	@pi_IdEmpresaInterna int
+,	@pv_CodigoVendedor varchar(100)
 )
 AS
 	DECLARE @query varchar(max)
@@ -2472,6 +2469,7 @@ AS
 	LEFT JOIN ['+@pv_BaseDatos+'].[softland].[cwtccos] cc ON (cc.CodiCC collate Modern_Spanish_CI_AS = a.CodiCC)
 	where	a.IdEmpresaInterna = ' + convert(varchar(20), @pi_IdEmpresaInterna) + '
 	and		a.EstadoNP = ''A''
+	' + case when @pv_CodigoVendedor is not null and @pv_CodigoVendedor <> '-1' then 'and	a.VenCod = ''' + @pv_CodigoVendedor + '''' else '' end + '
 	order by a.Id desc
 '
 EXEC (@query)
@@ -2486,6 +2484,7 @@ CREATE procedure [dbo].[FR_ListarDocumentosPendientes]
 (
 	@pv_BaseDatos varchar (100)
 ,	@pi_IdEmpresaInterna int
+,	@pv_CodigoVendedor varchar(100)
 )
 AS
 	DECLARE @query varchar (max)
@@ -2530,6 +2529,7 @@ AS
 	LEFT JOIN ['+@pv_BaseDatos+'].[softland].[cwtccos] cc ON (cc.CodiCC collate Modern_Spanish_CI_AS = a.CodiCC)
 	where	a.IdEmpresaInterna = ' + convert(varchar(20), @pi_IdEmpresaInterna) + '
 	and		a.EstadoNP = ''P''
+	' + case when @pv_CodigoVendedor is not null and @pv_CodigoVendedor <> '-1' then 'and	a.VenCod = ''' + @pv_CodigoVendedor + '''' else '' end + '
 	order by a.Id desc
 '
 exec (@query)
@@ -2545,6 +2545,7 @@ create procedure [dbo].[FR_ListarDocumentosRechazadas]
 (
 	@pv_BaseDatos varchar (100)
 ,	@pi_IdEmpresaInterna int
+,	@pv_CodigoVendedor varchar(100)
 )
 AS
 	DECLARE @query varchar(max)
@@ -2572,6 +2573,7 @@ AS
 	LEFT JOIN ['+@pv_BaseDatos+'].[softland].[cwtccos] cc ON (cc.CodiCC collate Modern_Spanish_CI_AS = a.CodiCC)
 	where	a.IdEmpresaInterna = ' + convert(varchar(20), @pi_IdEmpresaInterna) + '
 	and		a.EstadoNP = ''R''
+	' + case when @pv_CodigoVendedor is not null and @pv_CodigoVendedor <> '-1' then 'and	a.VenCod = ''' + @pv_CodigoVendedor + '''' else '' end + '
 '
 EXEC (@query)
 GO
