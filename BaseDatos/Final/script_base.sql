@@ -1308,7 +1308,7 @@ BEGIN
 	DECLARE @query1 nvarchar(max);
 	DECLARE @ParmDefinition nvarchar(500);  
 	
-	 IF @pt_DetProd IS NULL or @pt_DetProd = '' BEGIN  
+	 IF @pt_DetProd IS NULL or CONVERT(VARCHAR(MAX), @pt_DetProd) = '' BEGIN  
 	  SELECT @query1 = N'SELECT @DetProdOUT = convert(varchar(max), desprod) FROM ' + @pv_BaseDatos + '.[softland].[iw_tprod] WHERE CodProd = ''' + @pv_CodProd + '''';  
   
 	  SET @ParmDefinition = N'@DetProdOUT varchar(max) OUTPUT';     
