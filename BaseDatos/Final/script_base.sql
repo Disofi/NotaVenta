@@ -785,6 +785,7 @@ where	(((c.cpbNum <> ''00000000'')
 or		(c.cpbano = (select min(cpbano) from [' + @pv_BaseDatos + '].softland.cwcpbte) AND c.cpbNum = ''00000000'' )))
 			--select * from [' + @pv_BaseDatos + '].softland.cwttdoc where rtrim(ltrim(coddoc)) = ''00''
 			--select * from [' + @pv_BaseDatos + '].softland.cwttdoc where rtrim(ltrim(coddoc)) = ''00''
+order by a.movnumdocref asc, b.movfe asc
 '  
 exec(@query)  
 END  

@@ -253,7 +253,7 @@ function ObtenerSaldo(RutAux, CodAux, Nombre, Saldo) {
                 var htmlFooter = "";
                 htmlFooter = htmlFooter + "<tr>";
                 htmlFooter = htmlFooter + "<td colspan='" + ($(tblSaldos.find("tr")[0]).find("td").length - 1) + "' style='text-align: right; font-size: 18px'><b>Total</b></td>";
-                htmlFooter = htmlFooter + "<td style='font-size: 18px'><b>" + Saldo + "</b></td>";
+                htmlFooter = htmlFooter + "<td style='text-align: right; font-size: 18px'><b>" + Saldo + "</b></td>";
                 htmlFooter = htmlFooter + "</tr>";
 
                 tblSaldos.append(htmlFooter);
@@ -318,9 +318,9 @@ function ObtenerSaldoDetalle(RutAux, CodAux, Nombre, Saldo) {
                     htmlDetalle = htmlDetalle + "<td>" + value.movfvString + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.movtipdocref + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.movnumdocref + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.movdebe) + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.movhaber) + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.Saldo) + "</td>";
+                    htmlDetalle = htmlDetalle + "<td style='text-align: right'>" + formatearNumero(value.movdebe) + "</td>";
+                    htmlDetalle = htmlDetalle + "<td style='text-align: right'>" + formatearNumero(value.movhaber) + "</td>";
+                    htmlDetalle = htmlDetalle + "<td style='text-align: right'>" + formatearNumero(value.Saldo) + "</td>";
                     //htmlDetalle = htmlDetalle + "<td>" + value.movglosa + "</td>";
                     //htmlDetalle = htmlDetalle + "<td>" + value.DiasVen + "</td>";
 
@@ -387,9 +387,9 @@ function ObtenerSaldoDetalle(RutAux, CodAux, Nombre, Saldo) {
                 htmlDetalle = htmlDetalle + "<td>" + value.movfvString + "</td>";
                 htmlDetalle = htmlDetalle + "<td>" + value.movtipdocref + "</td>";
                 htmlDetalle = htmlDetalle + "<td>" + value.movnumdocref + "</td>";
-                htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.movdebe) + "</td>";
-                htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.movhaber) + "</td>";
-                htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.Saldo) + "</td>";
+                htmlDetalle = htmlDetalle + "<td style='text-align: right'>" + formatearNumero(value.movdebe) + "</td>";
+                htmlDetalle = htmlDetalle + "<td style='text-align: right'>" + formatearNumero(value.movhaber) + "</td>";
+                htmlDetalle = htmlDetalle + "<td style='text-align: right'>" + formatearNumero(value.Saldo) + "</td>";
                 //htmlDetalle = htmlDetalle + "<td>" + value.movglosa + "</td>";
                 //htmlDetalle = htmlDetalle + "<td>" + value.DiasVen + "</td>";
 
@@ -400,7 +400,7 @@ function ObtenerSaldoDetalle(RutAux, CodAux, Nombre, Saldo) {
             var htmlFooter = "";
             htmlFooter = htmlFooter + "<tr>";
             htmlFooter = htmlFooter + "<td colspan='" + ($(tblSaldos.find("tr")[0]).find("td").length - 1) + "' style='text-align: right; font-size: 18px'><b>Total</b></td>";
-            htmlFooter = htmlFooter + "<td style='font-size: 18px'><b>" + Saldo + "</b></td>";
+            htmlFooter = htmlFooter + "<td style='text-align: right; font-size: 18px'><b>" + Saldo + "</b></td>";
             htmlFooter = htmlFooter + "</tr>";
 
             tblSaldos.append(htmlFooter);
