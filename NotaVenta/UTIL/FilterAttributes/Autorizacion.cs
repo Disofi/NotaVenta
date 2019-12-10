@@ -36,13 +36,16 @@ namespace NotaVenta.UTIL.FilterAttributes
             }
             else
             {
-                if (perfiles.Where(m => Convert.ToInt32(m).Equals(objetoUsuario.TipoUsuario)).Count() == 0)
+                if (perfiles.ToList().Count > 0)
                 {
-                    filterContext.Result = new RedirectToRouteResult(
-                        new RouteValueDictionary(new { controller = "Error", action = "Index", codigoError = Errores.ERRORES.ERROR_NO_AUTORIZADO, tipoAccionBtn = TipoAccionError.TIPO_ACCION_BTN.IR_LOGIN })
-                        );
+                    if (perfiles.Where(m => Convert.ToInt32(m).Equals(objetoUsuario.TipoUsuario)).Count() == 0)
+                    {
+                        filterContext.Result = new RedirectToRouteResult(
+                            new RouteValueDictionary(new { controller = "Error", action = "Index", codigoError = Errores.ERRORES.ERROR_NO_AUTORIZADO, tipoAccionBtn = TipoAccionError.TIPO_ACCION_BTN.IR_LOGIN })
+                            );
 
-                    filterContext.Result.ExecuteResult(filterContext.Controller.ControllerContext);
+                        filterContext.Result.ExecuteResult(filterContext.Controller.ControllerContext);
+                    }
                 }
             }
 
