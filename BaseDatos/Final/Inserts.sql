@@ -3,9 +3,7 @@ GO
 SET IDENTITY_INSERT [dbo].[DS_Empresa] ON 
 GO
 INSERT [dbo].[DS_Empresa] ([Id], [Nombre], [BaseDatos]) 
-SELECT	1, N'TRANSPORTE', N'TRANSPORTE' UNION ALL
-SELECT	2, N'KUPPEL', N'KUPPEL' UNION ALL
-SELECT	3, N'ASTURIA', N'AST'
+SELECT	1, N'Don Camaron', N'CAMARON2'
 GO
 SET IDENTITY_INSERT [dbo].[DS_Empresa] OFF
 
@@ -14,9 +12,7 @@ GO
 SET IDENTITY_INSERT [dbo].[DS_Parametros] ON 
 GO
 INSERT [dbo].[DS_Parametros] ([Id], [IdEmpresa], [MultiEmpresa], [ManejaAdministrador], [ManejaAprobador], [ListaClientesVendedor], [ListaClientesTodos], [ValidaReglasNegocio], [ManejaListaPrecios], [EditaPrecioProducto], [MuestraCondicionVentaCliente], [MuestraCondicionVentaTodos], [EditaDescuentoProducto], [MaximoDescuentoProducto], [CantidadDescuentosProducto], [MuestraStockProducto], [StockProductoEsMasivo], [StockProductoEsBodega], [StockProductoCodigoBodega], [ControlaStockProducto], [EnvioMailCliente], [EnvioMailVendedor], [EnvioMailContacto], [EnvioObligatorioAprobador], [ManejaTallaColor], [ManejaDescuentoTotalDocumento], [CantidadDescuentosTotalDocumento], [CantidadLineas], [ManejaLineaCreditoVendedor], [ManejaLineaCreditoAprobador], [ManejaCanalVenta], [CreacionNotaVentaUsuariosBloqueados], [CreacionNotaVentaUsuariosInactivos], [PermiteModificacionCondicionVenta], [AtributoSoftlandDescuentoCliente], [PermiteCrearDireccion], [CrearClienteConDV], [MuestraUnidadMedidaProducto], [DescuentoLineaDirectoSoftland], [DescuentoTotalDirectoSoftland]) 
-SELECT	1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, CAST(20.00 AS Decimal(18, 2)), 5, 1, 1, 0, N'', 1, 1, 1, 1, 0, 0, 1, 5, 30, 0, 0, 1, 0, 0, 0, N'', 1, 0, 0, 0, 0 UNION ALL
-SELECT	2, 2, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, CAST(50.00 AS Decimal(18, 2)), 5, 1, 1, 0, N'', 1, 1, 1, 1, 0, 0, 1, 5, 30, 1, 1, 1, 0, 0, 0, N'', 1, 0, 0, 0, 0 UNION ALL
-SELECT	3, 3, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, CAST(10.00 AS Decimal(18, 2)), 1, 1, 1, 0, N'', 1, 1, 1, 1, 0, 0, 1, 1, 30, 0, 0, 1, 0, 0, 0, N'', 1, 0, 0, 0, 0
+SELECT	1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, CAST(20.00 AS Decimal(18, 2)), 5, 1, 1, 0, N'', 1, 1, 1, 1, 0, 0, 1, 5, 30, 0, 0, 1, 0, 0, 0, N'', 1, 0, 0, 0, 0 
 GO
 SET IDENTITY_INSERT [dbo].[DS_Parametros] OFF
 
