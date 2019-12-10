@@ -74,10 +74,10 @@
                                         {
                                             <td>@doc[i].NomCon</td>
                                         }
-                                        <td>$@double.Parse(doc[i].nvSubTotal.ToString()).ToString("N0")</td>
-                                        <td>$@double.Parse(doc[i].TotalBoleta.ToString()).ToString("N0")</td>
+                                        <td style='text-align: right;'>$@double.Parse(doc[i].nvSubTotal.ToString()).ToString("N0")</td>
+                                        <td style='text-align: right;'>$@double.Parse(doc[i].TotalBoleta.ToString()).ToString("N0")</td>
                                         <td>@doc[i].EstadoNP</td>
-                                        <td>@double.Parse(doc[i].Saldo.ToString()).ToString("N0")
+                                        <td style='text-align: right;'>@double.Parse(doc[i].Saldo.ToString()).ToString("N0")
                                         <button class="btn-primary btn-xs" data-toggle="modal" data-target="#modalSaldo" onclick="ObtenerSaldo('@doc[i].RutAux','@doc[i].CodAux', '@doc[i].NomAux','@doc[i].Saldo')" style="cursor:pointer;"><i class="fas fa-search"></i></button></td>
                                         <td>
                                             @if (doc[i].EstadoNP == "P")
