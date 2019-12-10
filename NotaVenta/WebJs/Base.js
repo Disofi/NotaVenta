@@ -12,7 +12,7 @@ function agregarSeparadorMiles(numero, caracterSeparador, caracterDecimal) {
 
     decimales = decimales.replace(".", caracterDecimal);
 
-    numero = numero === '' ? numero : Number(numero).toLocaleString().replace(",", caracterSeparador);
+    numero = numero === '' ? numero : Number(numero).toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g, '$1.').split('').reverse().join('').replace(/^[\.]/, '');
 
     while (numero.indexOf(",") !== -1) {
         numero = numero.replace(",", caracterSeparador);
