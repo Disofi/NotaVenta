@@ -1,5 +1,6 @@
 ﻿@using NotaVenta.Models;
 @{
+    string parametroUpdate = NotaVenta.UTIL.ActualizacionJS.obtenerParametro();
     ViewBag.Title = "VerDetalleNV";
     List<NotadeVentaCabeceraModels> cabecera = ViewBag.cabecera;
     List<NotaDeVentaDetalleModels> detalle = ViewBag.detalle;

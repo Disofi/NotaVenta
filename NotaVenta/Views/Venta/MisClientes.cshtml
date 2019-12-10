@@ -1,6 +1,7 @@
 ﻿@using UTIL.Models;
 @using NotaVenta.UTIL;
 @{
+    string parametroUpdate = NotaVenta.UTIL.ActualizacionJS.obtenerParametro();
     ViewBag.Title = "Mis Clientes";
     List<ClientesModels> clientes = ViewBag.clientes;
     //var validacion = "$0";
@@ -13,7 +14,7 @@
 }
 
 <link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
-<script src="~/WebJs/Venta/MisClientes.js"></script>
+<script src="~/WebJs/Venta/MisClientes.js?@parametroUpdate"></script>
 <style>
     .rojomaldito {
         background: #E49685;

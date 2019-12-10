@@ -1,6 +1,7 @@
 ﻿@{
     /**/
 
+    string parametroUpdate = NotaVenta.UTIL.ActualizacionJS.obtenerParametro();
     ViewBag.Title = "Acceso";
     Layout = null;
 
@@ -144,9 +145,9 @@
     </div>
     <!-- ================== BEGIN BASE JS ================== -->
     <script async="" src="https://www.google-analytics.com/analytics.js"></script>
-    <script src="~/Content/assets/js/app.min.js"></script>
-    <script src="~/Content/assets/js/theme/default.min.js"></script>
-    <script src="~/WebJs/Login/Login.js"></script>
+    <script src="~/Content/assets/js/app.min.js?@parametroUpdate"></script>
+    <script src="~/Content/assets/js/theme/default.min.js?@parametroUpdate"></script>
+    <script src="~/WebJs/Login/Login.js?@parametroUpdate"></script>
     <!-- ================== END BASE JS ================== -->
 
 
