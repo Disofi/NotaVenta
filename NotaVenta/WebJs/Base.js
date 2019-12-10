@@ -251,14 +251,15 @@ function convertirFullScreenModal(id) {
 
 
 
-function formatearNumero(numero, valorDefecto) {
+function formatearNumero(numero, simboloAntes, valorDefecto) {
+    simboloAntes = simboloAntes === undefined || simboloAntes === null ? "" : simboloAntes;
     valorDefecto = valorDefecto === undefined || valorDefecto === null ? numero : valorDefecto;
 
     var numeroTemp = "" + numero;
     if (!isNaN(numeroTemp)) {
         numeroTemp = numeroTemp.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g, '$1.');
         numeroTemp = numeroTemp.split('').reverse().join('').replace(/^[\.]/, '');
-        return "$" + numeroTemp;
+        return simboloAntes + numeroTemp;
     }
     else {
         return valorDefecto;
