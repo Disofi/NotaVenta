@@ -1269,8 +1269,8 @@ function ObtenerSaldo(RutAux, CodAux, Nombre, Saldo) {
                 });
                 var htmlFooter = "";
                 htmlFooter = htmlFooter + "<tr>";
-                htmlFooter = htmlFooter + "<td colspan='" + ($(tblSaldos.find("tr")[0]).find("td").length - 1) + "' style='text-align: right; font-size: 18px'><b>Total</b></td>";
-                htmlFooter = htmlFooter + "<td style='text-align: right; font-size: 18px'><b>" + Saldo + "</b></td>";
+                htmlFooter = htmlFooter + "<td style='text-align: right' colspan='" + ($(tblSaldos.find("tr")[0]).find("td").length - 1) + "' style='text-align: right; font-size: 18px'><b>Total</b></td>";
+                htmlFooter = htmlFooter + "<td style='text-align: right; font-size: 18px'><b>" + formatearNumero(Saldo, "$") + "</b></td>";
                 htmlFooter = htmlFooter + "</tr>";
 
                 tblSaldos.append(htmlFooter);
@@ -1347,8 +1347,8 @@ function ObtenerSaldoDetalle(RutAux, CodAux, Nombre, Saldo) {
                 });
                 var htmlFooter = "";
                 htmlFooter = htmlFooter + "<tr>";
-                htmlFooter = htmlFooter + "<td colspan='" + ($(tblSaldos.find("tr")[0]).find("td").length - 1) + "' style='text-align: right; font-size: 18px'><b>Total</b></td>";
-                htmlFooter = htmlFooter + "<td style='font-size: 18px'><b>" + Saldo + "</b></td>";
+                htmlFooter = htmlFooter + "<td style='text-align: right' colspan='" + ($(tblSaldos.find("tr")[0]).find("td").length - 1) + "' style='text-align: right; font-size: 18px'><b>Total</b></td>";
+                htmlFooter = htmlFooter + "<td style='font-size: 18px'><b>" + formatearNumero(Saldo, "$") + "</b></td>";
                 htmlFooter = htmlFooter + "</tr>";
 
                 tblSaldos.append(htmlFooter);
@@ -1416,8 +1416,8 @@ function ObtenerSaldoDetalle(RutAux, CodAux, Nombre, Saldo) {
             });
             var htmlFooter = "";
             htmlFooter = htmlFooter + "<tr>";
-            htmlFooter = htmlFooter + "<td colspan='" + ($(tblSaldos.find("tr")[0]).find("td").length - 1) + "' style='text-align: right; font-size: 18px'><b>Total</b></td>";
-            htmlFooter = htmlFooter + "<td style='text-align: right; font-size: 18px'><b>" + formatearNumero(Saldo) + "</b></td>";
+            htmlFooter = htmlFooter + "<td style='text-align: right' colspan='" + ($(tblSaldos.find("tr")[0]).find("td").length - 1) + "' style='text-align: right; font-size: 18px'><b>Total</b></td>";
+            htmlFooter = htmlFooter + "<td style='text-align: right; font-size: 18px'><b>" + formatearNumero(Saldo, "$") + "</b></td>";
             htmlFooter = htmlFooter + "</tr>";
 
             tblSaldos.append(htmlFooter);
