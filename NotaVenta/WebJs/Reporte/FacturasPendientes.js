@@ -318,9 +318,9 @@ function ObtenerSaldoDetalle(RutAux, CodAux, Nombre, Saldo) {
                     htmlDetalle = htmlDetalle + "<td>" + value.movfvString + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.movtipdocref + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.movnumdocref + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.movdebe + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.movhaber + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.Saldo + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.movdebe) + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.movhaber) + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.Saldo) + "</td>";
                     //htmlDetalle = htmlDetalle + "<td>" + value.movglosa + "</td>";
                     //htmlDetalle = htmlDetalle + "<td>" + value.DiasVen + "</td>";
 
@@ -387,9 +387,9 @@ function ObtenerSaldoDetalle(RutAux, CodAux, Nombre, Saldo) {
                 htmlDetalle = htmlDetalle + "<td>" + value.movfvString + "</td>";
                 htmlDetalle = htmlDetalle + "<td>" + value.movtipdocref + "</td>";
                 htmlDetalle = htmlDetalle + "<td>" + value.movnumdocref + "</td>";
-                htmlDetalle = htmlDetalle + "<td>" + value.movdebe + "</td>";
-                htmlDetalle = htmlDetalle + "<td>" + value.movhaber + "</td>";
-                htmlDetalle = htmlDetalle + "<td>" + value.Saldo + "</td>";
+                htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.movdebe) + "</td>";
+                htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.movhaber) + "</td>";
+                htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.Saldo) + "</td>";
                 //htmlDetalle = htmlDetalle + "<td>" + value.movglosa + "</td>";
                 //htmlDetalle = htmlDetalle + "<td>" + value.DiasVen + "</td>";
 
