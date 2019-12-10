@@ -133,25 +133,25 @@ function DetalleNotaPedido(nvId) {
                     htmlDetalle = htmlDetalle + "<td>" + value.nvLinea + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.CodProd + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.DesProd + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.nvCant) + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.Stock) + "</td>";
+                    htmlDetalle = htmlDetalle + "<td style='text-align: right;'>" + formatearNumero(value.nvCant) + "</td>";
+                    htmlDetalle = htmlDetalle + "<td style='text-align: right;'>" + formatearNumero(value.Stock) + "</td>";
 
                     if (parametros.MuestraUnidadMedidaProducto) {
                         htmlDetalle = htmlDetalle + "<td>" + value.CodUMed + "</td>";
                     }
 
-                    htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.nvPrecio) + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.nvSubTotal) + "</td>";
+                    htmlDetalle = htmlDetalle + "<td style='text-align: right;'>" + formatearNumero(value.nvPrecio, "$") + "</td>";
+                    htmlDetalle = htmlDetalle + "<td style='text-align: right;'>" + formatearNumero(value.nvSubTotal, "$") + "</td>";
                     if (parametros.DescuentoLineaDirectoSoftland) {
                         for (z = 0; z < parametros.CantidadDescuentosProducto; z++) {
-                            if (z === 0) { htmlDetalle = htmlDetalle + "<td>" + value.nvDPorcDesc01 + "</td>"; }
-                            if (z === 1) { htmlDetalle = htmlDetalle + "<td>" + value.nvDPorcDesc02 + "</td>"; }
-                            if (z === 2) { htmlDetalle = htmlDetalle + "<td>" + value.nvDPorcDesc03 + "</td>"; }
-                            if (z === 3) { htmlDetalle = htmlDetalle + "<td>" + value.nvDPorcDesc04 + "</td>"; }
-                            if (z === 4) { htmlDetalle = htmlDetalle + "<td>" + value.nvDPorcDesc05 + "</td>"; }
+                            if (z === 0) { htmlDetalle = htmlDetalle + "<td style='text-align: right;'>" + value.nvDPorcDesc01 + "</td>"; }
+                            if (z === 1) { htmlDetalle = htmlDetalle + "<td style='text-align: right;'>" + value.nvDPorcDesc02 + "</td>"; }
+                            if (z === 2) { htmlDetalle = htmlDetalle + "<td style='text-align: right;'>" + value.nvDPorcDesc03 + "</td>"; }
+                            if (z === 3) { htmlDetalle = htmlDetalle + "<td style='text-align: right;'>" + value.nvDPorcDesc04 + "</td>"; }
+                            if (z === 4) { htmlDetalle = htmlDetalle + "<td style='text-align: right;'>" + value.nvDPorcDesc05 + "</td>"; }
                         }
                     }
-                    htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.nvTotLinea) + "</td>";
+                    htmlDetalle = htmlDetalle + "<td style='text-align: right;'>" + formatearNumero(value.nvTotLinea, "$") + "</td>";
                     htmlDetalle = htmlDetalle + "</tr>";
 
                     var subtotalaux = value.nvSubTotal;
@@ -171,14 +171,14 @@ function DetalleNotaPedido(nvId) {
 
 
                 var htmldetalleTotal = "";
-                htmldetalleTotal = htmldetalleTotal + "<tr><th style='text-align: right;' colspan='" + colspanTotales + "'>SubTotal</th>";
-                htmldetalleTotal = htmldetalleTotal + "<td>" + formatearNumero(subtotal) + "</td>";
+                htmldetalleTotal = htmldetalleTotal + "<tr><th colspan='" + colspanTotales + "'>SubTotal</th>";
+                htmldetalleTotal = htmldetalleTotal + "<td style='text-align: right;'>" + formatearNumero(subtotal, "$") + "</td>";
                 htmldetalleTotal = htmldetalleTotal + "</tr>";
-                htmldetalleTotal = htmldetalleTotal + "<tr><th style='text-align: right;' colspan='" + colspanTotales + "'>Total Iva</th>";
-                htmldetalleTotal = htmldetalleTotal + "<td>" + formatearNumero(ivatotal) + "</td>";
+                htmldetalleTotal = htmldetalleTotal + "<tr><th colspan='" + colspanTotales + "'>Total Iva</th>";
+                htmldetalleTotal = htmldetalleTotal + "<td style='text-align: right;'>" + formatearNumero(ivatotal, "$") + "</td>";
                 htmldetalleTotal = htmldetalleTotal + "</tr>";
-                htmldetalleTotal = htmldetalleTotal + "<tr><th style='text-align: right;' colspan='" + colspanTotales + "'>Venta Total</th>";
-                htmldetalleTotal = htmldetalleTotal + "<td>" + formatearNumero(totalconiva) + "</td>";
+                htmldetalleTotal = htmldetalleTotal + "<tr><th colspan='" + colspanTotales + "'>Venta Total</th>";
+                htmldetalleTotal = htmldetalleTotal + "<td style='text-align: right;'>" + formatearNumero(totalconiva, "$") + "</td>";
                 htmldetalleTotal = htmldetalleTotal + "</tr>";
                 tableDetalle.append(htmldetalleTotal);
             }
