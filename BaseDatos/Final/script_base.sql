@@ -3500,7 +3500,7 @@ CREATE Procedure [dbo].[JS_ListarNVNM] --25 'transporte'
 				['+@pv_BaseDatos+'].[softland].[cwtccos] cc ON (cc.CodiCC collate Modern_Spanish_CI_AS = nv.CodiCC)
 			WHERE
 				nv.Id = '+convert(varchar(100),@nvId)+'
-				'select * from ast.softland.cwtvend
+				'
 		EXEC (@query)
 		END
 GO

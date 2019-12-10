@@ -2,6 +2,7 @@
 @{
     /**/
 
+    string parametroUpdate = NotaVenta.UTIL.ActualizacionJS.obtenerParametro();
     ViewBag.Title = "Parametros";
     ParametrosModels parametros = ViewBag.Parametros;
     List<EmpresaModel> empresas = ViewBag.Empresas;
@@ -554,4 +555,4 @@
     </div>
 </div>
 
-<script src="~/WebJs/Administracion/Parametros.js"></script>
+<script src="~/WebJs/Administracion/Parametros.js?@parametroUpdate"></script>

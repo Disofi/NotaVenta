@@ -445,6 +445,7 @@ function cbxlistaChange() {
 
             productos = productos.map(function (x) {
                 x.busqueda = x.CodProd + " - " + x.DesProd;
+                x.PrecioVta = Math.round(x.PrecioVta);
                 return x
             });
 
