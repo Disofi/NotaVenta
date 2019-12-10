@@ -1,5 +1,6 @@
 ﻿@using UTIL.Models;
 @{
+    string parametroUpdate = NotaVenta.UTIL.ActualizacionJS.obtenerParametro();
     ViewBag.Title = "Usuarios";
     List<UsuariosModels> listarusuarios = ViewBag.usuarios;
     string[] idUsuarios = new string[listarusuarios.Count];
@@ -11,7 +12,7 @@
     }
 }
 <link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
-<script src="~/WebJs/Administracion/Usuarios.js"></script>
+<script src="~/WebJs/Administracion/Usuarios.js?@parametroUpdate"></script>
 
 <div id="content" class="content">
     <h1 class="page-header">@ViewBag.Message <small></small></h1>
