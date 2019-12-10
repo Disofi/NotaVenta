@@ -245,3 +245,22 @@ function convertirFullScreenModal(id) {
     $("#" + id).find(".modal-dialog").attr("style", "width: " + width90 + "px; margin: " + width5 + "px");
     $("#" + id + " div[class=modal-content]").attr("style", "width: " + width90 + "px");
 }
+
+
+
+
+
+
+function formatearNumero(numero, valorDefecto) {
+    valorDefecto = valorDefecto === undefined || valorDefecto === null ? "" : valorDefecto;
+
+    var numeroTemp = "" + numero;
+    if (!isNaN(numeroTemp)) {
+        numeroTemp = numeroTemp.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g, '$1.');
+        numeroTemp = numeroTemp.split('').reverse().join('').replace(/^[\.]/, '');
+        return "$" + numeroTemp;
+    }
+    else {
+        return valorDefecto;
+    }
+}

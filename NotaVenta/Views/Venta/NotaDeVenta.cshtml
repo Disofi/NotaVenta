@@ -236,7 +236,7 @@
                                     {
                                         <td nowrap="nowrap">Saldo</td>
                                         <td>
-                                            <input type="text" class="text-danger form-control" disabled value="@SaldoTotal" />
+                                            <input type="text" class="text-danger form-control" disabled value="@NotaVenta.UTIL.Formatos.ObtenerFormatoMoneda(SaldoTotal, "$")" />
                                             <button class="btn-primary btn" data-toggle="modal" data-target="#modalSaldo" onclick="ObtenerSaldo('@RutAux','@CodAux', '@nombre', '@SaldoTotal')" style="cursor:pointer;"><i class="fas fa-search"></i></button>
                                             <button class="btn-warning btn" data-toggle="modal" data-target="#modalSaldoDetalle" onclick="ObtenerSaldoDetalle('@RutAux','@CodAux', '@nombre', '@SaldoTotal')" style="cursor:pointer;"><i class="fas fa-search"></i></button>
                                         </td>

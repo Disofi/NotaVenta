@@ -243,7 +243,7 @@ function ObtenerSaldo(RutAux, CodAux, Nombre, Saldo) {
                     htmlDetalle = htmlDetalle + "<td>" + value.movnumdocref + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.fechaemiString + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.movfvString + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.Saldo + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.Saldo) + "</td>";
                     //htmlDetalle = htmlDetalle + "<td>" + value.Cpbano + "</td>";
 
                     htmlDetalle = htmlDetalle + "</tr>";
