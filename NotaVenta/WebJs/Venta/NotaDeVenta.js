@@ -445,6 +445,7 @@ function cbxlistaChange() {
 
             productos = productos.map(function (x) {
                 x.busqueda = x.CodProd + " - " + x.DesProd;
+                x.PrecioVta = Math.round(x.PrecioVta);
                 return x
             });
 
@@ -1255,8 +1256,8 @@ function ObtenerSaldo(RutAux, CodAux, Nombre, Saldo) {
                     htmlDetalle = htmlDetalle + "<td>" + value.nomaux + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.fechaemiString + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.desdoc + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.movnumdocref + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.Saldo + "</td>";
+                    htmlDetalle = htmlDetalle + "<td style='text-align: right'>" + value.movnumdocref + "</td>";
+                    htmlDetalle = htmlDetalle + "<td style='text-align: right'>" + formatearNumero(value.Saldo, "$") + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.coddoc + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.Cpbano + "</td>";
 

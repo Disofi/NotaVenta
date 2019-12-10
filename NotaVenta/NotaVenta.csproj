@@ -160,11 +160,13 @@
     </Compile>
     <Compile Include="Helper\MenuHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UTIL\ActualizacionJS.cs" />
     <Compile Include="UTIL\appSettingsConstantes.cs" />
     <Compile Include="UTIL\BaseController.cs" />
     <Compile Include="UTIL\Error\Errores.cs" />
     <Compile Include="UTIL\Error\TipoAccionError.cs" />
     <Compile Include="UTIL\FilterAttributes\Autorizacion.cs" />
+    <Compile Include="UTIL\Formatos.cs" />
     <Compile Include="UTIL\FTP.cs" />
     <Compile Include="UTIL\JsonResultResponse.cs" />
     <Compile Include="UTIL\SessionVariables.cs" />

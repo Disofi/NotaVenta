@@ -12,7 +12,7 @@ function agregarSeparadorMiles(numero, caracterSeparador, caracterDecimal) {
 
     decimales = decimales.replace(".", caracterDecimal);
 
-    numero = numero === '' ? numero : Number(numero).toLocaleString().replace(",", caracterSeparador);
+    numero = numero === '' ? numero : Number(numero).toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g, '$1.').split('').reverse().join('').replace(/^[\.]/, '');
 
     while (numero.indexOf(",") !== -1) {
         numero = numero.replace(",", caracterSeparador);
@@ -234,4 +234,24 @@ function desactivarLoadingBoton(id) {
     addBotonLoading(id);
     $("#" + id).html(____botonesLoading.find(m => m.id === id).htmlOriginal);
     $("#" + id).removeAttr("disabled");
+}
+
+
+
+
+
+
+function formatearNumero(numero, simboloAntes, valorDefecto) {
+    simboloAntes = simboloAntes === undefined || simboloAntes === null ? "" : simboloAntes;
+    valorDefecto = valorDefecto === undefined || valorDefecto === null ? numero : valorDefecto;
+
+    var numeroTemp = "" + numero;
+    if (!isNaN(numeroTemp)) {
+        numeroTemp = numeroTemp.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g, '$1.');
+        numeroTemp = numeroTemp.split('').reverse().join('').replace(/^[\.]/, '');
+        return simboloAntes + numeroTemp;
+    }
+    else {
+        return valorDefecto;
+    }
 }

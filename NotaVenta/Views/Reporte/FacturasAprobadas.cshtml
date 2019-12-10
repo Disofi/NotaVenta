@@ -1,13 +1,14 @@
 ﻿@using UTIL.Models;
 @using NotaVenta.UTIL;
 @{
+    string parametroUpdate = NotaVenta.UTIL.ActualizacionJS.obtenerParametro();
     ViewBag.Title = "Facturas Aprobadas";
     List<NotadeVentaCabeceraModels> doc = ViewBag.doc;
     ParametrosModels parametros = ViewBag.Parametros;
 }
 
 <link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
-<script src="~/WebJs/Reporte/FacturasAprobadas.js"></script>
+<script src="~/WebJs/Reporte/FacturasAprobadas.js?@parametroUpdate"></script>
 <div id="content" class="content">
     <input type="hidden" id="ControlaStockProducto" value="@parametros.ControlaStockProducto.ToString()" />
     <input type="hidden" id="MuestraUnidadMedidaProducto" value="@parametros.MuestraUnidadMedidaProducto.ToString()" />
@@ -68,8 +69,8 @@
                                             {
                                                 <td>@doc[i].NomCon</td>
                                             }
-                                            <td>$@double.Parse(doc[i].nvSubTotal.ToString()).ToString("N0")</td>
-                                            <td>$@double.Parse(doc[i].TotalBoleta.ToString()).ToString("N0")</td>
+                                            <td style='text-align: right;'>$@double.Parse(doc[i].nvSubTotal.ToString()).ToString("N0")</td>
+                                            <td style='text-align: right;'>$@double.Parse(doc[i].TotalBoleta.ToString()).ToString("N0")</td>
                                             <td>@doc[i].EstadoNP</td>
                                             <td>@doc[i].RutSolicitante</td>
                                             <td>
