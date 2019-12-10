@@ -1,5 +1,6 @@
 ﻿@using UTIL.Models;
 @{
+    string parametroUpdate = NotaVenta.UTIL.ActualizacionJS.obtenerParametro();
     ViewBag.Title = "Clientes";
     List<ClientesModels> listarclientes = ViewBag.clientes;
     string[] idcliente = new string[listarclientes.Count];
@@ -11,7 +12,7 @@
 }
 
 <link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
-<script src="~/WebJs/Administracion/Clientes.js"></script>
+<script src="~/WebJs/Administracion/Clientes.js?@parametroUpdate"></script>
 <script type="text/javascript" src='https://maps.google.com/maps/api/js?sensor=false&libraries=places&key=AIzaSyDzRSaM9JymiqoUaNVMayH3G5XykA2ieFQ'></script>
 
 <div id="content" class="content">

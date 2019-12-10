@@ -1,5 +1,6 @@
 ﻿
 @{
+    string parametroUpdate = NotaVenta.UTIL.ActualizacionJS.obtenerParametro();
     ViewBag.Title = "Error";
     Layout = null;
 }
@@ -8,7 +9,7 @@
     <link href="~/Content/assets/css/default/app.min.css" rel="stylesheet" />
     <!-- ================== END BASE CSS STYLE ================== -->
     <!-- ================== BEGIN BASE JS ================== -->
-    <script src="~/Content/assets/js/app.min.js"></script>
+    <script src="~/Content/assets/js/app.min.js?@parametroUpdate"></script>
     <!-- ================== END BASE JS ================== -->
 </head>
 <body>
@@ -29,8 +30,8 @@
         </div>
     </div>
     <!-- ================== BEGIN BASE JS ================== -->
-    <script src="~/Content/assets/js/theme/default.min.js"></script>
-    <script src="~/Content/assets/js/app.min.js"></script>
+    <script src="~/Content/assets/js/theme/default.min.js?@parametroUpdate"></script>
+    <script src="~/Content/assets/js/app.min.js?@parametroUpdate"></script>
     <!-- ================== END BASE JS ================== -->
     <script>
         $(document).ready(function () {

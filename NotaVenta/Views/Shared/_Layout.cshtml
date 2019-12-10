@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    string parametroUpdate = NotaVenta.UTIL.ActualizacionJS.obtenerParametro();
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -14,10 +17,10 @@
     <link href="~/Content/Site.css" rel="stylesheet" />
 
     <!-- ================== BEGIN BASE JS ================== -->
-    <script src="~/Content/assets/js/app.min.js"></script>
-    <script src="~/Content/assets/js/theme/default.min.js"></script>
-    <script src="~/WebJs/Base.js"></script>
-    <script src="~/WebJs/EditableClass.js"></script>
+    <script src="~/Content/assets/js/app.min.js?@parametroUpdate"></script>
+    <script src="~/Content/assets/js/theme/default.min.js?@parametroUpdate"></script>
+    <script src="~/WebJs/Base.js?@parametroUpdate"></script>
+    <script src="~/WebJs/EditableClass.js?@parametroUpdate"></script>
     <!-- ================== END BASE JS ================== -->
 </head>
 <body>

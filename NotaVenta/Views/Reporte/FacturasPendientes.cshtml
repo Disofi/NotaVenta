@@ -1,12 +1,13 @@
 ﻿@using UTIL.Models;
 @using NotaVenta.UTIL;
 @{
+    string parametroUpdate = NotaVenta.UTIL.ActualizacionJS.obtenerParametro();
     ViewBag.Title = "Facturas Pendientes";
     List<NotadeVentaCabeceraModels> doc = ViewBag.doc;
     ParametrosModels parametros = ViewBag.Parametros;
 }
 <link href="~/Scripts/css/estilotables.css" rel="stylesheet" />
-<script src="~/WebJs/Reporte/FacturasPendientes.js"></script>
+<script src="~/WebJs/Reporte/FacturasPendientes.js?@parametroUpdate"></script>
 
 <div id="content" class="content">
     <input type="hidden" id="urlTablaSaldos" value="@Url.Action("ObtenerSaldo", "Reporte")" />

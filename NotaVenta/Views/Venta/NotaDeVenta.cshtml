@@ -4,6 +4,7 @@
 @{
                 /**/
 
+    string parametroUpdate = NotaVenta.UTIL.ActualizacionJS.obtenerParametro();
 
                 if (((BaseController)this.ViewContext.Controller).codigoVendedorUsuario() == null)
                 {
@@ -733,22 +734,22 @@
 <!-- end row -->
 <!-- end page container -->
 <!-- ================== BEGIN BASE JS ================== -->
-<script src="~/Content/assets/js/app.min.js"></script>
-<script src="~/Content/assets/js/theme/default.min.js"></script>
+<script src="~/Content/assets/js/app.min.js?@parametroUpdate"></script>
+<script src="~/Content/assets/js/theme/default.min.js?@parametroUpdate"></script>
 <!-- ================== END BASE JS ================== -->
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->
-<script src="~/Content/assets/plugins/jquery-migrate/dist/jquery-migrate.min.js"></script>
-<script src="~/Content/assets/plugins/x-editable-bs4/dist/bootstrap4-editable/js/bootstrap-editable.min.js"></script>
-<script src="~/Content/assets/plugins/x-editable-bs4/dist/inputs-ext/address/address.js"></script>
-<script src="~/Content/assets/plugins/x-editable-bs4/dist/inputs-ext/typeaheadjs/lib/typeahead.js"></script>
-<script src="~/Content/assets/plugins/x-editable-bs4/dist/inputs-ext/typeaheadjs/typeaheadjs.js"></script>
-<script src="~/Content/assets/plugins/x-editable-bs4/dist/inputs-ext/wysihtml5/wysihtml5.js"></script>
-<script src="~/Content/assets/plugins/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.all.min.js"></script>
-<script src="~/Content/assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-<script src="~/Content/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-<script src="~/Content/assets/plugins/select2/dist/js/select2.full.min.js"></script>
-<script src="~/Content/assets/plugins/jquery-mockjax/dist/jquery.mockjax.min.js"></script>
-<script src="~/Content/assets/plugins/moment/moment.js"></script>
-<script src="~/WebJs/Venta/NotaDeVenta.js"></script>
+<script src="~/Content/assets/plugins/jquery-migrate/dist/jquery-migrate.min.js?@parametroUpdate"></script>
+<script src="~/Content/assets/plugins/x-editable-bs4/dist/bootstrap4-editable/js/bootstrap-editable.min.js?@parametroUpdate"></script>
+<script src="~/Content/assets/plugins/x-editable-bs4/dist/inputs-ext/address/address.js?@parametroUpdate"></script>
+<script src="~/Content/assets/plugins/x-editable-bs4/dist/inputs-ext/typeaheadjs/lib/typeahead.js?@parametroUpdate"></script>
+<script src="~/Content/assets/plugins/x-editable-bs4/dist/inputs-ext/typeaheadjs/typeaheadjs.js?@parametroUpdate"></script>
+<script src="~/Content/assets/plugins/x-editable-bs4/dist/inputs-ext/wysihtml5/wysihtml5.js?@parametroUpdate"></script>
+<script src="~/Content/assets/plugins/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.all.min.js?@parametroUpdate"></script>
+<script src="~/Content/assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js?@parametroUpdate"></script>
+<script src="~/Content/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js?@parametroUpdate"></script>
+<script src="~/Content/assets/plugins/select2/dist/js/select2.full.min.js?@parametroUpdate"></script>
+<script src="~/Content/assets/plugins/jquery-mockjax/dist/jquery.mockjax.min.js?@parametroUpdate"></script>
+<script src="~/Content/assets/plugins/moment/moment.js?@parametroUpdate"></script>
+<script src="~/WebJs/Venta/NotaDeVenta.js?@parametroUpdate"></script>
 
 <!-- ================== END PAGE LEVEL JS ================== -->
