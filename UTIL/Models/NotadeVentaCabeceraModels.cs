@@ -23,6 +23,7 @@ namespace UTIL.Models
         public double nvSubTotalConDescuento { get; set; }
         public bool ErrorAprobador { get; set; }
         public string ErrorAprobadorMensaje { get; set; }
+        public string VenDes { get; set; }
 
         #endregion
 

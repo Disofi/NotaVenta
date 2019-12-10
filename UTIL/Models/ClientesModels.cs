@@ -9,6 +9,8 @@ namespace UTIL.Models
     {
         public string CiuCod { get; set; }
         public string CiuDes { get; set; }
+        public string ComCod { get; set; }
+        public string ComDes { get; set; }
         public string GirDes { get; set; }
         public string GirCod { get; set; }
         public string CodAux { get; set; }

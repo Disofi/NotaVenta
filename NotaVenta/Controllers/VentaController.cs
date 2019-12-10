@@ -364,6 +364,10 @@ namespace NotaVenta.Controllers
                 colspan = colspan + parametro.CantidadDescuentosProducto;
             }
 
+            string direccion = Clientes[0].DirAux;
+            direccion = direccion + Clientes[0].ComCod == null ? "" : ", " + Clientes[0].ComDes;
+            direccion = direccion + Clientes[0].CiuCod == null ? "" : ", " + Clientes[0].CiuDes;
+
             string htmlBody = String.Format(
             "<html><body>" +
             //"<img src='~/Image/logo.png' />" +
@@ -371,10 +375,10 @@ namespace NotaVenta.Controllers
             @"<H4> Nº de Pedido: " + NVentaCabeceras[0].Id + @" </H4>" +
             @"<H4> Fecha Pedido: " + (NVentaCabeceras[0].nvFem == null ? "" : ((DateTime)NVentaCabeceras[0].nvFem).ToShortDateString()) + @" </H4>" +
             @"<H4> Cliente: " + NVentaCabeceras[0].NomAux + @" </H4>" +
-            @"<H4> Dirección: " + Clientes[0].DirAux + @" </H4>" +
+            @"<H4> Dirección: " + direccion + @" </H4>" +
             @"<H4> Fecha Entrega: " + (NVentaCabeceras[0].nvFeEnt == null ? "" : ((DateTime)NVentaCabeceras[0].nvFeEnt).ToShortDateString()) + @" </H4>" +
             @"<H4> Observaciones: " + NVentaCabeceras[0].nvObser + @" </H4>" +
-            @"<H4> Vendedor: " + SessionVariables.SESSION_DATOS_USUARIO.VenDes.ToString() + @" </H4>" +
+            @"<H4> Vendedor: " + NVentaCabeceras[0].VenDes + @" </H4>" +
             @"<table border = ""1"" >" +
             @"<tr>" +
             @"<td>ID</td>" +

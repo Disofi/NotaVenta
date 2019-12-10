@@ -110,15 +110,15 @@ function DetalleNotaPedido(nvId, RutAux) {
                     htmlDetalle = htmlDetalle + "<td>" + value.nvLinea + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.CodProd + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.DesProd + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.nvCant + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.Stock + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.nvCant) + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.Stock) + "</td>";
 
                     if (parametros.MuestraUnidadMedidaProducto) {
                         htmlDetalle = htmlDetalle + "<td>" + value.CodUMed + "</td>";
                     }
 
-                    htmlDetalle = htmlDetalle + "<td>" + value.nvPrecio + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.nvSubTotal + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.nvPrecio) + "</td>";
+                    htmlDetalle = htmlDetalle + "<td>" + formatearNumero(value.nvSubTotal) + "</td>";
                     if (parametros.DescuentoLineaDirectoSoftland) {
                         for (z = 0; z < parametros.CantidadDescuentosProducto; z++) {
                             if (z === 0) { htmlDetalle = htmlDetalle + "<td>" + value.nvDPorcDesc01 + "</td>"; }
@@ -149,13 +149,13 @@ function DetalleNotaPedido(nvId, RutAux) {
 
                 var htmldetalleTotal = "";
                 htmldetalleTotal = htmldetalleTotal + "<tr><th style='text-align: right;' colspan='" + colspanTotales + "'>SubTotal</th>";
-                htmldetalleTotal = htmldetalleTotal + "<td>" + subtotal + "</td>";
+                htmldetalleTotal = htmldetalleTotal + "<td>" + formatearNumero(subtotal) + "</td>";
                 htmldetalleTotal = htmldetalleTotal + "</tr>";
                 htmldetalleTotal = htmldetalleTotal + "<tr><th style='text-align: right;' colspan='" + colspanTotales + "'>Total Iva</th>";
-                htmldetalleTotal = htmldetalleTotal + "<td>" + ivatotal + "</td>";
+                htmldetalleTotal = htmldetalleTotal + "<td>" + formatearNumero(ivatotal) + "</td>";
                 htmldetalleTotal = htmldetalleTotal + "</tr>";
                 htmldetalleTotal = htmldetalleTotal + "<tr><th style='text-align: right;' colspan='" + colspanTotales + "'>Venta Total</th>";
-                htmldetalleTotal = htmldetalleTotal + "<td>" + totalconiva + "</td>";
+                htmldetalleTotal = htmldetalleTotal + "<td>" + formatearNumero(totalconiva) + "</td>";
                 htmldetalleTotal = htmldetalleTotal + "</tr>";
                 tableDetalle.append(htmldetalleTotal);
             }
@@ -236,8 +236,8 @@ function ObtenerSaldo(RutAux, CodAux, Nombre, Saldo) {
                     htmlDetalle = htmlDetalle + "<td>" + value.nomaux + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.fechaemiString + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.desdoc + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.movnumdocref + "</td>";
-                    htmlDetalle = htmlDetalle + "<td>" + value.Saldo + "</td>";
+                    htmlDetalle = htmlDetalle + "<td style='text-align: right;'>" + value.movnumdocref + "</td>";
+                    htmlDetalle = htmlDetalle + "<td style='text-align: right;'>" + formatearNumero(value.Saldo) + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.coddoc + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.Cpbano + "</td>";
 
