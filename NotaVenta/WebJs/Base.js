@@ -235,3 +235,23 @@ function desactivarLoadingBoton(id) {
     $("#" + id).html(____botonesLoading.find(m => m.id === id).htmlOriginal);
     $("#" + id).removeAttr("disabled");
 }
+
+
+
+
+
+
+function formatearNumero(numero, simboloAntes, valorDefecto) {
+    simboloAntes = simboloAntes === undefined || simboloAntes === null ? "" : simboloAntes;
+    valorDefecto = valorDefecto === undefined || valorDefecto === null ? numero : valorDefecto;
+
+    var numeroTemp = "" + numero;
+    if (!isNaN(numeroTemp)) {
+        numeroTemp = numeroTemp.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g, '$1.');
+        numeroTemp = numeroTemp.split('').reverse().join('').replace(/^[\.]/, '');
+        return simboloAntes + numeroTemp;
+    }
+    else {
+        return valorDefecto;
+    }
+}

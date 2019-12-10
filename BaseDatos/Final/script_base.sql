@@ -622,6 +622,7 @@ Group By cwpctas.pccodi , cwpctas.pcdesc, cwtauxi.codaux, cwtauxi.RutAux, cwmovi
 cwttdoc.desdoc, cwmovim.AreaCod, cwTAren.DesArn, cwpctas.PCAUXI, cwpctas.PCCDOC,  cwttdoc.coddoc , cwmovim.movtipdocref
 Having (Sum((cwmovim.movdebe - cwmovim.movhaber)) <> 0) 
 ) as mov
+order by movnumdocref asc, FecEmi asc
 '
 EXEC (@query)
 END
@@ -3171,10 +3172,18 @@ BEGIN
 			NomCon = contacto.[NomCon],
 			FonCon = ISNULL(contacto.[FonCon],''''),
 			EMail = ISNULL(clientes.EMail,''''),
-			Notas = clientes.Notas
+			Notas = clientes.Notas,
+			ComCod = com.ComCod,
+			CiuCod = ciu.CiuCod,
+			ComDes = com.ComDes,
+			CiuDes = ciu.CiuDes
 	FROM	[' + @pv_BaseDatos + '].[softland].[cwtauxi] clientes 
 		left JOIN [' + @pv_BaseDatos + '].[softland].[cwtaxco] contacto 
 			ON (clientes.CodAux = contacto.CodAuc)  
+		left join [' + @pv_BaseDatos + '].[softland].[cwtcomu] com
+			ON clientes.ComAux = com.ComCod
+		left join [' + @pv_BaseDatos + '].[softland].[cwtciud] ciu
+			ON clientes.CiuAux = ciu.CiuCod
 	WHERE	CodAux = ''' + @vchrCodAux + '''
 	AND		RutAux = (CASE ''' + @vchrRutAux + ''' WHEN '''' THEN RutAux ELSE ''' + @vchrRutAux + ''' END)  
 	'
@@ -3464,6 +3473,7 @@ CREATE Procedure [dbo].[JS_ListarNVNM] --25 'transporte'
 				nv.Id,
 				nv.NVNumero,
 				vend.VenCod,
+				vend.VenDes,
 				vend.Usuario,
 				conven.CveCod,
 				conven.CveDes,

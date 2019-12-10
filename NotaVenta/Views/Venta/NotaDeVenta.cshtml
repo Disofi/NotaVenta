@@ -234,7 +234,7 @@
                                     {
                                         <td nowrap="nowrap">Saldo</td>
                                         <td>
-                                            <input type="text" class="text-danger form-control" disabled value="@SaldoTotal" />
+                                            <input type="text" class="text-danger form-control" disabled value="@NotaVenta.UTIL.Formatos.ObtenerFormatoMoneda(SaldoTotal, "")" style="text-align: right" />
                                             <button class="btn-primary btn" data-toggle="modal" data-target="#modalSaldo" onclick="ObtenerSaldo('@RutAux','@CodAux', '@nombre', '@SaldoTotal')" style="cursor:pointer;"><i class="fas fa-search"></i></button>
                                         </td>
                                     }
@@ -248,11 +248,11 @@
                                     <tr class="highlight">
                                         <td>Credito</td>
                                         <td>
-                                            <label id="lblDeudaVencida">@Convert.ToInt32(credito.Credito)</label>
+                                            <label id="lblDeudaVencida">@NotaVenta.UTIL.Formatos.ObtenerFormatoMoneda(Convert.ToInt32(credito.Credito), "")</label>
                                         </td>
                                         <td>Disponible</td>
                                         <td>
-                                            <label id="lblDeudaTotal">@Html.Raw(Convert.ToDouble(SaldoTotal) < 0 ? 0 : Convert.ToDouble(credito.Credito) - Convert.ToDouble(SaldoTotal))</label>
+                                            <label id="lblDeudaTotal">@NotaVenta.UTIL.Formatos.ObtenerFormatoMoneda(Convert.ToDouble(SaldoTotal) < 0 ? 0 : Convert.ToDouble(credito.Credito) - Convert.ToDouble(SaldoTotal), "")</label>
                                         </td>
                                     </tr>
                                 }
