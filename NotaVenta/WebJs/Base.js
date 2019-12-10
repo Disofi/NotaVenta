@@ -252,7 +252,7 @@ function convertirFullScreenModal(id) {
 
 
 function formatearNumero(numero, valorDefecto) {
-    valorDefecto = valorDefecto === undefined || valorDefecto === null ? "" : valorDefecto;
+    valorDefecto = valorDefecto === undefined || valorDefecto === null ? numero : valorDefecto;
 
     var numeroTemp = "" + numero;
     if (!isNaN(numeroTemp)) {
