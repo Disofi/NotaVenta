@@ -1256,7 +1256,7 @@ function ObtenerSaldo(RutAux, CodAux, Nombre, Saldo) {
                     htmlDetalle = htmlDetalle + "<td>" + value.fechaemiString + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.desdoc + "</td>";
                     htmlDetalle = htmlDetalle + "<td style='text-align: right'>" + value.movnumdocref + "</td>";
-                    htmlDetalle = htmlDetalle + "<td style='text-align: right'>" + formatearNumero(value.Saldo) + "</td>";
+                    htmlDetalle = htmlDetalle + "<td style='text-align: right'>" + formatearNumero(value.Saldo, "$") + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.coddoc + "</td>";
                     htmlDetalle = htmlDetalle + "<td>" + value.Cpbano + "</td>";
 
