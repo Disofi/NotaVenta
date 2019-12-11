@@ -53,6 +53,7 @@ $(document).ready(function () {
             },
             aoColumnDefs: [{ 'bSortable': false, 'aTargets': ['no-sortable'] }]
         });
+		$($($('#dataTable')[0]).parent().find("input")[0]).attr("name", "txtBuscarDT");
     }
     catch (e) { }
     /*
