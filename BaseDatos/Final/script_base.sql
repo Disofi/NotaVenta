@@ -2169,7 +2169,7 @@ GO
 /*-- Autor				: FDURAN												*/
 /*-- Modificaciones		:														*/
 /*------------------------------------------------------------------------------*/
-CREATE Procedure [dbo].[FR_ListarCondicionesDeVenta]
+create Procedure [dbo].[FR_ListarCondicionesDeVenta]
 (
 	@CodAux varchar(15) 
 ,	@pv_BaseDatos varchar(100)
@@ -2184,43 +2184,24 @@ BEGIN
 	-- Lista los clientes filtrados por Codigo Aux y RUT Aux  
 	-- ==========================================================================================  
 	select @query = @query + '
-
-	declare @contar  int  
-	set @contar =	(  
-						select	contar = count(ven.CveDes) 
-						from	[' + @pv_BaseDatos + '].[softland].[cwtauxi] cliente   
-							inner join [' + @pv_BaseDatos + '].[softland].cwtcvcl condicion 
-								on cliente.CodAux = condicion.CodAux  
-							inner join [' + @pv_BaseDatos + '].[softland].cwtconv ven 
-								on condicion.ConVta = ven.CveCod  
-						where	condicion.ConVta != ''''
-						and		condicion.ConVta is NOT null   
-						and		cliente.CodAux = ''' + @CodAux + '''
-					)
+	select	distinct
+			ven.CveDes
+	,		condicion.ConVta
+	--,		cliente.CodAux 
+	from	[' + @pv_BaseDatos + '].[softland].[cwtauxi] cliente   
+		INNER JOIN [' + @pv_BaseDatos + '].[softland].cwtcvcl condicion 
+			ON cliente.CodAux = condicion.CodAux  
+		INNER JOIN [' + @pv_BaseDatos + '].[softland].cwtconv ven 
+			ON condicion.ConVta = ven.CveCod  
+	WHERE	condicion.ConVta != ''''
+	AND		condicion.ConVta is NOT null   
+	' + CASE WHEN @codaux = '-1' THEN '' ELSE 
+	'AND	cliente.CodAux = ''' + @CodAux + '''' end + '
+	order by ven.CveDes'
 	
-	if(@contar = 0) BEGIN  
-		select	cvecod as ConVta
-		,		CveDes 
-		from	[' + @pv_BaseDatos + '].[softland].cwtconv   
-		where	cvecod = ''005''
-	END
-	ELSE BEGIN  
-		select	ven.CveDes
-		,		condicion.ConVta
-		,		cliente.CodAux 
-		from	[' + @pv_BaseDatos + '].[softland].[cwtauxi] cliente   
-			INNER JOIN [' + @pv_BaseDatos + '].[softland].cwtcvcl condicion 
-				ON cliente.CodAux = condicion.CodAux  
-			INNER JOIN [' + @pv_BaseDatos + '].[softland].cwtconv ven 
-				ON condicion.ConVta = ven.CveCod  
-		WHERE	condicion.ConVta != ''''
-		AND		condicion.ConVta is NOT null   
-		AND		cliente.CodAux = ''' + @CodAux + '''
-	END
-	'
-	EXEC (@query)
+	
+	exec(@query)
 end  
-GO
 /****** Object:  StoredProcedure [dbo].[FR_ListarContactos]    Script Date: 19-11-2019 14:45:09 ******/
 SET ANSI_NULLS ON
 GO
