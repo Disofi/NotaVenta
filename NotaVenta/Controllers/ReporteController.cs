@@ -324,8 +324,8 @@ namespace NotaVenta.Controllers
             }
 
             string direccion = Clientes[0].DirAux;
-            direccion = direccion + Clientes[0].ComCod == null ? "" : ", " + Clientes[0].ComDes;
-            direccion = direccion + Clientes[0].CiuCod == null ? "" : ", " + Clientes[0].CiuDes;
+            direccion = direccion + (Clientes[0].ComCod == null ? "" : ", " + Clientes[0].ComDes);
+            direccion = direccion + (Clientes[0].CiuCod == null ? "" : ", " + Clientes[0].CiuDes);
 
             string htmlBody = String.Format(
             "<html><body>" +
