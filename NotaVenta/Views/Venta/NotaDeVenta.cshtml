@@ -11,6 +11,7 @@
                     var URL = System.Configuration.ConfigurationManager.AppSettings.Get("url");
                     Response.Redirect(URL);
                 }
+    CondicionVentasModels condicionVentaCliente = ViewBag.condicionCliente;
 
                 ViewBag.Title = "Nota De Pedido";
                 string anterior = ViewBag.Anterior;
@@ -176,7 +177,9 @@
                                             @{
                                                 for (int i = 0; i < condicion.Count; i++)
                                                 {
-                                                    <option selected value="@condicion[i].ConVta"> @condicion[i].CveDes </option>
+                                                    string selected = (condicion[i].ConVta == condicionVentaCliente.ConVta) ? "selected" : "";
+
+                                                    <option @selected value="@condicion[i].ConVta"> @condicion[i].CveDes </option>
                                                 }
                                             }
                                         </select>

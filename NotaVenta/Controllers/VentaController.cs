@@ -242,6 +242,11 @@ namespace NotaVenta.Controllers
             //Se lista(n) la(s) condicion(es) de venta(s)
 
             List<CondicionVentasModels> lcondicion = new List<CondicionVentasModels>();
+            List<CondicionVentasModels> lCondicionCliente = new List<CondicionVentasModels>();
+
+            conven.CodAux = NVC.CodAux.ToString();
+            lCondicionCliente = controlDisofi().listarConVen(baseDatosUsuario(), conven);
+
             if (parametros.MuestraCondicionVentaCliente)
             {
                 conven.CodAux = NVC.CodAux.ToString();
@@ -254,6 +259,9 @@ namespace NotaVenta.Controllers
             }
 
             ViewBag.condicion = lcondicion;
+            lCondicionCliente = (lCondicionCliente == null) ? new List<CondicionVentasModels>() : lCondicionCliente;
+
+            ViewBag.condicionCliente = lCondicionCliente.Count > 0 ? lCondicionCliente[0] : new CondicionVentasModels();
 
             ClientesModels contacto = new ClientesModels();
 
@@ -1090,7 +1098,14 @@ namespace NotaVenta.Controllers
             cabecera.nvObser = cabecera.nvObser;
             cabecera.nvCanalNV = cabecera.nvCanalNV == "-1" ? null : cabecera.nvCanalNV;
             cabecera.CveCod = cabecera.CveCod == "-1" ? null : cabecera.CveCod;
-            cabecera.NomCon = (cabecera.NomCon == null || cabecera.NomCon == "") ? "SIN COCTACTO" : cabecera.NomCon;
+            if (cabecera.CveCod == null)
+            {
+                if (para.CodigoCondicionVentaPorDefecto != null && para.CodigoCondicionVentaPorDefecto != "")
+                {
+                    cabecera.CveCod = para.CodigoCondicionVentaPorDefecto;
+                }
+            }
+            cabecera.NomCon = (cabecera.NomCon == null || cabecera.NomCon == "") ? "SIN CONTACTO" : cabecera.NomCon;
             cabecera.CodiCC = cabecera.CodiCC == "-1" ? null : cabecera.CodiCC;
             cabecera.nvSubTotal = para.DescuentoTotalDirectoSoftland ? cabecera.nvSubTotal : cabecera.nvSubTotalConDescuento;
 
