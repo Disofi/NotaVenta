@@ -197,7 +197,8 @@ CREATE TABLE [dbo].[DS_Parametros](
 	[CambioVendedorCliente] [bit] NULL,
 	[AgregaCliente] [bit] NULL,
 	[EnvioMailAprobador] [bit] NULL,
-	[ManejaSaldo] [bit] NULL
+	[ManejaSaldo] [bit] NULL,
+	[CodigoCondicionVentaPorDefecto] [varchar](1000) NULL
 ) ON [PRIMARY]
 GO
 /****** Object:  Table [dbo].[DS_UsuarioEmpresa]    Script Date: 19-11-2019 14:45:09 ******/
@@ -2814,7 +2815,8 @@ CREATE procedure [dbo].[FR_ModificarParametrosUsuarios]
 ,	@pb_DescuentoTotalDirectoSoftland BIT 
 ,	@pb_AgregaCliente BIT 
 ,	@pb_EnvioMailAprobador BIT 
-,	@pb_ManejaSaldo BIT 
+,	@pb_ManejaSaldo BIT
+,	@pv_CodigoCondicionVentaPorDefecto VARCHAR(1000)
 )
 as  
 begin
@@ -2860,7 +2862,8 @@ begin
 	,		DescuentoTotalDirectoSoftland = @pb_DescuentoTotalDirectoSoftland
 	,		AgregaCliente = @pb_AgregaCliente
 	,		EnvioMailAprobador = @pb_EnvioMailAprobador	
-	,		ManejaSaldo = @pb_ManejaSaldo	
+	,		ManejaSaldo = @pb_ManejaSaldo
+	,		CodigoCondicionVentaPorDefecto = @pv_CodigoCondicionVentaPorDefecto
 	WHERE	IdEmpresa = @pi_IdEmpresa
 	
 	SELECT	Verificador = CAST(1 as bit)

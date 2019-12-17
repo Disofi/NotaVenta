@@ -1078,7 +1078,14 @@ namespace NotaVenta.Controllers
             cabecera.nvObser = cabecera.nvObser;
             cabecera.nvCanalNV = cabecera.nvCanalNV == "-1" ? null : cabecera.nvCanalNV;
             cabecera.CveCod = cabecera.CveCod == "-1" ? null : cabecera.CveCod;
-            cabecera.NomCon = (cabecera.NomCon == null || cabecera.NomCon == "") ? "SIN COCTACTO" : cabecera.NomCon;
+            if (cabecera.CveCod == null)
+            {
+                if (para.CodigoCondicionVentaPorDefecto != null && para.CodigoCondicionVentaPorDefecto != "")
+                {
+                    cabecera.CveCod = para.CodigoCondicionVentaPorDefecto;
+                }
+            }
+            cabecera.NomCon = (cabecera.NomCon == null || cabecera.NomCon == "") ? "SIN CONTACTO" : cabecera.NomCon;
             cabecera.CodiCC = cabecera.CodiCC == "-1" ? null : cabecera.CodiCC;
             cabecera.nvSubTotal = para.DescuentoTotalDirectoSoftland ? cabecera.nvSubTotal : cabecera.nvSubTotalConDescuento;
 

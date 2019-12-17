@@ -63,6 +63,7 @@
                     cambiarValorSwitcher("CreacionNotaVentaUsuariosInactivos", response.CreacionNotaVentaUsuariosInactivos);
                     cambiarValorSwitcher("PermiteModificacionCondicionVenta", response.PermiteModificacionCondicionVenta);
                     $("#AtributoSoftlandDescuentoCliente").val(response.AtributoSoftlandDescuentoCliente);
+                    $("#CodigoCondicionVentaPorDefecto").val(response.CodigoCondicionVentaPorDefecto);
                     cambiarValorSwitcher("PermiteCrearDireccion", response.PermiteCrearDireccion);
                     cambiarValorSwitcher("CrearClienteConDV", response.CrearClienteConDV);
                     cambiarValorSwitcher("MuestraUnidadMedidaProducto", response.MuestraUnidadMedidaProducto);
@@ -151,6 +152,7 @@ function GuardarParametros() {
     var CreacionNotaVentaUsuariosInactivos = estaHabilitadoSwitcher("CreacionNotaVentaUsuariosInactivos");
     var PermiteModificacionCondicionVenta = estaHabilitadoSwitcher("PermiteModificacionCondicionVenta");
     var AtributoSoftlandDescuentoCliente = $("#AtributoSoftlandDescuentoCliente").val();
+    var CodigoCondicionVentaPorDefecto = $("#CodigoCondicionVentaPorDefecto").val();
     var PermiteCrearDireccion = estaHabilitadoSwitcher("PermiteCrearDireccion");
     var CrearClienteConDV = estaHabilitadoSwitcher("CrearClienteConDV");
     var MuestraUnidadMedidaProducto = estaHabilitadoSwitcher("MuestraUnidadMedidaProducto");
@@ -197,6 +199,7 @@ function GuardarParametros() {
         CreacionNotaVentaUsuariosInactivos: CreacionNotaVentaUsuariosInactivos,
         PermiteModificacionCondicionVenta: PermiteModificacionCondicionVenta,
         AtributoSoftlandDescuentoCliente: AtributoSoftlandDescuentoCliente,
+        CodigoCondicionVentaPorDefecto: CodigoCondicionVentaPorDefecto,
         PermiteCrearDireccion: PermiteCrearDireccion,
         CrearClienteConDV: CrearClienteConDV,
         MuestraUnidadMedidaProducto: MuestraUnidadMedidaProducto,
