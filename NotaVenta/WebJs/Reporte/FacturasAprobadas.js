@@ -60,8 +60,8 @@ function DetalleNotaPedido(nvId) {
                     var centroCosto = "Sin centro de costo";
 
 
-                    if (value.VenCod !== null) {
-                        vendedor = value.VenCod;
+                    if (value.VenDes !== null) {
+                        vendedor = value.VenDes;
                     }
                     if (value.CodLista !== null) {
                         listaPrecio = value.CodLista + "-" + value.DesLista

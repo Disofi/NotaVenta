@@ -777,6 +777,8 @@ namespace NotaVenta.Controllers
             mail.AlternateViews.Add(GetEmbeddedImage(NVentaCabeceras, NVentaDetalles, clientes, nombreEmpresa));
             mail.From = new MailAddress(from);
 
+            para = para.Distinct().ToList();
+
             foreach (string item in para)
             {
                 mail.To.Add(item);
