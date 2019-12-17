@@ -39,6 +39,7 @@
                         @*<th>Contacto</th>*@
                         <th>Neto</th>
                         <th>Valor Final</th>
+                        <th>Comuna</th>
                         <th>C. Costo</th>
                         <th>Estado</th>
                         <th>Saldo Cliente</th>
@@ -78,6 +79,7 @@
                                         }*@
                                         <td style='text-align: right;'>$@double.Parse(doc[i].nvSubTotal.ToString()).ToString("N0")</td>
                                         <td style='text-align: right;'>$@double.Parse(doc[i].TotalBoleta.ToString()).ToString("N0")</td>
+                                        <td>@doc[i].ComDes</td>
                                         <td>@doc[i].DescCC</td>
                                         <td>@doc[i].EstadoNP</td>
                                         <td style='text-align: right;'>

@@ -24,6 +24,7 @@ namespace UTIL.Models
         public bool ErrorAprobador { get; set; }
         public string ErrorAprobadorMensaje { get; set; }
         public string VenDes { get; set; }
+        public string ComDes { get; set; }
 
         #endregion
 

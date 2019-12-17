@@ -2447,10 +2447,16 @@ AS
 	cc.CodiCC,
 	cc.DescCC,
 	a.ErrorAprobador,
-	a.ErrorAprobadorMensaje
+	a.ErrorAprobadorMensaje,
+	ComCod = com.ComCod,
+	ComDes = com.ComDes
 	from [dbo].[DS_NotasVenta] a
 	inner join ['+@pv_BaseDatos+'].[softland].[cwtauxi] clientes on  clientes.CodAux collate Modern_Spanish_CI_AS = a.CodAux 
 	LEFT JOIN ['+@pv_BaseDatos+'].[softland].[cwtccos] cc ON (cc.CodiCC collate Modern_Spanish_CI_AS = a.CodiCC)
+	left join [' + @pv_BaseDatos + '].[softland].[cwtcomu] com
+		ON clientes.ComAux = com.ComCod
+	left join [' + @pv_BaseDatos + '].[softland].[cwtciud] ciu
+		ON clientes.CiuAux = ciu.CiuCod
 	where	a.IdEmpresaInterna = ' + convert(varchar(20), @pi_IdEmpresaInterna) + '
 	and		a.EstadoNP = ''A''
 	' + case when @pv_CodigoVendedor is not null and @pv_CodigoVendedor <> '-1' then 'and	a.VenCod = ''' + @pv_CodigoVendedor + '''' else '' end + '
@@ -2503,14 +2509,19 @@ AS
 	cc.CodiCC,
 	cc.DescCC,
 	ErrorAprobador,
-	ErrorAprobadorMensaje
-
+	ErrorAprobadorMensaje,
+	ComCod = com.ComCod,
+	ComDes = com.ComDes
 	from [dbo].[DS_NotasVenta] a
 	inner join ['+ @pv_BaseDatos +'].[softland].[cwtauxi] clientes on  clientes.CodAux collate Modern_Spanish_CI_AS = a.CodAux 
 	LEFT JOIN [dbo].[DS_NotasVentaDetalle] b on a.NVNumero = b.NVNumero
 	LEFT JOIN ['+ @pv_BaseDatos +'].[softland].[iw_tprod] AS tp on b.CodProd = tp.CodProd collate SQL_Latin1_General_CP1_CI_AS
 	left join [dbo].[DS_NotasVentaDetalle] c on a.Id = c.IdNotaVenta
 	LEFT JOIN ['+@pv_BaseDatos+'].[softland].[cwtccos] cc ON (cc.CodiCC collate Modern_Spanish_CI_AS = a.CodiCC)
+	left join [' + @pv_BaseDatos + '].[softland].[cwtcomu] com
+		ON clientes.ComAux = com.ComCod
+	left join [' + @pv_BaseDatos + '].[softland].[cwtciud] ciu
+		ON clientes.CiuAux = ciu.CiuCod
 	where	a.IdEmpresaInterna = ' + convert(varchar(20), @pi_IdEmpresaInterna) + '
 	and		a.EstadoNP = ''P''
 	' + case when @pv_CodigoVendedor is not null and @pv_CodigoVendedor <> '-1' then 'and	a.VenCod = ''' + @pv_CodigoVendedor + '''' else '' end + '
@@ -2551,10 +2562,16 @@ AS
 	cc.CodiCC,
 	cc.DescCC,
 	a.ErrorAprobador,
-	a.ErrorAprobadorMensaje
+	a.ErrorAprobadorMensaje,
+	ComCod = com.ComCod,
+	ComDes = com.ComDes
 	from [dbo].[DS_NotasVenta] a
 	inner join ['+@pv_BaseDatos+'].[softland].[cwtauxi] clientes on  clientes.CodAux collate Modern_Spanish_CI_AS = a.CodAux 
 	LEFT JOIN ['+@pv_BaseDatos+'].[softland].[cwtccos] cc ON (cc.CodiCC collate Modern_Spanish_CI_AS = a.CodiCC)
+	left join [' + @pv_BaseDatos + '].[softland].[cwtcomu] com
+		ON clientes.ComAux = com.ComCod
+	left join [' + @pv_BaseDatos + '].[softland].[cwtciud] ciu
+		ON clientes.CiuAux = ciu.CiuCod
 	where	a.IdEmpresaInterna = ' + convert(varchar(20), @pi_IdEmpresaInterna) + '
 	and		a.EstadoNP = ''R''
 	' + case when @pv_CodigoVendedor is not null and @pv_CodigoVendedor <> '-1' then 'and	a.VenCod = ''' + @pv_CodigoVendedor + '''' else '' end + '
