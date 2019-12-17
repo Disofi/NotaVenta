@@ -911,6 +911,7 @@ function agregarnotadeventa() {
     var urlAgregarNotaVentaDetalle = $("#urlDetalleNotaVenta").val();
 
     var NVNumero = $('#txtnventa').val();
+    var validespa = $('#cbxDireccion').val();
     var nvFem = $('#txtfechapedido').val();
     var nvFeEnt = $('#txtfechaentrega').val();
     var CodAux = $('#txtcliente').val();
@@ -1050,163 +1051,10 @@ function agregarnotadeventa() {
             console.log(a, b, c);
             desactivarLoadingBoton("btnCot");
         },
-        async: false
+        async: true
     });
 
     return;
-
-
-
-
-
-    var max = $('#contador_registros').val();
-    var detalleexi = 0;
-    for (var i = 1; i <= max; i++) {
-        if ($('#thcodigo' + i).length) {
-            detalleexi = 1;
-        }
-    }
-    var validespa = $('#cbxDireccion').val();
-    //var valiconta = $('#txtcontacto0').val();
-
-    if (detalleexi == '0') {
-        alert("Debe Agregar productos para insertar una Nota de de venta Interna");
-    }
-    else {
-        var max = $('#contador_registros').val();
-        var nvlineas = 0;
-        for (var i = 1; i <= max; i++) {
-
-            if ($('#thcodigo' + i).length) {
-                nvlineas = nvlineas + 1;
-                var CodProd = $('#thcodigo' + i).val();
-                var DetProd = $('#thdescripcion' + i).val();
-                var nvCant = $('#thcantidad' + i).val();
-                var CodUMed = 'UN';
-
-                var nvPrecio = $('#thpreciounitario' + i).val();
-                var nvSubTotal = $('#thsubtotal' + i).val();
-                var nvTotLinea = $('#thvalordescuento' + i).val();
-                var NVNumero = $('#txtnventa').val();
-                var nvLinea = nvlineas;
-                var nvFecCompr = $('#txtfechapedido').val();
-
-                var url = $("#urlDetalleNotaVenta").val();
-                var data = {
-                    CodProd: CodProd,
-                    DetProd: DetProd,
-                    nvCant: nvCant,
-                    CodUMed: CodUMed,
-                    nvPrecio: nvPrecio,
-                    CodLista: CodLista,
-                    nvSubTotal: nvSubTotal,
-                    nvTotLinea: nvSubTotal,
-                    NVNumero: NVNumero,
-                    nvLinea: nvLinea,
-                    nvFecCompr: nvFecCompr
-                };
-                // $.post(url, data);
-                $.ajax({
-                    type: 'post',
-                    url: url,
-                    dataType: 'json',
-                    data: data,
-                    async: false
-                });
-            }
-        }
-
-
-        var NomCon2;
-        var vcontactos = $('#txtVcontacto').val();
-        if (vcontactos == '1') {
-            var CodAux2 = $('#txtcliente').val();
-            var NomCon = $('#txtcontacto1').val();
-            NomCon2 = NomCon;
-        }
-        else {
-            var CodAux2 = $('#txtcliente').val();
-            var NomCon = $('#txtcontacto0').val();
-            NomCon2 = NomCon;
-            var url = $("#urlAgregarContacto").val();
-            var data = {
-                CodAux: CodAux2,
-                NomCon: NomCon
-            };
-
-            $.post(url, data)
-
-        }
-
-        var NVNumero = $('#txtnventa').val();
-        var nvFem = $('#txtfechapedido').val();
-        var nvFeEnt = $('#txtfechaentrega').val();
-        var CodAux = $('#txtcliente').val();
-        var CodLista = $('#cbxlista').val();
-        var nvObser = $('#txtobservacion').val();
-        var CveCod = $('#cbxconven').val();
-        var CodiCC = $('#cbxccosto').val();
-        var nvSubTotal = $('#txttotal').val();
-        var nvMonto = $('#txttotalfinal').val();
-        var nvNetoAfecto = $('#txttotal').val();
-
-        var FechaHoraCreacion = $('#txtfechapedido').val();
-        var TotalBoleta = $('#txttotalfinal').val();
-        var id = $('#txtid').val();
-        var CodLugarDesp = '';
-        if (validespa == 'No Tiene Dirección Asociado') {
-        }
-        else {
-            CodLugarDesp = $('#cbxDireccion').val();
-        }
-
-        var CorreoCliente = $("#txtCorreoCliente").val();
-
-        var url = $("#urlAgregarNotaVenta").val();
-
-        var data = {
-            NVNumero: NVNumero,
-            nvFem: nvFem,
-            nvFeEnt: nvFeEnt,
-            CodAux: CodAux,
-            //VenCod: VenCod,
-            CodLista: CodLista,
-            nvObser: nvObser,
-            CveCod: CveCod,
-            NomCon: NomCon,
-            CodiCC: CodiCC,
-            nvSubTotal: nvSubTotal,
-            nvMonto: nvMonto,
-            nvNetoAfecto: nvNetoAfecto,
-            Usuario: Usuario,
-            UsuarioGeneraDocto: UsuarioGeneraDocto,
-            FechaHoraCreacion: FechaHoraCreacion,
-            TotalBoleta: TotalBoleta,
-            id: id,
-            CodLugarDesp: CodLugarDesp
-        };
-
-        //console.log(data);
-        //if (CorreoCliente == "" || CorreoCliente == null) {
-        //    alert("Cliente no tiene Correo Asignado");
-        //    var url = $("#NV").val(); location.href = url;
-        //}
-        //else {
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: data,
-            success: function (result) {
-                confirm("Se Genero Cotizacion" + " " + NVNumero);
-                var url1 = $("#RedirectTo").val();
-                location.href = url1;
-            },
-            error: function (a, b, c) {
-                console.log(a, b, c);
-            },
-            async: false
-        });
-    }
 }
 //}
 
