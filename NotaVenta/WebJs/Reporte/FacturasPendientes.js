@@ -42,8 +42,8 @@ function DetalleNotaPedido(nvId, RutAux) {
                     var centroCosto = "Sin centro de costo";
 
 
-                    if (value.VenCod !== null) {
-                        vendedor = value.VenCod;
+                    if (value.VenDes !== null) {
+                        vendedor = value.VenDes;
                     }
                     if (value.CodLista !== null) {
                         listaPrecio = value.CodLista + "-" + value.DesLista
@@ -164,31 +164,35 @@ function DetalleNotaPedido(nvId, RutAux) {
 }
 
 function AprobarNotaVenta(nvId, id) {
-    activarLoadingBoton(id);
-    $.ajax({
-        type: "POST",
-        url: "/Reporte/AprobarNotaVenta",
-        data: { _nvId: nvId },
-        async: true,
-        success: function (data) {
-            alert("Numero Nota de Venta:" + data.nvNum);
-            desactivarLoadingBoton(id);
-            location.reload();
-        }
-    });
+    abrirConfirmacion("Aprobar", "¿Esta seguro de aprobar la nota de venta N°" + nvId + "?", () => {
+        activarLoadingBoton(id);
+        $.ajax({
+            type: "POST",
+            url: "/Reporte/AprobarNotaVenta",
+            data: { _nvId: nvId },
+            async: true,
+            success: function (data) {
+                alert("Numero Nota de Venta:" + data.nvNum);
+                desactivarLoadingBoton(id);
+                location.reload();
+            }
+        });
+    }, null);
 }
 
 function RechazarNotaVenta(nvId, nvNum) {
-    $.ajax({
-        type: "POST",
-        url: "/Reporte/RechazarNotaVenta",
-        data: { _nvId: nvId, _nvNum: nvNum },
-        async: true,
-        success: function (data) {
-            alert("Numero Nota de Venta Rechazada: " + data.nvNum);
-            location.reload();
-        }
-    });
+    abrirConfirmacion("Aprobar", "¿Esta seguro de rechazar la nota de venta N°" + nvId + "?", () => {
+        $.ajax({
+            type: "POST",
+            url: "/Reporte/RechazarNotaVenta",
+            data: { _nvId: nvId, _nvNum: nvNum },
+            async: true,
+            success: function (data) {
+                alert("Numero Nota de Venta Rechazada: " + data.nvNum);
+                location.reload();
+            }
+        });
+    }, null);
 }
 function ObtenerSaldo(RutAux, CodAux, Nombre, Saldo) {
     $("#modalSaldoSubtitulo").text(CodAux + " - " + Nombre);
