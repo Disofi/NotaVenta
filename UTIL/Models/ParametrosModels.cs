@@ -93,5 +93,6 @@ namespace UTIL.Models
         public bool CambioVendedorCliente { get; set; }
 
         public bool ManejaSaldo { get; set; }
+        public string CodigoCondicionVentaPorDefecto { get; set; }
     }
 }
