@@ -242,6 +242,11 @@ namespace NotaVenta.Controllers
             //Se lista(n) la(s) condicion(es) de venta(s)
 
             List<CondicionVentasModels> lcondicion = new List<CondicionVentasModels>();
+            List<CondicionVentasModels> lCondicionCliente = new List<CondicionVentasModels>();
+
+            conven.CodAux = NVC.CodAux.ToString();
+            lCondicionCliente = controlDisofi().listarConVen(baseDatosUsuario(), conven);
+
             if (parametros.MuestraCondicionVentaCliente)
             {
                 conven.CodAux = NVC.CodAux.ToString();
@@ -254,6 +259,9 @@ namespace NotaVenta.Controllers
             }
 
             ViewBag.condicion = lcondicion;
+            lCondicionCliente = (lCondicionCliente == null) ? new List<CondicionVentasModels>() : lCondicionCliente;
+
+            ViewBag.condicionCliente = lCondicionCliente.Count > 0 ? lCondicionCliente[0] : new CondicionVentasModels();
 
             ClientesModels contacto = new ClientesModels();
 
