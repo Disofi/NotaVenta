@@ -18,6 +18,7 @@
     string VenCodigo = ((BaseController)this.ViewContext.Controller).codigoVendedorUsuario();
     string VenDes = SessionVariables.SESSION_DATOS_USUARIO.VenDes.ToString();
     string user = SessionVariables.SESSION_DATOS_USUARIO.Nombre.ToString();
+    CondicionVentasModels condicionVentaCliente = ViewBag.condicionCliente;
     List<CondicionVentasModels> condicion = ViewBag.condicion;
     int vcontacto = ViewBag.vcontactos;
     int vdirec = ViewBag.vdirecc;
@@ -174,7 +175,9 @@
                                             @{
                                                 for (int i = 0; i < condicion.Count; i++)
                                                 {
-                                                    <option selected value="@condicion[i].ConVta"> @condicion[i].CveDes </option>
+                                                    string selected = (condicion[i].ConVta == condicionVentaCliente.ConVta) ? "selected" : "";
+
+                                                    <option @selected value="@condicion[i].ConVta"> @condicion[i].CveDes </option>
                                                 }
                                             }
                                         </select>
