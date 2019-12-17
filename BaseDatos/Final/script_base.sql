@@ -1823,6 +1823,7 @@ BEGIN
 	SELECT
 		nv.NVNumero,
 		vend.VenCod,
+		vend.VenDes,
 		vend.Usuario,
 		conven.CveCod,
 		conven.CveDes,
