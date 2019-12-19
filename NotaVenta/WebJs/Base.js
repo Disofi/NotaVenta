@@ -214,14 +214,14 @@ function abrirInformacion(titulo, mensaje, callBackOK) {
     }
 }
 
-function abrirConfirmacion(titulo, mensaje, callBackOK, callBackCancel) {
+function abrirConfirmacion(titulo, mensaje, callBackOK, callBackCancel, esError) {
     callBackOK = (callBackOK === undefined || callBackOK === null) ? function () { } : callBackOK;
     callBackCancel = (callBackCancel === undefined || callBackCancel === null) ? function () { } : callBackCancel;
     if (tipoAlert === 1) {
         swal({
             title: titulo,
             text: mensaje,
-            icon: 'info',
+            icon: (esError ? 'error' : 'info'),
             buttons: {
                 cancel: {
                     text: 'Cancelar',
