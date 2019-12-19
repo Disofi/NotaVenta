@@ -2374,6 +2374,7 @@ AS
 	where	a.IdEmpresaInterna = ' + convert(varchar(20), @pi_IdEmpresaInterna) + '
 	and		a.EstadoNP = ''R''
 	' + case when @pv_CodigoVendedor is not null and @pv_CodigoVendedor <> '-1' then 'and	a.VenCod = ''' + @pv_CodigoVendedor + '''' else '' end + '
+	order by a.Id desc
 '
 EXEC (@query)
 GO
