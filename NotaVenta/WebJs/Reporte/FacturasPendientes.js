@@ -183,7 +183,7 @@ function AprobarNotaVenta(nvId, id) {
 }
 
 function RechazarNotaVenta(nvId, nvNum) {
-    abrirConfirmacion("Aprobar", "¿Esta seguro de rechazar la nota de venta N°" + nvId + "?", () => {
+    abrirConfirmacion("Rechazar", "¿Esta seguro de rechazar la nota de venta N°" + nvId + "?", () => {
         $.ajax({
             type: "POST",
             url: "/Reporte/RechazarNotaVenta",
@@ -194,7 +194,7 @@ function RechazarNotaVenta(nvId, nvNum) {
                 location.reload();
             }
         });
-    }, null);
+    }, null, true);
 }
 
 function ObtenerSaldo(RutAux, CodAux, Nombre, Saldo) {
