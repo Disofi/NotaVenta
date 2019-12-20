@@ -128,6 +128,7 @@ function AgregarCliente() {
         abrirError("Crear Cliente", error);
     }
     else {
+        activarLoadingBoton("AgregarCliente");
         $.ajax({
             type: "POST",
             url: "AgregarCliente",
@@ -143,20 +144,24 @@ function AgregarCliente() {
             async: true,
             success: function (data) {
                 if (data == -666) {
-                    alert("Debe Completar Campos Obligatorios");
+                    abrirError("Crear Cliente", "Debe Completar Campos Obligatorios");
                 }
                 if (data == -1) {
-                    alert("Mal Formato de Correo");
+                    abrirError("Crear Cliente", "Mal Formato de Correo");
                 }
                 if (data.Verificador == 1) {
-                    alert(data.Mensaje);
+                    abrirInformacion("Crear Cliente", data.Mensaje);
                     location.reload();
                 }
                 if (data.Verificador == 0) {
-                    alert(data.Mensaje);
+                    abrirError("Crear Cliente", data.Mensaje);
                 }
-            }
 
+                desactivarLoadingBoton("AgregarCliente");
+            },
+            error: function () {
+                desactivarLoadingBoton("AgregarCliente");
+            }
         });
     }
 }

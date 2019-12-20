@@ -273,12 +273,12 @@
                                                     {
                                                         if (vdirec == 1)
                                                         {
-                                                            <select class="form-control" name="cbxDireccion" id="cbxDireccion" tabindex="9">
+                                                            <select class="form-control" name="cbxDireccion" id="cbxDireccion" tabindex="9" style="width: 100%">
                                                                 <option selected value="-1"> -- Seleccione Dirección de Despacho -- </option>
                                                                 @{
                                                                     for (int i = 0; i < direc.Count; i++)
                                                                     {
-                                                                        <option selected value="@direc[i].NomDch"> @direc[i].DirDch @direc[i].ComDch </option>
+                                                                        <option selected value="@direc[i].NomDch"> @direc[i].DirDch, @Html.Raw(direc[i].ComDes == null ? "Sin Comuna" : @direc[i].ComDes), @Html.Raw(direc[i].CiuDes == null ? "Sin Ciudad" : @direc[i].CiuDes) </option>
                                                                     }
                                                                 }
 
