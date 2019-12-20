@@ -505,43 +505,26 @@ namespace NotaVenta.Controllers
         public JsonResult AgregarCliente(string NomAux, string RutAux, string FonAux1, string Email, string GirAux, string DirAux, string EmailDte)
         {
             ParametrosModels parametros = ObtieneParametros();
-            if (!string.IsNullOrEmpty(NomAux) && !string.IsNullOrEmpty(RutAux) && !string.IsNullOrEmpty(FonAux1) && !string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(GirAux) && !string.IsNullOrEmpty(DirAux) && !string.IsNullOrEmpty(EmailDte))
+            ClientesModels Cliente = new ClientesModels();
+            if (parametros.CrearClienteConDV)
             {
-                if (Email.Contains("@") && EmailDte.Contains("@"))
-                {
-                    ClientesModels Cliente = new ClientesModels();
-                    if (parametros.CrearClienteConDV)
-                    {
-                        Cliente.CodAux = RutAux.Replace("-", "").Replace(".", "");
-                    }
-                    else
-                    {
-                        Cliente.CodAux = (RutAux.Replace("-", "").Replace(".", ""));
-                        Cliente.CodAux = Cliente.CodAux.Substring(0, Cliente.CodAux.Length - 1);
-                    }
-                    Cliente.NomAux = NomAux;
-                    Cliente.RutAux = RutAux;
-                    Cliente.FonAux1 = FonAux1;
-                    Cliente.EMail = Email;
-                    Cliente.GirCod = GirAux;
-                    Cliente.DirAux = DirAux;
-                    Cliente.EmailDte = EmailDte;
-                    Cliente.VenCod = SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.VenCod;
-                    RespuestaModel result = controlDisofi().AgregarCliente(Cliente, baseDatosUsuario());
-                    return Json(result);
-                }
-                else
-                {
-                    var result = -1;
-                    return Json(result);
-                }
-
+                Cliente.CodAux = RutAux.Replace("-", "").Replace(".", "");
             }
             else
             {
-                var result = -666;
-                return Json(result);
+                Cliente.CodAux = (RutAux.Replace("-", "").Replace(".", ""));
+                Cliente.CodAux = Cliente.CodAux.Substring(0, Cliente.CodAux.Length - 1);
             }
+            Cliente.NomAux = NomAux;
+            Cliente.RutAux = RutAux;
+            Cliente.FonAux1 = FonAux1;
+            Cliente.EMail = Email;
+            Cliente.GirCod = GirAux;
+            Cliente.DirAux = DirAux;
+            Cliente.EmailDte = EmailDte;
+            Cliente.VenCod = SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.VenCod;
+            RespuestaModel result = controlDisofi().AgregarCliente(Cliente, baseDatosUsuario());
+            return Json(result);
         }
 
         #region"--- Web Métodos ---"
