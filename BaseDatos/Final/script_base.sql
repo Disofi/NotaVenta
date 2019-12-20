@@ -322,8 +322,8 @@ AS
 	SET @existe = (SELECT count(*) FROM ['+@pv_BaseDatos+'].softland.cwtauxi where CodAux = '''+@CodAux+''')
 	if(@existe = 0)
 	BEGIN
-	INSERT INTO ['+@pv_BaseDatos+'].softland.cwtauxi (Codaux,NomAux,RutAux,ActAux,GirAux,FonAux1,ClaCli,ClaPro,ClaEmp,ClaSoc,ClaDis,ClaOtr,Bloqueado,Email,eMailDTE) values
-	('''+@CodAux+''','''+@NomAux+''','''+@RutAux+''',''S'','''+@GirAux+''','''+@FonAux1+''',''S'',''N'',''N'',''N'',''N'',''N'',''N'','''+@Email+''','''+@EmailDte+''');
+	INSERT INTO ['+@pv_BaseDatos+'].softland.cwtauxi (Codaux,NomAux,NoFAux,RutAux,ActAux,GirAux,FonAux1,ClaCli,ClaPro,ClaEmp,ClaSoc,ClaDis,ClaOtr,Bloqueado,Email,eMailDTE) values
+	('''+@CodAux+''','''+@NomAux+''','''+@NomAux+''','''+@RutAux+''',''S'','''+@GirAux+''','''+@FonAux1+''',''S'',''N'',''N'',''N'',''N'',''N'',''N'','''+@Email+''','''+@EmailDte+''');
 	
 	INSERT INTO ['+@pv_BaseDatos+'].softland.cwtauxd (CodAxD,NomDch,DirDch) VALUES
 	('''+@CodAux+''','''+@DirAux+''','''+@DirAux+''');
