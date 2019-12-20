@@ -116,53 +116,55 @@
                         <br />
                         <div class="form-horizontal form-label-left input_mask">
                             <input type="hidden" name="txtcodAux" id="CodAuxMod">
-                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                <label class="control-label"><b>Nombre: </b></label>
-                                <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
-                                <input type="text" required="required" class="form-control has-feedback-left" id="NombreCli" name="txtUsuario" placeholder="Nombre">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 col-xs-6 form-group has-feedback">
+                                    <label class="control-label"><b>Rut: </b></label>
+                                    <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                                    <input type="text" required="required" maxlength="12" class="form-control has-feedback-left" id="RutCli" name="txtNombre" placeholder="Rut" oninput="checkRut(this)" maxlength="13">
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <label class="control-label"><b>Giro Cliente: </b></label>
+                                    @Html.DropDownList("GirAux", (IEnumerable<SelectListItem>)ViewBag.Giro, "Seleccione Giro", new { @class = "form-control", @id = "GirAux", @name = "GirAux" })
+                                </div>
                             </div>
-
-                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                <label class="control-label"><b>Rut: </b></label>
-                                <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
-                                <input type="text" required="required" class="form-control has-feedback-left" id="RutCli" name="txtNombre" placeholder="Rut" oninput="checkRut(this)" maxlength="13">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                                    <label class="control-label"><b>Nombre: </b></label>
+                                    <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                                    <input type="text" required="required" maxlength="60" class="form-control has-feedback-left" id="NombreCli" name="txtUsuario" placeholder="Nombre">
+                                </div>
                             </div>
-                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                <label class="control-label"><b>Email: </b></label>
-                                <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
-                                <input type="email" required class="form-control" id="EmailMod" name="EmailCli" placeholder="Email">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 col-xs-6 form-group has-feedback">
+                                    <label class="control-label"><b>Email: </b></label>
+                                    <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                                    <input type="email" required class="form-control" maxlength="250" id="EmailMod" name="EmailCli" placeholder="Email">
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6 form-group has-feedback">
+                                    <label class="control-label"><b>Email Dte: </b></label>
+                                    <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                                    <input type="email" required class="form-control" maxlength="250" id="EmailDteMod" name="EmailCli" placeholder="Email">
+                                </div>
                             </div>
-                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                <label class="control-label"><b>Email Dte: </b></label>
-                                <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
-                                <input type="email" required class="form-control" id="EmailDteMod" name="EmailCli" placeholder="Email">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                                    <label class="control-label"><b>Direccion: </b></label>
+                                    <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                                    <input type="text" required class="form-control" maxlength="60" id="DireccioCli" name="Direccion" placeholder="Direccion">
+                                </div>
                             </div>
-                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                <label class="control-label"><b>Telefono: </b></label>
-                                <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
-                                <input type="tel" required class="form-control" id="TelefonoCli" name="Telefono" placeholder="Telefono">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 col-xs-6 form-group has-feedback">
+                                    <label class="control-label"><b>Telefono: </b></label>
+                                    <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                                    <input type="tel" required class="form-control" maxlength="15" id="TelefonoCli" name="Telefono" placeholder="Telefono">
+                                </div>
                             </div>
-                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                <label class="control-label"><b>Direccion: </b></label>
-                                <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
-                                <input type="text" required class="form-control" id="DireccioCli" name="Direccion" placeholder="Direccion">
-                            </div>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <label class="control-label"><b>Giro Cliente: </b></label>
-                                @Html.DropDownList("GirAux", (IEnumerable<SelectListItem>)ViewBag.Giro, "Seleccione Giro", new { @class = "form-control", @id = "GirAux", @name = "GirAux" })
-                            </div>
-                            <br />
-                            @*<div class="col-md-6 col-sm-6 col-xs-12">
-                                    <label class="control-label"><b>Ciudad Cliente: </b></label>
-                                    @Html.DropDownList("CiuAux", (IEnumerable<SelectListItem>)ViewBag.Ciudad, "Seleccione Ciudad", new { @class = "form-control", @id = "CiuAux", @name = "CiuAux" })
-                                </div>*@
-                            <br />
-                            <br />
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                                     <button class="btn btn-success" type="submit" id="AgregarCliente" onclick="AgregarCliente()">Grabar</button>
-                                    <button class="btn btn-primary" type="reset">Resetear</button>
+                                    <button class="btn btn-primary" type="reset" style="display: none">Resetear</button>
                                 </div>
                             </div>
 
