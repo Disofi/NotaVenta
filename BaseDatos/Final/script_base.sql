@@ -311,7 +311,9 @@ CREATE PROCEDURE [dbo].[DS_AddCliente]
 @DirAux varchar (250),
 @pv_BaseDatos varchar (100),
 @EmailDte varchar (150),
-@VenCod varchar (25)
+@VenCod varchar (25),
+@ComAux varchar(7),
+@CiuAux varchar(7)
 AS
 	DECLARE @query varchar (max)
 	SELECT @query = ''
@@ -322,8 +324,8 @@ AS
 	SET @existe = (SELECT count(*) FROM ['+@pv_BaseDatos+'].softland.cwtauxi where CodAux = '''+@CodAux+''')
 	if(@existe = 0)
 	BEGIN
-		INSERT INTO ['+@pv_BaseDatos+'].softland.cwtauxi (Codaux,NomAux,NoFAux,DirAux,RutAux,ActAux,GirAux,FonAux1,ClaCli,ClaPro,ClaEmp,ClaSoc,ClaDis,ClaOtr,Bloqueado,Email,eMailDTE) values
-		('''+@CodAux+''','''+@NomAux+''','''+@NomAux+''','''+@DirAux+''','''+@RutAux+''',''S'','''+@GirAux+''','''+@FonAux1+''',''S'',''N'',''N'',''N'',''N'',''N'',''N'','''+@Email+''','''+@EmailDte+''');
+		INSERT INTO ['+@pv_BaseDatos+'].softland.cwtauxi (Codaux,NomAux,NoFAux,DirAux,RutAux,ComAux,CiuAux,ActAux,GirAux,FonAux1,ClaCli,ClaPro,ClaEmp,ClaSoc,ClaDis,ClaOtr,Bloqueado,Email,eMailDTE) values
+		('''+@CodAux+''','''+@NomAux+''','''+@NomAux+''','''+@DirAux+''','''+@RutAux+''','''+@ComAux+''','''+@CiuAux+''',''S'','''+@GirAux+''','''+@FonAux1+''',''S'',''N'',''N'',''N'',''N'',''N'',''N'','''+@Email+''','''+@EmailDte+''');
 	
 		INSERT INTO ['+@pv_BaseDatos+'].softland.cwtauxven (CodAux,VenCod,Usuario) values
 		('''+@CodAux+''','''+@VenCod+''',''softland'')

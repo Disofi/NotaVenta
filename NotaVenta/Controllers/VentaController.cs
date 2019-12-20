@@ -502,7 +502,8 @@ namespace NotaVenta.Controllers
         }
 
         [HttpPost]
-        public JsonResult AgregarCliente(string NomAux, string RutAux, string FonAux1, string Email, string GirAux, string DirAux, string EmailDte)
+        public JsonResult AgregarCliente(string NomAux, string RutAux, string FonAux1, string Email, string GirAux, string DirAux, string EmailDte,
+            string Comuna, string Ciudad)
         {
             ParametrosModels parametros = ObtieneParametros();
             ClientesModels Cliente = new ClientesModels();
@@ -522,6 +523,8 @@ namespace NotaVenta.Controllers
             Cliente.GirCod = GirAux;
             Cliente.DirAux = DirAux;
             Cliente.EmailDte = EmailDte;
+            Cliente.ComCod = Comuna;
+            Cliente.CiuCod = Ciudad;
             Cliente.VenCod = SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.VenCod;
 
             RespuestaModel resultExiste = controlDisofi().ExisteCliente(Cliente, baseDatosUsuario());

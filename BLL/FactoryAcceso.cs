@@ -1629,7 +1629,9 @@ namespace BLL
                     { "DirAux", cliente.DirAux },
                     { "pv_BaseDatos", basedatos },
                     { "EmailDte", cliente.EmailDte},
-                    { "VenCod", cliente.VenCod}
+                    { "VenCod", cliente.VenCod},
+                    { "ComAux", cliente.ComCod},
+                    { "CiuAux", cliente.CiuCod}
                 });
 
                 return UTIL.Mapper.BindData<RespuestaModel>(data);
