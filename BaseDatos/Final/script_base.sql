@@ -318,18 +318,15 @@ AS
 	SELECT @query = '
 
 	DECLARE @existe int 
-
+	
 	SET @existe = (SELECT count(*) FROM ['+@pv_BaseDatos+'].softland.cwtauxi where CodAux = '''+@CodAux+''')
 	if(@existe = 0)
 	BEGIN
-	INSERT INTO ['+@pv_BaseDatos+'].softland.cwtauxi (Codaux,NomAux,RutAux,ActAux,GirAux,FonAux1,ClaCli,ClaPro,ClaEmp,ClaSoc,ClaDis,ClaOtr,Bloqueado,Email,eMailDTE) values
-	('''+@CodAux+''','''+@NomAux+''','''+@RutAux+''',''S'','''+@GirAux+''','''+@FonAux1+''',''S'',''N'',''N'',''N'',''N'',''N'',''N'','''+@Email+''','''+@EmailDte+''');
+		INSERT INTO ['+@pv_BaseDatos+'].softland.cwtauxi (Codaux,NomAux,NoFAux,DirAux,RutAux,ActAux,GirAux,FonAux1,ClaCli,ClaPro,ClaEmp,ClaSoc,ClaDis,ClaOtr,Bloqueado,Email,eMailDTE) values
+		('''+@CodAux+''','''+@NomAux+''','''+@NomAux+''','''+@DirAux+''','''+@RutAux+''',''S'','''+@GirAux+''','''+@FonAux1+''',''S'',''N'',''N'',''N'',''N'',''N'',''N'','''+@Email+''','''+@EmailDte+''');
 	
-	INSERT INTO ['+@pv_BaseDatos+'].softland.cwtauxd (CodAxD,NomDch,DirDch) VALUES
-	('''+@CodAux+''','''+@DirAux+''','''+@DirAux+''');
-	
-	INSERT INTO ['+@pv_BaseDatos+'].softland.cwtauxven (CodAux,VenCod,Usuario) values
-	('''+@CodAux+''','''+@VenCod+''','''+@NomAux+''')
+		INSERT INTO ['+@pv_BaseDatos+'].softland.cwtauxven (CodAux,VenCod,Usuario) values
+		('''+@CodAux+''','''+@VenCod+''',''softland'')
 
 		SELECT Verificador = cast(1 AS bit),
 		Mensaje = ''Cliente Creado''
@@ -341,16 +338,6 @@ AS
 	END
 	'
 	EXEC (@query)
-	
-	
-	
-
-		
-
-
-
-
-
 GO
 /****** Object:  StoredProcedure [dbo].[DS_AgregarCorreoCli]    Script Date: 19-11-2019 14:45:09 ******/
 SET ANSI_NULLS ON
@@ -403,7 +390,24 @@ BEGIN
 	select @query = ''
 
 	select @query = @query + '
-	IF NOT EXISTS (SELECT TOP 1 1 FROM [' + @pv_BaseDatos + '].[softland].[cwtauxd] WHERE CodAxD = ''' + @pv_CodAux + ''' AND NomDch = ''' + @pv_NomDch + ''') BEGIN
+	DECLARE @nomdch varchar(100)
+	DECLARE @paso BIT
+	DECLARE @contador INT
+
+	select @paso = 0
+	select @contador = 1
+
+
+	WHILE @paso = 0 begin
+		SELECT	@nomdch = ''SUC '' + CONVERT(VARCHAR(MAX), @contador)
+		IF NOT EXISTS (SELECT top 1 1 FROM [' + @pv_BaseDatos + '].[softland].[cwtauxd] WHERE CodAxD = ''' + @pv_CodAux + ''' AND NomDch = @nomdch) BEGIN
+			select	@paso = 1
+		END
+
+		select	@contador = @contador + 1
+	end
+
+	--IF NOT EXISTS (SELECT TOP 1 1 FROM [' + @pv_BaseDatos + '].[softland].[cwtauxd] WHERE CodAxD = ''' + @pv_CodAux + ''' AND NomDch = ''' + @pv_NomDch + ''') BEGIN
 		INSERT INTO [' + @pv_BaseDatos + '].[softland].[cwtauxd]
 		(
 			CodAxD
@@ -417,17 +421,17 @@ BEGIN
 			''' + @pv_CodAux + '''
 		,	''' + @pv_DirDch + '''
 		,	''' + @pv_ComDch + '''
-		,	''' + @pv_NomDch + '''
+		,	@nomdch
 		,	''' + @pv_CiuDch + '''
 		)
 
 		SELECT	Verificador = Cast(1 as bit)
 		,		Mensaje = ''Se agrega direccion de despacho satisfactoriamente''
-	END
-	ELSE BEGIN
-		SELECT	Verificador = Cast(0 as bit)
-		,		Mensaje = ''Direccion ingresada ya existe''
-	END
+	--END
+	--ELSE BEGIN
+	--	SELECT	Verificador = Cast(0 as bit)
+	--	,		Mensaje = ''Direccion ingresada ya existe''
+	--END
 	'
 
 	EXEC (@query)
@@ -1621,10 +1625,17 @@ begin
 	select @query = ''
 
 	select @query = @query + '
-	select	DirDch
-	,		ComDch
-	,		NomDch 
-	from	[' + @pv_BaseDatos + '].[Softland].cwtauxd  
+	select	clientes.NomDch 
+	,		clientes.DirDch
+	,		clientes.ComDch
+	,		com.ComDes
+	,		clientes.CiuDch
+	,		ciu.CiuDes
+	from	[' + @pv_BaseDatos + '].[Softland].cwtauxd clientes
+		left join [' + @pv_BaseDatos + '].[softland].[cwtcomu] com
+			ON clientes.ComDch = com.ComCod
+		left join [' + @pv_BaseDatos + '].[softland].[cwtciud] ciu
+			ON clientes.CiuDch = ciu.CiuCod
 	where	CodAxD = ''' + @CodAxD + ''''
 
 	EXEC (@query)
@@ -4066,4 +4077,33 @@ BEGIN
 	,		Verificador = @lb_Verificador
 	,		Mensaje = @lv_Mensaje
 END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_GET_ExisteCliente]    Script Date: 19-11-2019 14:45:09 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE SP_GET_ExisteCliente
+@CodAux varchar (15),
+@pv_BaseDatos varchar (100)
+AS
+	DECLARE @query varchar (max)
+	SELECT @query = ''
+	SELECT @query = '
+
+	DECLARE @existe int 
+
+	SET @existe = (SELECT count(*) FROM ['+@pv_BaseDatos+'].softland.cwtauxi where CodAux = '''+@CodAux+''')
+	if(@existe > 0)
+	BEGIN
+		SELECT Verificador = cast(1 AS bit),
+		Mensaje = ''Cliente ya existe''
+	END
+	else
+	BEGIN
+		SELECT Verificador = cast(0 AS bit),
+		Mensaje = ''Cliente no existe''
+	END
+	'
+	EXEC (@query)
 GO
