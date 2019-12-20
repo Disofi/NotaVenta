@@ -81,43 +81,89 @@ function PreNotaVenta(_aCodAux, _aNomAux, _aRutAux) {
 }
 
 function AgregarCliente() {
-    var nomaux = $("#NombreCli").val();
-    var rutaux = $("#RutCli").val();
-    var fonaux1 = $("#TelefonoCli").val();
-    var email = $("#EmailMod").val();
-    var giraux = $("#GirAux").val();
-    var diraux = $("#DireccioCli").val();
-    var emaildte = $("#EmailDteMod").val();
-    $.ajax({
-        type: "POST",
-        url: "AgregarCliente",
-        data: {
-            NomAux: nomaux,
-            RutAux: rutaux,
-            FonAux1: fonaux1,
-            Email: email,
-            GirAux: giraux,
-            DirAux: diraux,
-            EmailDte: emaildte
-        },
-        async: true,
-        success: function (data) {
-            if (data == -666) {
-                alert("Debe Completar Campos Obligatorios");
-            }
-            if (data == -1) {
-                alert("Mal Formato de Correo");
-            }
-            if (data.Verificador == 1) {
-                alert(data.Mensaje);
-                location.reload();
-            }
-            if (data.Verificador == 0) {
-                alert(data.Mensaje);
-            }
-        }
+    var nomaux = $("#NombreCli").val(); //60
+    var rutaux = $("#RutCli").val(); //20
+    var fonaux1 = $("#TelefonoCli").val(); //15
+    var email = $("#EmailMod").val(); //250
+    var giraux = $("#GirAux").val(); //3
+    var diraux = $("#DireccioCli").val(); //60
+    var emaildte = $("#EmailDteMod").val(); //250
 
-    });
+    var cantidadCaracteres = 0;
+    var error = "";
+
+    cantidadCaracteres = 60;
+    if (nomaux.length <= 0) { error = error + " - "  + "El nombre es un campo obligatorio.\n"; }
+    else if (nomaux.length > cantidadCaracteres) { error = error + " - "  + "El nombre no puede superar los " + cantidadCaracteres + " caracteres.\n"; }
+
+    cantidadCaracteres = 20;
+    var errorRut = validaRut(rutaux);
+    if (rutaux.length <= 0) { error = error + " - "  + "El rut es un campo obligatorio.\n"; }
+    else if (rutaux.length > cantidadCaracteres) { error = error + " - "  + "El rut no puede superar los " + cantidadCaracteres + " caracteres.\n"; }
+    else if (errorRut !== "") { error = error + " - "  + errorRut + ".\n"; }
+
+    cantidadCaracteres = 15;
+    if (fonaux1.length <= 0) { error = error + " - "  + "El telefono es un campo obligatorio.\n"; }
+    else if (fonaux1.length > cantidadCaracteres) { error = error + " - "  + "El telefono no puede superar los " + cantidadCaracteres + " caracteres.\n"; }
+
+    cantidadCaracteres = 250;
+    if (email.length <= 0) { error = error + " - " + "El email es un campo obligatorio.\n"; }
+    else if (email.length > cantidadCaracteres) { error = error + " - " + "El email no puede superar los " + cantidadCaracteres + " caracteres.\n"; }
+    else if (!validaEmail(email)) { error = error + " - " + "El email tiene un formato incorrecto.\n"; }
+
+    cantidadCaracteres = 3;
+    if (giraux.length <= 0) { error = error + " - "  + "El giro es un campo obligatorio.\n"; }
+    else if (giraux.length > cantidadCaracteres) { error = error + " - "  + "El giro no puede superar los " + cantidadCaracteres + " caracteres.\n"; }
+
+    cantidadCaracteres = 60;
+    if (diraux.length <= 0) { error = error + " - "  + "La direccion es un campo obligatorio.\n"; }
+    else if (diraux.length > cantidadCaracteres) { error = error + " - "  + "La direccion no puede superar los " + cantidadCaracteres + " caracteres.\n"; }
+
+    cantidadCaracteres = 250;
+    if (emaildte.length <= 0) { error = error + " - "  + "El email dte es un campo obligatorio.\n"; }
+    else if (emaildte.length > cantidadCaracteres) { error = error + " - " + "El email dte no puede superar los " + cantidadCaracteres + " caracteres.\n"; }
+    else if (!validaEmail(emaildte)) { error = error + " - " + "El email dte tiene un formato incorrecto.\n"; }
+
+    if (error !== "") {
+        abrirError("Crear Cliente", error);
+    }
+    else {
+        activarLoadingBoton("AgregarCliente");
+        $.ajax({
+            type: "POST",
+            url: "AgregarCliente",
+            data: {
+                NomAux: nomaux,
+                RutAux: rutaux,
+                FonAux1: fonaux1,
+                Email: email,
+                GirAux: giraux,
+                DirAux: diraux,
+                EmailDte: emaildte
+            },
+            async: true,
+            success: function (data) {
+                if (data == -666) {
+                    abrirError("Crear Cliente", "Debe Completar Campos Obligatorios");
+                }
+                if (data == -1) {
+                    abrirError("Crear Cliente", "Mal Formato de Correo");
+                }
+                if (data.Verificador == 1) {
+                    abrirInformacion("Crear Cliente", data.Mensaje);
+                    location.reload();
+                }
+                if (data.Verificador == 0) {
+                    abrirError("Crear Cliente", data.Mensaje);
+                }
+
+                desactivarLoadingBoton("AgregarCliente");
+            },
+            error: function () {
+                desactivarLoadingBoton("AgregarCliente");
+            }
+        });
+    }
 }
 
 function ObtenerSaldo(RutAux) {

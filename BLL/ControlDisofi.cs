@@ -375,6 +375,11 @@ namespace BLL
             return _Control.AgregarCliente(cliente, basedatos);
         }
 
+        public RespuestaModel ExisteCliente(ClientesModels cliente, string basedatos)
+        {
+            return _Control.ExisteCliente(cliente, basedatos);
+        }
+
         public List<AprobadorModels> GetAprobadorNP()
         {
             return _Control.GetAprobadorNP();

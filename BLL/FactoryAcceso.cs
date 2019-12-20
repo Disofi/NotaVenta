@@ -907,6 +907,7 @@ namespace BLL
                     { "pb_AgregaCliente", parametro.AgregaCliente},
                     { "pb_EnvioMailAprobador", parametro.EnvioMailAprobador},
                     { "pb_ManejaSaldo", parametro.ManejaSaldo},
+                    { "pv_CodigoCondicionVentaPorDefecto", parametro.CodigoCondicionVentaPorDefecto},
                 });
                 return UTIL.Mapper.BindData<RespuestaModel>(data);
             }
@@ -1629,6 +1630,26 @@ namespace BLL
                     { "pv_BaseDatos", basedatos },
                     { "EmailDte", cliente.EmailDte},
                     { "VenCod", cliente.VenCod}
+                });
+
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
+
+        public RespuestaModel ExisteCliente(ClientesModels cliente, string basedatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GET_ExisteCliente", new System.Collections.Hashtable()
+                {
+                    { "CodAux", cliente.CodAux },
+                    { "pv_BaseDatos", basedatos },
                 });
 
                 return UTIL.Mapper.BindData<RespuestaModel>(data);
