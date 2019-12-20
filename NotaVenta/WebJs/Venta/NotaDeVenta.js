@@ -132,12 +132,12 @@ $(document).ready(function () {
 
                                 $("#cbxDireccion").append('<option selected value="-1"> -- Seleccione Dirección de Despacho -- </option>');
                                 $.each(response, function (index, item) {
-                                    $("#cbxDireccion").append('<option value="' + item.NomDch + '">' + item.DirDch + ", " + (item.ComDes == null ? "Sin Comuna" : item.ComDes) + ", " + (item.CiuDes == null ? "Sin Ciudad" : item.CiuDes) + '</option>');
+                                    $("#cbxDireccion").append('<option selected value="' + item.NomDch + '">' + item.DirDch + ", " + (item.ComDes == null ? "Sin Comuna" : item.ComDes) + ", " + (item.CiuDes == null ? "Sin Ciudad" : item.CiuDes) + '</option>');
                                 });
 
-                                $("#cbxDireccion").val(data.NomDch);
+                                //$("#cbxDireccion").val(data.NomDch);
 
-                                $("#modalAgregarDireccionDespachoCodigoCliente").html("");
+                                //$("#modalAgregarDireccionDespachoCodigoCliente").html("");
                                 $("#modalAgregarDireccionDespachoDireccion").val("");
                                 $("#modalAgregarDireccionDespachoCiudad").val("");
                                 $("#modalAgregarDireccionDespachoComuna").val("");
