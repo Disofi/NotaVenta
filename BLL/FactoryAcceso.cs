@@ -907,6 +907,7 @@ namespace BLL
                     { "pb_AgregaCliente", parametro.AgregaCliente},
                     { "pb_EnvioMailAprobador", parametro.EnvioMailAprobador},
                     { "pb_ManejaSaldo", parametro.ManejaSaldo},
+                    { "pv_CodigoCondicionVentaPorDefecto", parametro.CodigoCondicionVentaPorDefecto},
                 });
                 return UTIL.Mapper.BindData<RespuestaModel>(data);
             }
