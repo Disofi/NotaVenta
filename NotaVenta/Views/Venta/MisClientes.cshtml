@@ -154,10 +154,18 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 col-sm-6 col-xs-6 form-group has-feedback">
+                                <div class="col-md-4 col-sm-4 col-xs-4 form-group has-feedback">
                                     <label class="control-label"><b>Telefono: </b></label>
                                     <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
                                     <input type="tel" required class="form-control" maxlength="15" id="TelefonoCli" name="Telefono" placeholder="Telefono">
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 form-group has-feedback">
+                                    <label class="control-label"><b>Ciudad: </b></label>
+                                    @Html.DropDownList("AgregarClienteCiudad", (IEnumerable<SelectListItem>)ViewBag.Ciudad, "Seleccione Ciudad", new { @class = "form-control", @id = "AgregarClienteCiudad", @name = "AgregarClienteCiudad" })
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 form-group has-feedback">
+                                    <label class="control-label"><b>Comuna: </b></label>
+                                    @Html.DropDownList("AgregarClienteComuna", (IEnumerable<SelectListItem>)ViewBag.Comuna, "Seleccione Comuna", new { @class = "form-control", @id = "AgregarClienteComuna", @name = "AgregarClienteComuna" })
                                 </div>
                             </div>
                             <div class="ln_solid"></div>

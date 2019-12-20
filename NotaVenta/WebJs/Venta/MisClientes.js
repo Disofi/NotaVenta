@@ -88,7 +88,9 @@ function AgregarCliente() {
     var giraux = $("#GirAux").val(); //3
     var diraux = $("#DireccioCli").val(); //60
     var emaildte = $("#EmailDteMod").val(); //250
-
+    var comuna = $("#AgregarClienteComuna").val(); //
+    var ciudad = $("#AgregarClienteCiudad").val(); //
+    
     var cantidadCaracteres = 0;
     var error = "";
 
@@ -124,6 +126,15 @@ function AgregarCliente() {
     else if (emaildte.length > cantidadCaracteres) { error = error + " - " + "El email dte no puede superar los " + cantidadCaracteres + " caracteres.\n"; }
     else if (!validaEmail(emaildte)) { error = error + " - " + "El email dte tiene un formato incorrecto.\n"; }
 
+    cantidadCaracteres = 7;
+    if (comuna.length <= 0) { error = error + " - " + "La comuna es un campo obligatorio.\n"; }
+    else if (comuna.length > cantidadCaracteres) { error = error + " - " + "La direccion no puede superar los " + cantidadCaracteres + " caracteres.\n"; }
+
+    cantidadCaracteres = 7;
+    if (ciudad.length <= 0) { error = error + " - " + "La ciudad es un campo obligatorio.\n"; }
+    else if (ciudad.length > cantidadCaracteres) { error = error + " - " + "La direccion no puede superar los " + cantidadCaracteres + " caracteres.\n"; }
+     
+
     if (error !== "") {
         abrirError("Crear Cliente", error);
     }
@@ -139,7 +150,9 @@ function AgregarCliente() {
                 Email: email,
                 GirAux: giraux,
                 DirAux: diraux,
-                EmailDte: emaildte
+                EmailDte: emaildte,
+                Comuna: comuna,
+                Ciudad: ciudad,
             },
             async: true,
             success: function (data) {
