@@ -4297,3 +4297,32 @@ BEGIN
 	,		Mensaje = @lv_Mensaje
 END
 GO
+/****** Object:  StoredProcedure [dbo].[SP_GET_ExisteCliente]    Script Date: 19-11-2019 14:45:09 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE SP_GET_ExisteCliente
+@CodAux varchar (15),
+@pv_BaseDatos varchar (100)
+AS
+	DECLARE @query varchar (max)
+	SELECT @query = ''
+	SELECT @query = '
+
+	DECLARE @existe int 
+
+	SET @existe = (SELECT count(*) FROM ['+@pv_BaseDatos+'].softland.cwtauxi where CodAux = '''+@CodAux+''')
+	if(@existe > 0)
+	BEGIN
+		SELECT Verificador = cast(1 AS bit),
+		Mensaje = ''Cliente ya existe''
+	END
+	else
+	BEGIN
+		SELECT Verificador = cast(0 AS bit),
+		Mensaje = ''Cliente no existe''
+	END
+	'
+	EXEC (@query)
+GO

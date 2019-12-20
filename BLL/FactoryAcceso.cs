@@ -1641,6 +1641,26 @@ namespace BLL
             }
         }
 
+
+        public RespuestaModel ExisteCliente(ClientesModels cliente, string basedatos)
+        {
+            try
+            {
+                var data = new DBConector().EjecutarProcedimientoAlmacenado("SP_GET_ExisteCliente", new System.Collections.Hashtable()
+                {
+                    { "CodAux", cliente.CodAux },
+                    { "pv_BaseDatos", basedatos },
+                });
+
+                return UTIL.Mapper.BindData<RespuestaModel>(data);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
+
         public List<AprobadorModels> GetAprobadorNP()
         {
             try

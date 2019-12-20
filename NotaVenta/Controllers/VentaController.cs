@@ -523,8 +523,17 @@ namespace NotaVenta.Controllers
             Cliente.DirAux = DirAux;
             Cliente.EmailDte = EmailDte;
             Cliente.VenCod = SessionVariables.SESSION_DATOS_USUARIO.UsuarioEmpresaModel.VenCod;
-            RespuestaModel result = controlDisofi().AgregarCliente(Cliente, baseDatosUsuario());
-            return Json(result);
+
+            RespuestaModel resultExiste = controlDisofi().ExisteCliente(Cliente, baseDatosUsuario());
+            if (!resultExiste.Verificador)
+            {
+                RespuestaModel result = controlDisofi().AgregarCliente(Cliente, baseDatosUsuario());
+                return Json(result);
+            }
+            else
+            {
+                return Json(new RespuestaModel() { Verificador = false, Mensaje = resultExiste.Mensaje });
+            }
         }
 
         #region"--- Web Métodos ---"
