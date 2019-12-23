@@ -385,8 +385,14 @@ namespace NotaVenta.Controllers
             @"<H4> Dirección: " + direccion + @" </H4>" +
             @"<H4> Fecha Entrega: " + (NVentaCabeceras[0].nvFeEnt == null ? "" : ((DateTime)NVentaCabeceras[0].nvFeEnt).ToShortDateString()) + @" </H4>" +
             @"<H4> Observaciones: " + NVentaCabeceras[0].nvObser + @" </H4>" +
-            @"<H4> Vendedor: " + NVentaCabeceras[0].VenDes + @" </H4>" +
-            @"<table border = ""1"" >" +
+            @"<H4> Vendedor: " + NVentaCabeceras[0].VenDes + @" </H4>");
+
+            if (NVentaCabeceras[0].CveCod != null && NVentaCabeceras[0].CveCod != "")
+            {
+                htmlBody = htmlBody + String.Format(@"<H4> Condicion de Venta: " + NVentaCabeceras[0].CveDes + @" </H4>");
+            }
+
+            htmlBody = htmlBody + String.Format(@"<table border = ""1"" >" +
             @"<tr>" +
             @"<td>ID</td>" +
             @"<th nowrap=""nowrap"">Codigo Producto</th>" +
